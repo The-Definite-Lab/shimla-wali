@@ -993,7 +993,8 @@ function renderVerificationQueue() {
   listEl.innerHTML = actionQueue.map(o => {
     const isDue = isFollowUpDueClient(o);
     const itemsSummary = (o.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel}) × ${i.quantity}`).join(', ');
-    const phone = esc(o.customerSnapshot?.phone || '');
+    const rawPhone = o.customerSnapshot?.phone || '';
+    const cleanPhone = String(rawPhone).replace(/\D/g, '').slice(-10);
     const brandName = (state.settings && state.settings.brand_name) || 'Shimla Wali';
     const waText = encodeURIComponent(`Hi ${o.customerSnapshot?.name || ''}, your ${brandName} order ${o.orderId} (${itemsSummary}, Total ₹${o.grandTotal}) is ready for confirmation. Please confirm on WhatsApp to proceed!`);
     return `
@@ -1005,7 +1006,7 @@ function renderVerificationQueue() {
             <span class="tiny">${esc(fmtDateTime(o.whatsappClickedAt || o.createdAt))}</span>
           </div>
           <div style="margin-top:5px;font-size:13px;">
-            <strong>${esc(o.customerSnapshot?.name || 'Customer')}</strong> (+91 ${phone}) &bull; <strong>${cash(o.grandTotal)}</strong> (${esc(o.paymentMethod)})
+            <strong>${esc(o.customerSnapshot?.name || 'Customer')}</strong> (+91 ${esc(cleanPhone || rawPhone)}) &bull; <strong>${cash(o.grandTotal)}</strong> (${esc(o.paymentMethod)})
           </div>
           <div class="tiny" style="margin-top:2px;">${esc(itemsSummary)}</div>
           ${o.verificationNotes ? `<div class="tiny" style="color:var(--warn-fg);margin-top:2px;">Previous note: ${esc(o.verificationNotes)}</div>` : ''}
@@ -1016,7 +1017,7 @@ function renderVerificationQueue() {
           <button type="button" class="btn sm gold" onclick="quickWaitOrder('${esc(o.orderId)}', 2)">Wait (2d)</button>
           <button type="button" class="btn sm" onclick="openVerifyBuyModal('${esc(o.orderId)}','wait')">More Options</button>
           <button type="button" class="btn sm danger" onclick="openVerifyBuyModal('${esc(o.orderId)}','not_bought')">Not Bought</button>
-          ${phone ? `<a class="btn sm" href="https://wa.me/91${phone}?text=${waText}" target="_blank">WhatsApp ↗</a>` : ''}
+          ${cleanPhone ? `<a class="btn sm" href="https://wa.me/91${cleanPhone}?text=${waText}" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>` : ''}
         </div>
       </div>
     `;
@@ -1213,12 +1214,17 @@ function calculateWindowKpis(orders, startMs, endMs) {
     return true;
   });
 
+  const isPaidOrder = o => (o.paymentStatus === 'paid' || o.paymentStatus === 'partially_refunded');
+
   const accepted = windowOrders.filter(o =>
     !['pending_whatsapp', 'waiting_followup', 'cancelled'].includes(o.orderStatus) &&
     o.paymentStatus !== 'refunded'
   );
 
-  const totalSales = accepted.reduce((sum, o) => {
+  // Total Sales strictly includes realized/paid revenue (COD orders ONLY count once payment received)
+  const paidSalesOrders = accepted.filter(isPaidOrder);
+
+  const totalSales = paidSalesOrders.reduce((sum, o) => {
     const amt = Number(o.grandTotal ?? o.agreedTotalOverride ?? o.subtotal ?? o.total ?? o.finalAmount ?? o.orderTotal ?? 0);
     return sum + (Number.isFinite(amt) ? amt : 0);
   }, 0);
@@ -1232,9 +1238,9 @@ function calculateWindowKpis(orders, startMs, endMs) {
   });
   const totalCustomers = custSet.size;
 
-  const aov = totalOrders > 0 ? Math.round(totalSales / totalOrders) : 0;
+  const aov = paidSalesOrders.length > 0 ? Math.round(totalSales / paidSalesOrders.length) : 0;
 
-  return { totalSales, totalOrders, totalCustomers, aov, accepted };
+  return { totalSales, totalOrders, totalCustomers, aov, accepted, paidSalesOrders };
 }
 
 function computeDeltaBadgeHtml(curr, prev, deltaLabel) {
@@ -2928,40 +2934,57 @@ function renderOrders() {
     ).join('');
 
     const st = o.orderStatus;
+    const isPaid = (o.paymentStatus === 'paid' || o.paymentStatus === 'partially_refunded');
+    const isSettled = (st === 'delivered' && isPaid);
     const btns = [];
+
+    // Always provide View button
     btns.push(`<button type="button" class="btn sm" onclick="openOrderDetails('${esc(o.orderId)}')">View</button>`);
-    if (st === 'pending_whatsapp' || st === 'waiting_followup') {
+
+    if (isSettled) {
+      // Order is delivered and payment received: clean settled state!
+      // Only View (and Return/Inspect if customer requests return)
+      if (['delivered', 'return_requested', 'return_approved', 'return_received'].includes(st)) {
+        btns.push(`<button type="button" class="btn sm danger" onclick="openReturnModal('${esc(o.orderId)}')">Return / Inspect</button>`);
+      }
+    } else if (st === 'pending_whatsapp' || st === 'waiting_followup') {
+      // Stage 1: Verification Queue
       btns.push(`<button type="button" class="btn sm primary" onclick="openVerifyBuyModal('${esc(o.orderId)}','accept')">Verify Buy</button>`);
       btns.push(`<button type="button" class="btn sm gold" onclick="quickWaitOrder('${esc(o.orderId)}', 2)">Wait (2d)</button>`);
       btns.push(`<button type="button" class="btn sm danger" onclick="openVerifyBuyModal('${esc(o.orderId)}','not_bought')">Not Bought</button>`);
-    }
-    if (st === 'confirmed') {
-      btns.push(`<button type="button" class="btn sm" onclick="doAdvanceStatus('${esc(o.orderId)}','processing')">Process</button>`);
-    }
-    if (['confirmed', 'processing'].includes(st)) {
-      btns.push(`<button type="button" class="btn sm" onclick="doAdvanceStatus('${esc(o.orderId)}','ready_for_dispatch')">Ready</button>`);
-    }
-    if (['confirmed', 'processing', 'ready_for_dispatch'].includes(st)) {
+    } else if (['confirmed', 'processing', 'ready_for_dispatch'].includes(st)) {
+      // Stage 2: Confirmed / Packaging
       const confSent = o.whatsappComms && o.whatsappComms.confirmSentAt;
       btns.push(`<button type="button" class="btn sm ${confSent ? '' : 'primary'}" onclick="openWhatsAppSendModal('${esc(o.orderId)}','confirm')">${confSent ? '✓ WA Confirm' : 'WhatsApp Confirm'}</button>`);
       btns.push(`<button type="button" class="btn sm primary" onclick="openDispatchModal('${esc(o.orderId)}')">Mark Dispatched</button>`);
-    }
-    if (st === 'dispatched') {
+      if (!isPaid) {
+        btns.push(`<button type="button" class="btn sm gold" onclick="openPaymentModal('${esc(o.orderId)}')">Payment Received</button>`);
+      }
+      btns.push(`<button type="button" class="btn sm danger" onclick="doCancelOrder('${esc(o.orderId)}')">Cancel</button>`);
+    } else if (st === 'dispatched') {
+      // Stage 3: Dispatched & In Transit
       const dispSent = o.whatsappComms && o.whatsappComms.dispatchSentAt;
       btns.push(`<button type="button" class="btn sm ${dispSent ? '' : 'gold'}" onclick="openWhatsAppSendModal('${esc(o.orderId)}','dispatch')">${dispSent ? '✓ WA Track' : 'WhatsApp Track'}</button>`);
       btns.push(`<button type="button" class="btn sm primary" onclick="doDeliverOrder('${esc(o.orderId)}')">Mark Delivered</button>`);
-    }
-    if (['confirmed', 'processing', 'ready_for_dispatch', 'dispatched', 'delivered'].includes(st) && ['pending', 'failed'].includes(o.paymentStatus)) {
-      btns.push(`<button type="button" class="btn sm gold" onclick="openPaymentModal('${esc(o.orderId)}')">Payment Received</button>`);
-    }
-    if (['confirmed', 'processing', 'ready_for_dispatch'].includes(st)) {
-      btns.push(`<button type="button" class="btn sm danger" onclick="doCancelOrder('${esc(o.orderId)}')">Cancel</button>`);
-    }
-    if (['dispatched', 'delivered', 'return_requested', 'return_approved', 'return_received'].includes(st)) {
+      if (!isPaid) {
+        btns.push(`<button type="button" class="btn sm gold" onclick="openPaymentModal('${esc(o.orderId)}')">Payment Received</button>`);
+      }
+    } else if (st === 'delivered') {
+      // Stage 4: Delivered, awaiting payment if unpaid (e.g. COD cash collection)
+      if (!isPaid) {
+        btns.push(`<button type="button" class="btn sm gold" onclick="openPaymentModal('${esc(o.orderId)}')">Payment Received</button>`);
+      }
       btns.push(`<button type="button" class="btn sm danger" onclick="openReturnModal('${esc(o.orderId)}')">Return / Inspect</button>`);
-    }
-    if (['paid', 'refund_pending', 'partially_refunded'].includes(o.paymentStatus) && (st === 'cancelled' || st.startsWith('return_') || o.returnDetails)) {
-      btns.push(`<button type="button" class="btn sm" onclick="openRefundModal('${esc(o.orderId)}')">Refund</button>`);
+    } else if (st === 'cancelled') {
+      // Stage 5: Cancelled
+      if (isPaid) {
+        btns.push(`<button type="button" class="btn sm" onclick="openRefundModal('${esc(o.orderId)}')">Refund</button>`);
+      }
+    } else if (st.startsWith('return_') || o.returnDetails) {
+      btns.push(`<button type="button" class="btn sm danger" onclick="openReturnModal('${esc(o.orderId)}')">Return / Inspect</button>`);
+      if (isPaid) {
+        btns.push(`<button type="button" class="btn sm" onclick="openRefundModal('${esc(o.orderId)}')">Refund</button>`);
+      }
     }
 
     const waBadge = (o.whatsappComms?.dispatchSentAt)
@@ -3072,8 +3095,13 @@ function openVerifyBuyModal(orderId, initialDecision = 'accept') {
   const histTxt = (o.verificationHistory || []).slice(0, 3).map(h =>
     `${fmtDateTime(h.actedAt)}: ${h.action} — ${h.note}`
   ).join(' | ');
+  const rawCustPhone = o.customerSnapshot?.phone || '';
+  const cleanCustPhone = String(rawCustPhone).replace(/\D/g, '').slice(-10);
+  const brandName = (state.settings && state.settings.brand_name) || 'Shimla Wali';
+  const chatMsg = encodeURIComponent(`Hi ${o.customerSnapshot?.name || ''}, regarding your ${brandName} order ${o.orderId}`);
   document.getElementById('vb-order-banner').innerHTML =
-    `<strong>Customer:</strong> ${esc(o.customerSnapshot?.name)} (+91 ${esc(o.customerSnapshot?.phone)})` +
+    `<strong>Customer:</strong> ${esc(o.customerSnapshot?.name)} (+91 ${esc(cleanCustPhone || rawCustPhone)})` +
+    (cleanCustPhone ? ` <a href="https://wa.me/91${cleanCustPhone}?text=${chatMsg}" target="_blank" rel="noopener noreferrer" style="color:var(--ok-fg);font-weight:700;text-decoration:underline;margin-left:8px;">Chat on WhatsApp ↗</a>` : '') +
     (o.followUpCount ? `<br><strong>Previous Follow-ups:</strong> ${o.followUpCount} (${esc(histTxt)})` : '');
 
   const list = document.getElementById('vb-items-list');
@@ -3160,9 +3188,10 @@ async function submitVerifyBuyDecision() {
         : `Order ${orderId} marked Not Bought`;
     showToast(msg);
     await loadBootstrap();
-    if (decision === 'accept' && res.whatsapp) {
+    if (decision === 'accept') {
       const stage = payload.dispatchNow ? 'dispatch' : 'confirm';
-      openWhatsAppSendModal(orderId, stage, res.whatsapp[stage]);
+      const waInfo = (res.whatsapp && res.whatsapp[stage]) || (res.messages && res.messages[stage]) || null;
+      openWhatsAppSendModal(orderId, stage, waInfo);
     }
   } catch (err) {
     showToast(err.message, true);
@@ -3279,17 +3308,18 @@ async function openWhatsAppSendModal(orderId, stage = 'confirm', preloadedPayloa
   if (!info) {
     try {
       const res = await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/whatsapp`);
-      info = stage === 'dispatch' ? res.whatsapp?.dispatch : res.whatsapp?.confirm;
+      info = stage === 'dispatch' ? (res.whatsapp?.dispatch || res.messages?.dispatch) : (res.whatsapp?.confirm || res.messages?.confirm);
     } catch (err) {
       showToast(err.message, true);
       return;
     }
   }
   const cleanStage = stage === 'dispatch' ? 'dispatch' : 'confirm';
-  const phone = info?.phone || o.customerSnapshot?.phone || '';
+  const rawPhone = info?.phone || o.customerSnapshot?.phone || '';
+  const cleanPhone = String(rawPhone).replace(/\D/g, '').slice(-10);
   document.getElementById('was-order-id').value = orderId;
   document.getElementById('was-stage').value = cleanStage;
-  document.getElementById('was-phone').value = phone;
+  document.getElementById('was-phone').value = cleanPhone;
   document.getElementById('was-title').textContent = cleanStage === 'dispatch'
     ? `WhatsApp Dispatch & Tracking — ${orderId}`
     : `WhatsApp Order Confirmation — ${orderId}`;
@@ -3298,8 +3328,8 @@ async function openWhatsAppSendModal(orderId, stage = 'confirm', preloadedPayloa
     : 'Confirms order, items, quantities & total (no payment handle exposed).';
   const sentBefore = cleanStage === 'dispatch' ? o.whatsappComms?.dispatchSentAt : o.whatsappComms?.confirmSentAt;
   document.getElementById('was-recipient-bar').innerHTML =
-    `<strong>To:</strong> ${esc(o.customerSnapshot?.name || 'Customer')} (+91 ${esc(phone)})` +
-    (info?.trackingUrl ? `<br><strong>Tracking Link:</strong> <a href="${esc(info.trackingUrl)}" target="_blank">${esc(info.trackingUrl)}</a>` : '') +
+    `<strong>To:</strong> ${esc(o.customerSnapshot?.name || 'Customer')} (+91 ${esc(cleanPhone || rawPhone)})` +
+    (info?.trackingUrl ? `<br><strong>Tracking Link:</strong> <a href="${esc(info.trackingUrl)}" target="_blank" rel="noopener noreferrer">${esc(info.trackingUrl)}</a>` : '') +
     (sentBefore ? `<br><span style="color:var(--ok-fg);font-weight:700;">✓ Previously sent on ${esc(fmtDateTime(sentBefore))}</span>` : '');
   document.getElementById('was-msg').value = info?.message || '';
   openModal('wa-send-modal');
@@ -3308,12 +3338,33 @@ async function openWhatsAppSendModal(orderId, stage = 'confirm', preloadedPayloa
 async function sendWhatsAppUpdateAndLog() {
   const orderId = document.getElementById('was-order-id').value;
   const stage = document.getElementById('was-stage').value;
-  const phone = String(document.getElementById('was-phone').value || '').replace(/\D/g, '');
+  const rawPhone = String(document.getElementById('was-phone').value || '');
+  const phone = rawPhone.replace(/\D/g, '').slice(-10);
   const message = document.getElementById('was-msg').value.trim();
-  if (!phone) return showToast('Customer mobile number missing', true);
+  if (!phone || phone.length !== 10) return showToast('Valid 10-digit customer mobile number missing', true);
 
   const waUrl = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
-  window.open(waUrl, '_blank', 'noopener,noreferrer');
+
+  // Reliable open with mobile browser / popup blocker fallback
+  let opened = false;
+  try {
+    const w = window.open(waUrl, '_blank', 'noopener,noreferrer');
+    if (w && !w.closed && typeof w.closed !== 'undefined') {
+      opened = true;
+    }
+  } catch (e) {}
+
+  if (!opened) {
+    const a = document.createElement('a');
+    a.href = waUrl;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      if (document.body.contains(a)) document.body.removeChild(a);
+    }, 500);
+  }
 
   try {
     await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/whatsapp-sent`, {

@@ -839,28 +839,39 @@
         if (!ord) throw new window.ShimlaDomain.HttpError(404, `Order ${orderId} not found`);
         const brandName = fullDb.catalog?.settings?.brand_name || 'Shimla Wali';
         const messages = window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName);
-        return jsonResponse({ ok: true, orderId, messages });
+        return jsonResponse({ ok: true, orderId, whatsapp: messages, messages });
       }
       if (reqPath.startsWith('/api/admin/orders/') && method === 'POST') {
         const parts = reqPath.split('/');
         const action = parts[parts.length - 1];
         const orderId = decodeURIComponent(parts[parts.length - 2]);
         const body = parseBody();
-        const order = await runAdminTx(db, auth, (txDb, markDirty, actor) => {
+        const actionRes = await runAdminTx(db, auth, (txDb, markDirty, actor) => {
           const p = { ...body, orderId };
-          if (action === 'verify-buy') return window.ShimlaDomain.verifyWhatsAppBuy(txDb, markDirty, p, actor);
-          if (action === 'confirm') return window.ShimlaDomain.confirmOrder(txDb, markDirty, p, actor);
-          if (action === 'status') return window.ShimlaDomain.advanceOrderStatus(txDb, markDirty, p, actor);
-          if (action === 'dispatch') return window.ShimlaDomain.dispatchOrder(txDb, markDirty, p, actor);
-          if (action === 'whatsapp-sent') return window.ShimlaDomain.markWhatsAppMessageSent(txDb, markDirty, p, actor);
-          if (action === 'deliver') return window.ShimlaDomain.deliverOrder(txDb, markDirty, p, actor);
-          if (action === 'cancel') return window.ShimlaDomain.cancelOrder(txDb, markDirty, p, actor);
-          if (action === 'payment') return window.ShimlaDomain.recordOrderPayment(txDb, markDirty, p, actor);
-          if (action === 'return') return window.ShimlaDomain.processOrderReturn(txDb, markDirty, p, actor);
-          if (action === 'refund') return window.ShimlaDomain.processOrderRefund(txDb, markDirty, p, actor);
+          const brandName = txDb.catalog?.settings?.brand_name || 'Shimla Wali';
+          if (action === 'verify-buy') {
+            const ord = window.ShimlaDomain.verifyWhatsAppBuy(txDb, markDirty, p, actor);
+            return { order: ord, whatsapp: window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName) };
+          }
+          if (action === 'confirm') {
+            const ord = window.ShimlaDomain.confirmOrder(txDb, markDirty, p, actor);
+            return { order: ord, whatsapp: window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName) };
+          }
+          if (action === 'status') return { order: window.ShimlaDomain.advanceOrderStatus(txDb, markDirty, p, actor) };
+          if (action === 'dispatch') {
+            const dispRes = window.ShimlaDomain.dispatchOrder(txDb, markDirty, p, actor);
+            return { ...dispRes, whatsapp: window.ShimlaDomain.buildWhatsAppMessagesForOrder(dispRes.order, brandName) };
+          }
+          if (action === 'whatsapp-sent') return { order: window.ShimlaDomain.markWhatsAppMessageSent(txDb, markDirty, p, actor) };
+          if (action === 'deliver') return { order: window.ShimlaDomain.deliverOrder(txDb, markDirty, p, actor) };
+          if (action === 'cancel') return { order: window.ShimlaDomain.cancelOrder(txDb, markDirty, p, actor) };
+          if (action === 'payment') return { order: window.ShimlaDomain.recordOrderPayment(txDb, markDirty, p, actor) };
+          if (action === 'return') return { order: window.ShimlaDomain.processOrderReturn(txDb, markDirty, p, actor) };
+          if (action === 'refund') return { order: window.ShimlaDomain.processOrderRefund(txDb, markDirty, p, actor) };
           throw new window.ShimlaDomain.HttpError(404, `Unknown order action: ${action}`);
         }, { syncPublic: true });
-        return jsonResponse({ ok: true, order });
+        const resObj = (actionRes && actionRes.order) ? actionRes : { order: actionRes };
+        return jsonResponse({ ok: true, ...resObj });
       }
 
       if (reqPath === '/api/admin/discounts' && method === 'POST') {
