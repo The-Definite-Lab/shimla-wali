@@ -818,9 +818,13 @@
       } catch (err) {
         console.error('Google Sign-In Error:', err);
         if (errEl) {
-          errEl.textContent = err.message?.includes('closed-by-user')
-            ? 'Sign in was cancelled. Tap again to connect.'
-            : (err.message || 'Unable to connect with Google.');
+          if (err.code === 'auth/unauthorized-domain' || (err.message && err.message.includes('auth/unauthorized-domain'))) {
+            errEl.innerHTML = `⚠️ This domain (<strong>${window.location.hostname}</strong>) is not authorized in Firebase.<br/>Please visit <a href="https://shimlawali-store.web.app/profile.html" style="color:#b91c1c;text-decoration:underline;font-weight:bold;">shimlawali-store.web.app</a> or add this domain in Firebase Console.`;
+          } else if (err.code === 'auth/popup-closed-by-user' || err.message?.includes('closed-by-user')) {
+            errEl.textContent = 'Sign-in popup was closed. Tap again to connect.';
+          } else {
+            errEl.textContent = err.message || 'Unable to connect with Google.';
+          }
           errEl.style.display = 'block';
         }
       } finally {
