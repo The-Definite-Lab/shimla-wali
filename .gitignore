@@ -1,0 +1,13 @@
+node_modules/
+scratch/
+cloudflared.exe
+*.zip
+*.exe
+*.log
+.env*
+.session*
+db/backups/
+.firebase/
+.firebaserc.bak
+Thumbs.db
+.DS_Store

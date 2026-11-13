@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | Shimla Wali - From Our Hills To Your Home</title>
+  <meta name="description" content="Get in touch with Shimla Wali for orders, subscriptions, product inquiries, and mountain harvest delivery across India." />
+  <link rel="icon" href="./images/logo.png" type="image/png" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-bar-left">
+        <span class="announcement-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+            <rect x="2" y="7" width="20" height="5"></rect>
+            <line x1="12" y1="22" x2="12" y2="7"></line>
+            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+          </svg>
+          <span>From Our Hills To Your Home</span>
+        </span>
+      </div>
+      <div class="top-bar-right">
+        <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none; margin-right: 15px;">
+          <span>Instagram: @shimla_wali08</span>
+        </a>
+        <a href="tel:+917018168156">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>+91 7018168156</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-left">
+        <button class="nav-round-btn header-menu-btn" aria-label="Toggle Navigation Menu" onclick="window.openNavDrawer ? window.openNavDrawer() : document.getElementById('nav-drawer').classList.add('active')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
+
+        <a href="index.html" class="brand-logo-clean">
+          <img src="./images/logo.png" alt="Shimla Wali Logo" class="brand-logo-img" />
+          <span class="brand-title">Shimla Wali</span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="shop.html">Shop Collection</a></li>
+          <li><a href="product.html?id=ghee">A2 Ghee</a></li>
+          <li><a href="product.html?id=walnuts">Walnuts</a></li>
+          <li><a href="verify.html">Our Promise</a></li>
+          <li><a href="contact.html" class="active">Contact Us</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button id="cart-btn" class="cart-btn" aria-label="View Shopping Cart" onclick="window.openCart ? window.openCart() : document.getElementById('cart-drawer').classList.add('active')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-svg"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+          <span>Cart</span>
+          <span class="cart-count">0</span>
+        </button>
+        <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <div class="page-banner" style="background: linear-gradient(rgba(15,23,42,0.65), rgba(15,23,42,0.75)), url('./images/shimla-wali-trio.webp') center/cover no-repeat; padding: 70px 20px; text-align: center; color: white;">
+    <div class="container">
+      <span style="font-family: 'Caveat', cursive; font-size: 1.6rem; color: #f59e0b; display: block; margin-bottom: 6px;">From Our Hills To Your Home</span>
+      <h1 data-brand-copy style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 12px;">Contact Shimla Wali Care</h1>
+      <p style="max-width: 650px; margin: 0 auto; font-size: 1.05rem; opacity: 0.92;">Have questions about our A2 Desi Ghee, mountain walnuts, raw honey, seasonal apples, or bulk dispatch? We are here to help.</p>
+    </div>
+  </div>
+
+  <!-- Contact Grid -->
+  <section class="container" style="padding: 60px 24px 100px;">
+    <div class="contact-grid">
+      <!-- Contact Info Card -->
+      <div class="contact-info-card">
+        <span class="section-tag">CONNECT WITH US</span>
+        <h2 style="font-size: 2rem; margin-bottom: 24px;">Care & Dispatch Details</h2>
+
+        <div class="contact-detail-row">
+          <div class="contact-detail-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+          <div>
+            <h4 style="font-size: 1.05rem; margin-bottom: 4px;">Origin & Valley Office</h4>
+            <p data-brand-copy style="color: var(--color-text-muted); font-size: 0.95rem;">Shimla Wali &bull; Shimla, Himachal Pradesh, India</p>
+          </div>
+        </div>
+
+        <div class="contact-detail-row">
+          <div class="contact-detail-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
+          <div>
+            <h4 style="font-size: 1.05rem; margin-bottom: 4px;">Phone & WhatsApp Care</h4>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;"><a href="https://wa.me/917018168156" style="color: inherit; text-decoration: none;">+91 7018168156</a></p>
+          </div>
+        </div>
+
+        <div class="contact-detail-row">
+          <div class="contact-detail-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+          <div>
+            <h4 style="font-size: 1.05rem; margin-bottom: 4px;">Support Email</h4>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;"><a data-support-email href="mailto:support@thedefinite.one" style="color: inherit; text-decoration: none;">support@thedefinite.one</a></p>
+          </div>
+        </div>
+
+        <div class="contact-detail-row">
+          <div class="contact-detail-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x1="6.5" x2="17.51" y2="6.5"></line></svg></div>
+          <div>
+            <h4 style="font-size: 1.05rem; margin-bottom: 4px;">Instagram Official</h4>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;"><a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer" style="color: #b45309; font-weight: 600;">@shimla_wali08</a></p>
+          </div>
+        </div>
+
+        <div class="contact-detail-row">
+          <div class="contact-detail-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+          <div>
+            <h4 style="font-size: 1.05rem; margin-bottom: 4px;">Support Hours</h4>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Monday – Sunday: 8:00 AM – 9:00 PM</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: var(--color-cream); border-radius: var(--radius-md); border: 1px solid var(--color-gold-light);">
+          <h4 style="font-size: 0.95rem; margin-bottom: 6px; color: var(--color-dark);">From Our Hills To Your Home Guarantee</h4>
+          <p style="font-size: 0.85rem; color: var(--color-text-muted);">Every order is shipped in protective packaging directly from Himachal Pradesh. SMS and WhatsApp live tracking is provided immediately upon courier pickup.</p>
+        </div>
+      </div>
+
+      <!-- Quick Message Form -->
+      <div class="contact-form-card" style="background: white; padding: 36px; border-radius: var(--radius-md); border: 1px solid var(--color-border); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+        <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Send Us A Direct Message</h3>
+        <p style="color: var(--color-text-muted); font-size: 0.9rem; margin-bottom: 24px;">Need bulk orders, corporate gifting, or fresh season booking? Fill in your details below.</p>
+
+        <form onsubmit="event.preventDefault(); const wa=window.__shimlaWhatsAppNumber||'917018168156'; const b=window.__shimlaBrandName||'Shimla Wali'; const msg=encodeURIComponent('Hello ' + b + ', Name: ' + document.getElementById('c-name').value + ', Phone: ' + document.getElementById('c-phone').value + ', Note: ' + document.getElementById('c-msg').value); window.open('https://wa.me/' + wa + '?text=' + msg, '_blank');">
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">Your Full Name</label>
+            <input type="text" id="c-name" required placeholder="e.g. Rahul Sharma" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;" />
+          </div>
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">WhatsApp / Phone Number</label>
+            <input type="tel" id="c-phone" required placeholder="e.g. 9876543210" style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;" />
+          </div>
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">Your Message or Product Query</label>
+            <textarea id="c-msg" rows="4" placeholder="Tell us what product you'd like to order or inquire about..." style="width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;"></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold" style="width: 100%; padding: 14px; font-weight: 700;">CONNECT ON WHATSAPP CARE &rarr;</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Ultra-Compact Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-compact-row">
+        <div class="footer-brand-box">
+          <span class="footer-brand-name">Shimla Wali</span>
+          <span class="footer-brand-tagline">From Our Hills To Your Home &bull; Pure &bull; Local &bull; Natural</span>
+        </div>
+
+        <div class="footer-nav-inline">
+          <a href="index.html">Home</a>
+          <span class="f-dot">&bull;</span>
+          <a href="shop.html">Shop All</a>
+          <span class="f-dot">&bull;</span>
+          <a href="about.html">Our Story</a>
+          <span class="f-dot">&bull;</span>
+          <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer">Instagram (@shimla_wali08)</a>
+          <span class="f-dot">&bull;</span>
+          <a href="verify.html">Our Promise</a>
+          <span class="f-dot">&bull;</span>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="footer-action-box">
+          <a href="https://wa.me/917018168156?text=Hello%20Shimla%20Wali,%20I%20want%20to%20order%20pure%20mountain%20products." 
+             class="footer-wa-card" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             aria-label="Contact Shimla Wali on WhatsApp">
+            <div class="footer-wa-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.15.11-3.69-.94-2.17-.9-3.57-3.11-3.68-3.26-.11-.15-.88-1.17-.88-2.23 0-1.06.56-1.58.76-1.8.2-.22.44-.28.59-.28.15 0 .3 0 .43.01.14.01.32-.05.5.39.19.46.65 1.58.71 1.7.06.12.1.26.02.42-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.25.25-.11.49.14.24.63 1.04 1.35 1.68.93.83 1.71 1.09 1.95 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26z"/>
+              </svg>
+            </div>
+            <div class="footer-wa-text">
+              <span class="f-wa-title">Need Help?</span>
+              <span class="f-wa-sub">Chat with us</span>
+            </div>
+            <div class="footer-wa-arrow">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div data-brand-copy>&copy; 2026 Shimla Wali. All Rights Reserved. &bull; Himachal Pradesh</div>
+        <div class="footer-admin-wrap">
+          <a href="admin.html" class="footer-admin-link" title="Admin Portal">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83-2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Admin</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shopping Bag Drawer -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')"></div>
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h2 class="cart-drawer-main-title">YOUR BAG</h2>
+      <button id="close-cart-btn" class="nav-round-btn cart-close-btn" aria-label="Close Bag" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cart-drawer-body"></div>
+  </div>
+
+  <!-- Navigation Drawer -->
+  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer ? window.closeNavDrawer() : document.getElementById('nav-drawer').classList.remove('active')"></div>
+  <div id="nav-drawer" class="nav-drawer-card">
+    <div class="nav-drawer-header">
+      <div class="drawer-brand-title">Shimla Wali</div>
+      <button id="nav-drawer-close" class="nav-round-btn drawer-close-btn" aria-label="Close Menu" onclick="window.closeNavDrawer ? window.closeNavDrawer() : document.getElementById('nav-drawer').classList.remove('active')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="drawer-section-label">PRODUCTS</div>
+    <div class="drawer-nav-list">
+      <a href="product.html?id=ghee" class="drawer-nav-item item-highlight"><span class="d-item-text">A2 PAHADI GHEE</span><span class="drawer-badge-purple">BILONA</span></a>
+      <a href="product.html?id=walnuts" class="drawer-nav-item"><span class="d-item-text">HIMACHALI WALNUTS</span></a>
+      <a href="product.html?id=honey" class="drawer-nav-item"><span class="d-item-text">WILD FOREST RAW HONEY</span></a>
+      <a href="product.html?id=pickle" class="drawer-nav-item"><span class="d-item-text">HOMEMADE PAHADI PICKLE</span></a>
+      <a href="product.html?id=apples" class="drawer-nav-item"><span class="d-item-text">SHIMLA ROYAL APPLES</span></a>
+      <a href="product.html?id=pulses" class="drawer-nav-item"><span class="d-item-text">ORGANIC PAHADI RAJMA</span></a>
+    </div>
+
+    <div class="drawer-section-label" style="margin-top: 24px;">EXPLORE</div>
+    <div class="drawer-nav-list">
+      <a href="index.html" class="drawer-nav-item"><span class="d-item-text">HOME</span></a>
+      <a href="shop.html" class="drawer-nav-item"><span class="d-item-text">SHOP ALL HARVEST</span></a>
+      <a href="about.html" class="drawer-nav-item"><span class="d-item-text">OUR STORY & HERITAGE</span></a>
+      <a href="verify.html" class="drawer-nav-item"><span class="d-item-text">OUR PROMISE & LAB PURITY</span></a>
+      <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer" class="drawer-nav-item"><span class="d-item-text">INSTAGRAM (@shimla_wali08)</span></a>
+      <a href="contact.html" class="drawer-nav-item"><span class="d-item-text">CONTACT CARE</span></a>
+    </div>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script src="firebase-bridge.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1008 @@
+{
+  "products": [
+    {
+      "id": "ghee",
+      "slug": "ghee",
+      "title": "A2 Pahadi Cow Bilona Desi Ghee",
+      "subtitle": "500ml Traditional Glass Jar",
+      "sku": "GHSM-500ML-01",
+      "legacySku": "SW-GHEE-500",
+      "price": 1199,
+      "mrp": 1500,
+      "discount": "20% off",
+      "image": "./images/shimla-ghee.webp",
+      "gallery": [
+        "./images/shimla-ghee.webp",
+        "./images/farm-cows.webp"
+      ],
+      "link": "product.html?id=ghee",
+      "badge": "Best Seller",
+      "rating": 4.9,
+      "reviews": 142,
+      "category": "ghee",
+      "niche": "ghee",
+      "nicheTag": "GHSM",
+      "packType": "Airtight Glass Jar",
+      "optionLabel": "SELECT JAR SIZE",
+      "specTag": "100% VEDIC BILONA METHOD • HIMALAYAN INDIGENOUS COWS",
+      "description": "100% Pure Cultured Himalayan Cow Butter. Hand-churned with traditional wooden Bilona in brass vessels. Rich golden granular texture with divine hill aroma.",
+      "origin": "Shimla Hills, Himachal Pradesh",
+      "varieties": [],
+      "variants": [
+        {
+          "sku": "GHSM-250ML-01",
+          "legacySku": "",
+          "label": "250ml",
+          "size": "250ml",
+          "variety": "",
+          "price": 649,
+          "mrp": 800,
+          "discount": "19% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 17,
+          "lowStock": false
+        },
+        {
+          "sku": "GHSM-500ML-01",
+          "legacySku": "SW-GHEE-500",
+          "label": "500ml",
+          "size": "500ml",
+          "variety": "",
+          "price": 1199,
+          "mrp": 1500,
+          "discount": "20% off",
+          "isDefault": true,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 23,
+          "lowStock": false
+        },
+        {
+          "sku": "GHSM-1000ML-01",
+          "legacySku": "",
+          "label": "1000ml",
+          "size": "1000ml",
+          "variety": "",
+          "price": 2199,
+          "mrp": 2800,
+          "discount": "21% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 12,
+          "lowStock": false
+        }
+      ],
+      "specs": {
+        "ingredients": "100% Pure Cultured A2 Himalayan Cow Curd Butter.",
+        "method": "Traditional Vedic Bilona Hand-Churning in clay and brass cookware.",
+        "nutrients": "Rich in Omega-3, Omega-6, Butyric Acid, Vitamin A, D, E, and K2.",
+        "purity": "Zero preservatives, zero palm oil, zero chemical bleaching."
+      },
+      "methodTitle": "VEDIC BILONA METHOD (5 STEPS)",
+      "methodSteps": [
+        "1. Fresh Himalayan A2 Milk boiled and cultured into probiotic curd.",
+        "2. Hand-churned with bi-directional wooden Bilona to separate cultured butter.",
+        "3. Slow simmered on low flame in traditional brass vessels.",
+        "4. Golden liquid strained through organic muslin cloth.",
+        "5. Packed in sealed glass jars to lock in divine hill aroma."
+      ],
+      "mathTitle": "The Math of Vedic Bilona Purity",
+      "mathSteps": [
+        {
+          "val": "1 Pahadi Cow",
+          "label": "Herb-grazing in Shimla hills"
+        },
+        {
+          "val": "25–30 Litres",
+          "label": "Fresh Himalayan A2 milk"
+        },
+        {
+          "val": "Curd → Bilona",
+          "label": "Traditional wooden hand churn"
+        },
+        {
+          "val": "Slow Fire",
+          "label": "Simmered in pure brass & clay"
+        },
+        {
+          "val": "Pure Liquid Gold",
+          "label": "Shimla Wali A2 Desi Ghee"
+        }
+      ],
+      "visible": true,
+      "status": "active",
+      "tag": "fresh_dispatched",
+      "pillText": "Fresh Churned",
+      "carouselNote": "Fresh Churn • Only Few Left",
+      "batchNo": "SW-GHEE-104",
+      "upcomingDate": null,
+      "inStock": true,
+      "availableUnits": 52
+    },
+    {
+      "id": "walnuts",
+      "slug": "walnuts",
+      "title": "Himachali Walnuts (Kagzi Akhrot & Giri)",
+      "subtitle": "500g Thin-Shelled Mountain Harvest",
+      "sku": "AKSM-500G-01",
+      "legacySku": "SW-WAL-500",
+      "price": 549,
+      "mrp": 750,
+      "discount": "27% off",
+      "image": "./images/himachali-walnuts.webp",
+      "gallery": [
+        "./images/himachali-walnuts.webp",
+        "./images/walnuts-cracked.webp",
+        "./images/walnut-tree-harvest.webp"
+      ],
+      "link": "product.html?id=walnuts",
+      "badge": "Farm Fresh",
+      "rating": 5,
+      "reviews": 98,
+      "category": "dryfruits",
+      "niche": "dryfruits",
+      "nicheTag": "AKSM",
+      "packType": "Natural Kraft Eco-Pouch",
+      "optionLabel": "SELECT PACK SIZE",
+      "specTag": "100% FARM FRESH • THIN SHELLED (KAGZI) • HIGH OMEGA-3",
+      "description": "Crisp, thin-shelled (Kagzi) mountain walnuts directly from high-altitude Shimla orchards. Extra rich in natural brain-boosting Omega-3 oils and buttery crunch.",
+      "origin": "Shimla & Kinnaur Orchards",
+      "varieties": [],
+      "variants": [
+        {
+          "sku": "AKSM-250G-01",
+          "legacySku": "",
+          "label": "250g",
+          "size": "250g",
+          "variety": "",
+          "price": 299,
+          "mrp": 400,
+          "discount": "25% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 15,
+          "lowStock": false
+        },
+        {
+          "sku": "AKSM-500G-01",
+          "legacySku": "SW-WAL-500",
+          "label": "500g",
+          "size": "500g",
+          "variety": "",
+          "price": 549,
+          "mrp": 750,
+          "discount": "27% off",
+          "isDefault": true,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 22,
+          "lowStock": false
+        },
+        {
+          "sku": "AKSM-1KG-01",
+          "legacySku": "",
+          "label": "1kg",
+          "size": "1kg",
+          "variety": "",
+          "price": 999,
+          "mrp": 1400,
+          "discount": "29% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 14,
+          "lowStock": false
+        }
+      ],
+      "specs": {
+        "ingredients": "100% Raw Thin-Shelled Mountain Walnuts (Kagzi Akhrot).",
+        "method": "Natural tree ripening in high-altitude Shimla & Kinnaur orchards.",
+        "nutrients": "Packed with brain-boosting Alpha-Linolenic Acid (Omega-3), Vitamin E & Polyphenols.",
+        "purity": "Zero sulfur, zero chlorine bleaching, 100% unadulterated golden kernels."
+      },
+      "methodTitle": "MOUNTAIN HARVEST & CURING",
+      "methodSteps": [
+        "1. Harvested in crisp autumn sunshine from 7,500+ ft altitude orchards.",
+        "2. Green outer husks removed by hand to preserve natural nut shell.",
+        "3. Naturally sun-dried on clean terrace mats under Himalayan sun.",
+        "4. Hand-cracked testing to ensure plump, golden kernels inside.",
+        "5. Sealed in breathable eco-pouches to prevent natural oil rancidity."
+      ],
+      "mathTitle": "The Story of Mountain Walnut Harvest",
+      "mathSteps": [
+        {
+          "val": "7,500+ ft Altitude",
+          "label": "Sunny Shimla orchards"
+        },
+        {
+          "val": "Zero Bleaching",
+          "label": "Natural protective shells"
+        },
+        {
+          "val": "Hand Cracking",
+          "label": "Cracks with gentle pressure"
+        },
+        {
+          "val": "Cold Climate",
+          "label": "Rich natural walnut oil locked"
+        },
+        {
+          "val": "Grade-A Kernels",
+          "label": "Shimla Wali Walnuts"
+        }
+      ],
+      "visible": true,
+      "status": "active",
+      "tag": "fresh_listed",
+      "pillText": "Just Picked",
+      "carouselNote": "Fresh Kinnaur Orchard Pick",
+      "batchNo": "SW-WAL-098",
+      "upcomingDate": null,
+      "inStock": true,
+      "availableUnits": 51
+    },
+    {
+      "id": "honey",
+      "slug": "honey",
+      "title": "Pure Wild Forest Raw Honey",
+      "subtitle": "500g Raw Multiflora Nectar",
+      "sku": "HNSM-500G-01",
+      "legacySku": "SW-HNY-500",
+      "price": 599,
+      "mrp": 799,
+      "discount": "25% off",
+      "image": "./images/pure-honey.webp?v=4",
+      "gallery": [
+        "./images/pure-honey.webp?v=4",
+        "./images/pure-honey-dipper.webp"
+      ],
+      "link": "product.html?id=honey",
+      "badge": "100% Raw",
+      "rating": 4.9,
+      "reviews": 76,
+      "category": "honey",
+      "niche": "honey",
+      "nicheTag": "HNSM",
+      "packType": "Hexagonal Glass Bottle",
+      "optionLabel": "SELECT BOTTLE SIZE",
+      "specTag": "100% RAW & UNPROCESSED • MULTIFLORA NECTAR",
+      "description": "Unprocessed, unpasteurized raw honey hand-harvested from alpine forest flora and wild flowering trees in the Himalayan valleys. Zero added sugars or corn syrups.",
+      "origin": "Himachal Alpine Wild Forests",
+      "varieties": [],
+      "variants": [
+        {
+          "sku": "HNSM-500G-01",
+          "legacySku": "SW-HNY-500",
+          "label": "500g",
+          "size": "500g",
+          "variety": "",
+          "price": 599,
+          "mrp": 799,
+          "discount": "25% off",
+          "isDefault": true,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 8,
+          "lowStock": true
+        },
+        {
+          "sku": "HNSM-1KG-01",
+          "legacySku": "",
+          "label": "1kg",
+          "size": "1kg",
+          "variety": "",
+          "price": 1099,
+          "mrp": 1500,
+          "discount": "27% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 6,
+          "lowStock": false
+        }
+      ],
+      "specs": {
+        "ingredients": "100% Raw Unpasteurized Himalayan Multiflora Honey.",
+        "method": "Wild forest comb harvest using sustainable bee-friendly practices.",
+        "nutrients": "Natural pollen, active live enzymes, royal jelly traces & antimicrobial properties.",
+        "purity": "Zero added sugar syrups, zero corn syrup, zero thermal degradation."
+      },
+      "methodTitle": "WILD ALPINE NECTAR HARVEST",
+      "methodSteps": [
+        "1. Indigenous bees gather nectar from wild deodar forests and alpine flora.",
+        "2. Comb collected without harming wild bee colonies.",
+        "3. Cold-gravity filtration through multi-layer food mesh.",
+        "4. Zero pasteurization to retain beneficial live pollen & enzymes.",
+        "5. Bottled directly in pure glass jars."
+      ],
+      "mathTitle": "Pure Wild Alpine Nectar Story",
+      "mathSteps": [
+        {
+          "val": "Alpine Flora",
+          "label": "Wild medicinal mountain blossoms"
+        },
+        {
+          "val": "Himalayan Bees",
+          "label": "Naturally built comb honey"
+        },
+        {
+          "val": "Zero Heating",
+          "label": "Raw enzymes & pollen preserved"
+        },
+        {
+          "val": "Pure Filtration",
+          "label": "Traditional fine cotton mesh"
+        },
+        {
+          "val": "Pure Amber Gold",
+          "label": "Shimla Wali Forest Honey"
+        }
+      ],
+      "visible": true,
+      "status": "active",
+      "tag": "limited_stock",
+      "pillText": "Only 8 Left",
+      "carouselNote": "Raw Forest • Only 8 Left",
+      "batchNo": "SW-HNY-076",
+      "upcomingDate": null,
+      "inStock": true,
+      "availableUnits": 14
+    },
+    {
+      "id": "pickle",
+      "slug": "pickle",
+      "title": "Traditional Homemade Pahadi Pickle",
+      "subtitle": "400g Handcrafted Traditional Jar",
+      "sku": "PKSM-GAL-400G",
+      "legacySku": "SW-PCK-400",
+      "price": 349,
+      "mrp": 450,
+      "discount": "22% off",
+      "image": "./images/homemade-pickle.webp?v=4",
+      "gallery": [
+        "./images/homemade-pickle.webp?v=4",
+        "./images/pickle-martaban.webp"
+      ],
+      "link": "product.html?id=pickle",
+      "badge": "Traditional Recipe",
+      "rating": 4.8,
+      "reviews": 64,
+      "category": "pickle",
+      "niche": "pickle",
+      "nicheTag": "PKSM",
+      "packType": "Traditional Ceramic Martaban",
+      "optionLabel": "SELECT JAR SIZE",
+      "specTag": "VILLAGE HOMEMADE • MOUNTAIN MUSTARD OIL • SUN CURED",
+      "description": "Prepared by village matriarchs using heirloom hill spices, cold-pressed pahadi mustard oil, and naturally sun-matured mountain ingredients. Free from chemical vinegar or synthetic preservatives.",
+      "origin": "Traditional Shimla Village Kitchens",
+      "varieties": [
+        "Pahadi Galgal (Hill Lemon)",
+        "Kacha Aam & Green Chilly",
+        "Mixed Mountain Spices"
+      ],
+      "variants": [
+        {
+          "sku": "PKSM-GAL-400G",
+          "legacySku": "SW-PCK-400",
+          "label": "Pahadi Galgal (Hill Lemon) · 400g",
+          "size": "400g",
+          "variety": "Pahadi Galgal (Hill Lemon)",
+          "price": 349,
+          "mrp": 450,
+          "discount": "22% off",
+          "isDefault": true,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 10,
+          "lowStock": true
+        },
+        {
+          "sku": "PKSM-GAL-800G",
+          "legacySku": "",
+          "label": "Pahadi Galgal (Hill Lemon) · 800g",
+          "size": "800g",
+          "variety": "Pahadi Galgal (Hill Lemon)",
+          "price": 649,
+          "mrp": 850,
+          "discount": "24% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 8,
+          "lowStock": false
+        },
+        {
+          "sku": "PKSM-AAM-400G",
+          "legacySku": "",
+          "label": "Kacha Aam & Green Chilly · 400g",
+          "size": "400g",
+          "variety": "Kacha Aam & Green Chilly",
+          "price": 349,
+          "mrp": 450,
+          "discount": "22% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 10,
+          "lowStock": true
+        },
+        {
+          "sku": "PKSM-AAM-800G",
+          "legacySku": "",
+          "label": "Kacha Aam & Green Chilly · 800g",
+          "size": "800g",
+          "variety": "Kacha Aam & Green Chilly",
+          "price": 649,
+          "mrp": 850,
+          "discount": "24% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 8,
+          "lowStock": false
+        },
+        {
+          "sku": "PKSM-MIX-400G",
+          "legacySku": "",
+          "label": "Mixed Mountain Spices · 400g",
+          "size": "400g",
+          "variety": "Mixed Mountain Spices",
+          "price": 349,
+          "mrp": 450,
+          "discount": "22% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 10,
+          "lowStock": true
+        },
+        {
+          "sku": "PKSM-MIX-800G",
+          "legacySku": "",
+          "label": "Mixed Mountain Spices · 800g",
+          "size": "800g",
+          "variety": "Mixed Mountain Spices",
+          "price": 649,
+          "mrp": 850,
+          "discount": "24% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 8,
+          "lowStock": false
+        }
+      ],
+      "specs": {
+        "ingredients": "Wild Hill Galgal (Citrus), Green Mango, Cold-Pressed Mustard Oil, Fenugreek, Kalonji, Rock Salt.",
+        "method": "Hand-sliced and naturally sun-cured in traditional ceramic martabans.",
+        "nutrients": "Natural digestive probiotics, Vitamin C, stomach-soothing hill spices.",
+        "purity": "Zero chemical vinegar, zero synthetic citric acid, zero artificial color."
+      },
+      "methodTitle": "HEIRLOOM 21-DAY SUN CURING",
+      "methodSteps": [
+        "1. Hand-picked hill produce cut and mixed with crushed whole spices.",
+        "2. Steeped in wood-pressed mustard oil with pure pink Himalayan salt.",
+        "3. Jars sunbathed daily on terrace rooftops for 21 days.",
+        "4. Natural lacto-fermentation develops complex spicy tangy flavor.",
+        "5. Packaged without chemical stabilizers."
+      ],
+      "mathTitle": "Heirloom Sun-Cooked Village Recipe",
+      "mathSteps": [
+        {
+          "val": "Local Produce",
+          "label": "Mountain Galgal, Mango & Chillies"
+        },
+        {
+          "val": "Kachi Ghani",
+          "label": "Cold-pressed mountain mustard oil"
+        },
+        {
+          "val": "Sun Cured",
+          "label": "21 days of slow terrace sunbathing"
+        },
+        {
+          "val": "Zero Preservative",
+          "label": "Traditional Himalayan rock salt"
+        },
+        {
+          "val": "Pahadi Swad",
+          "label": "Shimla Wali Homemade Pickle"
+        }
+      ],
+      "visible": true,
+      "status": "active",
+      "tag": "limited_stock",
+      "pillText": "10 Jars Left",
+      "carouselNote": "Sun-Cured • 10 Jars Left",
+      "batchNo": "SW-PCK-064",
+      "upcomingDate": null,
+      "inStock": true,
+      "availableUnits": 54
+    },
+    {
+      "id": "apples",
+      "slug": "apples",
+      "title": "Shimla Royal Delicious Apples",
+      "subtitle": "5kg Foam-Cushioned Orchard Crate",
+      "sku": "APSM-5KG-01",
+      "legacySku": "SW-APL-5KG",
+      "price": 1249,
+      "mrp": 1600,
+      "discount": "22% off",
+      "image": "./images/shimla-apples.webp?v=4",
+      "gallery": [
+        "./images/shimla-apples.webp?v=4"
+      ],
+      "link": "product.html?id=apples",
+      "badge": "Seasonal Special",
+      "rating": 5,
+      "reviews": 112,
+      "category": "apples",
+      "niche": "apples",
+      "nicheTag": "APSM",
+      "packType": "Foam-Cushioned Orchard Crate",
+      "optionLabel": "SELECT CRATE SIZE",
+      "specTag": "FRESH ORCHARD HARVEST • TREE RIPENED • ZERO WAX",
+      "description": "Hand-picked, sun-kissed Royal Delicious apples harvested from high-elevation Shimla orchards. Extra crisp, naturally sweet, with zero chemical wax coatings.",
+      "origin": "Upper Shimla Valley Orchards (7,500+ ft)",
+      "varieties": [],
+      "variants": [
+        {
+          "sku": "APSM-5KG-01",
+          "legacySku": "SW-APL-5KG",
+          "label": "5kg Box",
+          "size": "5kg Box",
+          "variety": "",
+          "price": 1249,
+          "mrp": 1600,
+          "discount": "22% off",
+          "isDefault": true,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 20,
+          "lowStock": false
+        },
+        {
+          "sku": "APSM-10KG-01",
+          "legacySku": "",
+          "label": "10kg Box",
+          "size": "10kg Box",
+          "variety": "",
+          "price": 2299,
+          "mrp": 3000,
+          "discount": "23% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 10,
+          "lowStock": false
+        }
+      ],
+      "specs": {
+        "ingredients": "100% Freshly Picked Shimla Royal Delicious Apples.",
+        "method": "Hand-plucked at optimal brix sweetness from high-altitude slopes.",
+        "nutrients": "Dietary pectin fiber, Vitamin C, natural potassium and polyphenols.",
+        "purity": "Never wax-coated, never chemically ripened in cold storage gas chambers."
+      },
+      "methodTitle": "HIGH-ALTITUDE ORCHARD TO DOORSTEP",
+      "methodSteps": [
+        "1. Nurtured by snow-melt springs and mountain fog at 7,500+ ft.",
+        "2. Hand-plucked with stems intact to retain natural moisture.",
+        "3. Graded by size and checked for crisp natural snap.",
+        "4. Individual foam netting placed on each apple.",
+        "5. Express dispatched in ventilated protective corrugated crates."
+      ],
+      "mathTitle": "Straight from Mountain Orchards",
+      "mathSteps": [
+        {
+          "val": "7,500+ ft Altitude",
+          "label": "Chilled snow-fed breeze"
+        },
+        {
+          "val": "Tree Ripened",
+          "label": "Picked by hand at sweet peak"
+        },
+        {
+          "val": "Zero Wax Polish",
+          "label": "100% natural edible apple skin"
+        },
+        {
+          "val": "Foam Cushioned",
+          "label": "Safe transit to your doorstep"
+        },
+        {
+          "val": "Crisp & Sweet",
+          "label": "Shimla Wali Royal Apples"
+        }
+      ],
+      "visible": true,
+      "status": "active",
+      "tag": "fresh_listed",
+      "pillText": "Orchard Picked",
+      "carouselNote": "Picked Fresh From Orchard",
+      "batchNo": "SW-APL-112",
+      "upcomingDate": null,
+      "inStock": true,
+      "availableUnits": 30
+    },
+    {
+      "id": "red-rice",
+      "slug": "red-rice",
+      "title": "Himachali Chhohartu Red Rice",
+      "subtitle": "1kg Unpolished Mountain Grain",
+      "sku": "RCSM-1KG-01",
+      "legacySku": "SW-RICE-1KG",
+      "price": 249,
+      "mrp": 320,
+      "discount": "22% off",
+      "image": "./images/himachali-red-rice.webp?v=2",
+      "gallery": [
+        "./images/himachali-red-rice.webp?v=2",
+        "./images/red-rice-paddy.webp"
+      ],
+      "link": "product.html?id=red-rice",
+      "badge": "Himachal Heritage",
+      "rating": 4.9,
+      "reviews": 43,
+      "category": "rice",
+      "niche": "rice",
+      "nicheTag": "RCSM",
+      "packType": "Artisanal Cotton / Jute Sack",
+      "optionLabel": "SELECT PACK WEIGHT",
+      "specTag": "ANCIENT HEIRLOOM SEED • UNPOLISHED BRAN • LOW GI",
+      "description": "Ancient heirloom unpolished red rice grown in snow-fed Himalayan mountain valleys. Rich in antioxidants, iron, dietary fiber, and natural zinc with a distinctive nutty mountain aroma.",
+      "origin": "Chhohara Valley & Rohru Terraces, H.P.",
+      "varieties": [],
+      "variants": [
+        {
+          "sku": "RCSM-1KG-01",
+          "legacySku": "SW-RICE-1KG",
+          "label": "1kg",
+          "size": "1kg",
+          "variety": "",
+          "price": 249,
+          "mrp": 320,
+          "discount": "22% off",
+          "isDefault": true,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 25,
+          "lowStock": false
+        },
+        {
+          "sku": "RCSM-2KG-01",
+          "legacySku": "",
+          "label": "2kg",
+          "size": "2kg",
+          "variety": "",
+          "price": 469,
+          "mrp": 620,
+          "discount": "24% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 16,
+          "lowStock": false
+        },
+        {
+          "sku": "RCSM-5KG-01",
+          "legacySku": "",
+          "label": "5kg",
+          "size": "5kg",
+          "variety": "",
+          "price": 1099,
+          "mrp": 1500,
+          "discount": "27% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 9,
+          "lowStock": false
+        }
+      ],
+      "specs": {
+        "ingredients": "100% Whole Grain Unpolished Himachali Red Rice.",
+        "method": "Cultivated in stepped mountain terraces fed by glacial streams.",
+        "nutrients": "Dense in iron, zinc, natural antioxidants (anthocyanins), and complex fibers.",
+        "purity": "Zero chemical polishing, unbleached, retaining its whole natural red bran."
+      },
+      "methodTitle": "TRADITIONAL VALLEY CULTIVATION",
+      "methodSteps": [
+        "1. Grown in high-altitude Chhohara Valley in crystal clear glacier streams.",
+        "2. Harvested by hand using traditional sickles.",
+        "3. Naturally sun-cured on high wooden platforms.",
+        "4. Gentle de-husking keeps the nutritious ruby-red bran layer intact.",
+        "5. Packed in breathable cotton and jute bags."
+      ],
+      "mathTitle": "Heirloom Himalayan Chhohartu Rice",
+      "mathSteps": [
+        {
+          "val": "Glacier Stream",
+          "label": "Snow-melt irrigation"
+        },
+        {
+          "val": "Heirloom Seed",
+          "label": "Untouched mountain genetics"
+        },
+        {
+          "val": "Red Bran Intact",
+          "label": "Rich in natural iron & zinc"
+        },
+        {
+          "val": "Low Glycemic",
+          "label": "Sustained healthy energy"
+        },
+        {
+          "val": "Nutty & Fragrant",
+          "label": "Shimla Wali Red Rice"
+        }
+      ],
+      "visible": true,
+      "status": "active",
+      "tag": "always_available",
+      "pillText": "Small Farm Lot",
+      "carouselNote": "Stone-Husked • Few Left",
+      "batchNo": "SW-RICE-043",
+      "upcomingDate": null,
+      "inStock": true,
+      "availableUnits": 50
+    },
+    {
+      "id": "pulses",
+      "slug": "pulses",
+      "title": "Organic Pahadi Rajma (Red Kidney Beans)",
+      "subtitle": "1kg Mountain Harvest Pack",
+      "sku": "RJSM-1KG-01",
+      "legacySku": "SW-RJM-1KG",
+      "price": 269,
+      "mrp": 350,
+      "discount": "23% off",
+      "image": "./images/pahadi-rajma.webp",
+      "gallery": [
+        "./images/pahadi-rajma.webp",
+        "./images/rajma-village-drying.webp"
+      ],
+      "link": "product.html?id=pulses",
+      "badge": "Mountain Harvest",
+      "rating": 4.9,
+      "reviews": 51,
+      "category": "pulses",
+      "niche": "pulses",
+      "nicheTag": "RJSM",
+      "packType": "Hand-Sealed Mountain Pouch",
+      "optionLabel": "SELECT PACK WEIGHT",
+      "specTag": "SNOW-FED MOUNTAIN HARVEST • ORGANIC SOIL • RICH PROTEIN",
+      "description": "Authentic Himalayan small-grain red Rajma cultivated organically in snow-fed mountain soil of Himachal. Boils quickly, turns velvety tender, and delivers unmatched rich earthy flavor.",
+      "origin": "High Altitude Chamba & Kinnaur Terraces",
+      "varieties": [],
+      "variants": [
+        {
+          "sku": "RJSM-1KG-01",
+          "legacySku": "SW-RJM-1KG",
+          "label": "1kg",
+          "size": "1kg",
+          "variety": "",
+          "price": 269,
+          "mrp": 350,
+          "discount": "23% off",
+          "isDefault": true,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 19,
+          "lowStock": false
+        },
+        {
+          "sku": "RJSM-2KG-01",
+          "legacySku": "",
+          "label": "2kg",
+          "size": "2kg",
+          "variety": "",
+          "price": 499,
+          "mrp": 680,
+          "discount": "27% off",
+          "isDefault": false,
+          "visible": true,
+          "inStock": true,
+          "availableUnits": 14,
+          "lowStock": false
+        }
+      ],
+      "specs": {
+        "ingredients": "100% Organic Small-Grain Himalayan Red Kidney Beans.",
+        "method": "Cultivated on steep terraced farms in Kinnaur & Chamba.",
+        "nutrients": "High dietary fiber, plant protein, folate, potassium and magnesium.",
+        "purity": "Unpolished, chemical-free, dissolves into a silky thick gravy."
+      },
+      "methodTitle": "ORGANIC MOUNTAIN PULSE HARVEST",
+      "methodSteps": [
+        "1. Grown in mineral-dense soil watered only by Himalayan rains and snowmelt.",
+        "2. Hand-picked pods opened gently by village women.",
+        "3. Sun dried on mountain terraces to achieve optimal moisture balance.",
+        "4. Winnowed in wicker baskets to eliminate chaff naturally.",
+        "5. Hand-sealed in airtight freshness pouches."
+      ],
+      "mathTitle": "Organic Terraced Himalayan Farming",
+      "mathSteps": [
+        {
+          "val": "Chamba & Kinnaur",
+          "label": "Snow-melt glacier water"
+        },
+        {
+          "val": "Natural Manure",
+          "label": "Zero artificial fertilizers"
+        },
+        {
+          "val": "Small-Grain Bean",
+          "label": "Distinctive buttery taste"
+        },
+        {
+          "val": "Sun Dried",
+          "label": "Traditional terrace sun curing"
+        },
+        {
+          "val": "Authentic Dal",
+          "label": "Shimla Wali Pahadi Rajma"
+        }
+      ],
+      "visible": true,
+      "status": "active",
+      "tag": "fresh_listed",
+      "pillText": "Harvested Fresh",
+      "carouselNote": "Sun-Cured • Village Harvest",
+      "batchNo": "SW-RJM-051",
+      "upcomingDate": null,
+      "inStock": true,
+      "availableUnits": 33
+    }
+  ],
+  "niches": [
+    {
+      "id": "ghee",
+      "name": "A2 Desi Ghee",
+      "tag": "GHSM"
+    },
+    {
+      "id": "dryfruits",
+      "name": "Walnuts & Dry Fruits",
+      "tag": "AKSM"
+    },
+    {
+      "id": "honey",
+      "name": "Raw Forest Honey",
+      "tag": "HNSM"
+    },
+    {
+      "id": "pickle",
+      "name": "Homemade Pahadi Pickle",
+      "tag": "PKSM"
+    },
+    {
+      "id": "apples",
+      "name": "Orchard Apples & Fruits",
+      "tag": "APSM"
+    },
+    {
+      "id": "rice",
+      "name": "Heirloom Mountain Rice",
+      "tag": "RCSM"
+    },
+    {
+      "id": "pulses",
+      "name": "Pahadi Rajma & Pulses",
+      "tag": "RJSM"
+    }
+  ],
+  "settings": {
+    "brand_name": "Shimla Wali",
+    "tagline": "From Our Hills To Your Home 🏔️ Pure 🌿 Local 💛 Natural",
+    "phone": "+91 7018168156",
+    "whatsapp_number": "917018168156",
+    "support_email": "support@thedefinite.one",
+    "instagram": "https://www.instagram.com/shimla_wali08?xtok=MWQzZ2Z6c2djeHBvNw%3D%3D",
+    "instagram_handle": "@shimla_wali08",
+    "fssai_number": "20924001000123",
+    "maker_households": "18+ Families",
+    "maker_districts": "Shimla & Kinnaur (H.P.)",
+    "maker_method": "Traditional Vedic Bilona & Natural Orchard Harvesting",
+    "verify_page_note": "Every batch is tested for 100% purity and ethically sourced directly from Himalayan farmers.",
+    "accept_orders": true,
+    "allow_guest_checkout": true,
+    "cod_fee": 25,
+    "ga4_measurement_id": ""
+  },
+  "batches": [
+    {
+      "id": "SW-GHEE-104",
+      "productId": "ghee",
+      "sku": "GHSM-500ML-01",
+      "nicheTag": "GHSM",
+      "date": "09 Nov 2026",
+      "bestBeforeDate": "",
+      "size": "500ml",
+      "status": "active",
+      "report": null
+    },
+    {
+      "id": "SW-WAL-098",
+      "productId": "walnuts",
+      "sku": "AKSM-500G-01",
+      "nicheTag": "AKSM",
+      "date": "05 Nov 2026",
+      "bestBeforeDate": "",
+      "size": "500g",
+      "status": "active",
+      "report": null
+    },
+    {
+      "id": "SW-HNY-076",
+      "productId": "honey",
+      "sku": "HNSM-500G-01",
+      "nicheTag": "HNSM",
+      "date": "01 Nov 2026",
+      "bestBeforeDate": "",
+      "size": "500g",
+      "status": "low",
+      "report": null
+    },
+    {
+      "id": "SW-RJM-051",
+      "productId": "pulses",
+      "sku": "RJSM-1KG-01",
+      "nicheTag": "RJSM",
+      "date": "07 Nov 2026",
+      "bestBeforeDate": "",
+      "size": "1kg",
+      "status": "active",
+      "report": null
+    }
+  ],
+  "media": {},
+  "content": {
+    "announcement_bar": "20% OFF above ₹1,500 • Code: SHIMLA50",
+    "hero_heading": "Pure Mountain Harvest, Delivered Fresh.",
+    "hero_description": "Dispatched in fresh small artisanal batches with zero chemical preservatives, shipped straight from Shimla to your doorstep.",
+    "marquee_items": [
+      "✨ FLAT 20% OFF ON ORDERS ABOVE ₹1,500 • USE CODE: SHIMLA50",
+      "🏔️ ₹1,500+ पर 20% की विशेष छूट • कूपन कोड: SHIMLA50",
+      "FROM OUR HILLS TO YOUR HOME",
+      "100% PURE A2 PAHADI COW BILONA GHEE",
+      "HIMACHALI KAGZI WALNUTS",
+      "PURE WILD FOREST RAW HONEY",
+      "TRADITIONAL HOMEMADE PAHADI PICKLES",
+      "SHIMLA ROYAL DELICIOUS APPLES",
+      "ORGANIC PAHADI RAJMA",
+      "PURE • LOCAL • NATURAL"
+    ],
+    "about_heading": "Crafted by Mountain Households Across Himachal",
+    "about_body": "We partner directly with family farms across Shimla, Kinnaur, and Chamba to bring small-batch A2 Bilona Ghee, raw mountain honey, heirloom grains, and sun-cured staples straight to your kitchen.",
+    "featured_product_ids": [
+      "ghee",
+      "walnuts",
+      "honey",
+      "pickle",
+      "apples",
+      "red-rice",
+      "pulses"
+    ],
+    "sections": {
+      "featured_products": true,
+      "our_story": true,
+      "customer_reviews": true,
+      "verify_banner": true
+    },
+    "footer_note": "From Our Hills To Your Home 🏔️ Pure 🌿 Local 💛 Natural"
+  },
+  "discounts": [
+    {
+      "code": "SHIMLA50",
+      "title": "Flat 20% Off Above ₹1,500",
+      "type": "percent",
+      "value": 20,
+      "minOrderAmount": 1500
+    }
+  ]
+}

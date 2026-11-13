@@ -1,0 +1,72 @@
+{
+  "batches": [
+    {
+      "id": "SW-GHEE-104",
+      "productId": "ghee",
+      "sku": "GHSM-500ML-01",
+      "nicheTag": "GHSM",
+      "sizeLabel": "500ml",
+      "productionDate": "09 Nov 2026",
+      "bestBeforeDate": "",
+      "initialQty": 24,
+      "remainingQty": 23,
+      "status": "active",
+      "originNote": "Shimla Hills, Himachal Pradesh",
+      "report": null,
+      "labStatus": "Testing in Progress",
+      "createdAt": "2026-11-10T10:04:28.932Z",
+      "updatedAt": "2026-11-11T18:07:29.439Z"
+    },
+    {
+      "id": "SW-WAL-098",
+      "productId": "walnuts",
+      "sku": "AKSM-500G-01",
+      "nicheTag": "AKSM",
+      "sizeLabel": "500g",
+      "productionDate": "05 Nov 2026",
+      "bestBeforeDate": "",
+      "initialQty": 22,
+      "remainingQty": 22,
+      "status": "active",
+      "originNote": "Shimla & Kinnaur Orchards",
+      "report": null,
+      "labStatus": "Testing in Progress",
+      "createdAt": "2026-11-10T10:04:28.932Z",
+      "updatedAt": "2026-11-10T10:04:28.932Z"
+    },
+    {
+      "id": "SW-HNY-076",
+      "productId": "honey",
+      "sku": "HNSM-500G-01",
+      "nicheTag": "HNSM",
+      "sizeLabel": "500g",
+      "productionDate": "01 Nov 2026",
+      "bestBeforeDate": "",
+      "initialQty": 8,
+      "remainingQty": 8,
+      "status": "low",
+      "originNote": "Himachal Alpine Wild Forests",
+      "report": null,
+      "labStatus": "Testing in Progress",
+      "createdAt": "2026-11-10T10:04:28.932Z",
+      "updatedAt": "2026-11-10T10:04:28.932Z"
+    },
+    {
+      "id": "SW-RJM-051",
+      "productId": "pulses",
+      "sku": "RJSM-1KG-01",
+      "nicheTag": "RJSM",
+      "sizeLabel": "1kg",
+      "productionDate": "07 Nov 2026",
+      "bestBeforeDate": "",
+      "initialQty": 20,
+      "remainingQty": 19,
+      "status": "active",
+      "originNote": "High Altitude Chamba & Kinnaur Terraces",
+      "report": null,
+      "labStatus": "Testing in Progress",
+      "createdAt": "2026-11-10T10:04:28.932Z",
+      "updatedAt": "2026-11-11T18:07:29.439Z"
+    }
+  ]
+}

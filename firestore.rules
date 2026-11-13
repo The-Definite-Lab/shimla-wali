@@ -1,0 +1,128 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Admin access: authenticated Firebase user registered in /admins/{uid}
+    // OR matching the configured owner email address.
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.email in ['admin@shimlawali.in', 'nimaythakur1234@gmail.com']
+      );
+    }
+
+    // Storefront single-doc cache (1 read per page load)
+    match /storefront/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Admin-only master catalog snapshot & backups
+    match /catalog/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Publicly readable non-PII uploaded media assets (compressed WebP / small PDFs)
+    match /media_assets/{assetId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Batches & lab verification info (publicly readable for verify.html, admin writable)
+    match /batches/{batchId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Inventory counts (publicly readable stock availability; ONLY Admin modifies stock)
+    match /inventory/{sku} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Order sequence counter (increments monotonically by +1 on public order create)
+    match /counters/{counterId} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if isAdmin() || (request.resource.data.nextSeq is number && request.resource.data.nextSeq >= 1001);
+      allow update: if isAdmin() || (
+        request.resource.data.nextSeq is number &&
+        request.resource.data.nextSeq == resource.data.nextSeq + 1
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Discounts: allow single exact-code lookup (`get`), block public enumeration (`list`)
+    match /discounts/{code} {
+      allow get: if true;
+      allow list, write: if isAdmin();
+    }
+
+    // Orders: guests can create strictly unconfirmed requests; ONLY Admin can read/list/update/delete
+    match /orders/{orderId} {
+      allow create: if request.resource.data.orderId == orderId
+        && request.resource.data.orderStatus == 'pending_whatsapp'
+        && request.resource.data.paymentStatus == 'pending'
+        && request.resource.data.grandTotal is number
+        && request.resource.data.grandTotal > 0
+        && request.resource.data.itemsSnapshot is list
+        && request.resource.data.itemsSnapshot.size() > 0;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Privacy-preserving order status receipts keyed by SHA-256(phone:orderId)
+    match /order_lookups/{hashId} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.resource.data.orderStatus == 'pending_whatsapp'
+        && request.resource.data.grandTotal is number
+        && request.resource.data.grandTotal > 0;
+      allow update, delete: if isAdmin();
+    }
+
+    // PIN-verified order lookup keyed by unguessable SHA-256(phone:pincode)
+    match /order_pin_lookups/{pinHash} {
+      allow read, write: if false;
+      match /orders/{orderId} {
+        allow read: if true;
+        allow create: if request.resource.data.orderStatus == 'pending_whatsapp'
+          && request.resource.data.grandTotal is number
+          && request.resource.data.grandTotal > 0;
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // First-party anonymous page view analytics
+    match /analytics_views/{dateKey} {
+      allow read: if isAdmin();
+      allow create, update: if request.resource.data.totalViews is number
+        && request.resource.data.totalViews >= 0;
+      allow delete: if isAdmin();
+    }
+
+    // Private Admin operational collections
+    match /admins/{uid} {
+      allow read: if isSignedIn() && request.auth.uid == uid;
+      allow write: if isAdmin();
+    }
+    match /customers/{custId} {
+      allow read, write: if isAdmin();
+    }
+    match /movements/{movId} {
+      allow read, write: if isAdmin();
+    }
+    match /payments/{payId} {
+      allow read, write: if isAdmin();
+    }
+    match /audit_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+    match /backups/{backupId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

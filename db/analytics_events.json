@@ -1,0 +1,18 @@
+{
+  "totalViews": 121,
+  "viewsByDate": {
+    "2026-11-10": 9,
+    "2026-11-11": 29,
+    "2026-11-12": 5,
+    "2026-11-13": 78
+  },
+  "productViews": {
+    "walnuts": 7,
+    "honey": 6,
+    "pickle": 2,
+    "red-rice": 3,
+    "pulses": 2,
+    "ghee": 14,
+    "apples": 3
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "shimla-wali",
+  "version": "1.0.0",
+  "description": "Shimla Wali - Pure Pahadi Desi Ghee, Walnuts, Honey, Apples & Organic Hill Produce",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/verify-all.js"
+  },
+  "keywords": [
+    "shimla-wali",
+    "pahadi-ghee",
+    "walnuts",
+    "himachal"
+  ],
+  "author": "",
+  "license": "ISC"
+}

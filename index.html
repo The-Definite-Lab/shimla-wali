@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Shimla Wali | From Our Hills To Your Home &bull; Pure &bull; Local &bull; Natural</title>
+  <meta name="description" content="Shop 100% pure A2 Pahadi Cow Bilona Ghee, thin-shelled Himachali walnuts, wild raw forest honey, homemade pickles, fresh apples & organic pulses direct from Shimla, Himachal Pradesh." />
+  <link rel="icon" href="./images/logo.png" type="image/png" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..900;1,9..40,400..900&family=Playfair+Display:ital,wght@0,600..900;1,600..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="product-page-body">
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-bar-left">
+        <span class="announcement-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+            <rect x="2" y="7" width="20" height="5"></rect>
+            <line x1="12" y1="22" x2="12" y2="7"></line>
+            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+          </svg>
+          <span>20% OFF above ₹1,500 • Code: SHIMLA50</span>
+        </span>
+      </div>
+      <div class="top-bar-right">
+        <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none; margin-right: 15px;">
+          <span>Instagram: @shimla_wali08</span>
+        </a>
+        <a href="tel:+917018168156">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>+91 7018168156</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Left Group: Menu Button + Brand Logo & Title -->
+      <div class="header-left">
+        <button class="nav-round-btn header-menu-btn" aria-label="Toggle Navigation Menu" onclick="window.openNavDrawer ? window.openNavDrawer() : document.getElementById('nav-drawer').classList.add('active')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
+
+        <a href="index.html" class="brand-logo-clean">
+          <img src="./images/logo.png" alt="Shimla Wali Logo" class="brand-logo-img" />
+          <span class="brand-title">Shimla Wali</span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="shop.html">Shop All</a></li>
+          <li><a href="product.html?id=ghee">A2 Ghee</a></li>
+          <li><a href="product.html?id=walnuts">Walnuts</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right: Sleek Round Search, Heart/Wishlist & Bag/Cart Buttons -->
+      <div class="header-actions">
+        <!-- Search Button -->
+        <a href="javascript:void(0)" class="nav-round-btn" aria-label="Search Products" onclick="document.querySelector('.modern-product-grid').scrollIntoView({behavior: 'smooth'})">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </a>
+
+        <!-- Wishlist / Heart Button -->
+        <button class="nav-round-btn wishlist-toggle-btn" aria-label="Wishlist" onclick="alert('Added to your Shimla Wali favorites!')">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+
+        <!-- Bag / Cart Button -->
+        <button id="cart-btn" class="nav-round-btn cart-round-btn" aria-label="Shopping Bag" onclick="window.openCart ? window.openCart() : document.getElementById('cart-drawer').classList.add('active')">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Carousel Mount Container -->
+  <div id="my-custom-carousel"></div>
+
+  <!-- Luxury Dark Marquee Ticker (Exact Match to Reference Style) -->
+  <div class="luxury-marquee-strip">
+    <div class="luxury-marquee-track">
+      <span class="marquee-pill-item promo-highlight"><span class="marquee-dot gold"></span> ✨ FLAT 20% OFF ON ORDERS ABOVE ₹1,500 • USE CODE: SHIMLA50</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> 🏔️ 1500+ पर 20% की विशेष छूट • कोड: SHIMLA50</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> FROM OUR HILLS TO YOUR HOME</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> 100% PURE A2 PAHADI COW BILONA GHEE</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> HIMACHALI KAGZI WALNUTS</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> PURE WILD FOREST RAW HONEY</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> TRADITIONAL HOMEMADE PAHADI PICKLES</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> SHIMLA ROYAL DELICIOUS APPLES</span>
+      <span class="marquee-pill-item promo-highlight"><span class="marquee-dot gold"></span> ✨ FLAT 20% OFF ON ORDERS ABOVE ₹1,500 • USE CODE: SHIMLA50</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> 🏔️ 1500+ पर 20% की विशेष छूट • कोड: SHIMLA50</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> 100% PURE A2 PAHADI COW BILONA GHEE</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> HIMACHALI KAGZI WALNUTS</span>
+      <span class="marquee-pill-item"><span class="marquee-dot"></span> PURE &bull; LOCAL &bull; NATURAL</span>
+    </div>
+  </div>
+
+  <!-- Trust Strip (Ultra-Compact Single View - No Scroll Needed) -->
+  <section class="trust-strip">
+    <div class="container">
+      <div class="trust-item">
+        <div class="trust-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8"></path></svg></div>
+        <div class="trust-text">
+          <h4>Vedic Bilona</h4>
+          <p>Curd Churned</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3M2 21h20"></path></svg></div>
+        <div class="trust-text">
+          <h4>Shimla Hills</h4>
+          <p>Pure Origin</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+        <div class="trust-text">
+          <h4>0% Chemicals</h4>
+          <p>Lab Tested</p>
+        </div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <div class="trust-text">
+          <h4>100% Pure</h4>
+          <p>Direct Artisanal</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal Category Stories / Circle Avatars -->
+  <section class="category-stories-section">
+    <div class="container">
+      <div class="category-stories-track">
+        <!-- Story 1: All Harvest -->
+        <div class="category-story-item active" onclick="location.href='shop.html'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/shimla-wali-trio.webp" alt="All Products" />
+            </div>
+          </div>
+          <span class="category-story-label">All Harvest</span>
+        </div>
+
+        <!-- Story 2: A2 Pahadi Ghee -->
+        <div class="category-story-item" onclick="location.href='product.html?id=ghee'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/shimla-ghee.webp" alt="A2 Pahadi Ghee" />
+            </div>
+          </div>
+          <span class="category-story-label">A2 Ghee</span>
+        </div>
+
+        <!-- Story 3: Himachali Walnuts -->
+        <div class="category-story-item" onclick="location.href='product.html?id=walnuts'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/himachali-walnuts.webp" alt="Himachali Walnuts" />
+            </div>
+          </div>
+          <span class="category-story-label">Walnuts</span>
+        </div>
+
+        <!-- Story 4: Raw Forest Honey -->
+        <div class="category-story-item" onclick="location.href='product.html?id=honey'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/pure-honey.webp" alt="Wild Honey" />
+            </div>
+          </div>
+          <span class="category-story-label">Wild Honey</span>
+        </div>
+
+        <!-- Story 5: Homemade Pickle -->
+        <div class="category-story-item" onclick="location.href='product.html?id=pickle'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/homemade-pickle.webp" alt="Pahadi Pickle" />
+            </div>
+          </div>
+          <span class="category-story-label">Pickles</span>
+        </div>
+
+        <!-- Story 6: Royal Apples -->
+        <div class="category-story-item" onclick="location.href='product.html?id=apples'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/shimla-apples.webp" alt="Shimla Apples" />
+            </div>
+          </div>
+          <span class="category-story-label">Royal Apples</span>
+        </div>
+
+        <!-- Story 7: Pahadi Rajma -->
+        <div class="category-story-item" onclick="location.href='product.html?id=pulses'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/pahadi-rajma.webp" alt="Pahadi Rajma" />
+            </div>
+          </div>
+          <span class="category-story-label">Pahadi Rajma</span>
+        </div>
+
+        <!-- Story 8: Red Rice -->
+        <div class="category-story-item" onclick="location.href='product.html?id=red-rice'">
+          <div class="category-story-ring">
+            <div class="category-story-img-wrap">
+              <img src="./images/himachali-red-rice.webp" alt="Himachali Red Rice" />
+            </div>
+          </div>
+          <span class="category-story-label">Red Rice</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct Modern 2-Column Product Grid -->
+  <section id="shop-collection" class="collection-section" style="padding-top: 6px;">
+    <div class="container">
+      <div class="archive-header-row">
+        <h2 class="archive-header-title">MOUNTAIN HARVEST CATALOG</h2>
+        <div class="archive-filter-pill" onclick="location.href='shop.html'">
+          <span>View All (7)</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+
+      <div class="modern-product-grid" id="dynamic-product-grid">
+        
+        <!-- Product 1: A2 Ghee -->
+        <div class="m-product-card" onclick="location.href='product.html?id=ghee'">
+          <div class="m-card-image-wrap">
+            <button class="m-wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); alert('Added to favorites!');">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <span class="m-black-pill pill-green">Fresh Churned</span>
+            <img src="./images/shimla-ghee.webp" alt="A2 Pahadi Cow Bilona Desi Ghee" class="m-card-img" />
+          </div>
+          <div class="m-card-details">
+            <div class="m-card-meta-row">
+              <div class="m-rating-tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>4.9</span>
+                <span class="m-rating-count">(142)</span>
+              </div>
+            </div>
+            <div class="m-card-title">A2 Pahadi Cow Ghee</div>
+            <div class="m-price-line">
+              <span class="m-current-price">₹1,199</span>
+              <span class="m-orig-price">₹1,500</span>
+              <span class="m-discount-tag">20% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2: Walnuts -->
+        <div class="m-product-card" onclick="location.href='product.html?id=walnuts'">
+          <div class="m-card-image-wrap">
+            <button class="m-wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); alert('Added to favorites!');">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <span class="m-black-pill pill-green">Batch #02 Live</span>
+            <img src="./images/himachali-walnuts.webp" alt="Himachali Walnuts" class="m-card-img" />
+          </div>
+          <div class="m-card-details">
+            <div class="m-card-meta-row">
+              <div class="m-rating-tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>5.0</span>
+                <span class="m-rating-count">(98)</span>
+              </div>
+            </div>
+            <div class="m-card-title">Kagzi Akhrot (Walnuts)</div>
+            <div class="m-price-line">
+              <span class="m-current-price">₹549</span>
+              <span class="m-orig-price">₹750</span>
+              <span class="m-discount-tag">27% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3: Pure Honey -->
+        <div class="m-product-card" onclick="location.href='product.html?id=honey'">
+          <div class="m-card-image-wrap">
+            <button class="m-wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); alert('Added to favorites!');">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <span class="m-black-pill pill-red">Only 8 Left</span>
+            <img src="./images/pure-honey.webp?v=2" alt="Pure Wild Forest Raw Honey" class="m-card-img" />
+          </div>
+          <div class="m-card-details">
+            <div class="m-card-meta-row">
+              <div class="m-rating-tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>4.9</span>
+                <span class="m-rating-count">(76)</span>
+              </div>
+            </div>
+            <div class="m-card-title">Wild Forest Raw Honey</div>
+            <div class="m-price-line">
+              <span class="m-current-price">₹599</span>
+              <span class="m-orig-price">₹799</span>
+              <span class="m-discount-tag">25% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4: Homemade Pickle -->
+        <div class="m-product-card" onclick="location.href='product.html?id=pickle'">
+          <div class="m-card-image-wrap">
+            <button class="m-wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); alert('Added to favorites!');">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <span class="m-black-pill pill-red">10 Jars Left</span>
+            <img src="./images/homemade-pickle.webp?v=2" alt="Traditional Homemade Pahadi Pickle" class="m-card-img" />
+          </div>
+          <div class="m-card-details">
+            <div class="m-card-meta-row">
+              <div class="m-rating-tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>4.8</span>
+                <span class="m-rating-count">(64)</span>
+              </div>
+            </div>
+            <div class="m-card-title">Traditional Pahadi Pickle</div>
+            <div class="m-price-line">
+              <span class="m-current-price">₹349</span>
+              <span class="m-orig-price">₹450</span>
+              <span class="m-discount-tag">22% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5: Royal Apples -->
+        <div class="m-product-card" onclick="location.href='product.html?id=apples'">
+          <div class="m-card-image-wrap">
+            <button class="m-wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); alert('Added to favorites!');">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <span class="m-black-pill pill-orange">Batch in 5d</span>
+            <img src="./images/shimla-apples.webp" alt="Shimla Royal Delicious Apples" class="m-card-img" />
+          </div>
+          <div class="m-card-details">
+            <div class="m-card-meta-row">
+              <div class="m-rating-tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>5.0</span>
+                <span class="m-rating-count">(112)</span>
+              </div>
+            </div>
+            <div class="m-card-title">Shimla Royal Apples</div>
+            <div class="m-price-line">
+              <span class="m-current-price">₹1,249</span>
+              <span class="m-orig-price">₹1,600</span>
+              <span class="m-discount-tag">22% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6: Pahadi Rajma -->
+        <div class="m-product-card" onclick="location.href='product.html?id=pulses'">
+          <div class="m-card-image-wrap">
+            <button class="m-wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); alert('Added to favorites!');">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <span class="m-black-pill pill-green">Batch #02 Launch</span>
+            <img src="./images/pahadi-rajma.webp" alt="Organic Pahadi Rajma" class="m-card-img" />
+          </div>
+          <div class="m-card-details">
+            <div class="m-card-meta-row">
+              <div class="m-rating-tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>4.9</span>
+                <span class="m-rating-count">(51)</span>
+              </div>
+            </div>
+            <div class="m-card-title">Organic Pahadi Rajma</div>
+            <div class="m-price-line">
+              <span class="m-current-price">₹269</span>
+              <span class="m-orig-price">₹350</span>
+              <span class="m-discount-tag">23% off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 7: Himachali Red Rice -->
+        <div class="m-product-card" onclick="location.href='product.html?id=red-rice'">
+          <div class="m-card-image-wrap">
+            <button class="m-wishlist-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); alert('Added to favorites!');">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+            <span class="m-black-pill pill-gold">Small Batch</span>
+            <img src="./images/himachali-red-rice.webp?v=2" alt="Himachali Red Rice" class="m-card-img" />
+          </div>
+          <div class="m-card-details">
+            <div class="m-card-meta-row">
+              <div class="m-rating-tag">
+                <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <span>4.9</span>
+                <span class="m-rating-count">(43)</span>
+              </div>
+            </div>
+            <div class="m-card-title">Chhohartu Red Rice</div>
+            <div class="m-price-line">
+              <span class="m-current-price">₹249</span>
+              <span class="m-orig-price">₹320</span>
+              <span class="m-discount-tag">22% off</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       THE HIMALAYAN ADVANTAGE (Ultra-Premium & Minimal)
+  ════════════════════════════════════════════════ -->
+  <section class="himalayan-section">
+    <div class="container">
+      <div class="himalayan-inner">
+        <div class="himalayan-left">
+          <span class="himalayan-tag">The Himalayan Advantage</span>
+          <h2 class="himalayan-title" data-en="Where Wild Alpine Herbs Nurture Every Harvest" data-hi="जहाँ जंगली जड़ी-बूटियाँ हर उपज को पोषण देती हैं">Where Wild Alpine Herbs Nurture Every Harvest</h2>
+          <p class="himalayan-desc" data-en="At 7,500+ feet in the valleys of Himachal Pradesh, indigenous Pahadi cows graze freely on wild Brahmi and mountain thyme. Pure, untouched mountain terroir that industrial factory farming can never replicate." data-hi="7,500+ फीट पर जंगली ब्राह्मी चरती देशी गायें व शुद्ध पहाड़ी उपज — बिना किसी रसायन या मिलावट के।">At 7,500+ feet in the valleys of Himachal Pradesh, indigenous Pahadi cows graze freely on wild Brahmi and mountain thyme. Pure, untouched mountain terroir that industrial factory farming can never replicate.</p>
+          
+          <div class="himalayan-pillars">
+            <div class="h-pillar-item">
+              <div class="h-pillar-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+              </div>
+              <div class="h-pillar-text">
+                <strong>7,500+ Ft Terroir</strong>
+                <span>Pristine glacial air & spring water</span>
+              </div>
+            </div>
+            <div class="h-pillar-item">
+              <div class="h-pillar-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="h-pillar-text">
+                <strong>Wild Foraging</strong>
+                <span>Brahmi, Shankhpushpi & wild thyme</span>
+              </div>
+            </div>
+            <div class="h-pillar-item">
+              <div class="h-pillar-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="h-pillar-text">
+                <strong>Vedic Bilona Churn</strong>
+                <span>Clay curd & patient bi-directional churn</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;">
+            <div style="background:rgba(49,93,67,0.08);border:1px solid rgba(49,93,67,0.18);border-radius:10px;padding:8px 14px;">
+              <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:#64748b;font-weight:700;">Partner Families</div>
+              <strong id="stat-households" style="font-size:1rem;color:#203b2d;">18+ Families</strong>
+            </div>
+            <div style="background:rgba(49,93,67,0.08);border:1px solid rgba(49,93,67,0.18);border-radius:10px;padding:8px 14px;">
+              <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:#64748b;font-weight:700;">Harvest Regions</div>
+              <strong id="stat-districts" style="font-size:1rem;color:#203b2d;">Shimla &amp; Kinnaur (H.P.)</strong>
+            </div>
+          </div>
+          <div id="makers-showcase-wrap" style="display:none;margin-top:16px;">
+            <div style="font-size:0.76rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:#315d43;margin-bottom:6px;">Meet Our Pahadi Makers</div>
+            <div id="makers-video-slot"></div>
+          </div>
+        </div>
+
+        <div class="himalayan-right">
+          <div class="himalayan-mosaic">
+            <div class="h-mosaic-item" onclick="location.href='product.html?id=walnuts'" style="cursor:pointer;">
+              <img src="./images/walnut-tree-harvest.webp" alt="Kinnaur Kagzi Walnut Trees on Mountain Slopes" loading="lazy" />
+              <div class="h-mosaic-caption">
+                <span class="h-badge-dot"></span>
+                <span data-en="Kinnaur Walnut Orchard" data-hi="किन्नौर अखरोट बाग़ान">Kinnaur Walnut Orchard</span>
+              </div>
+            </div>
+            <div class="h-mosaic-item" onclick="location.href='product.html?id=pulses'" style="cursor:pointer;">
+              <img src="./images/rajma-village-drying.webp" alt="Pahadi Rajma Sun-Drying on Slate Village Roofs" loading="lazy" />
+              <div class="h-mosaic-caption">
+                <span class="h-badge-dot"></span>
+                <span data-en="Slate-Roof Sun Drying" data-hi="धूप में सुखाते पहाड़ी राजमा">Slate-Roof Sun Drying</span>
+              </div>
+            </div>
+            <div class="h-mosaic-item" onclick="location.href='product.html?id=ghee'" style="cursor:pointer;">
+              <img src="./images/farm-cows.webp" alt="Indigenous Free-Range Pahadi Cows" loading="lazy" />
+              <div class="h-mosaic-caption">
+                <span class="h-badge-dot"></span>
+                <span data-en="Indigenous Pahadi Cows" data-hi="पहाड़ी देसी गायें">Indigenous Pahadi Cows</span>
+              </div>
+            </div>
+            <div class="h-mosaic-item" onclick="location.href='product.html?id=honey'" style="cursor:pointer;">
+              <img src="./images/pure-honey-dipper.webp" alt="Wild Alpine Flora and Forest Raw Honey" loading="lazy" />
+              <div class="h-mosaic-caption">
+                <span class="h-badge-dot"></span>
+                <span data-en="Wild Alpine Flora" data-hi="जंगली हिमालयी फूल">Wild Alpine Flora</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       7 WAYS SHIMLA WALI A2 GHEE HEALS (Compact)
+  ════════════════════════════════════════════════ -->
+  <section class="heals-section">
+    <div class="container">
+      <div class="heals-header">
+        <span class="heals-section-tag">Beyond Cooking</span>
+        <h2 class="heals-title" data-brand-copy data-en="7 Ways Shimla Wali Ghee Heals" data-hi="7 तरीके जिनसे पहाड़ी बिलोना घी लाभ देता है">7 Ways Shimla Wali Ghee Heals</h2>
+        <p class="heals-subtitle" data-en="Pure A2 Bilona Ghee is your kitchen's best-kept secret — a timeless Ayurvedic wellness remedy." data-hi="शुद्ध A2 बिलोना घी सिर्फ खाना पकाने की सामग्री नहीं है, बल्कि संपूर्ण घरेलू वेलनेस उपाय है।">Pure A2 Bilona Ghee is your kitchen's best-kept secret — a timeless Ayurvedic wellness remedy.</p>
+      </div>
+      <div class="heals-horizontal-track">
+        
+        <!-- 1. Cooking -->
+        <div class="heal-slide-card">
+          <div class="heal-slide-img">
+            <img src="./images/golden-ghee.webp" alt="Pure Cooking Ghee" />
+          </div>
+          <div class="heal-slide-content">
+            <h3><span>01</span> <em style="font-style:normal;" data-en="Pure Cooking" data-hi="शुद्ध खाना पकाना">Pure Cooking</em></h3>
+            <p data-en="High smoke point, nutty aroma. Perfect replacement for refined seed oils in daily cooking." data-hi="उच्च स्मोक पॉइंट व समृद्ध सुगंध। परिष्कृत तेलों का सर्वश्रेष्ठ प्राकृतिक विकल्प।">High smoke point, nutty aroma. Perfect replacement for refined seed oils in daily cooking.</p>
+          </div>
+        </div>
+
+        <!-- 2. Baby Massage -->
+        <div class="heal-slide-card">
+          <div class="heal-slide-img">
+            <img src="./images/milk-dairy.webp" alt="Ayurvedic Baby Massage" />
+          </div>
+          <div class="heal-slide-content">
+            <h3><span>02</span> <em style="font-style:normal;" data-en="Baby Massage" data-hi="शिशु मालिश">Baby Massage</em></h3>
+            <p data-en="Gentle warm massage on newborns strengthens bone density and softens delicate skin." data-hi="नवजात शिशुओं की हड्डियों को मजबूत बनाने व कोमल त्वचा पोषण हेतु।">Gentle warm massage on newborns strengthens bone density and softens delicate skin.</p>
+          </div>
+        </div>
+
+        <!-- 3. Nasal & Cold -->
+        <div class="heal-slide-card">
+          <div class="heal-slide-img">
+            <img src="./images/shimla-ghee.webp" alt="Ayurvedic Nasya Relief" />
+          </div>
+          <div class="heal-slide-content">
+            <h3><span>03</span> <em style="font-style:normal;" data-en="Nasal Relief" data-hi="नस्य राहत">Nasal Relief</em></h3>
+            <p data-en="2 warm drops in each nostril lubricates sinuses and clears morning congestion naturally." data-hi="नथुने में 2 गर्म बूंदें श्वसन मार्ग को साफ और शांत रखती हैं।">2 warm drops in each nostril lubricates sinuses and clears morning congestion naturally.</p>
+          </div>
+        </div>
+
+        <!-- 4. Chest/Body Rub -->
+        <div class="heal-slide-card">
+          <div class="heal-slide-img">
+            <img src="./images/bilona-churning.webp" alt="Chest Warmth Rub" />
+          </div>
+          <div class="heal-slide-content">
+            <h3><span>04</span> <em style="font-style:normal;" data-en="Chest Warmth" data-hi="सीने की गर्माहट">Chest Warmth</em></h3>
+            <p data-en="Warm ghee chest massage during cold weather provides deep soothing internal comfort." data-hi="सर्दियों में छाती पर गर्म मालिश गहरी गर्माहट और शांति प्रदान करती है।">Warm ghee chest massage during cold weather provides deep soothing internal comfort.</p>
+          </div>
+        </div>
+
+        <!-- 5. Hair Oiling -->
+        <div class="heal-slide-card">
+          <div class="heal-slide-img">
+            <img src="./images/pure-honey.webp" alt="Scalp & Hair Nourishment" />
+          </div>
+          <div class="heal-slide-content">
+            <h3><span>05</span> <em style="font-style:normal;" data-en="Hair Nutrition" data-hi="बालों का पोषण">Hair Nutrition</em></h3>
+            <p data-en="Warm scalp massage deeply hydrates dry roots, tames frizz, and nourishes follicles." data-hi="खोपड़ी में मालिश रूखापन खत्म करती है और बालों को पोषण देती है।">Warm scalp massage deeply hydrates dry roots, tames frizz, and nourishes follicles.</p>
+          </div>
+        </div>
+
+        <!-- 6. Cracked Heels -->
+        <div class="heal-slide-card">
+          <div class="heal-slide-img">
+            <img src="./images/walnuts-cracked.webp" alt="Cracked Heels Healing" />
+          </div>
+          <div class="heal-slide-content">
+            <h3><span>06</span> <em style="font-style:normal;" data-en="Cracked Heels" data-hi="फटी एड़ियाँ">Cracked Heels</em></h3>
+            <p data-en="Overnight heel balm with pure ghee heals deep cracks without petroleum jelly or chemicals." data-hi="रात को लगाने पर फटी एड़ियों को प्राकृतिक रूप से तेजी से भरता है।">Overnight heel balm with pure ghee heals deep cracks without petroleum jelly or chemicals.</p>
+          </div>
+        </div>
+
+        <!-- 7. Diya / Lamp -->
+        <div class="heal-slide-card">
+          <div class="heal-slide-img">
+            <img src="./images/golden-ghee.webp" alt="Sacred Diya Puja" />
+          </div>
+          <div class="heal-slide-content">
+            <h3><span>07</span> <em style="font-style:normal;" data-en="Sacred Lamp" data-hi="पावन दीया">Sacred Lamp</em></h3>
+            <p data-en="Pure A2 ghee burns soot-free with serene golden light for auspicious home rituals." data-hi="बिना धुएं या कालिख के पवित्र लौ — दैनिक पूजा और हवन के लिए सर्वोत्तम।">Pure A2 ghee burns soot-free with serene golden light for auspicious home rituals.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       THE HEALTH DIFFERENCE (Minimalist Luxury Editorial)
+  ════════════════════════════════════════════════ -->
+  <section class="comparison-section">
+    <div class="container">
+      <div class="comparison-header">
+        <span class="comparison-tag">The Health Difference</span>
+        <h2 class="comparison-title" data-en="Why Pure Mountain Produce Heals Differently" data-hi="शुद्ध पहाड़ी उपज आपके शरीर को क्यों बेहतर पोषण देती है">Why Pure Mountain Produce Heals Differently</h2>
+        <p class="comparison-subtitle" data-en="Commercial brands prioritize industrial shelf life over your health. Authentic mountain harvest nourishes your family with living, untouched bio-nutrients." data-hi="बाजार के ब्रांड्स शेल्फ-लाइफ को प्राथमिकता देते हैं। शुद्ध पहाड़ी उपज आपके परिवार को जीवित, प्राकृतिक पोषण देती है।">Commercial brands prioritize industrial shelf life over your health. Authentic mountain harvest nourishes your family with living, untouched bio-nutrients.</p>
+      </div>
+
+      <div class="comp-minimal-wrapper">
+        <!-- Column 1: Commercial Brands -->
+        <div class="comp-col comp-col-market">
+          <div class="comp-col-top">
+            <span class="comp-col-pill market-pill">Commercial Store Brands</span>
+            <p class="comp-col-tagline">Mass industrial processing for infinite shelf life</p>
+          </div>
+          <div class="comp-items-list">
+            <div class="comp-item-row">
+              <span class="comp-mark bad">&times;</span>
+              <div class="comp-item-content">
+                <strong>Machine-Boiled Cream (Acidity & Bloating)</strong>
+                <p>High-heat cream separators destroy natural probiotic cultures, triggering gut inflammation and heavy digestion.</p>
+              </div>
+            </div>
+            <div class="comp-item-row">
+              <span class="comp-mark bad">&times;</span>
+              <div class="comp-item-content">
+                <strong>Stall-Fed Injections & Chemical Washes</strong>
+                <p>Dairy cows confined to urban stalls on synthetic hormone feed; walnuts chlorine-bleached to mask oxidation.</p>
+              </div>
+            </div>
+            <div class="comp-item-row">
+              <span class="comp-mark bad">&times;</span>
+              <div class="comp-item-content">
+                <strong>Diluted Syrups & Artificial Acid</strong>
+                <p>Commercial honey pasteurized and cut with high-fructose corn syrups; pickles preserved in chemical synthetic vinegar.</p>
+              </div>
+            </div>
+            <div class="comp-item-row">
+              <span class="comp-mark bad">&times;</span>
+              <div class="comp-item-content">
+                <strong>Aged in Plastic Warehouse Drums</strong>
+                <p>Stocked for months through multi-tier distribution chains, losing volatile aroma and living bio-medicinal potency.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Shimla Wali Artisanal Farm -->
+        <div class="comp-col comp-col-shimla">
+          <div class="comp-col-top">
+            <span class="comp-col-pill shimla-pill">✦ Shimla Wali Mountain Harvest</span>
+            <p class="comp-col-tagline">Hand-harvested by Himachal village families, delivered direct</p>
+          </div>
+          <div class="comp-items-list">
+            <div class="comp-item-row">
+              <span class="comp-mark good">&#10003;</span>
+              <div class="comp-item-content">
+                <strong>Cultured Vedic Bilona (Probiotic Gut Healing)</strong>
+                <p>Bi-directional churning of curd preserves live Butyric Acid & Omega-3, soothing digestion even for lactose-sensitive bodies.</p>
+              </div>
+            </div>
+            <div class="comp-item-row">
+              <span class="comp-mark good">&#10003;</span>
+              <div class="comp-item-content">
+                <strong>Wild Mountain Grazing at 7,500+ ft</strong>
+                <p>Pasture-grazed indigenous Pahadi cows grazing wild Brahmi & alpine thyme; raw Kagzi walnuts retain 100% natural brain oils.</p>
+              </div>
+            </div>
+            <div class="comp-item-row">
+              <span class="comp-mark good">&#10003;</span>
+              <div class="comp-item-content">
+                <strong>100% Raw, Unheated & Sun-Cured</strong>
+                <p>Raw multi-flora wild honey packed with living pollen enzymes; traditional pickles sun-cured for 21 days in ceramic martabans.</p>
+              </div>
+            </div>
+            <div class="comp-item-row">
+              <span class="comp-mark good">&#10003;</span>
+              <div class="comp-item-content">
+                <strong>Direct Fresh Dispatch in Glass & Tins</strong>
+                <p>Dispatched in fresh small artisanal batches with zero chemical preservatives, shipped straight from Shimla to your doorstep.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="faq-section-header">
+        <span class="comparison-tag">Questions, Answered</span>
+        <h2 class="comparison-title" data-en="Everything You'd Like To Know" data-hi="वह सब कुछ जो आप जानना चाहेंगे">Everything You'd Like To Know</h2>
+        <p class="comparison-subtitle" data-en="Still curious? Our ghee care team is always here to assist your wellness journey." data-hi="अभी भी उत्सुक हैं? हमारी घी देखभाल टीम आपकी वेलनेस यात्रा में सहायता के लिए हमेशा मौजूद है।">Still curious? Our ghee care team is always here to assist your wellness journey.</p>
+      </div>
+      <div class="faq-container">
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-en="What makes Bilona Ghee different?" data-hi="बिलोना घी को क्या अलग बनाता है?">What makes Bilona Ghee different?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer" data-en="Traditional Bilona Ghee begins with cultured curd, which is churned with a wooden bilona to separate fresh butter and then slowly heated over low fire. This patient method gives the ghee its distinctive nutty aroma, granular texture, and superior bio-availability." data-hi="पारंपरिक बिलोना घी की शुरुआत कल्चर्ड दही से होती है, जिसे लकड़ी के बिलोना से मथा जाता है।">Traditional Bilona Ghee begins with cultured curd, which is churned with a wooden bilona to separate fresh butter and then slowly heated over low fire. This patient method gives the ghee its distinctive nutty aroma, granular texture, and superior bio-availability.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-en="Is Shimla Wali ghee made only from indigenous (Desi) cows?" data-hi="क्या शिमला वाली घी केवल स्वदेशी पहाड़ी गायों से बना है?">Is Shimla Wali ghee made only from indigenous (Desi) cows?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer" data-en="Yes, absolutely. We source our milk exclusively from purebred, pasture-grazed indigenous cows in Himachal Pradesh." data-hi="हाँ बिल्कुल।">Yes, absolutely. We source our milk exclusively from purebred, pasture-grazed indigenous cows in Himachal Pradesh.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-en="Why does the texture change with the season?" data-hi="मौसम के साथ बनावट क्यों बदलती है?">Why does the texture change with the season?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer" data-en="Pure ghee melts in summer and solidifies in winter. The famous 'danedar' (granular) texture is a natural property of A2 Bilona ghee, proving it has not been homogenized or artificially stabilized." data-hi="शुद्ध घी गर्मियों में पिघल जाता है और सर्दियों में जम जाता है।">Pure ghee melts in summer and solidifies in winter. The famous 'danedar' (granular) texture is a natural property of A2 Bilona ghee, proving it has not been homogenized or artificially stabilized.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span data-en="Does it contain preservatives or artificial colors?" data-hi="क्या इसमें परिरक्षक या कृत्रिम रंग हैं?">Does it contain preservatives or artificial colors?</span>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer" data-en="Zero. Shimla Wali Ghee is 100% pure and natural, free from any preservatives, colors, or chemical additives." data-hi="शून्य। शिमला वाली घी 100% शुद्ध और प्राकृतिक है।">Zero. Shimla Wali Ghee is 100% pure and natural, free from any preservatives, colors, or chemical additives.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+    <!-- Site Ultra-Compact Footer -->
+    <!-- Site Ultra-Compact Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-compact-row">
+        <!-- Brand & Tagline -->
+        <div class="footer-brand-box">
+          <span class="footer-brand-name">Shimla Wali</span>
+          <span class="footer-brand-tagline">From Our Hills To Your Home &bull; Pure &bull; Local &bull; Natural</span>
+        </div>
+
+        <!-- Quick Links (Inline) -->
+        <div class="footer-nav-inline">
+          <a href="index.html">Home</a>
+          <span class="f-dot">&bull;</span>
+          <a href="shop.html">Shop All</a>
+          <span class="f-dot">&bull;</span>
+          <a href="about.html">Our Story</a>
+          <span class="f-dot">&bull;</span>
+          <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer">Instagram (@shimla_wali08)</a>
+          <span class="f-dot">&bull;</span>
+          <a href="verify.html">Our Promise</a>
+          <span class="f-dot">&bull;</span>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <!-- Help Pill -->
+        <div class="footer-action-box">
+          <a href="https://wa.me/917018168156?text=Hello%20Shimla%20Wali,%20I%20want%20to%20order%20pure%20mountain%20products." 
+             class="footer-wa-card" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             aria-label="Contact Shimla Wali Care on WhatsApp">
+            <div class="footer-wa-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.15.11-3.69-.94-2.17-.9-3.57-3.11-3.68-3.26-.11-.15-.88-1.17-.88-2.23 0-1.06.56-1.58.76-1.8.2-.22.44-.28.59-.28.15 0 .3 0 .43.01.14.01.32-.05.5.39.19.46.65 1.58.71 1.7.06.12.1.26.02.42-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.25.25-.11.49.14.24.63 1.04 1.35 1.68.93.83 1.71 1.09 1.95 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26z"/>
+              </svg>
+            </div>
+            <div class="footer-wa-text">
+              <span class="f-wa-title" data-en="Need Help?" data-hi="सहायता?">Need Help?</span>
+              <span class="f-wa-sub" data-en="Chat with us" data-hi="चैट करें">Chat with us</span>
+            </div>
+            <div class="footer-wa-arrow">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Bottom Line: Copyright & Admin -->
+      <div class="footer-bottom">
+        <div data-brand-copy>&copy; 2026 Shimla Wali. All Rights Reserved. &bull; Himachal Pradesh</div>
+        <div class="footer-admin-wrap">
+          <a href="admin.html" class="footer-admin-link" title="Admin Portal">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Admin</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modern Atelier-Style Shopping Bag Drawer -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')"></div>
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h2 class="cart-drawer-main-title">YOUR BAG</h2>
+      <button id="close-cart-btn" class="nav-round-btn cart-close-btn" aria-label="Close Bag" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cart-drawer-body"></div>
+  </div>
+
+  <!-- Full-Screen Atelier-Style Slide-Out Navigation Drawer -->
+  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer ? window.closeNavDrawer() : document.getElementById('nav-drawer').classList.remove('active')"></div>
+  <div id="nav-drawer" class="nav-drawer-card">
+    <div class="nav-drawer-header">
+      <div class="drawer-brand-title">Shimla Wali</div>
+      <button id="nav-drawer-close" class="nav-round-btn drawer-close-btn" aria-label="Close Menu" onclick="window.closeNavDrawer ? window.closeNavDrawer() : document.getElementById('nav-drawer').classList.remove('active')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Clean Normal Profile Card -->
+    <div class="drawer-vip-card" onclick="location.href='index.html#shop-collection'">
+      <div class="vip-user-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </div>
+      <div class="vip-info">
+        <div class="vip-title">My Profile & Orders</div>
+        <div class="vip-sub">Track orders & account details &rarr;</div>
+      </div>
+    </div>
+
+    <div class="drawer-section-label">NAVIGATION</div>
+    <div class="drawer-nav-list">
+      <a href="index.html" class="drawer-nav-item"><span class="d-item-text">LATEST DROPS (A2 GHEE)</span></a>
+      <a href="product.html?size=500ml" class="drawer-nav-item item-highlight"><span class="d-item-text">FEATURED DROP (500ML)</span><span class="drawer-badge-purple">POPULAR</span></a>
+      <a href="about.html" class="drawer-nav-item"><span class="d-item-text">OUR BILONA HERITAGE</span></a>
+      <a href="verify.html" class="drawer-nav-item"><span class="d-item-text">OUR PROMISE & VERIFY</span></a>
+      <a href="contact.html" class="drawer-nav-item"><span class="d-item-text">CONTACT CARE & DISPATCH</span></a>
+    </div>
+
+    <div class="drawer-section-label" style="margin-top: 24px;">ASSISTANCE & POLICIES</div>
+    <div class="drawer-grid-buttons">
+      <a href="contact.html" class="drawer-pill-btn"><span>7-Day Return</span></a>
+      <a href="contact.html" class="drawer-pill-btn"><span>Shipping/COD</span></a>
+      <a href="verify.html" class="drawer-pill-btn"><span>Lab Reports</span></a>
+      <a href="https://wa.me/917018168156" target="_blank" class="drawer-pill-btn"><span>WhatsApp</span></a>
+    </div>
+
+    <!-- Language Toggle -->
+    <div class="lang-toggle-wrap">
+      <span class="lang-toggle-label">Language</span>
+      <div class="lang-toggle-btns">
+        <button class="lang-btn active" id="lang-en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" id="lang-hi" onclick="setLanguage('hi')">हिंदी</button>
+      </div>
+    </div>
+  </div>
+
+  
+
+    
+
+
+  <script src="firebase-config.js"></script>
+  <script src="firebase-bridge.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    function renderHomeCatalogGrid(data) {
+      if (!data) return;
+      if (typeof window.applyStorefrontContent === 'function') window.applyStorefrontContent(data);
+      const grid = document.getElementById('dynamic-product-grid');
+      if (grid && data.products && typeof window.buildProductCardHTML === 'function') {
+        const visible = data.products.filter(p => p.visible !== false);
+        const countEl = document.querySelector('.archive-filter-pill span');
+        if (countEl) countEl.textContent = `View All (${visible.length})`;
+        grid.innerHTML = visible.length > 0
+          ? visible.map(p => window.buildProductCardHTML(p)).join('')
+          : '<div style="grid-column:1/-1;text-align:center;padding:32px;color:#64748b;">No active products currently listed.</div>';
+      }
+    }
+
+    function filterCategoryDrops(category, element) {
+      document.querySelectorAll('.category-story-item').forEach(el => el.classList.remove('active'));
+      if (element) element.classList.add('active');
+      const cards = document.querySelectorAll('.m-product-card');
+      cards.forEach(card => {
+        const title = card.querySelector('.m-card-title')?.textContent.toLowerCase() || '';
+        const variant = card.querySelector('.m-variant-pill')?.textContent.toLowerCase() || '';
+        if (category === 'all') { card.style.display = 'flex'; card.style.opacity = '1'; }
+        else if (category === '1000ml') { card.style.display = (title.includes('1000ml') || title.includes('1l')) ? 'flex' : 'none'; card.style.opacity = '1'; }
+        else if (category === '250ml') { card.style.display = (title.includes('250ml') || title.includes('trial')) ? 'flex' : 'none'; card.style.opacity = '1'; }
+        else if (category === 'danedar') { card.style.display = (title.includes('500ml') || variant.includes('wood fired') || title.includes('bilona')) ? 'flex' : 'none'; card.style.opacity = '1'; }
+        else if (category === 'bilona') { card.style.display = 'flex'; card.style.opacity = '1'; }
+      });
+    }
+
+    // ── Load dynamic catalog & CMS via shared helper in app.js ──
+    const loader = typeof window.loadStorefrontCatalog === 'function'
+      ? window.loadStorefrontCatalog()
+      : fetch('/api/products', { cache: 'no-store' }).catch(() => fetch('products.json')).then(r => r.json());
+    loader.then(renderHomeCatalogGrid).catch(() => {});
+    if (typeof window.onStorefrontUpdate === 'function') window.onStorefrontUpdate(renderHomeCatalogGrid);
+  </script>
+</body>
+
+</html>
+

@@ -1,0 +1,17 @@
+{
+  "payments": [
+    {
+      "paymentId": "PAY-MWCG1BRQ-1D84",
+      "orderId": "SW-ORD-1001",
+      "amount": 1468,
+      "paymentMethod": "ONLINE",
+      "type": "collection",
+      "paymentStatus": "paid",
+      "transactionReference": "",
+      "verifiedBy": "admin:Owner",
+      "verifiedAt": "2026-11-11T18:19:34.742Z",
+      "notes": "",
+      "createdAt": "2026-11-11T18:19:34.742Z"
+    }
+  ]
+}

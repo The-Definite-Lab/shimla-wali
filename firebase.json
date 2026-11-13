@@ -1,0 +1,50 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "firestore.rules",
+      "firestore.indexes.json",
+      "**/.*",
+      "**/node_modules/**",
+      "db/**",
+      "server/**",
+      "scripts/**",
+      "tests/**",
+      "scratch/**",
+      "uploads/**",
+      "server.js",
+      "package.json",
+      "package-lock.json",
+      "package-lock.json",
+      "*.zip",
+      "*.exe",
+      "*.ps1",
+      "*.log",
+      "*.secret",
+      "AUDIT_*.md",
+      ".env*",
+      ".session*",
+      "cloudflared*"
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(html|json|js|css)",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, max-age=0, must-revalidate" }
+        ]
+      },
+      {
+        "source": "images/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=604800" }
+        ]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>My Profile & Orders | Shimla Wali</title>
+  <meta name="description" content="Sign in with your mobile number for 1-Tap ordering, saved delivery addresses, and Shimla Wali order tracking." />
+  <link rel="icon" href="./images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .profile-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 14px 80px;
+    }
+    .profile-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    }
+    .profile-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #0f172a;
+      color: #4ade80;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+    .profile-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .profile-sub {
+      font-size: 0.84rem;
+      color: #64748b;
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+    .p-benefits-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .p-benefit-pill {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #334155;
+    }
+    .p-form-group { margin-bottom: 12px; }
+    .p-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #475569;
+      margin-bottom: 5px;
+    }
+    .p-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 0.9rem;
+      color: #0f172a;
+      outline: none;
+    }
+    .p-input:focus {
+      background: #ffffff;
+      border-color: #d4af37;
+    }
+    .p-phone-group {
+      display: flex;
+      align-items: center;
+      height: 44px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+    .p-phone-group:focus-within {
+      background: #ffffff;
+      border-color: #d4af37;
+    }
+    .p-phone-prefix {
+      padding: 0 12px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      border-right: 1px solid #cbd5e1;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #475569;
+    }
+    .p-phone-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      height: 100%;
+      padding: 0 12px;
+      font-size: 0.92rem;
+      color: #0f172a;
+      outline: none;
+    }
+    .p-btn-primary {
+      width: 100%;
+      height: 46px;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #facc15;
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .p-btn-gold {
+      width: 100%;
+      height: 46px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #d4af37, #b48529);
+      color: #0f172a;
+      font-weight: 800;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .p-user-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .p-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #0f172a;
+      color: #facc15;
+      font-weight: 800;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .p-logout-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #fecaca;
+      background: #fef2f2;
+      color: #dc2626;
+      font-size: 0.74rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .order-item-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+      background: #f8fafc;
+    }
+    .order-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .order-ref { font-size: 0.8rem; font-weight: 800; color: #0f172a; }
+    .order-status-pill {
+      background: #0f172a;
+      color: #4ade80;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .order-items-txt { font-size: 0.78rem; color: #475569; margin-bottom: 8px; line-height: 1.4; }
+    .order-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #e2e8f0;
+    }
+    .order-reorder-btn {
+      background: #0f172a;
+      color: #facc15;
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .order-wa-link {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #059669;
+    }
+    .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 480px) { .grid-2col { grid-template-columns: 1fr; } }
+
+    body.dark-theme .profile-card { background: #111827; border-color: #1e293b; }
+    body.dark-theme .profile-title,
+    body.dark-theme .order-ref { color: #f8fafc; }
+    body.dark-theme .profile-sub,
+    body.dark-theme .order-items-txt { color: #94a3b8; }
+    body.dark-theme .p-benefit-pill,
+    body.dark-theme .order-item-card { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+    body.dark-theme .p-input,
+    body.dark-theme .p-phone-group { background: #1e293b; border-color: #334155; color: #f8fafc; }
+    body.dark-theme .p-phone-input { color: #f8fafc; }
+    body.dark-theme .p-phone-prefix { background: #0f172a; border-color: #334155; color: #94a3b8; }
+    body.dark-theme .p-label { color: #94a3b8; }
+    body.dark-theme .order-actions { border-top-color: #334155; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-left">
+        <button class="nav-round-btn header-menu-btn" aria-label="Toggle Navigation Menu" onclick="window.openNavDrawer()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+        </button>
+        <a href="index.html" class="brand-logo-clean">
+          <img src="./images/logo.png" alt="Shimla Wali Logo" class="brand-logo-img" />
+          <span class="brand-title">Shimla Wali</span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop All</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="verify.html">Our Promise</a></li>
+          <li><a href="profile.html" class="active">My Account</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button id="cart-btn" class="nav-round-btn cart-round-btn" aria-label="Shopping Bag" onclick="window.openCart()">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-wrap">
+
+    <!-- STEP A: Login Card (When logged out) -->
+    <div id="login-view" class="profile-card" style="display:none;">
+      <span class="profile-hero-badge">⚡ 1-Tap Express Access</span>
+      <h1 class="profile-title" data-en="Login to Shimla Wali" data-hi="शिमला वाली में लॉगिन करें">Login to Shimla Wali</h1>
+      <p class="profile-sub" data-en="Sign in with your mobile number to unlock 1-tap checkout, save your delivery address, and view orders." data-hi="1-टैप ऑर्डर, सेव्ड पता और अपने ऑर्डर देखने के लिए फ़ोन नंबर से लॉगिन करें।">
+        Sign in with your mobile number to unlock 1-tap checkout, save your delivery address, and view orders.
+      </p>
+
+      <div class="p-benefits-row">
+        <span class="p-benefit-pill">⚡ 1-Tap Order</span>
+        <span class="p-benefit-pill">📦 Order History</span>
+        <span class="p-benefit-pill">📍 Saved Address</span>
+      </div>
+
+      <form id="customer-login-form">
+        <div class="p-form-group">
+          <label class="p-label" for="login-phone" data-en="Mobile Number *" data-hi="मोबाइल नंबर *">Mobile Number *</label>
+          <div class="p-phone-group">
+            <span class="p-phone-prefix">+91</span>
+            <input type="tel" id="login-phone" class="p-phone-input" placeholder="98765 43210" maxlength="10" required />
+          </div>
+        </div>
+
+        <div class="p-form-group">
+          <label class="p-label" for="login-name" data-en="Your Full Name *" data-hi="आपका पूरा नाम *">Your Full Name *</label>
+          <input type="text" id="login-name" class="p-input" placeholder="e.g. Ananya Verma" required />
+        </div>
+
+        <div class="p-form-group">
+          <label class="p-label" for="login-verify">Returning Customer Verification (Order ID or Delivery PIN)</label>
+          <input type="text" id="login-verify" class="p-input" placeholder="Optional for new customers · e.g. SW-ORD-1001 or 171001" />
+        </div>
+
+        <button type="submit" class="p-btn-primary" data-en="Login & Continue →" data-hi="लॉगिन करें और आगे बढ़ें →">
+          Login &amp; Continue &rarr;
+        </button>
+        <div id="login-status-msg" style="color:#b91c1c;font-size:0.8rem;margin-top:8px;display:none;"></div>
+      </form>
+    </div>
+
+    <!-- STEP B: Logged In Profile + 1-Tap Address + My Orders -->
+    <div id="account-view" style="display:none;">
+      <div class="profile-card">
+        <div class="p-user-top">
+          <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+            <div class="p-avatar" id="acc-avatar">SW</div>
+            <div style="min-width:0;">
+              <div style="font-weight:800;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="acc-name">Customer</div>
+              <div style="font-size:0.78rem;color:#64748b;font-weight:600;" id="acc-phone">+91</div>
+            </div>
+          </div>
+          <button type="button" class="p-logout-btn" onclick="doCustomerLogout()" data-en="Logout" data-hi="लॉगआउट">Logout</button>
+        </div>
+        <div id="acc-one-tap-cta" style="margin-top:14px;"></div>
+      </div>
+
+      <!-- Saved 1-Tap Address Card -->
+      <div class="profile-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <h2 style="font-size:1.05rem;" data-en="Saved 1-Tap Delivery Address" data-hi="1-टैप डिलीवरी पता">Saved 1-Tap Delivery Address</h2>
+          <span class="profile-hero-badge" style="margin:0;">1-Tap Sync</span>
+        </div>
+        <form id="profile-address-form">
+          <div class="p-form-group">
+            <label class="p-label" for="prof-address" data-en="Street / House Address *" data-hi="पूरा पता *">Street / House Address *</label>
+            <input type="text" id="prof-address" class="p-input" placeholder="Flat, House No, Building, Colony" required />
+          </div>
+          <div class="p-form-group">
+            <label class="p-label" for="prof-landmark" data-en="Landmark (Optional)" data-hi="पास की पहचान (वैकल्पिक)">Landmark (Optional)</label>
+            <input type="text" id="prof-landmark" class="p-input" placeholder="Near Temple, Market, Metro..." />
+          </div>
+          <div class="grid-2col">
+            <div class="p-form-group">
+              <label class="p-label" for="prof-city" data-en="City & State *" data-hi="शहर व राज्य *">City &amp; State *</label>
+              <input type="text" id="prof-city" class="p-input" placeholder="e.g. New Delhi" required />
+            </div>
+            <div class="p-form-group">
+              <label class="p-label" for="prof-pincode" data-en="PIN Code *" data-hi="पिन कोड *">PIN Code *</label>
+              <input type="text" id="prof-pincode" class="p-input" placeholder="110001" maxlength="6" required />
+            </div>
+          </div>
+          <button type="submit" class="p-btn-gold" data-en="Save 1-Tap Address" data-hi="1-टैप पता सेव करें">Save 1-Tap Address</button>
+        </form>
+      </div>
+
+      <!-- My Orders History -->
+      <div class="profile-card">
+        <h2 style="font-size:1.05rem;margin-bottom:4px;" data-en="My Orders" data-hi="मेरे ऑर्डर्स">My Orders</h2>
+        <p style="font-size:0.78rem;color:#64748b;margin-bottom:8px;" data-en="Tap Reorder for instant 1-tap checkout" data-hi="तुरंत दोबारा मंगाने के लिए Reorder दबाएँ">Tap Reorder for instant 1-tap checkout</p>
+        <div id="orders-list-wrap"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Shared Shopping Bag & Nav Drawers -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay" onclick="window.closeCart()"></div>
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <h2 class="cart-drawer-main-title">YOUR BAG</h2>
+      <button id="close-cart-btn" class="nav-round-btn cart-close-btn" aria-label="Close Bag" onclick="window.closeCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cart-drawer-body"></div>
+  </div>
+
+  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer()"></div>
+  <div id="nav-drawer" class="nav-drawer-card"></div>
+
+  <script src="firebase-config.js"></script>
+  <script src="firebase-bridge.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let serverOrders = [];
+
+    function esc(s) {
+      return typeof window.escapeHtml === 'function' ? window.escapeHtml(s) : String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function getSavedProfile() {
+      try { return JSON.parse(localStorage.getItem('shimla_user_profile') || 'null'); } catch (e) { return null; }
+    }
+
+    function formatOrderStatusLabel(st) {
+      const map = {
+        pending_whatsapp: 'Pending WhatsApp Confirmation',
+        confirmed: 'Confirmed',
+        processing: 'Processing Batch',
+        ready_for_dispatch: 'Ready for Dispatch',
+        dispatched: 'Dispatched',
+        delivered: 'Delivered',
+        cancelled: 'Cancelled',
+        return_requested: 'Return Requested',
+        return_approved: 'Return Approved',
+        return_received: 'Return Received',
+        return_inspected: 'Return Inspected'
+      };
+      return map[st] || st || 'Pending';
+    }
+
+    async function fetchServerCustomerOrders() {
+      const profile = getSavedProfile() || {};
+      const headers = {};
+      if (profile.customerToken) headers['X-Customer-Token'] = profile.customerToken;
+      try {
+        const res = await fetch('/api/customer/orders', { headers });
+        if (!res.ok) return [];
+        const data = await res.json();
+        if (data.ok && data.customer) {
+          localStorage.setItem('shimla_user_profile', JSON.stringify({
+            ...profile,
+            name: profile.name || data.customer.name,
+            address: profile.address || data.customer.defaultAddress || '',
+            landmark: profile.landmark || data.customer.landmark || '',
+            city: profile.city || data.customer.city || '',
+            pincode: profile.pincode || data.customer.pincode || '',
+            loggedIn: true
+          }));
+        }
+        return data.orders || [];
+      } catch {
+        return [];
+      }
+    }
+
+    async function renderProfilePage() {
+      const profile = getSavedProfile();
+      const isLoggedIn = profile && profile.loggedIn && profile.phone;
+      const loginView = document.getElementById('login-view');
+      const accountView = document.getElementById('account-view');
+
+      if (!isLoggedIn) {
+        loginView.style.display = 'block';
+        accountView.style.display = 'none';
+        if (profile && profile.phone) document.getElementById('login-phone').value = profile.phone;
+        if (profile && profile.name) document.getElementById('login-name').value = profile.name;
+        return;
+      }
+
+      loginView.style.display = 'none';
+      accountView.style.display = 'block';
+
+      serverOrders = await fetchServerCustomerOrders();
+      const updatedProf = getSavedProfile() || profile;
+
+      const name = updatedProf.name || ((window.__shimlaBrandName || 'Shimla Wali') + ' Customer');
+      document.getElementById('acc-avatar').textContent = name.trim().slice(0, 2).toUpperCase();
+      document.getElementById('acc-name').textContent = name;
+      document.getElementById('acc-phone').textContent = '+91 ' + updatedProf.phone;
+
+      document.getElementById('prof-address').value = updatedProf.address || '';
+      document.getElementById('prof-landmark').value = updatedProf.landmark || '';
+      document.getElementById('prof-city').value = updatedProf.city || '';
+      document.getElementById('prof-pincode').value = updatedProf.pincode || '';
+
+      const cart = JSON.parse(localStorage.getItem('shimla_cart') || '[]');
+      const ctaWrap = document.getElementById('acc-one-tap-cta');
+      if (cart.length > 0) {
+        const sub = cart.reduce((s, item) => s + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
+        ctaWrap.innerHTML = `<button type="button" class="p-btn-gold" onclick="location.href='checkout.html'">⚡ 1-Tap Checkout Bag (₹${sub.toLocaleString('en-IN')}) &rarr;</button>`;
+      } else {
+        ctaWrap.innerHTML = `<button type="button" class="p-btn-primary" onclick="location.href='shop.html'">Explore Fresh Mountain Batches &rarr;</button>`;
+      }
+
+      renderOrdersList();
+      if (typeof window.refreshDrawerAuthCard === 'function') window.refreshDrawerAuthCard();
+    }
+
+    function renderOrdersList() {
+      const wrap = document.getElementById('orders-list-wrap');
+      if (!serverOrders.length) {
+        wrap.innerHTML = `<div style="padding:18px;text-align:center;color:#94a3b8;font-size:0.84rem;">No verified orders placed for this account yet.</div>`;
+        return;
+      }
+      const waNum = window.__shimlaWhatsAppNumber || '917018168156';
+      wrap.innerHTML = serverOrders.map((o, idx) => {
+        const summary = (o.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel}) × ${i.quantity}`).join(', ');
+        const dateLabel = o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+        const ship = o.shippingDetails || {};
+        const safeTrackUrl = ship.trackingUrl && /^https?:\/\//i.test(ship.trackingUrl) ? ship.trackingUrl : '';
+        const trackInfo = (ship.trackingId || ship.courier || ship.expectedDeliveryText)
+          ? `<div style="font-size:0.74rem;color:#315d43;margin-top:4px;">Tracking: <strong>${esc(ship.courier || 'Courier')}</strong>${ship.trackingId ? ' · ' + esc(ship.trackingId) : ''}${ship.expectedDeliveryText ? ' · ETA: ' + esc(ship.expectedDeliveryText) : ''}${safeTrackUrl ? ` <a href="${esc(safeTrackUrl)}" target="_blank" rel="noopener noreferrer" style="color:#059669;font-weight:700;text-decoration:underline;margin-left:4px;">Track Parcel ↗</a>` : ''}</div>`
+          : '';
+        return `
+          <div class="order-item-card">
+            <div class="order-top-row">
+              <span class="order-ref">${esc(o.orderId)} &bull; ${esc(dateLabel)}</span>
+              <span class="order-status-pill">${esc(formatOrderStatusLabel(o.orderStatus))} &bull; ₹${(Number(o.grandTotal) || 0).toLocaleString('en-IN')}</span>
+            </div>
+            <div class="order-items-txt">${esc(summary || 'Mountain Harvest Order')}</div>
+            <div style="font-size:0.74rem;color:#64748b;margin-top:2px;">Payment: <strong>${esc(o.paymentMethod)}</strong> (${esc(o.paymentStatus)})</div>
+            ${trackInfo}
+            <div class="order-actions">
+              <button type="button" class="order-reorder-btn" onclick="oneTapReorder(${idx})">⚡ 1-Tap Reorder</button>
+              <a href="https://wa.me/${waNum}?text=${encodeURIComponent('Hi Shimla Wali, checking status of order ' + o.orderId)}" target="_blank" class="order-wa-link">Track on WhatsApp &rarr;</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function oneTapReorder(orderIdx) {
+      const o = serverOrders[orderIdx];
+      if (o && o.itemsSnapshot && o.itemsSnapshot.length > 0) {
+        const rebuilt = o.itemsSnapshot.map(i => ({
+          id: i.sku || i.productId,
+          productId: i.productId,
+          sku: i.sku,
+          name: i.productName,
+          size: i.variantLabel,
+          variety: i.variety || '',
+          price: i.unitPrice,
+          image: i.image,
+          quantity: i.quantity
+        }));
+        localStorage.setItem('shimla_cart', JSON.stringify(rebuilt));
+        window.location.href = 'checkout.html';
+      }
+    }
+
+    async function doCustomerLogout() {
+      await fetch('/api/customer/logout', { method: 'POST' }).catch(() => {});
+      const profile = getSavedProfile() || {};
+      profile.loggedIn = false;
+      delete profile.customerToken;
+      localStorage.setItem('shimla_user_profile', JSON.stringify(profile));
+      serverOrders = [];
+      renderProfilePage();
+    }
+
+    document.getElementById('customer-login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = document.getElementById('login-phone').value.replace(/\D/g, '').slice(-10);
+      const name = document.getElementById('login-name').value.trim();
+      const verifyVal = (document.getElementById('login-verify')?.value || '').trim();
+      const msgEl = document.getElementById('login-status-msg');
+      if (msgEl) msgEl.style.display = 'none';
+
+      if (phone.length < 10) {
+        if (msgEl) { msgEl.textContent = 'Please enter a valid 10-digit mobile number.'; msgEl.style.display = 'block'; }
+        return;
+      }
+
+      const payload = { phone, name };
+      if (verifyVal.toUpperCase().startsWith('SW-ORD')) payload.orderId = verifyVal.toUpperCase();
+      else if (/^\d{6}$/.test(verifyVal)) payload.pincode = verifyVal;
+
+      try {
+        const res = await fetch('/api/customer/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          if (msgEl) { msgEl.textContent = data.error || 'Verification required'; msgEl.style.display = 'block'; }
+          return;
+        }
+        const prev = getSavedProfile() || {};
+        localStorage.setItem('shimla_user_profile', JSON.stringify({
+          ...prev,
+          phone,
+          name: name || data.customer?.name || prev.name || 'Customer',
+          address: data.customer?.defaultAddress || prev.address || '',
+          pincode: data.customer?.pincode || prev.pincode || '',
+          city: data.customer?.city || prev.city || '',
+          customerToken: data.customerToken,
+          loggedIn: true
+        }));
+        renderProfilePage();
+      } catch {
+        if (msgEl) { msgEl.textContent = 'Unable to connect to store server.'; msgEl.style.display = 'block'; }
+      }
+    });
+
+    document.getElementById('profile-address-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const prev = getSavedProfile() || {};
+      localStorage.setItem('shimla_user_profile', JSON.stringify({
+        ...prev,
+        address: document.getElementById('prof-address').value.trim(),
+        landmark: document.getElementById('prof-landmark').value.trim(),
+        city: document.getElementById('prof-city').value.trim(),
+        pincode: document.getElementById('prof-pincode').value.trim(),
+        loggedIn: true
+      }));
+      alert('1-Tap Delivery Address saved successfully!');
+      renderProfilePage();
+    });
+
+    document.addEventListener('DOMContentLoaded', renderProfilePage);
+  </script>
+</body>
+</html>
