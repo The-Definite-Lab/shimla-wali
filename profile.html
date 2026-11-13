@@ -220,42 +220,19 @@
       transform: translateY(-1px);
     }
 
-    /* Luxury Explore Mountain Batches Button */
-    .p-btn-luxury-action {
-      width: 100%;
-      height: 50px;
-      margin-top: 16px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #0d2818 0%, #163e26 50%, #0f172a 100%);
-      border: 1.5px solid #d4af37;
-      color: #fef08a;
-      font-family: inherit;
-      font-size: 0.94rem;
-      font-weight: 800;
-      letter-spacing: 0.03em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(13, 40, 24, 0.28);
-      transition: all 0.2s ease;
-    }
-    .p-btn-luxury-action:hover {
-      background: linear-gradient(135deg, #133b22 0%, #1c4e30 50%, #1e293b 100%);
-      border-color: #facc15;
-      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.32);
-      transform: translateY(-1px);
-      color: #ffffff;
-    }
-
-    /* Logged In Header */
+    /* Logged In User Card & Header */
     .p-user-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .p-user-info-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      flex: 1;
     }
     .p-avatar {
       width: 52px;
@@ -277,40 +254,95 @@
       height: 100%;
       object-fit: cover;
     }
+    .p-user-meta {
+      min-width: 0;
+      flex: 1;
+    }
+    .p-user-name-row {
+      font-weight: 800;
+      font-size: 1.18rem;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.3;
+    }
+    .p-user-name-row span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+    .verified-badge-rosette {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .p-user-contact-row {
+      font-size: 0.82rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .contact-sep {
+      color: #cbd5e1;
+      font-size: 0.75rem;
+    }
     .p-hdr-actions {
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-shrink: 0;
     }
     .p-edit-prof-btn {
-      padding: 7px 14px;
+      padding: 8px 14px;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
       background: #f8fafc;
       color: #334155;
-      font-size: 0.76rem;
-      font-weight: 800;
+      font-size: 0.78rem;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.16s ease;
     }
     .p-edit-prof-btn:hover {
       background: #f1f5f9;
       border-color: #94a3b8;
+      color: #0f172a;
     }
     .p-logout-btn {
-      padding: 7px 14px;
+      padding: 8px 14px;
       border-radius: 8px;
       border: 1px solid #fecaca;
       background: #fef2f2;
       color: #dc2626;
-      font-size: 0.76rem;
-      font-weight: 800;
+      font-size: 0.78rem;
+      font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.16s ease;
     }
     .p-logout-btn:hover {
       background: #fee2e2;
+      border-color: #f87171;
     }
 
     /* Order History */
@@ -345,6 +377,25 @@
       letter-spacing: 0.02em;
     }
     .order-items-txt { font-size: 0.8rem; color: #475569; margin-bottom: 8px; line-height: 1.45; }
+    .order-track-pill {
+      font-size: 0.74rem;
+      color: #1e3a2b;
+      margin-top: 6px;
+      background: #ecfdf5;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #a7f3d0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .order-ext-track-link {
+      color: #059669;
+      font-weight: 800;
+      text-decoration: underline;
+      margin-left: 4px;
+    }
     .order-actions {
       display: flex;
       align-items: center;
@@ -365,7 +416,7 @@
       border: none;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
     .order-reorder-btn:hover {
       background: #1e293b;
@@ -384,10 +435,29 @@
     }
 
     .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    @media (max-width: 480px) {
+    @media (max-width: 580px) {
       .grid-2col { grid-template-columns: 1fr; }
-      .p-user-top { flex-direction: column; align-items: flex-start; }
-      .p-hdr-actions { width: 100%; justify-content: flex-end; }
+      .p-user-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .p-user-info-group {
+        width: 100%;
+      }
+      .p-hdr-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 2px;
+      }
+      .p-edit-prof-btn, .p-logout-btn {
+        width: 100%;
+        height: 38px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+      }
     }
 
     /* Dark Theme */
@@ -406,7 +476,14 @@
     body.dark-theme .order-actions { border-top-color: #334155; }
     body.dark-theme .btn-google-sign-in { background: #1e293b; border-color: #334155; color: #f8fafc; }
     body.dark-theme .btn-google-sign-in:hover { background: #26334d; }
+    body.dark-theme .p-user-name-row { color: #f8fafc; }
+    body.dark-theme .p-user-contact-row { color: #94a3b8; }
+    body.dark-theme .contact-sep { color: #475569; }
     body.dark-theme .p-edit-prof-btn { background: #1e293b; border-color: #334155; color: #e2e8f0; }
+    body.dark-theme .p-edit-prof-btn:hover { background: #26334d; border-color: #475569; }
+    body.dark-theme .p-logout-btn { background: #3b1717; border-color: #7f1d1d; color: #fca5a5; }
+    body.dark-theme .p-logout-btn:hover { background: #4c1d1d; }
+    body.dark-theme .order-track-pill { background: #064e3b; border-color: #047857; color: #a7f3d0; }
   </style>
 </head>
 <body>
@@ -461,9 +538,18 @@
       </p>
 
       <div class="p-benefits-row">
-        <span class="p-benefit-pill">📦 Express Delivery</span>
-        <span class="p-benefit-pill">📍 Saved Address</span>
-        <span class="p-benefit-pill">📜 Order History</span>
+        <span class="p-benefit-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+          Express Delivery
+        </span>
+        <span class="p-benefit-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Saved Address
+        </span>
+        <span class="p-benefit-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          Order History
+        </span>
       </div>
 
       <!-- Google Sign In Button with Official 4-color SVG Icon -->
@@ -509,20 +595,33 @@
       <!-- User Header Card -->
       <div class="profile-card">
         <div class="p-user-top">
-          <div style="display:flex;align-items:center;gap:14px;min-width:0;">
+          <div class="p-user-info-group">
             <div class="p-avatar" id="acc-avatar">SW</div>
-            <div style="min-width:0;">
-              <div style="font-weight:800;font-size:1.22rem;color:#0f172a;display:flex;align-items:center;gap:6px;" id="acc-name-wrap">
+            <div class="p-user-meta">
+              <div class="p-user-name-row" id="acc-name-wrap">
                 <span id="acc-name">Customer</span>
                 <!-- Green Rosette Verified Tick Badge -->
-                <img src="./images/verified-green.webp" onerror="this.src='./images/verified-green.png'" alt="Verified" style="width:20px;height:20px;display:inline-block;vertical-align:middle;flex-shrink:0;" title="Verified Account" />
+                <img src="./images/verified-green.webp" onerror="this.src='./images/verified-green.png'" alt="Verified" class="verified-badge-rosette" title="Verified Account" />
               </div>
-              <div style="font-size:0.84rem;color:#64748b;font-weight:600;margin-top:3px;" id="acc-contact"></div>
+              <div class="p-user-contact-row" id="acc-contact"></div>
             </div>
           </div>
           <div class="p-hdr-actions">
-            <button type="button" class="p-edit-prof-btn" onclick="toggleProfileEditCard()" data-en="✏️ Edit Profile" data-hi="✏️ प्रोफ़ाइल बदलें">✏️ Edit</button>
-            <button type="button" class="p-logout-btn" onclick="doCustomerLogout()" data-en="Logout" data-hi="लॉगआउट">Logout</button>
+            <button type="button" class="p-edit-prof-btn" onclick="toggleProfileEditCard()" aria-label="Edit Profile">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              <span data-en="Edit Profile" data-hi="प्रोफ़ाइल बदलें">Edit Profile</span>
+            </button>
+            <button type="button" class="p-logout-btn" onclick="doCustomerLogout()" aria-label="Logout">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span data-en="Logout" data-hi="लॉगआउट">Logout</span>
+            </button>
           </div>
         </div>
 
@@ -548,9 +647,6 @@
           </div>
           <button type="button" class="p-btn-primary" style="height:42px;font-size:0.82rem;" onclick="saveProfileDetails()" data-en="Save Profile Changes" data-hi="प्रोफ़ाइल सेव करें">Save Profile Changes</button>
         </div>
-
-        <!-- Luxury Explore / Bag Action Area -->
-        <div id="acc-one-tap-cta"></div>
       </div>
 
       <!-- Clean Saved Delivery Address Card (Zero Clunky Tabs) -->
@@ -817,16 +913,80 @@
     // ── FETCH ORDERS ──
     async function fetchServerCustomerOrders() {
       const profile = getSavedProfile() || {};
+      let localOrders = [];
+      try {
+        localOrders = JSON.parse(localStorage.getItem('shimla_customer_orders') || '[]');
+        if (!Array.isArray(localOrders)) localOrders = [];
+      } catch (e) {
+        localOrders = [];
+      }
+
+      // Also check legacy order history key if present
+      try {
+        const legacy = JSON.parse(localStorage.getItem('shimla_order_history') || '[]');
+        if (Array.isArray(legacy) && legacy.length) {
+          legacy.forEach(leg => {
+            if (leg && leg.orderId && !localOrders.some(o => o.orderId === leg.orderId)) {
+              localOrders.push({
+                orderId: leg.orderId,
+                createdAt: leg.date || new Date().toISOString(),
+                grandTotal: Number(leg.total) || 0,
+                orderStatus: leg.status || 'confirmed',
+                paymentMethod: 'COD',
+                itemsSnapshot: [{ productName: leg.items || 'Himalayan Harvest Items', quantity: 1, unitPrice: leg.total, lineTotal: leg.total }]
+              });
+            }
+          });
+        }
+      } catch (e) {}
+
+      let custToken = profile.customerToken;
+      if (!custToken && profile.phone) {
+        custToken = btoa(JSON.stringify({
+          phone: profile.phone,
+          orderId: profile.lastOrderId || '',
+          pincode: profile.pincode || ''
+        }));
+      }
+
       const headers = {};
-      if (profile.customerToken) headers['X-Customer-Token'] = profile.customerToken;
+      if (custToken) headers['X-Customer-Token'] = custToken;
+
+      let fetchedOrders = [];
       try {
         const res = await fetch('/api/customer/orders', { headers });
-        if (!res.ok) return [];
-        const data = await res.json();
-        return data.orders || [];
-      } catch {
-        return [];
-      }
+        if (res.ok) {
+          const data = await res.json();
+          fetchedOrders = data.orders || [];
+        }
+      } catch (err) {}
+
+      const map = new Map();
+      fetchedOrders.forEach(o => { if (o && o.orderId) map.set(o.orderId, o); });
+      localOrders.forEach(o => {
+        if (o && o.orderId) {
+          if (map.has(o.orderId)) {
+            const s = map.get(o.orderId);
+            map.set(o.orderId, {
+              ...o,
+              ...s,
+              itemsSnapshot: (s.itemsSnapshot && s.itemsSnapshot.length) ? s.itemsSnapshot : (o.itemsSnapshot || [])
+            });
+          } else {
+            map.set(o.orderId, o);
+          }
+        }
+      });
+
+      const merged = Array.from(map.values()).sort((a, b) => {
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+      });
+
+      try {
+        if (merged.length) localStorage.setItem('shimla_customer_orders', JSON.stringify(merged));
+      } catch (e) {}
+
+      return merged;
     }
 
     // ── RENDER PROFILE PAGE ──
@@ -857,19 +1017,19 @@
       }
       document.getElementById('acc-name').textContent = name;
 
-      // Contact info rendering with phone and email
+      // Contact info rendering with phone and email using clean vector SVGs
       const contactWrap = document.getElementById('acc-contact');
       let contactParts = [];
       if (profile.phone) {
-        contactParts.push(`<span>📞 +91 ${esc(profile.phone)}</span>`);
+        contactParts.push(`<span class="contact-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>+91 ${esc(profile.phone)}</span>`);
       }
       if (profile.email) {
-        contactParts.push(`<span>✉️ ${esc(profile.email)}</span>`);
+        contactParts.push(`<span class="contact-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>${esc(profile.email)}</span>`);
       }
       if (!profile.phone && !profile.email) {
-        contactParts.push(`<span>Shimla Wali Customer</span>`);
+        contactParts.push(`<span class="contact-pill">Shimla Wali Customer</span>`);
       }
-      contactWrap.innerHTML = contactParts.join(' <span style="color:#cbd5e1;margin:0 4px;">•</span> ');
+      contactWrap.innerHTML = contactParts.join('<span class="contact-sep">•</span>');
 
       // Populate Address Form
       document.getElementById('prof-address').value = profile.address || '';
@@ -877,29 +1037,7 @@
       document.getElementById('prof-city').value = profile.city || '';
       document.getElementById('prof-pincode').value = profile.pincode || '';
 
-      // Luxury CTA Button (Zero extra tags, clean and punchy)
-      const cart = JSON.parse(localStorage.getItem('shimla_cart') || '[]');
-      const ctaWrap = document.getElementById('acc-one-tap-cta');
-      if (cart.length > 0) {
-        const sub = cart.reduce((s, item) => s + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
-        ctaWrap.innerHTML = `
-          <button type="button" class="p-btn-gold" onclick="location.href='checkout.html'">
-            <span style="font-size:1.15rem;">🛍️</span>
-            <span>Proceed to Checkout (₹${sub.toLocaleString('en-IN')})</span>
-            <span style="font-size:1.15rem;margin-left:4px;">&rarr;</span>
-          </button>
-        `;
-      } else {
-        ctaWrap.innerHTML = `
-          <button type="button" class="p-btn-luxury-action" onclick="location.href='shop.html'">
-            <span style="font-size:1.2rem;">🏔️</span>
-            <span>Explore Fresh Mountain Batches</span>
-            <span style="font-size:1.15rem;margin-left:4px;">&rarr;</span>
-          </button>
-        `;
-      }
-
-      // Load orders
+      // Load orders immediately
       serverOrders = await fetchServerCustomerOrders();
       renderOrdersList();
 
@@ -915,7 +1053,12 @@
       if (!serverOrders.length) {
         wrap.innerHTML = `
           <div style="padding:28px 14px;text-align:center;color:#94a3b8;font-size:0.86rem;background:#f8fafc;border-radius:12px;border:1px dashed #cbd5e1;">
-            <div style="font-size:1.8rem;margin-bottom:6px;">🏔️</div>
+            <div style="margin-bottom:8px;display:flex;justify-content:center;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                <path d="m3.3 7 8.7 5 8.7-5M12 22V12"/>
+              </svg>
+            </div>
             <div style="font-weight:700;color:#475569;margin-bottom:4px;">No past orders yet</div>
             <div style="font-size:0.78rem;">Fresh mountain bilona ghee and orchard walnuts await you!</div>
             <button type="button" class="p-btn-primary" style="max-width:200px;margin:12px auto 0;height:38px;font-size:0.78rem;" onclick="location.href='shop.html'">Shop Fresh Batches &rarr;</button>
@@ -926,13 +1069,15 @@
 
       const waNum = window.__shimlaWhatsAppNumber || '917018168156';
       wrap.innerHTML = serverOrders.map((o, idx) => {
-        const summary = (o.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel}) × ${i.quantity}`).join(', ');
+        const summary = (o.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel || ''}) × ${i.quantity}`).join(', ');
         const dateLabel = o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
         const ship = o.shippingDetails || {};
         const safeTrackUrl = ship.trackingUrl && /^https?:\/\//i.test(ship.trackingUrl) ? ship.trackingUrl : '';
         const trackInfo = (ship.trackingId || ship.courier || ship.expectedDeliveryText)
-          ? `<div style="font-size:0.74rem;color:#315d43;margin-top:6px;background:#ecfdf5;padding:6px 10px;border-radius:6px;border:1px solid #a7f3d0;">
-              📦 Tracking: <strong>${esc(ship.courier || 'Courier')}</strong>${ship.trackingId ? ' · ID: ' + esc(ship.trackingId) : ''}${ship.expectedDeliveryText ? ' · ETA: ' + esc(ship.expectedDeliveryText) : ''}${safeTrackUrl ? ` <a href="${esc(safeTrackUrl)}" target="_blank" rel="noopener noreferrer" style="color:#059669;font-weight:800;text-decoration:underline;margin-left:6px;">Track Parcel ↗</a>` : ''}
+          ? `<div class="order-track-pill">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="m7.5 4.27 9 5.15M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+              <span>Tracking: <strong>${esc(ship.courier || 'Courier')}</strong>${ship.trackingId ? ' · ID: ' + esc(ship.trackingId) : ''}${ship.expectedDeliveryText ? ' · ETA: ' + esc(ship.expectedDeliveryText) : ''}</span>
+              ${safeTrackUrl ? ` <a href="${esc(safeTrackUrl)}" target="_blank" rel="noopener noreferrer" class="order-ext-track-link">Track Parcel ↗</a>` : ''}
             </div>`
           : '';
 
@@ -946,8 +1091,14 @@
             <div style="font-size:0.74rem;color:#64748b;">Payment: <strong>${esc(o.paymentMethod || 'Cash on Delivery')}</strong> (${esc(o.paymentStatus || 'pending')})</div>
             ${trackInfo}
             <div class="order-actions">
-              <button type="button" class="order-reorder-btn" onclick="oneTapReorder(${idx})">⚡ Reorder</button>
-              <a href="https://wa.me/${waNum}?text=${encodeURIComponent('Hi Shimla Wali, checking status of order ' + o.orderId)}" target="_blank" class="order-wa-link">Track on WhatsApp &rarr;</a>
+              <button type="button" class="order-reorder-btn" onclick="oneTapReorder(${idx})">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                <span>Reorder</span>
+              </button>
+              <a href="https://wa.me/${waNum}?text=${encodeURIComponent('Hi Shimla Wali, checking status of order ' + o.orderId)}" target="_blank" rel="noopener noreferrer" class="order-wa-link">
+                <span>Track on WhatsApp</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+              </a>
             </div>
           </div>
         `;

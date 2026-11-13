@@ -570,7 +570,13 @@
         }
         await db.collection('orders').doc(orderId).set(sanitizeDoc(result.order));
         await syncOrderLookupDocs(db, result.order);
-        return jsonResponse({ ok: true, order: result.order }, 201);
+        const custToken = btoa(JSON.stringify({
+          phone: result.order.customerSnapshot?.phone || '',
+          orderId,
+          pincode: result.order.customerSnapshot?.pincode || ''
+        }));
+        try { sessionStorage.setItem('swa_cust_fb_sess', custToken); } catch (e) {}
+        return jsonResponse({ ok: true, order: result.order, customerToken: custToken }, 201);
       }
 
       // ── Customer Lookup Session ──
@@ -612,15 +618,26 @@
         let sess = {};
         try { sess = JSON.parse(atob(raw)); } catch { return jsonResponse({ ok: false, error: 'Invalid session' }, 401); }
         let orders = [];
+        const seen = new Set();
         if (sess.orderId) {
           const h = await sha256Hex(`${sess.phone}:${sess.orderId}`);
           const snap = await db.collection('order_lookups').doc(h).get();
-          if (snap.exists) orders = [snap.data()];
+          if (snap.exists) {
+            const ord = snap.data();
+            orders.push(ord);
+            seen.add(ord.orderId);
+          }
         }
-        if (!orders.length && /^\d{6}$/.test(sess.pincode || '')) {
+        if (/^\d{6}$/.test(sess.pincode || '')) {
           const ph = await sha256Hex(`${sess.phone}:${sess.pincode}`);
           const q = await db.collection('order_pin_lookups').doc(ph).collection('orders').get();
-          q.forEach(d => orders.push(d.data()));
+          q.forEach(d => {
+            const ord = d.data();
+            if (!seen.has(ord.orderId)) {
+              orders.push(ord);
+              seen.add(ord.orderId);
+            }
+          });
         }
         return jsonResponse({ ok: true, customer: { phone: sess.phone }, orders });
       }

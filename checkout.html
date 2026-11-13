@@ -511,8 +511,8 @@
   <!-- Main Checkout Container -->
   <main class="lux-checkout-container">
     <div id="checkout-auth-strip" style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#ffffff;border:1.5px solid #e2e8f0;border-radius:10px;padding:9px 14px;margin-bottom:14px;font-size:0.78rem;">
-      <span id="checkout-auth-label" style="color:#475569;font-weight:600;">⚡ Fast Express Checkout</span>
-      <a href="profile.html" id="checkout-auth-link" style="color:#059669;font-weight:800;text-decoration:none;white-space:nowrap;">Login / 1-Tap Profile &rarr;</a>
+      <span id="checkout-auth-label" style="color:#475569;font-weight:600;">Fast Express Checkout</span>
+      <a href="profile.html" id="checkout-auth-link" style="color:#059669;font-weight:800;text-decoration:none;white-space:nowrap;">Login / My Account &rarr;</a>
     </div>
     
     <!-- Active Checkout Form -->
@@ -1035,8 +1035,8 @@
           const lbl = document.getElementById('checkout-auth-label');
           const lnk = document.getElementById('checkout-auth-link');
           if (profile.loggedIn && profile.phone && lbl && lnk) {
-            lbl.innerHTML = `<strong style="color:#0f172a;">⚡ 1-Tap Active:</strong> ${esc(profile.name || 'Saved Customer')} (+91 ${esc(profile.phone)})`;
-            lnk.textContent = 'Manage Profile →';
+            lbl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><strong style="color:#0f172a;">${esc(profile.name || 'Customer')}</strong> <img src="./images/verified-green.webp" onerror="this.src='./images/verified-green.png'" alt="Verified" style="width:16px;height:16px;display:inline-block;vertical-align:middle;" /> (+91 ${esc(profile.phone)})</span>`;
+            lnk.textContent = 'My Account →';
           }
         }
       } catch (e) {}
@@ -1078,23 +1078,50 @@
         }
 
         const order = data.order;
-        if (document.getElementById('save-info-chk').checked) {
-          try {
-            const existing = JSON.parse(localStorage.getItem('shimla_user_profile') || '{}');
-            localStorage.setItem('shimla_user_profile', JSON.stringify({
-              ...existing,
-              name: order.customerSnapshot.name,
-              phone: order.customerSnapshot.phone,
-              address: order.customerSnapshot.address,
-              landmark: order.customerSnapshot.landmark,
-              pincode: order.customerSnapshot.pincode,
-              city: order.customerSnapshot.city,
-              customerToken: data.customerToken || existing.customerToken || '',
-              lastOrderId: order.orderId,
-              loggedIn: true
-            }));
-          } catch (err) {}
-        }
+        try {
+          // Immediately save order to customer orders list for instant visibility in My Account
+          const existingOrders = JSON.parse(localStorage.getItem('shimla_customer_orders') || '[]');
+          if (!existingOrders.some(o => o.orderId === order.orderId)) {
+            existingOrders.unshift(order);
+            localStorage.setItem('shimla_customer_orders', JSON.stringify(existingOrders));
+          }
+          const legacyOrders = JSON.parse(localStorage.getItem('shimla_order_history') || '[]');
+          if (!legacyOrders.some(o => o.orderId === order.orderId)) {
+            legacyOrders.unshift({
+              orderId: order.orderId,
+              date: order.createdAt || new Date().toISOString(),
+              total: order.grandTotal,
+              status: order.orderStatus,
+              items: (order.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel || ''}) × ${i.quantity}`).join(', ')
+            });
+            localStorage.setItem('shimla_order_history', JSON.stringify(legacyOrders.slice(0, 20)));
+          }
+
+          // Always update customer profile so returning to profile.html shows verified profile and past orders
+          const existing = JSON.parse(localStorage.getItem('shimla_user_profile') || '{}');
+          const shouldSaveAll = !document.getElementById('save-info-chk') || document.getElementById('save-info-chk').checked;
+          const custToken = data.customerToken || existing.customerToken || (order.customerSnapshot?.phone ? btoa(JSON.stringify({
+            phone: order.customerSnapshot.phone,
+            orderId: order.orderId,
+            pincode: order.customerSnapshot.pincode
+          })) : '');
+
+          const updatedProfile = {
+            ...existing,
+            lastOrderId: order.orderId,
+            customerToken: custToken,
+            loggedIn: true
+          };
+
+          if (shouldSaveAll || !existing.name) updatedProfile.name = order.customerSnapshot.name;
+          if (shouldSaveAll || !existing.phone) updatedProfile.phone = order.customerSnapshot.phone;
+          if (shouldSaveAll || !existing.address) updatedProfile.address = order.customerSnapshot.address;
+          if (shouldSaveAll || !existing.landmark) updatedProfile.landmark = order.customerSnapshot.landmark;
+          if (shouldSaveAll || !existing.pincode) updatedProfile.pincode = order.customerSnapshot.pincode;
+          if (shouldSaveAll || !existing.city) updatedProfile.city = order.customerSnapshot.city;
+
+          localStorage.setItem('shimla_user_profile', JSON.stringify(updatedProfile));
+        } catch (err) {}
 
         const itemsText = (order.itemsSnapshot || []).map(it =>
           `• ${it.productName} (${it.variantLabel}) [${it.sku}] × ${it.quantity} = ₹${it.lineTotal.toLocaleString('en-IN')}\n`
