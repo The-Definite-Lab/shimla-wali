@@ -92,6 +92,13 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
 /* ── Login Screen ────────────────────────────────────────────── */
+html.swa-has-session #login-screen {
+  display: none !important;
+}
+html.swa-has-session #admin-app.is-hidden {
+  display: flex !important;
+}
+
 .login-screen {
   min-height: 100vh;
   display: flex;

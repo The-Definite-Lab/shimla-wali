@@ -9,6 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="admin.css" />
+  <script>
+    try {
+      if (localStorage.getItem('swa_admin_token') || sessionStorage.getItem('swa_admin_token')) {
+        document.documentElement.classList.add('swa-has-session');
+      }
+    } catch(e) {}
+  </script>
 </head>
 <body>
 
@@ -1287,7 +1294,7 @@
     <div class="modal">
       <div class="modal-head"><div><h2 id="dm-title">Details</h2><p class="sub" id="dm-sub"></p></div><button type="button" class="btn sm" onclick="closeModal('detail-modal')">✕</button></div>
       <div id="dm-body"></div>
-      <div class="actions"><button type="button" class="btn primary" onclick="closeModal('detail-modal')">Close</button></div>
+      <div class="actions" id="dm-actions"><button type="button" class="btn primary" onclick="closeModal('detail-modal')">Close</button></div>
     </div>
   </div>
 

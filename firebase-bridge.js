@@ -61,11 +61,26 @@
         }
         const auth = window.firebase.auth();
         const db = window.firebase.firestore();
+        try {
+          if (auth.setPersistence && window.firebase.auth.Auth && window.firebase.auth.Auth.Persistence) {
+            await auth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
+          }
+        } catch (e) {}
         await new Promise(resolve => {
-          const unsub = auth.onAuthStateChanged(() => {
-            unsub();
-            resolve();
+          let resolved = false;
+          const unsub = auth.onAuthStateChanged(user => {
+            if (!resolved) {
+              resolved = true;
+              unsub();
+              resolve(user);
+            }
           });
+          setTimeout(() => {
+            if (!resolved) {
+              resolved = true;
+              resolve(auth.currentUser);
+            }
+          }, 2500);
         });
         return { auth, db };
       })();

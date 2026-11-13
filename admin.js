@@ -429,7 +429,19 @@ function toggleMobileSide(forceOpen) {
 
 // ── API Client (Cookie + Header Token with Auto 401 Lockout) ────
 function getStoredToken() {
-  return sessionStorage.getItem('swa_admin_token') || '';
+  return localStorage.getItem('swa_admin_token') || sessionStorage.getItem('swa_admin_token') || '';
+}
+
+function setStoredToken(token) {
+  if (token) {
+    try { localStorage.setItem('swa_admin_token', token); } catch(e) {}
+    try { sessionStorage.setItem('swa_admin_token', token); } catch(e) {}
+    try { document.documentElement.classList.add('swa-has-session'); } catch(e) {}
+  } else {
+    try { localStorage.removeItem('swa_admin_token'); } catch(e) {}
+    try { sessionStorage.removeItem('swa_admin_token'); } catch(e) {}
+    try { document.documentElement.classList.remove('swa-has-session'); } catch(e) {}
+  }
 }
 
 async function apiFetch(url, options = {}) {
@@ -444,7 +456,7 @@ async function apiFetch(url, options = {}) {
   if (contentType.includes('application/json')) {
     const data = await res.json();
     if (res.status === 401) {
-      sessionStorage.removeItem('swa_admin_token');
+      setStoredToken('');
       showLoginScreen();
       throw new Error(data.error || 'Session expired — sign in again');
     }
@@ -459,11 +471,13 @@ async function apiFetch(url, options = {}) {
 
 // ── Authentication ──────────────────────────────────────────────
 function showLoginScreen() {
+  try { document.documentElement.classList.remove('swa-has-session'); } catch(e) {}
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('admin-app').classList.add('is-hidden');
 }
 
 function showStudioApp() {
+  try { document.documentElement.classList.add('swa-has-session'); } catch(e) {}
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('admin-app').classList.remove('is-hidden');
 }
@@ -489,7 +503,7 @@ async function doLogin() {
       errEl.style.display = 'block';
       return;
     }
-    sessionStorage.setItem('swa_admin_token', data.token);
+    setStoredToken(data.token);
     document.getElementById('admin-pw').value = '';
     showStudioApp();
     await loadBootstrap();
@@ -505,7 +519,7 @@ async function doLogin() {
 
 async function doLogout() {
   try { await apiFetch('/api/admin/logout', { method: 'POST' }); } catch {}
-  sessionStorage.removeItem('swa_admin_token');
+  setStoredToken('');
   location.reload();
 }
 
@@ -2955,12 +2969,14 @@ function renderOrders() {
     } else if (['confirmed', 'processing', 'ready_for_dispatch'].includes(st)) {
       // Stage 2: Confirmed / Packaging
       const confSent = o.whatsappComms && o.whatsappComms.confirmSentAt;
-      btns.push(`<button type="button" class="btn sm ${confSent ? '' : 'primary'}" onclick="openWhatsAppSendModal('${esc(o.orderId)}','confirm')">${confSent ? '✓ WA Confirm' : 'WhatsApp Confirm'}</button>`);
       btns.push(`<button type="button" class="btn sm primary" onclick="openDispatchModal('${esc(o.orderId)}')">Mark Dispatched</button>`);
+      if (!confSent) {
+        btns.push(`<button type="button" class="btn sm" onclick="openWhatsAppSendModal('${esc(o.orderId)}','confirm')">WA Msg</button>`);
+      }
       if (!isPaid) {
         btns.push(`<button type="button" class="btn sm gold" onclick="openPaymentModal('${esc(o.orderId)}')">Payment Received</button>`);
+        btns.push(`<button type="button" class="btn sm danger" onclick="doCancelOrder('${esc(o.orderId)}')">Cancel</button>`);
       }
-      btns.push(`<button type="button" class="btn sm danger" onclick="doCancelOrder('${esc(o.orderId)}')">Cancel</button>`);
     } else if (st === 'dispatched') {
       // Stage 3: Dispatched & In Transit
       const dispSent = o.whatsappComms && o.whatsappComms.dispatchSentAt;
@@ -3576,6 +3592,14 @@ function openOrderDetails(orderId) {
     ${vHist.length ? `<div style="margin-top:12px;"><strong>Buy Verification Timeline</strong>${vHist.map(h => `<div class="item"><span><strong>${esc(h.action)}</strong> · ${esc(h.note || '')}</span><span class="tiny">${esc(fmtDateTime(h.actedAt))}</span></div>`).join('')}</div>` : ''}
     ${orderPayments.length ? `<div style="margin-top:12px;"><strong>Payment Ledger</strong>${orderPayments.map(p => `<div class="item"><span>${esc(p.paymentId)} · ${esc(p.type)} (${esc(p.paymentStatus)}) ${p.transactionReference ? '· Ref: ' + esc(p.transactionReference) : ''}</span><strong>${cash(p.amount)}</strong></div>`).join('')}</div>` : ''}
   `;
+  const actionsEl = document.getElementById('dm-actions');
+  if (actionsEl) {
+    const canCancel = !['delivered', 'cancelled', 'return_received'].includes(o.orderStatus);
+    actionsEl.innerHTML = `
+      ${canCancel ? `<button type="button" class="btn danger" onclick="closeModal('detail-modal'); doCancelOrder('${esc(o.orderId)}')">Cancel Order…</button>` : ''}
+      <button type="button" class="btn primary" onclick="closeModal('detail-modal')">Close</button>
+    `;
+  }
   openModal('detail-modal');
 }
 
