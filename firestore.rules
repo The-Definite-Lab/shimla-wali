@@ -109,6 +109,10 @@ service cloud.firestore {
       allow read: if isSignedIn() && request.auth.uid == uid;
       allow write: if isAdmin();
     }
+    // Authenticated user private profile & addresses
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
     match /customers/{custId} {
       allow read, write: if isAdmin();
     }
