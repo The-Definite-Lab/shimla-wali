@@ -441,7 +441,7 @@ window.refreshDrawerAuthCard = function() {
     }
     if (titleEl) {
       const safeName = typeof window.escapeHtml === 'function' ? window.escapeHtml(fullName) : fullName;
-      titleEl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${safeName} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;" title="Verified Account"><circle cx="12" cy="12" r="10" fill="#2563eb"/><path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+      titleEl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${safeName} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;" title="Verified Account"><circle cx="12" cy="12" r="10" fill="#059669"/><path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
       titleEl.removeAttribute('data-en');
       titleEl.removeAttribute('data-hi');
     }

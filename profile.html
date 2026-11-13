@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>My Profile & Saved Addresses | Shimla Wali</title>
-  <meta name="description" content="Sign in with Google or Mobile, manage Home & Work delivery addresses, and track your Shimla Wali orders." />
+  <title>My Profile & Saved Address | Shimla Wali</title>
+  <meta name="description" content="Sign in with Google or Mobile, manage your delivery address, and track your Shimla Wali orders." />
   <link rel="icon" href="./images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -199,17 +199,17 @@
     }
     .p-btn-gold {
       width: 100%;
-      height: 46px;
+      height: 48px;
       border-radius: 10px;
       background: linear-gradient(135deg, #d4af37, #b48529);
       color: #0f172a;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       letter-spacing: 0.03em;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
       cursor: pointer;
       border: none;
       box-shadow: 0 3px 10px rgba(180, 133, 41, 0.2);
@@ -218,6 +218,35 @@
     .p-btn-gold:hover {
       filter: brightness(1.05);
       transform: translateY(-1px);
+    }
+
+    /* Luxury Explore Mountain Batches Button */
+    .p-btn-luxury-action {
+      width: 100%;
+      height: 50px;
+      margin-top: 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0d2818 0%, #163e26 50%, #0f172a 100%);
+      border: 1.5px solid #d4af37;
+      color: #fef08a;
+      font-family: inherit;
+      font-size: 0.94rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(13, 40, 24, 0.28);
+      transition: all 0.2s ease;
+    }
+    .p-btn-luxury-action:hover {
+      background: linear-gradient(135deg, #133b22 0%, #1c4e30 50%, #1e293b 100%);
+      border-color: #facc15;
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.32);
+      transform: translateY(-1px);
+      color: #ffffff;
     }
 
     /* Logged In Header */
@@ -240,7 +269,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      border: 2px solid #d4af37;
+      border: 2px solid #059669;
       overflow: hidden;
     }
     .p-avatar img {
@@ -282,113 +311,6 @@
     }
     .p-logout-btn:hover {
       background: #fee2e2;
-    }
-
-    /* Address Tabs */
-    .addr-tabs-row {
-      display: flex;
-      gap: 8px;
-      background: #f1f5f9;
-      padding: 4px;
-      border-radius: 12px;
-      margin-bottom: 16px;
-    }
-    .addr-tab-btn {
-      flex: 1;
-      height: 38px;
-      border-radius: 8px;
-      border: none;
-      background: transparent;
-      color: #64748b;
-      font-size: 0.8rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-    .addr-tab-btn.active {
-      background: #0f172a;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
-    }
-
-    /* Ultra-Luxury Explore Card */
-    .luxury-explore-card {
-      margin-top: 16px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #0d2818 0%, #163e26 50%, #0f172a 100%);
-      border: 1.5px solid #d4af37;
-      padding: 18px 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      box-shadow: 0 6px 20px rgba(13, 40, 24, 0.25);
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .luxury-explore-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(212, 175, 55, 0.3);
-      border-color: #facc15;
-      background: linear-gradient(135deg, #123821 0%, #1c4d30 50%, #1e293b 100%);
-    }
-    .lec-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-width: 0;
-    }
-    .lec-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: rgba(212, 175, 55, 0.16);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
-    }
-    .lec-content {
-      min-width: 0;
-    }
-    .lec-tag {
-      font-size: 0.65rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #4ade80;
-      margin-bottom: 2px;
-    }
-    .lec-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #fef08a;
-      margin-bottom: 2px;
-    }
-    .lec-sub {
-      font-size: 0.74rem;
-      color: #cbd5e1;
-      line-height: 1.35;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .lec-arrow {
-      font-size: 1.3rem;
-      color: #facc15;
-      font-weight: 800;
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-    .luxury-explore-card:hover .lec-arrow {
-      transform: translateX(4px);
     }
 
     /* Order History */
@@ -466,7 +388,6 @@
       .grid-2col { grid-template-columns: 1fr; }
       .p-user-top { flex-direction: column; align-items: flex-start; }
       .p-hdr-actions { width: 100%; justify-content: flex-end; }
-      .lec-sub { white-space: normal; }
     }
 
     /* Dark Theme */
@@ -485,9 +406,6 @@
     body.dark-theme .order-actions { border-top-color: #334155; }
     body.dark-theme .btn-google-sign-in { background: #1e293b; border-color: #334155; color: #f8fafc; }
     body.dark-theme .btn-google-sign-in:hover { background: #26334d; }
-    body.dark-theme .addr-tabs-row { background: #1e293b; }
-    body.dark-theme .addr-tab-btn { color: #94a3b8; }
-    body.dark-theme .addr-tab-btn.active { background: #d4af37; color: #0f172a; }
     body.dark-theme .p-edit-prof-btn { background: #1e293b; border-color: #334155; color: #e2e8f0; }
   </style>
 </head>
@@ -538,13 +456,13 @@
     <!-- STEP A: Login Card (When logged out) -->
     <div id="login-view" class="profile-card" style="display:none;">
       <h1 class="profile-title" data-en="Sign in to Shimla Wali" data-hi="शिमला वाली में साइन इन करें">Sign in to Shimla Wali</h1>
-      <p class="profile-sub" data-en="Sign in with your Google account or mobile number for fast checkout, saved delivery addresses, and parcel tracking." data-hi="तेज़ ऑर्डर, सेव्ड पते और पार्सल ट्रैकिंग के लिए Google या फ़ोन नंबर से साइन इन करें।">
-        Sign in with your Google account or mobile number for fast checkout, saved delivery addresses, and parcel tracking.
+      <p class="profile-sub" data-en="Sign in with your Google account or mobile number for fast checkout, saved delivery address, and parcel tracking." data-hi="तेज़ ऑर्डर, सेव्ड पता और पार्सल ट्रैकिंग के लिए Google या फ़ोन नंबर से साइन इन करें।">
+        Sign in with your Google account or mobile number for fast checkout, saved delivery address, and parcel tracking.
       </p>
 
       <div class="p-benefits-row">
         <span class="p-benefit-pill">📦 Express Delivery</span>
-        <span class="p-benefit-pill">🏡 Multiple Addresses</span>
+        <span class="p-benefit-pill">📍 Saved Address</span>
         <span class="p-benefit-pill">📜 Order History</span>
       </div>
 
@@ -563,13 +481,13 @@
         <span data-en="or continue with mobile" data-hi="या फ़ोन नंबर से जारी रखें">or continue with mobile</span>
       </div>
 
-      <!-- Clean Phone Login Form -->
+      <!-- Clean Phone Login Form (Strict 10-digit Indian Mobile Validation) -->
       <form id="customer-login-form">
         <div class="p-form-group">
           <label class="p-label" for="login-phone" data-en="Mobile Number *" data-hi="मोबाइल नंबर *">Mobile Number *</label>
           <div class="p-phone-group">
             <span class="p-phone-prefix">+91</span>
-            <input type="tel" id="login-phone" class="p-phone-input" placeholder="98765 43210" maxlength="10" required />
+            <input type="tel" id="login-phone" class="p-phone-input" placeholder="98765 43210" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" required />
           </div>
         </div>
 
@@ -596,8 +514,9 @@
             <div style="min-width:0;">
               <div style="font-weight:800;font-size:1.22rem;color:#0f172a;display:flex;align-items:center;gap:6px;" id="acc-name-wrap">
                 <span id="acc-name">Customer</span>
+                <!-- Green Verified Tick Badge -->
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;" title="Verified Account">
-                  <circle cx="12" cy="12" r="10" fill="#2563eb"/>
+                  <circle cx="12" cy="12" r="10" fill="#059669"/>
                   <path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
@@ -615,14 +534,14 @@
           <h3 style="font-size:0.95rem;margin-bottom:10px;" data-en="Update Profile Details" data-hi="प्रोफ़ाइल जानकारी बदलें">Update Profile Details</h3>
           <div class="grid-2col">
             <div class="p-form-group">
-              <label class="p-label" for="edit-name" data-en="Full Name" data-hi="पूरा नाम">Full Name</label>
+              <label class="p-label" for="edit-name" data-en="Full Name *" data-hi="पूरा नाम *">Full Name *</label>
               <input type="text" id="edit-name" class="p-input" placeholder="Your Name" />
             </div>
             <div class="p-form-group">
-              <label class="p-label" for="edit-phone" data-en="Mobile Number" data-hi="मोबाइल नंबर">Mobile Number</label>
+              <label class="p-label" for="edit-phone" data-en="10-Digit Mobile Number" data-hi="10-अंकों का मोबाइल नंबर">10-Digit Mobile Number</label>
               <div class="p-phone-group">
                 <span class="p-phone-prefix">+91</span>
-                <input type="tel" id="edit-phone" class="p-phone-input" placeholder="10-digit mobile" maxlength="10" />
+                <input type="tel" id="edit-phone" class="p-phone-input" placeholder="98765 43210" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" />
               </div>
             </div>
           </div>
@@ -633,28 +552,18 @@
           <button type="button" class="p-btn-primary" style="height:42px;font-size:0.82rem;" onclick="saveProfileDetails()" data-en="Save Profile Changes" data-hi="प्रोफ़ाइल सेव करें">Save Profile Changes</button>
         </div>
 
-        <!-- Luxury Explore / Bag Action Card -->
+        <!-- Luxury Explore / Bag Action Area -->
         <div id="acc-one-tap-cta"></div>
       </div>
 
-      <!-- Multiple Saved Addresses (Home & Work) -->
+      <!-- Clean Saved Delivery Address Card (Zero Clunky Tabs) -->
       <div class="profile-card">
         <div style="margin-bottom:14px;">
-          <h2 style="font-size:1.15rem;margin-bottom:3px;" data-en="Saved Delivery Addresses" data-hi="डिलीवरी पते">Saved Delivery Addresses</h2>
-          <p style="font-size:0.8rem;color:#64748b;" data-en="Manage your Home & Work delivery addresses for quick checkout" data-hi="घर व दफ़्तर के पते मैनेज करें">Manage your Home &amp; Work delivery addresses for quick checkout</p>
+          <h2 style="font-size:1.15rem;margin-bottom:3px;" data-en="Saved Delivery Address" data-hi="डिलीवरी पता">Saved Delivery Address</h2>
+          <p style="font-size:0.8rem;color:#64748b;" data-en="Your address will be auto-filled at checkout for instant delivery" data-hi="तेज़ डिलीवरी के लिए यह पता चेकआउट पर अपने-आप भर जाएगा">Your address will be auto-filled at checkout for instant delivery</p>
         </div>
 
-        <!-- Address Type Switcher: Home vs Work -->
-        <div class="addr-tabs-row">
-          <button type="button" id="tab-home-btn" class="addr-tab-btn active" onclick="switchAddressTab('home')">
-            <span>🏡</span> <span data-en="Home Address" data-hi="घर का पता">Home Address</span>
-          </button>
-          <button type="button" id="tab-work-btn" class="addr-tab-btn" onclick="switchAddressTab('work')">
-            <span>🏢</span> <span data-en="Work / Office" data-hi="दफ़्तर / ऑफिस">Work / Office</span>
-          </button>
-        </div>
-
-        <!-- Dynamic Address Form -->
+        <!-- Clean Address Form -->
         <form id="profile-address-form">
           <div class="p-form-group">
             <label class="p-label" for="prof-address" data-en="Flat, House, Building & Street *" data-hi="मकान/फ़्लैट नं., गली व इलाका *">Flat, House, Building &amp; Street *</label>
@@ -673,17 +582,12 @@
             </div>
             <div class="p-form-group">
               <label class="p-label" for="prof-pincode" data-en="PIN Code *" data-hi="पिन कोड *">PIN Code *</label>
-              <input type="text" id="prof-pincode" class="p-input" placeholder="171001" maxlength="6" required />
+              <input type="text" id="prof-pincode" class="p-input" placeholder="171001" maxlength="6" inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 6)" required />
             </div>
           </div>
 
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-            <input type="checkbox" id="prof-set-default" checked style="width:16px;height:16px;accent-color:#d4af37;cursor:pointer;" />
-            <label for="prof-set-default" style="font-size:0.8rem;color:#334155;cursor:pointer;" data-en="Set as my primary delivery address" data-hi="इसे मुख्य डिलीवरी पता बनाएं">Set as my primary delivery address</label>
-          </div>
-
-          <button type="submit" class="p-btn-gold" id="save-addr-btn" data-en="Save Home Address" data-hi="घर का पता सेव करें">
-            Save Home Address
+          <button type="submit" class="p-btn-gold" id="save-addr-btn" data-en="Save Delivery Address" data-hi="डिलीवरी पता सेव करें">
+            Save Delivery Address
           </button>
           <div id="addr-save-feedback" style="display:none;color:#059669;font-weight:700;font-size:0.82rem;margin-top:8px;text-align:center;"></div>
         </form>
@@ -724,7 +628,6 @@
   <script src="app.js"></script>
   <script>
     let serverOrders = [];
-    let currentAddressTab = 'home'; // 'home' or 'work'
 
     function esc(s) {
       return typeof window.escapeHtml === 'function'
@@ -732,30 +635,18 @@
         : String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
+    // Strict 10-digit Indian mobile number validation
+    function isStrictIndianPhone(phoneStr) {
+      if (!phoneStr) return false;
+      const clean = String(phoneStr).trim();
+      return /^[6-9]\d{9}$/.test(clean);
+    }
+
     function getSavedProfile() {
       try {
         const raw = localStorage.getItem('shimla_user_profile');
         if (!raw) return null;
-        const parsed = JSON.parse(raw);
-        // Normalize addresses structure
-        if (!parsed.addresses) {
-          parsed.addresses = {
-            home: {
-              address: parsed.address || '',
-              landmark: parsed.landmark || '',
-              city: parsed.city || '',
-              pincode: parsed.pincode || ''
-            },
-            work: {
-              address: '',
-              landmark: '',
-              city: '',
-              pincode: ''
-            }
-          };
-        }
-        if (!parsed.activeAddressType) parsed.activeAddressType = 'home';
-        return parsed;
+        return JSON.parse(raw);
       } catch (e) {
         return null;
       }
@@ -807,30 +698,24 @@
         const user = result.user;
 
         const prevProfile = getSavedProfile() || {};
-        let homeAddr = prevProfile.addresses?.home || {
-          address: prevProfile.address || '',
-          landmark: prevProfile.landmark || '',
-          city: prevProfile.city || '',
-          pincode: prevProfile.pincode || ''
-        };
-        let workAddr = prevProfile.addresses?.work || { address: '', landmark: '', city: '', pincode: '' };
+        let savedAddr = prevProfile.address || '';
+        let savedLandmark = prevProfile.landmark || '';
+        let savedCity = prevProfile.city || '';
+        let savedPincode = prevProfile.pincode || '';
 
-        // Attempt to load existing profile doc from Firestore if user previously saved
+        // Load profile doc from Firestore if user previously saved
         if (db && user.uid) {
           try {
             const userDocSnap = await db.collection('users').doc(user.uid).get();
             if (userDocSnap.exists) {
               const data = userDocSnap.data();
-              if (data.addresses?.home?.address) homeAddr = data.addresses.home;
-              if (data.addresses?.work?.address) workAddr = data.addresses.work;
+              if (data.address) savedAddr = data.address;
+              if (data.landmark) savedLandmark = data.landmark;
+              if (data.city) savedCity = data.city;
+              if (data.pincode) savedPincode = data.pincode;
             }
-          } catch (e) {
-            // Non-blocking Firestore lookup
-          }
+          } catch (e) {}
         }
-
-        const activeType = prevProfile.activeAddressType || 'home';
-        const activeAddr = activeType === 'work' ? workAddr : homeAddr;
 
         const updated = {
           ...prevProfile,
@@ -841,15 +726,10 @@
           phone: prevProfile.phone || user.phoneNumber?.replace(/\D/g, '').slice(-10) || '',
           authProvider: 'google',
           loggedIn: true,
-          activeAddressType: activeType,
-          addresses: {
-            home: homeAddr,
-            work: workAddr
-          },
-          address: activeAddr.address || '',
-          landmark: activeAddr.landmark || '',
-          city: activeAddr.city || '',
-          pincode: activeAddr.pincode || ''
+          address: savedAddr,
+          landmark: savedLandmark,
+          city: savedCity,
+          pincode: savedPincode
         };
 
         saveProfileToStorage(updated);
@@ -876,41 +756,6 @@
       }
     }
 
-    // ── ADDRESS TABS & SWITCHING ──
-    function switchAddressTab(type) {
-      currentAddressTab = type;
-      const tabHome = document.getElementById('tab-home-btn');
-      const tabWork = document.getElementById('tab-work-btn');
-      const saveBtn = document.getElementById('save-addr-btn');
-      const lang = localStorage.getItem('shimla-lang') || 'en';
-
-      if (type === 'home') {
-        tabHome.classList.add('active');
-        tabWork.classList.remove('active');
-        saveBtn.textContent = lang === 'hi' ? 'घर का पता सेव करें' : 'Save Home Address';
-      } else {
-        tabWork.classList.add('active');
-        tabHome.classList.remove('active');
-        saveBtn.textContent = lang === 'hi' ? 'दफ़्तर का पता सेव करें' : 'Save Work / Office Address';
-      }
-
-      loadAddressIntoForm(type);
-    }
-
-    function loadAddressIntoForm(type) {
-      const profile = getSavedProfile();
-      if (!profile) return;
-      const addrData = profile.addresses?.[type] || {};
-
-      document.getElementById('prof-address').value = addrData.address || '';
-      document.getElementById('prof-landmark').value = addrData.landmark || '';
-      document.getElementById('prof-city').value = addrData.city || '';
-      document.getElementById('prof-pincode').value = addrData.pincode || '';
-
-      const isDefault = profile.activeAddressType === type;
-      document.getElementById('prof-set-default').checked = isDefault;
-    }
-
     // ── PROFILE EDITING ──
     function toggleProfileEditCard() {
       const drawer = document.getElementById('profile-edit-drawer');
@@ -926,21 +771,26 @@
 
     async function saveProfileDetails() {
       const name = document.getElementById('edit-name').value.trim();
-      const phone = document.getElementById('edit-phone').value.replace(/\D/g, '').slice(-10);
+      const phoneInput = document.getElementById('edit-phone').value.trim();
       const email = document.getElementById('edit-email').value.trim();
 
       if (!name) {
-        alert('Please enter your name.');
+        alert('कृपया अपना नाम दर्ज करें (Please enter your name).');
         return;
       }
-      if (phone && phone.length < 10) {
-        alert('Please enter a valid 10-digit mobile number.');
-        return;
+
+      // Strict 10-digit mobile validation
+      if (phoneInput) {
+        if (!isStrictIndianPhone(phoneInput)) {
+          alert('कृपया 10-अंकों का मान्य भारतीय मोबाइल नंबर दर्ज करें (उदा. 9876543210)। केवल अंक स्वीकार्य हैं, कोई अक्षर या शब्द नहीं।');
+          document.getElementById('edit-phone').focus();
+          return;
+        }
       }
 
       const p = getSavedProfile() || {};
       p.name = name;
-      if (phone) p.phone = phone;
+      if (phoneInput) p.phone = phoneInput;
       if (email) p.email = email;
 
       saveProfileToStorage(p);
@@ -953,7 +803,10 @@
             name: p.name,
             phone: p.phone || '',
             email: p.email || '',
-            addresses: p.addresses || {},
+            address: p.address || '',
+            landmark: p.landmark || '',
+            city: p.city || '',
+            pincode: p.pincode || '',
             updatedAt: new Date().toISOString()
           }, { merge: true });
         } catch (e) {}
@@ -961,7 +814,7 @@
 
       toggleProfileEditCard();
       renderProfilePage();
-      alert('Profile details updated successfully!');
+      alert('प्रोफ़ाइल जानकारी सफलतापूर्वक सेव हो गई है! (Profile updated successfully!)');
     }
 
     // ── FETCH ORDERS ──
@@ -1021,40 +874,31 @@
       }
       contactWrap.innerHTML = contactParts.join(' <span style="color:#cbd5e1;margin:0 4px;">•</span> ');
 
-      // Load active address into form
-      switchAddressTab(profile.activeAddressType || 'home');
+      // Populate Address Form
+      document.getElementById('prof-address').value = profile.address || '';
+      document.getElementById('prof-landmark').value = profile.landmark || '';
+      document.getElementById('prof-city').value = profile.city || '';
+      document.getElementById('prof-pincode').value = profile.pincode || '';
 
-      // Luxury CTA button
+      // Luxury CTA Button (Zero extra tags, clean and punchy)
       const cart = JSON.parse(localStorage.getItem('shimla_cart') || '[]');
       const ctaWrap = document.getElementById('acc-one-tap-cta');
       if (cart.length > 0) {
         const sub = cart.reduce((s, item) => s + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
         ctaWrap.innerHTML = `
-          <div class="luxury-explore-card" onclick="location.href='checkout.html'">
-            <div class="lec-left">
-              <div class="lec-icon">🛍️</div>
-              <div class="lec-content">
-                <div class="lec-tag">Items in Bag (${cart.length})</div>
-                <div class="lec-title">Proceed to Checkout (₹${sub.toLocaleString('en-IN')}) &rarr;</div>
-                <div class="lec-sub">Your delivery details will be auto-filled for instant order</div>
-              </div>
-            </div>
-            <div class="lec-arrow">&rarr;</div>
-          </div>
+          <button type="button" class="p-btn-gold" onclick="location.href='checkout.html'">
+            <span style="font-size:1.15rem;">🛍️</span>
+            <span>Proceed to Checkout (₹${sub.toLocaleString('en-IN')})</span>
+            <span style="font-size:1.15rem;margin-left:4px;">&rarr;</span>
+          </button>
         `;
       } else {
         ctaWrap.innerHTML = `
-          <div class="luxury-explore-card" onclick="location.href='shop.html'">
-            <div class="lec-left">
-              <div class="lec-icon">🏔️</div>
-              <div class="lec-content">
-                <div class="lec-tag">Shimla Mountain Harvest</div>
-                <div class="lec-title">Explore Fresh Mountain Batches &rarr;</div>
-                <div class="lec-sub">Pure A2 Bilona Desi Ghee • Thin-shelled Kagzi Walnuts • Wild Honey</div>
-              </div>
-            </div>
-            <div class="lec-arrow">&rarr;</div>
-          </div>
+          <button type="button" class="p-btn-luxury-action" onclick="location.href='shop.html'">
+            <span style="font-size:1.2rem;">🏔️</span>
+            <span>Explore Fresh Mountain Batches</span>
+            <span style="font-size:1.15rem;margin-left:4px;">&rarr;</span>
+          </button>
         `;
       }
 
@@ -1146,17 +990,21 @@
       if (typeof window.refreshDrawerAuthCard === 'function') window.refreshDrawerAuthCard();
     }
 
-    // ── FORM SUBMIT: Phone Login ──
+    // ── FORM SUBMIT: Phone Login (Strict 10-Digit Mobile Validation) ──
     document.getElementById('customer-login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const phone = document.getElementById('login-phone').value.replace(/\D/g, '').slice(-10);
+      const phoneInput = document.getElementById('login-phone').value.trim();
       const name = document.getElementById('login-name').value.trim();
       const msgEl = document.getElementById('login-status-msg');
       const submitBtn = document.getElementById('phone-submit-btn');
       if (msgEl) msgEl.style.display = 'none';
 
-      if (phone.length < 10) {
-        if (msgEl) { msgEl.textContent = 'Please enter a valid 10-digit mobile number.'; msgEl.style.display = 'block'; }
+      // Strict validation: Must be exactly 10 digits starting with 6-9
+      if (!isStrictIndianPhone(phoneInput)) {
+        const err = 'कृपया 10 अंकों का मान्य भारतीय मोबाइल नंबर दर्ज करें (उदा. 9876543210)। केवल अंक स्वीकार्य हैं, कोई अक्षर या शब्द नहीं।';
+        if (msgEl) { msgEl.textContent = err; msgEl.style.display = 'block'; }
+        alert(err);
+        document.getElementById('login-phone').focus();
         return;
       }
 
@@ -1166,7 +1014,7 @@
         const res = await fetch('/api/customer/session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phone, name })
+          body: JSON.stringify({ phone: phoneInput, name })
         });
         const data = await res.json();
         if (!res.ok || !data.ok) {
@@ -1175,30 +1023,17 @@
         }
 
         const prev = getSavedProfile() || {};
-        const homeAddr = prev.addresses?.home || {
-          address: data.customer?.defaultAddress || prev.address || '',
-          landmark: prev.landmark || '',
-          city: data.customer?.city || prev.city || '',
-          pincode: data.customer?.pincode || prev.pincode || ''
-        };
-        const workAddr = prev.addresses?.work || { address: '', landmark: '', city: '', pincode: '' };
-
         const updated = {
           ...prev,
-          phone,
+          phone: phoneInput,
           name: name || data.customer?.name || prev.name || 'Customer',
           authProvider: 'phone',
           customerToken: data.customerToken,
           loggedIn: true,
-          activeAddressType: 'home',
-          addresses: {
-            home: homeAddr,
-            work: workAddr
-          },
-          address: homeAddr.address,
-          landmark: homeAddr.landmark,
-          city: homeAddr.city,
-          pincode: homeAddr.pincode
+          address: data.customer?.defaultAddress || prev.address || '',
+          landmark: prev.landmark || '',
+          city: data.customer?.city || prev.city || '',
+          pincode: data.customer?.pincode || prev.pincode || ''
         };
 
         saveProfileToStorage(updated);
@@ -1210,7 +1045,7 @@
       }
     });
 
-    // ── FORM SUBMIT: Save Address (Home / Work) ──
+    // ── FORM SUBMIT: Save Delivery Address ──
     document.getElementById('profile-address-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const prev = getSavedProfile() || {};
@@ -1218,41 +1053,33 @@
       const landVal = document.getElementById('prof-landmark').value.trim();
       const cityVal = document.getElementById('prof-city').value.trim();
       const pinVal = document.getElementById('prof-pincode').value.trim();
-      const isSetDefault = document.getElementById('prof-set-default').checked;
 
-      if (!prev.addresses) prev.addresses = { home: {}, work: {} };
-
-      prev.addresses[currentAddressTab] = {
-        address: addrVal,
-        landmark: landVal,
-        city: cityVal,
-        pincode: pinVal
-      };
-
-      if (isSetDefault || !prev.activeAddressType) {
-        prev.activeAddressType = currentAddressTab;
+      if (pinVal && !/^\d{6}$/.test(pinVal)) {
+        alert('कृपया 6 अंकों का सही पिन कोड दर्ज करें (उदा. 171001)।');
+        document.getElementById('prof-pincode').focus();
+        return;
       }
 
-      // Sync active address to top-level for 1-tap checkout compatibility
-      const activeObj = prev.addresses[prev.activeAddressType] || prev.addresses[currentAddressTab];
-      prev.address = activeObj.address || '';
-      prev.landmark = activeObj.landmark || '';
-      prev.city = activeObj.city || '';
-      prev.pincode = activeObj.pincode || '';
+      prev.address = addrVal;
+      prev.landmark = landVal;
+      prev.city = cityVal;
+      prev.pincode = pinVal;
       prev.loggedIn = true;
 
       saveProfileToStorage(prev);
 
-      // Also persist to Firestore if user has a Firebase UID
+      // Persist to Firestore if user has a Firebase UID
       if (prev.uid && window.shimlaFirebaseBridge) {
         try {
           const { db } = await window.shimlaFirebaseBridge.ready();
           await db.collection('users').doc(prev.uid).set({
-            name: prev.name,
+            name: prev.name || '',
             phone: prev.phone || '',
             email: prev.email || '',
-            activeAddressType: prev.activeAddressType,
-            addresses: prev.addresses,
+            address: prev.address,
+            landmark: prev.landmark,
+            city: prev.city,
+            pincode: prev.pincode,
             updatedAt: new Date().toISOString()
           }, { merge: true });
         } catch (err) {}
@@ -1260,12 +1087,11 @@
 
       const fb = document.getElementById('addr-save-feedback');
       if (fb) {
-        fb.textContent = `✓ ${currentAddressTab === 'home' ? 'Home' : 'Work'} address saved!`;
+        fb.textContent = '✓ डिलीवरी पता सफलतापूर्वक सेव हो गया है! (Address saved successfully!)';
         fb.style.display = 'block';
         setTimeout(() => { fb.style.display = 'none'; }, 3000);
       }
-
-      loadAddressIntoForm(currentAddressTab);
+      alert('डिलीवरी पता सफलतापूर्वक सेव हो गया है!');
     });
 
     document.addEventListener('DOMContentLoaded', renderProfilePage);
