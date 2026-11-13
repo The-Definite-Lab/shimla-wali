@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>My Profile & Saved Addresses | Shimla Wali</title>
-  <meta name="description" content="Sign in with Google or Mobile for 1-Tap ordering, manage Home & Work delivery addresses, and track your Shimla Wali orders." />
+  <meta name="description" content="Sign in with Google or Mobile, manage Home & Work delivery addresses, and track your Shimla Wali orders." />
   <link rel="icon" href="./images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,20 +24,6 @@
       margin-bottom: 16px;
       box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
       transition: all 0.2s ease;
-    }
-    .profile-hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #0f172a;
-      color: #4ade80;
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 12px;
     }
     .profile-title {
       font-family: 'Playfair Display', serif;
@@ -262,31 +248,18 @@
       height: 100%;
       object-fit: cover;
     }
-    .p-auth-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.66rem;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: #ecfdf5;
-      color: #059669;
-      border: 1px solid #a7f3d0;
-      margin-top: 4px;
-    }
     .p-hdr-actions {
       display: flex;
       align-items: center;
       gap: 8px;
     }
     .p-edit-prof-btn {
-      padding: 6px 12px;
+      padding: 7px 14px;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
       background: #f8fafc;
       color: #334155;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
@@ -298,12 +271,12 @@
       border-color: #94a3b8;
     }
     .p-logout-btn {
-      padding: 6px 12px;
+      padding: 7px 14px;
       border-radius: 8px;
       border: 1px solid #fecaca;
       background: #fef2f2;
       color: #dc2626;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       font-weight: 800;
       cursor: pointer;
     }
@@ -341,15 +314,81 @@
       color: #ffffff;
       box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
     }
-    .addr-default-indicator {
-      display: inline-flex;
+
+    /* Ultra-Luxury Explore Card */
+    .luxury-explore-card {
+      margin-top: 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0d2818 0%, #163e26 50%, #0f172a 100%);
+      border: 1.5px solid #d4af37;
+      padding: 18px 20px;
+      cursor: pointer;
+      display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: 0.72rem;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 6px 20px rgba(13, 40, 24, 0.25);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .luxury-explore-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(212, 175, 55, 0.3);
+      border-color: #facc15;
+      background: linear-gradient(135deg, #123821 0%, #1c4d30 50%, #1e293b 100%);
+    }
+    .lec-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+    .lec-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(212, 175, 55, 0.16);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .lec-content {
+      min-width: 0;
+    }
+    .lec-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #4ade80;
+      margin-bottom: 2px;
+    }
+    .lec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: #059669;
-      margin-top: 4px;
-      margin-bottom: 12px;
+      color: #fef08a;
+      margin-bottom: 2px;
+    }
+    .lec-sub {
+      font-size: 0.74rem;
+      color: #cbd5e1;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lec-arrow {
+      font-size: 1.3rem;
+      color: #facc15;
+      font-weight: 800;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .luxury-explore-card:hover .lec-arrow {
+      transform: translateX(4px);
     }
 
     /* Order History */
@@ -427,6 +466,7 @@
       .grid-2col { grid-template-columns: 1fr; }
       .p-user-top { flex-direction: column; align-items: flex-start; }
       .p-hdr-actions { width: 100%; justify-content: flex-end; }
+      .lec-sub { white-space: normal; }
     }
 
     /* Dark Theme */
@@ -497,16 +537,15 @@
 
     <!-- STEP A: Login Card (When logged out) -->
     <div id="login-view" class="profile-card" style="display:none;">
-      <span class="profile-hero-badge">⚡ 1-Tap Customer Access</span>
       <h1 class="profile-title" data-en="Sign in to Shimla Wali" data-hi="शिमला वाली में साइन इन करें">Sign in to Shimla Wali</h1>
-      <p class="profile-sub" data-en="Connect with your Google account or mobile number for 1-tap checkout, saved Home & Work addresses, and instant parcel tracking." data-hi="1-टैप ऑर्डर, सेव्ड घर व दफ़्तर का पता और तुरंत पार्सल ट्रैकिंग के लिए Google या फ़ोन नंबर से साइन इन करें।">
-        Connect with your Google account or mobile number for 1-tap checkout, saved Home & Work addresses, and instant parcel tracking.
+      <p class="profile-sub" data-en="Sign in with your Google account or mobile number for fast checkout, saved delivery addresses, and parcel tracking." data-hi="तेज़ ऑर्डर, सेव्ड पते और पार्सल ट्रैकिंग के लिए Google या फ़ोन नंबर से साइन इन करें।">
+        Sign in with your Google account or mobile number for fast checkout, saved delivery addresses, and parcel tracking.
       </p>
 
       <div class="p-benefits-row">
-        <span class="p-benefit-pill">⚡ 1-Tap Checkout</span>
+        <span class="p-benefit-pill">📦 Express Delivery</span>
         <span class="p-benefit-pill">🏡 Multiple Addresses</span>
-        <span class="p-benefit-pill">📦 Order History</span>
+        <span class="p-benefit-pill">📜 Order History</span>
       </div>
 
       <!-- Google Sign In Button with Official 4-color SVG Icon -->
@@ -524,7 +563,7 @@
         <span data-en="or continue with mobile" data-hi="या फ़ोन नंबर से जारी रखें">or continue with mobile</span>
       </div>
 
-      <!-- Clean Phone Login Form (Zero awkward PIN / Verification fields) -->
+      <!-- Clean Phone Login Form -->
       <form id="customer-login-form">
         <div class="p-form-group">
           <label class="p-label" for="login-phone" data-en="Mobile Number *" data-hi="मोबाइल नंबर *">Mobile Number *</label>
@@ -555,9 +594,14 @@
           <div style="display:flex;align-items:center;gap:14px;min-width:0;">
             <div class="p-avatar" id="acc-avatar">SW</div>
             <div style="min-width:0;">
-              <div style="font-weight:800;font-size:1.15rem;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="acc-name">Customer</div>
-              <div style="font-size:0.82rem;color:#64748b;font-weight:600;margin-top:1px;" id="acc-contact">+91</div>
-              <div id="acc-auth-badge" class="p-auth-pill">✓ Verified Account</div>
+              <div style="font-weight:800;font-size:1.22rem;color:#0f172a;display:flex;align-items:center;gap:6px;" id="acc-name-wrap">
+                <span id="acc-name">Customer</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;" title="Verified Account">
+                  <circle cx="12" cy="12" r="10" fill="#2563eb"/>
+                  <path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:0.84rem;color:#64748b;font-weight:600;margin-top:3px;" id="acc-contact"></div>
             </div>
           </div>
           <div class="p-hdr-actions">
@@ -568,35 +612,36 @@
 
         <!-- Inline Profile Editor Card (collapsible) -->
         <div id="profile-edit-drawer" style="display:none;margin-top:16px;padding-top:16px;border-top:1px dashed #cbd5e1;">
-          <h3 style="font-size:0.92rem;margin-bottom:10px;" data-en="Update Profile Details" data-hi="प्रोफ़ाइल जानकारी बदलें">Update Profile Details</h3>
+          <h3 style="font-size:0.95rem;margin-bottom:10px;" data-en="Update Profile Details" data-hi="प्रोफ़ाइल जानकारी बदलें">Update Profile Details</h3>
           <div class="grid-2col">
             <div class="p-form-group">
               <label class="p-label" for="edit-name" data-en="Full Name" data-hi="पूरा नाम">Full Name</label>
               <input type="text" id="edit-name" class="p-input" placeholder="Your Name" />
             </div>
             <div class="p-form-group">
-              <label class="p-label" for="edit-phone" data-en="Phone Number" data-hi="फ़ोन नंबर">Phone Number</label>
+              <label class="p-label" for="edit-phone" data-en="Mobile Number" data-hi="मोबाइल नंबर">Mobile Number</label>
               <div class="p-phone-group">
                 <span class="p-phone-prefix">+91</span>
                 <input type="tel" id="edit-phone" class="p-phone-input" placeholder="10-digit mobile" maxlength="10" />
               </div>
             </div>
           </div>
-          <button type="button" class="p-btn-primary" style="height:40px;font-size:0.8rem;" onclick="saveProfileDetails()" data-en="Save Profile Changes" data-hi="प्रोफ़ाइल सेव करें">Save Profile Changes</button>
+          <div class="p-form-group">
+            <label class="p-label" for="edit-email" data-en="Email Address" data-hi="ईमेल आईडी">Email Address</label>
+            <input type="email" id="edit-email" class="p-input" placeholder="yourname@gmail.com" />
+          </div>
+          <button type="button" class="p-btn-primary" style="height:42px;font-size:0.82rem;" onclick="saveProfileDetails()" data-en="Save Profile Changes" data-hi="प्रोफ़ाइल सेव करें">Save Profile Changes</button>
         </div>
 
-        <!-- 1-Tap Checkout CTA -->
-        <div id="acc-one-tap-cta" style="margin-top:16px;"></div>
+        <!-- Luxury Explore / Bag Action Card -->
+        <div id="acc-one-tap-cta"></div>
       </div>
 
       <!-- Multiple Saved Addresses (Home & Work) -->
       <div class="profile-card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-          <div>
-            <h2 style="font-size:1.1rem;margin-bottom:2px;" data-en="Saved Delivery Addresses" data-hi="डिलीवरी पते (घर व दफ़्तर)">Saved Delivery Addresses</h2>
-            <p style="font-size:0.78rem;color:#64748b;" data-en="Select an address to edit and set as default for 1-Tap checkout" data-hi="1-टैप ऑर्डर के लिए पता चुनें व एडिट करें">Select an address to edit and set as default for 1-Tap checkout</p>
-          </div>
-          <span class="profile-hero-badge" style="margin:0;">1-Tap Sync</span>
+        <div style="margin-bottom:14px;">
+          <h2 style="font-size:1.15rem;margin-bottom:3px;" data-en="Saved Delivery Addresses" data-hi="डिलीवरी पते">Saved Delivery Addresses</h2>
+          <p style="font-size:0.8rem;color:#64748b;" data-en="Manage your Home & Work delivery addresses for quick checkout" data-hi="घर व दफ़्तर के पते मैनेज करें">Manage your Home &amp; Work delivery addresses for quick checkout</p>
         </div>
 
         <!-- Address Type Switcher: Home vs Work -->
@@ -607,10 +652,6 @@
           <button type="button" id="tab-work-btn" class="addr-tab-btn" onclick="switchAddressTab('work')">
             <span>🏢</span> <span data-en="Work / Office" data-hi="दफ़्तर / ऑफिस">Work / Office</span>
           </button>
-        </div>
-
-        <div id="addr-default-msg" class="addr-default-indicator">
-          ✓ Active default address for 1-Tap checkout
         </div>
 
         <!-- Dynamic Address Form -->
@@ -638,7 +679,7 @@
 
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
             <input type="checkbox" id="prof-set-default" checked style="width:16px;height:16px;accent-color:#d4af37;cursor:pointer;" />
-            <label for="prof-set-default" style="font-size:0.8rem;color:#334155;cursor:pointer;" data-en="Set this as my default address for 1-Tap checkout" data-hi="इसे 1-टैप ऑर्डर के लिए मुख्य पता बनाएं">Set this as my default address for 1-Tap checkout</label>
+            <label for="prof-set-default" style="font-size:0.8rem;color:#334155;cursor:pointer;" data-en="Set as my primary delivery address" data-hi="इसे मुख्य डिलीवरी पता बनाएं">Set as my primary delivery address</label>
           </div>
 
           <button type="submit" class="p-btn-gold" id="save-addr-btn" data-en="Save Home Address" data-hi="घर का पता सेव करें">
@@ -651,10 +692,10 @@
       <!-- My Orders History -->
       <div class="profile-card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-          <h2 style="font-size:1.1rem;" data-en="My Orders & Harvest History" data-hi="मेरे ऑर्डर्स और ट्रैकिंग">My Orders &amp; Harvest History</h2>
+          <h2 style="font-size:1.15rem;" data-en="My Orders & Tracking" data-hi="मेरे ऑर्डर्स और ट्रैकिंग">My Orders &amp; Tracking</h2>
           <span style="font-size:0.75rem;color:#64748b;font-weight:700;" id="orders-count-badge">0 orders</span>
         </div>
-        <p style="font-size:0.78rem;color:#64748b;margin-bottom:12px;" data-en="Tap Reorder for 1-tap checkout or Track on WhatsApp" data-hi="दोबारा मंगाने के लिए Reorder या WhatsApp ट्रैकिंग दबाएँ">Tap Reorder for 1-tap checkout or Track on WhatsApp</p>
+        <p style="font-size:0.8rem;color:#64748b;margin-bottom:12px;" data-en="Instant reorder & live WhatsApp parcel tracking" data-hi="तुरंत दोबारा मंगाएँ और WhatsApp पर ट्रैक करें">Instant reorder &amp; live WhatsApp parcel tracking</p>
         <div id="orders-list-wrap"></div>
       </div>
 
@@ -805,7 +846,6 @@
             home: homeAddr,
             work: workAddr
           },
-          // Backwards compatibility for checkout.html
           address: activeAddr.address || '',
           landmark: activeAddr.landmark || '',
           city: activeAddr.city || '',
@@ -869,12 +909,6 @@
 
       const isDefault = profile.activeAddressType === type;
       document.getElementById('prof-set-default').checked = isDefault;
-      const defMsg = document.getElementById('addr-default-msg');
-      if (defMsg) {
-        defMsg.innerHTML = isDefault
-          ? `✓ Active default address for 1-Tap checkout (${type === 'home' ? 'Home' : 'Work'})`
-          : `<span style="color:#64748b;">(Not currently set as default 1-Tap address)</span>`;
-      }
     }
 
     // ── PROFILE EDITING ──
@@ -886,12 +920,14 @@
         const p = getSavedProfile() || {};
         document.getElementById('edit-name').value = p.name || '';
         document.getElementById('edit-phone').value = p.phone || '';
+        document.getElementById('edit-email').value = p.email || '';
       }
     }
 
     async function saveProfileDetails() {
       const name = document.getElementById('edit-name').value.trim();
       const phone = document.getElementById('edit-phone').value.replace(/\D/g, '').slice(-10);
+      const email = document.getElementById('edit-email').value.trim();
 
       if (!name) {
         alert('Please enter your name.');
@@ -905,6 +941,7 @@
       const p = getSavedProfile() || {};
       p.name = name;
       if (phone) p.phone = phone;
+      if (email) p.email = email;
 
       saveProfileToStorage(p);
 
@@ -914,7 +951,7 @@
           const { db } = await window.shimlaFirebaseBridge.ready();
           await db.collection('users').doc(p.uid).set({
             name: p.name,
-            phone: p.phone,
+            phone: p.phone || '',
             email: p.email || '',
             addresses: p.addresses || {},
             updatedAt: new Date().toISOString()
@@ -945,7 +982,7 @@
     // ── RENDER PROFILE PAGE ──
     async function renderProfilePage() {
       const profile = getSavedProfile();
-      const isLoggedIn = profile && profile.loggedIn && (profile.phone || profile.email);
+      const isLoggedIn = profile && profile.loggedIn && (profile.phone || profile.email || profile.name);
       const loginView = document.getElementById('login-view');
       const accountView = document.getElementById('account-view');
 
@@ -970,33 +1007,55 @@
       }
       document.getElementById('acc-name').textContent = name;
 
-      let contactTxt = '';
-      if (profile.email) contactTxt += profile.email;
-      if (profile.phone) contactTxt += (contactTxt ? ' • +91 ' : '+91 ') + profile.phone;
-      document.getElementById('acc-contact').textContent = contactTxt || 'Account Active';
-
-      const badgeEl = document.getElementById('acc-auth-badge');
-      if (profile.authProvider === 'google') {
-        badgeEl.textContent = '✓ Verified Google Account';
-        badgeEl.style.background = '#ecfdf5';
-        badgeEl.style.color = '#059669';
-      } else {
-        badgeEl.textContent = '⚡ Verified Mobile Access';
-        badgeEl.style.background = '#fefce8';
-        badgeEl.style.color = '#854d0e';
+      // Contact info rendering with phone and email
+      const contactWrap = document.getElementById('acc-contact');
+      let contactParts = [];
+      if (profile.phone) {
+        contactParts.push(`<span>📞 +91 ${esc(profile.phone)}</span>`);
       }
+      if (profile.email) {
+        contactParts.push(`<span>✉️ ${esc(profile.email)}</span>`);
+      }
+      if (!profile.phone && !profile.email) {
+        contactParts.push(`<span>Shimla Wali Customer</span>`);
+      }
+      contactWrap.innerHTML = contactParts.join(' <span style="color:#cbd5e1;margin:0 4px;">•</span> ');
 
       // Load active address into form
       switchAddressTab(profile.activeAddressType || 'home');
 
-      // 1-Tap Checkout CTA button
+      // Luxury CTA button
       const cart = JSON.parse(localStorage.getItem('shimla_cart') || '[]');
       const ctaWrap = document.getElementById('acc-one-tap-cta');
       if (cart.length > 0) {
         const sub = cart.reduce((s, item) => s + ((Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
-        ctaWrap.innerHTML = `<button type="button" class="p-btn-gold" onclick="location.href='checkout.html'">⚡ 1-Tap Checkout Bag (₹${sub.toLocaleString('en-IN')}) &rarr;</button>`;
+        ctaWrap.innerHTML = `
+          <div class="luxury-explore-card" onclick="location.href='checkout.html'">
+            <div class="lec-left">
+              <div class="lec-icon">🛍️</div>
+              <div class="lec-content">
+                <div class="lec-tag">Items in Bag (${cart.length})</div>
+                <div class="lec-title">Proceed to Checkout (₹${sub.toLocaleString('en-IN')}) &rarr;</div>
+                <div class="lec-sub">Your delivery details will be auto-filled for instant order</div>
+              </div>
+            </div>
+            <div class="lec-arrow">&rarr;</div>
+          </div>
+        `;
       } else {
-        ctaWrap.innerHTML = `<button type="button" class="p-btn-primary" onclick="location.href='shop.html'">Explore Fresh Mountain Batches &rarr;</button>`;
+        ctaWrap.innerHTML = `
+          <div class="luxury-explore-card" onclick="location.href='shop.html'">
+            <div class="lec-left">
+              <div class="lec-icon">🏔️</div>
+              <div class="lec-content">
+                <div class="lec-tag">Shimla Mountain Harvest</div>
+                <div class="lec-title">Explore Fresh Mountain Batches &rarr;</div>
+                <div class="lec-sub">Pure A2 Bilona Desi Ghee • Thin-shelled Kagzi Walnuts • Wild Honey</div>
+              </div>
+            </div>
+            <div class="lec-arrow">&rarr;</div>
+          </div>
+        `;
       }
 
       // Load orders
@@ -1046,7 +1105,7 @@
             <div style="font-size:0.74rem;color:#64748b;">Payment: <strong>${esc(o.paymentMethod || 'Cash on Delivery')}</strong> (${esc(o.paymentStatus || 'pending')})</div>
             ${trackInfo}
             <div class="order-actions">
-              <button type="button" class="order-reorder-btn" onclick="oneTapReorder(${idx})">⚡ 1-Tap Reorder</button>
+              <button type="button" class="order-reorder-btn" onclick="oneTapReorder(${idx})">⚡ Reorder</button>
               <a href="https://wa.me/${waNum}?text=${encodeURIComponent('Hi Shimla Wali, checking status of order ' + o.orderId)}" target="_blank" class="order-wa-link">Track on WhatsApp &rarr;</a>
             </div>
           </div>
@@ -1084,6 +1143,7 @@
       saveProfileToStorage(profile);
       serverOrders = [];
       renderProfilePage();
+      if (typeof window.refreshDrawerAuthCard === 'function') window.refreshDrawerAuthCard();
     }
 
     // ── FORM SUBMIT: Phone Login ──
@@ -1200,7 +1260,7 @@
 
       const fb = document.getElementById('addr-save-feedback');
       if (fb) {
-        fb.textContent = `✓ ${currentAddressTab === 'home' ? 'Home' : 'Work'} address saved and synced!`;
+        fb.textContent = `✓ ${currentAddressTab === 'home' ? 'Home' : 'Work'} address saved!`;
         fb.style.display = 'block';
         setTimeout(() => { fb.style.display = 'none'; }, 3000);
       }

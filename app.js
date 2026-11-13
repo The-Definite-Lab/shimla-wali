@@ -430,20 +430,26 @@ window.refreshDrawerAuthCard = function() {
   if (!card) return;
   let profile = null;
   try { profile = JSON.parse(localStorage.getItem('shimla_user_profile') || 'null'); } catch (e) {}
-  const isLoggedIn = profile && profile.loggedIn && profile.phone;
+  const isLoggedIn = profile && profile.loggedIn && (profile.name || profile.phone || profile.email || profile.uid);
   const iconEl = card.querySelector('.vip-user-icon');
   const titleEl = card.querySelector('.vip-title');
   const subEl = card.querySelector('.vip-sub');
   if (isLoggedIn) {
-    const first = (profile.name || 'Friend').trim().split(' ')[0];
-    if (iconEl) iconEl.textContent = first.slice(0, 2).toUpperCase();
+    const fullName = (profile.name || 'Customer').trim();
+    if (iconEl) {
+      iconEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+    }
     if (titleEl) {
-      titleEl.textContent = `Hi, ${first}`;
+      const safeName = typeof window.escapeHtml === 'function' ? window.escapeHtml(fullName) : fullName;
+      titleEl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${safeName} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;" title="Verified Account"><circle cx="12" cy="12" r="10" fill="#2563eb"/><path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
       titleEl.removeAttribute('data-en');
+      titleEl.removeAttribute('data-hi');
     }
     if (subEl) {
-      subEl.textContent = `+91 ${profile.phone} • Orders & 1-Tap →`;
+      let contact = profile.phone ? `+91 ${profile.phone}` : (profile.email || 'My Profile & Orders');
+      subEl.textContent = `${contact} • View Account →`;
       subEl.removeAttribute('data-en');
+      subEl.removeAttribute('data-hi');
     }
   } else {
     if (iconEl) {
