@@ -1235,10 +1235,17 @@ function calculateWindowKpis(orders, startMs, endMs) {
     o.paymentStatus !== 'refunded'
   );
 
-  // Total Sales strictly includes realized/paid revenue (COD orders ONLY count once payment received)
-  const paidSalesOrders = accepted.filter(isPaidOrder);
+  // Total Sales strictly includes REALIZED revenue: orders that are DELIVERED and PAID (revenue held until delivered)
+  const deliveredPaidOrders = accepted.filter(o => o.orderStatus === 'delivered' && isPaidOrder(o));
 
-  const totalSales = paidSalesOrders.reduce((sum, o) => {
+  const totalSales = deliveredPaidOrders.reduce((sum, o) => {
+    const amt = Number(o.grandTotal ?? o.agreedTotalOverride ?? o.subtotal ?? o.total ?? o.finalAmount ?? o.orderTotal ?? 0);
+    return sum + (Number.isFinite(amt) ? amt : 0);
+  }, 0);
+
+  // In Transit / Packing revenue (held safely until delivered)
+  const onHoldOrders = accepted.filter(o => o.orderStatus !== 'delivered');
+  const onHoldRevenue = onHoldOrders.reduce((sum, o) => {
     const amt = Number(o.grandTotal ?? o.agreedTotalOverride ?? o.subtotal ?? o.total ?? o.finalAmount ?? o.orderTotal ?? 0);
     return sum + (Number.isFinite(amt) ? amt : 0);
   }, 0);
@@ -1252,9 +1259,9 @@ function calculateWindowKpis(orders, startMs, endMs) {
   });
   const totalCustomers = custSet.size;
 
-  const aov = paidSalesOrders.length > 0 ? Math.round(totalSales / paidSalesOrders.length) : 0;
+  const aov = deliveredPaidOrders.length > 0 ? Math.round(totalSales / deliveredPaidOrders.length) : 0;
 
-  return { totalSales, totalOrders, totalCustomers, aov, accepted, paidSalesOrders };
+  return { totalSales, totalOrders, totalCustomers, aov, accepted, paidSalesOrders: deliveredPaidOrders, onHoldRevenue, onHoldCount: onHoldOrders.length };
 }
 
 function computeDeltaBadgeHtml(curr, prev, deltaLabel) {
@@ -1375,7 +1382,13 @@ function renderDashboard() {
   const salesValEl = document.getElementById('kpi-net-revenue');
   if (salesValEl) salesValEl.textContent = cash(currKpis.totalSales);
   const salesDeltaEl = document.getElementById('kpi-v2-sales-delta');
-  if (salesDeltaEl) salesDeltaEl.innerHTML = computeDeltaBadgeHtml(currKpis.totalSales, prevKpis ? prevKpis.totalSales : null, win.deltaLabel);
+  if (salesDeltaEl) {
+    const deltaHtml = computeDeltaBadgeHtml(currKpis.totalSales, prevKpis ? prevKpis.totalSales : null, win.deltaLabel);
+    const holdNote = currKpis.onHoldRevenue > 0
+      ? `<span class="delta-label" style="display:block;margin-top:3px;color:var(--gold-fg);">⏳ ${cash(currKpis.onHoldRevenue)} ${isEn ? 'in transit / packing' : 'रस्ते में / ऑन होल्ड'}</span>`
+      : '';
+    salesDeltaEl.innerHTML = deltaHtml + holdNote;
+  }
 
   // 2. Total Orders
   const ordersValEl = document.getElementById('kpi-orders-confirmed');
@@ -2963,27 +2976,29 @@ function renderOrders() {
       }
     } else if (st === 'pending_whatsapp' || st === 'waiting_followup') {
       // Stage 1: Verification Queue
-      btns.push(`<button type="button" class="btn sm primary" onclick="openVerifyBuyModal('${esc(o.orderId)}','accept')">Verify Buy</button>`);
-      btns.push(`<button type="button" class="btn sm gold" onclick="quickWaitOrder('${esc(o.orderId)}', 2)">Wait (2d)</button>`);
-      btns.push(`<button type="button" class="btn sm danger" onclick="openVerifyBuyModal('${esc(o.orderId)}','not_bought')">Not Bought</button>`);
+      const isUpi = (o.paymentMethod === 'ONLINE' || o.paymentMethod === 'UPI');
+      if (isUpi) {
+        btns.push(`<button type="button" class="btn sm primary" onclick="openVerifyBuyModal('${esc(o.orderId)}','accept')">Verify &amp; Confirm Order</button>`);
+      } else {
+        btns.push(`<button type="button" class="btn sm primary" onclick="openVerifyBuyModal('${esc(o.orderId)}','accept')">Verify Buy</button>`);
+        btns.push(`<button type="button" class="btn sm gold" onclick="quickWaitOrder('${esc(o.orderId)}', 2)">Wait (2d)</button>`);
+        btns.push(`<button type="button" class="btn sm danger" onclick="openVerifyBuyModal('${esc(o.orderId)}','not_bought')">Not Bought</button>`);
+      }
     } else if (['confirmed', 'processing', 'ready_for_dispatch'].includes(st)) {
-      // Stage 2: Confirmed / Packaging
+      // Stage 2: Confirmed / Packaging (Single Next Step: Mark Dispatched)
       const confSent = o.whatsappComms && o.whatsappComms.confirmSentAt;
       btns.push(`<button type="button" class="btn sm primary" onclick="openDispatchModal('${esc(o.orderId)}')">Mark Dispatched</button>`);
       if (!confSent) {
         btns.push(`<button type="button" class="btn sm" onclick="openWhatsAppSendModal('${esc(o.orderId)}','confirm')">WA Msg</button>`);
       }
-      if (!isPaid) {
-        btns.push(`<button type="button" class="btn sm gold" onclick="openPaymentModal('${esc(o.orderId)}')">Payment Received</button>`);
-        btns.push(`<button type="button" class="btn sm danger" onclick="doCancelOrder('${esc(o.orderId)}')">Cancel</button>`);
-      }
     } else if (st === 'dispatched') {
       // Stage 3: Dispatched & In Transit
       const dispSent = o.whatsappComms && o.whatsappComms.dispatchSentAt;
       btns.push(`<button type="button" class="btn sm ${dispSent ? '' : 'gold'}" onclick="openWhatsAppSendModal('${esc(o.orderId)}','dispatch')">${dispSent ? '✓ WA Track' : 'WhatsApp Track'}</button>`);
-      btns.push(`<button type="button" class="btn sm primary" onclick="doDeliverOrder('${esc(o.orderId)}')">Mark Delivered</button>`);
-      if (!isPaid) {
-        btns.push(`<button type="button" class="btn sm gold" onclick="openPaymentModal('${esc(o.orderId)}')">Payment Received</button>`);
+      if (isPaid) {
+        btns.push(`<button type="button" class="btn sm primary" onclick="doDeliverOrder('${esc(o.orderId)}')">Mark Delivered</button>`);
+      } else {
+        btns.push(`<button type="button" class="btn sm primary" onclick="doDeliverOrder('${esc(o.orderId)}')">Mark Delivered &amp; Cash Collected</button>`);
       }
     } else if (st === 'delivered') {
       // Stage 4: Delivered, awaiting payment if unpaid (e.g. COD cash collection)
@@ -3324,25 +3339,34 @@ async function openWhatsAppSendModal(orderId, stage = 'confirm', preloadedPayloa
   if (!info) {
     try {
       const res = await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/whatsapp`);
-      info = stage === 'dispatch' ? (res.whatsapp?.dispatch || res.messages?.dispatch) : (res.whatsapp?.confirm || res.messages?.confirm);
+      const waGroup = res.whatsapp || res.messages || {};
+      info = waGroup[stage] || (stage === 'dispatch' ? waGroup.dispatch : (stage === 'delivered' ? waGroup.delivered : waGroup.confirm));
     } catch (err) {
       showToast(err.message, true);
       return;
     }
   }
-  const cleanStage = stage === 'dispatch' ? 'dispatch' : 'confirm';
+  const cleanStage = (stage === 'dispatch' || stage === 'delivered') ? stage : 'confirm';
   const rawPhone = info?.phone || o.customerSnapshot?.phone || '';
   const cleanPhone = String(rawPhone).replace(/\D/g, '').slice(-10);
   document.getElementById('was-order-id').value = orderId;
   document.getElementById('was-stage').value = cleanStage;
   document.getElementById('was-phone').value = cleanPhone;
-  document.getElementById('was-title').textContent = cleanStage === 'dispatch'
-    ? `WhatsApp Dispatch & Tracking — ${orderId}`
-    : `WhatsApp Order Confirmation — ${orderId}`;
-  document.getElementById('was-sub').textContent = cleanStage === 'dispatch'
-    ? 'Includes live courier tracking link & delivery estimate — 1 tap to send.'
-    : 'Confirms order, items, quantities & total (no payment handle exposed).';
-  const sentBefore = cleanStage === 'dispatch' ? o.whatsappComms?.dispatchSentAt : o.whatsappComms?.confirmSentAt;
+
+  if (cleanStage === 'delivered') {
+    document.getElementById('was-title').textContent = `WhatsApp Delivery Complete — ${orderId}`;
+    document.getElementById('was-sub').textContent = 'Congratulates customer, thanks them & provides direct Himachal support.';
+  } else if (cleanStage === 'dispatch') {
+    document.getElementById('was-title').textContent = `WhatsApp Dispatch & Tracking — ${orderId}`;
+    document.getElementById('was-sub').textContent = 'Includes live courier tracking link & delivery estimate — 1 tap to send.';
+  } else {
+    document.getElementById('was-title').textContent = `WhatsApp Order Confirmation — ${orderId}`;
+    document.getElementById('was-sub').textContent = 'Confirms order, items, quantities & freshly packing notice.';
+  }
+
+  const sentBefore = cleanStage === 'delivered'
+    ? o.whatsappComms?.deliveredSentAt
+    : (cleanStage === 'dispatch' ? o.whatsappComms?.dispatchSentAt : o.whatsappComms?.confirmSentAt);
   document.getElementById('was-recipient-bar').innerHTML =
     `<strong>To:</strong> ${esc(o.customerSnapshot?.name || 'Customer')} (+91 ${esc(cleanPhone || rawPhone)})` +
     (info?.trackingUrl ? `<br><strong>Tracking Link:</strong> <a href="${esc(info.trackingUrl)}" target="_blank" rel="noopener noreferrer">${esc(info.trackingUrl)}</a>` : '') +
@@ -3413,10 +3437,24 @@ async function copyWhatsAppMessageOnly() {
 }
 
 async function doDeliverOrder(orderId) {
+  const o = (state.orders || []).find(x => x.orderId === orderId);
+  const isCod = o?.paymentMethod === 'COD' && o?.paymentStatus !== 'paid';
+  const confirmMsg = isCod
+    ? `Mark Order ${orderId} as Delivered and confirm cash collected (₹${o?.grandTotal || 0})?`
+    : `Mark Order ${orderId} as Delivered?`;
+  if (!confirm(confirmMsg)) return;
+
   try {
-    await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/deliver`, { method: 'POST', body: JSON.stringify({}) });
-    showToast(`Order ${orderId} marked Delivered`);
+    const res = await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/deliver`, {
+      method: 'POST',
+      body: JSON.stringify({ autoCollectCod: true })
+    });
+    showToast(`Order ${orderId} marked Delivered!${isCod ? ' (Cash collected)' : ''}`);
     await loadBootstrap();
+    if (res.whatsapp || res.messages) {
+      const waGroup = res.whatsapp || res.messages || {};
+      openWhatsAppSendModal(orderId, 'delivered', waGroup.delivered || null);
+    }
   } catch (err) {
     showToast(err.message, true);
   }

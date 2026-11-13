@@ -131,6 +131,19 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
 
   const dispatchMessage = dispatchLines.join('\n');
 
+  const deliveredLines = [
+    `Namaste ${name} ji 🙏`,
+    `Your *${brandName}* parcel for order *${order.orderId}* has been *DELIVERED*! 🏡✨`,
+    '',
+    itemsShippedLines || '• Fresh Himalayan Harvest Pack',
+    '',
+    'We hope you love the pure, unadulterated taste of our handcrafted mountain harvest.',
+    'For any queries, culinary guidance, or re-orders, you can reply directly to this chat.',
+    '',
+    'Thank you for being part of our Shimla Wali family! 🌿'
+  ];
+  const deliveredMessage = deliveredLines.join('\n');
+
   return {
     phone,
     confirm: {
@@ -145,6 +158,12 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
       trackingUrl: trackUrl,
       message: dispatchMessage,
       waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(dispatchMessage)}` : ''
+    },
+    delivered: {
+      stage: 'delivered',
+      phone,
+      message: deliveredMessage,
+      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(deliveredMessage)}` : ''
     }
   };
 }
@@ -1538,14 +1557,39 @@ function dispatchOrder(db, markDirty, { orderId, courier = '', trackingId = '', 
   return { order: ord, idempotentNoOp: false };
 }
 
-function deliverOrder(db, markDirty, { orderId }, actorMeta = {}) {
+function deliverOrder(db, markDirty, { orderId, autoCollectCod = true }, actorMeta = {}) {
   const ord = findOrderOrThrow(db, orderId);
   if (ord.orderStatus !== 'dispatched') {
     throw new HttpError(409, `Order ${orderId} must be in "dispatched" state before marking Delivered`);
   }
+  const now = nowIso();
   ord.orderStatus = 'delivered';
-  ord.deliveredAt = nowIso();
-  ord.updatedAt = nowIso();
+  ord.deliveredAt = now;
+  ord.updatedAt = now;
+
+  let codCollected = false;
+  if (autoCollectCod && ord.paymentMethod === 'COD' && ord.paymentStatus !== 'paid') {
+    ord.paymentStatus = 'paid';
+    ord.paidAt = now;
+    if (!db.payments) db.payments = { payments: [] };
+    if (!Array.isArray(db.payments.payments)) db.payments.payments = [];
+    db.payments.payments.unshift({
+      paymentId: makeId('PAY'),
+      orderId: ord.orderId,
+      amount: ord.grandTotal,
+      paymentMethod: 'COD',
+      type: 'collection',
+      paymentStatus: 'paid',
+      transactionReference: 'COD_CASH_ON_DELIVERY',
+      verifiedBy: actorMeta.actor || 'Owner',
+      verifiedAt: now,
+      notes: 'Cash collected upon delivery',
+      createdAt: now
+    });
+    markDirty('payments');
+    codCollected = true;
+  }
+
   markDirty('orders');
 
   appendAudit(db, markDirty, {
@@ -1553,7 +1597,7 @@ function deliverOrder(db, markDirty, { orderId }, actorMeta = {}) {
     action: 'order_delivered',
     entityType: 'order',
     entityId: ord.orderId,
-    summary: `Marked order ${ord.orderId} as Delivered`,
+    summary: `Marked order ${ord.orderId} as Delivered${codCollected ? ' (Cash collected: ₹' + ord.grandTotal + ')' : ''}`,
     ip: actorMeta.ip
   });
   return ord;
@@ -1847,12 +1891,15 @@ function verifyWhatsAppBuy(db, markDirty, payload, actorMeta = {}) {
 
 function markWhatsAppMessageSent(db, markDirty, { orderId, stage = 'confirm' }, actorMeta = {}) {
   const ord = findOrderOrThrow(db, orderId);
-  const cleanStage = stage === 'dispatch' ? 'dispatch' : 'confirm';
+  const cleanStage = (stage === 'dispatch' || stage === 'delivered') ? stage : 'confirm';
   const now = nowIso();
   if (!ord.whatsappComms) {
-    ord.whatsappComms = { confirmSentAt: null, confirmSentBy: '', dispatchSentAt: null, dispatchSentBy: '' };
+    ord.whatsappComms = { confirmSentAt: null, confirmSentBy: '', dispatchSentAt: null, dispatchSentBy: '', deliveredSentAt: null, deliveredSentBy: '' };
   }
-  if (cleanStage === 'dispatch') {
+  if (cleanStage === 'delivered') {
+    ord.whatsappComms.deliveredSentAt = now;
+    ord.whatsappComms.deliveredSentBy = actorMeta.actor || 'Owner';
+  } else if (cleanStage === 'dispatch') {
     ord.whatsappComms.dispatchSentAt = now;
     ord.whatsappComms.dispatchSentBy = actorMeta.actor || 'Owner';
   } else {
@@ -1864,10 +1911,10 @@ function markWhatsAppMessageSent(db, markDirty, { orderId, stage = 'confirm' }, 
 
   appendAudit(db, markDirty, {
     actor: actorMeta.actor,
-    action: cleanStage === 'dispatch' ? 'whatsapp_dispatch_sent' : 'whatsapp_confirmation_sent',
+    action: `whatsapp_${cleanStage}_sent`,
     entityType: 'order',
     entityId: ord.orderId,
-    summary: `Sent WhatsApp ${cleanStage === 'dispatch' ? 'dispatch & tracking' : 'order confirmation'} update for ${ord.orderId}`,
+    summary: `Sent WhatsApp ${cleanStage} update for ${ord.orderId}`,
     ip: actorMeta.ip
   });
   return ord;
@@ -2242,6 +2289,7 @@ function computeDashboardMetrics(db) {
 
   let paidDispatchedSales = 0;
   let deliveredPaidRevenue = 0;
+  let inTransitRevenue = 0;
   let netRevenue = 0;
   let pendingPaymentsTotal = 0;
   let pendingPaymentsCount = 0;
@@ -2284,6 +2332,11 @@ function computeDashboardMetrics(db) {
       paidDispatchedSales += o.grandTotal;
       netRevenue += net;
       if (o.orderStatus === 'delivered') deliveredPaidRevenue += net;
+    }
+
+    if (isAcceptedBuy(o) && !isFullRefund && o.orderStatus !== 'delivered') {
+      const net = Math.max(0, o.grandTotal - refunded);
+      inTransitRevenue += net;
     }
 
     if (['confirmed', 'processing', 'ready_for_dispatch', 'dispatched', 'delivered'].includes(o.orderStatus) &&
@@ -2374,6 +2427,7 @@ function computeDashboardMetrics(db) {
     returnedCount,
     paidDispatchedSales,
     deliveredPaidRevenue,
+    inTransitRevenue,
     totalCollectedCash,
     upiCollected,
     codCollected,

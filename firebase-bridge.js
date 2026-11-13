@@ -878,7 +878,10 @@
             return { ...dispRes, whatsapp: window.ShimlaDomain.buildWhatsAppMessagesForOrder(dispRes.order, brandName) };
           }
           if (action === 'whatsapp-sent') return { order: window.ShimlaDomain.markWhatsAppMessageSent(txDb, markDirty, p, actor) };
-          if (action === 'deliver') return { order: window.ShimlaDomain.deliverOrder(txDb, markDirty, p, actor) };
+          if (action === 'deliver') {
+            const ord = window.ShimlaDomain.deliverOrder(txDb, markDirty, p, actor);
+            return { order: ord, whatsapp: window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName) };
+          }
           if (action === 'cancel') return { order: window.ShimlaDomain.cancelOrder(txDb, markDirty, p, actor) };
           if (action === 'payment') return { order: window.ShimlaDomain.recordOrderPayment(txDb, markDirty, p, actor) };
           if (action === 'return') return { order: window.ShimlaDomain.processOrderReturn(txDb, markDirty, p, actor) };

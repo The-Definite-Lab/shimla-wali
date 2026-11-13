@@ -694,7 +694,10 @@ function createAppServer(options = {}) {
               const dispRes = domain.dispatchOrder(db, markDirty, { ...body, orderId }, actorMeta);
               return { ...dispRes, whatsapp: domain.buildWhatsAppMessagesForOrder(dispRes.order, brandName) };
             }
-            if (action === 'deliver') return { order: domain.deliverOrder(db, markDirty, { orderId }, actorMeta) };
+            if (action === 'deliver') {
+              const order = domain.deliverOrder(db, markDirty, { ...body, orderId }, actorMeta);
+              return { order, whatsapp: domain.buildWhatsAppMessagesForOrder(order, brandName) };
+            }
             if (action === 'cancel') return { order: domain.cancelOrder(db, markDirty, { ...body, orderId }, actorMeta) };
             if (action === 'payment') return { order: domain.recordOrderPayment(db, markDirty, { ...body, orderId }, actorMeta) };
             if (action === 'return') return { order: domain.processOrderReturn(db, markDirty, { ...body, orderId }, actorMeta) };
