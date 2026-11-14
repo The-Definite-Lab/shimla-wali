@@ -103,7 +103,7 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
     `*Items:* ${itemsSummaryShort || 'Mountain Harvest Pack'}`,
     `*Order Total:* ${totalStr}${payMethodTag}`,
     '',
-    'We are sharing payment details shortly. Your order is being freshly packed in Shimla! 🏔️'
+    'We are sharing payment details shortly. Your order is being freshly packed in Shimla! 🏔'
   ].join('\n');
 
   const ship = order.shippingDetails || {};
@@ -137,7 +137,7 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
     '',
     `Your *${brandName}* order *${order.orderId}* has been successfully *DELIVERED*! 🏡✨`,
     '',
-    'We hope you enjoy the pure, handcrafted mountain harvest. 🏔️',
+    'We hope you enjoy the pure, handcrafted mountain harvest. 🏔',
     'For re-orders or feedback, simply reply to this chat. Thank you for choosing Shimla Wali! 🌿'
   ];
   const deliveredMessage = deliveredLines.join('\n');
