@@ -484,6 +484,119 @@
     body.dark-theme .p-logout-btn { background: #3b1717; border-color: #7f1d1d; color: #fca5a5; }
     body.dark-theme .p-logout-btn:hover { background: #4c1d1d; }
     body.dark-theme .order-track-pill { background: #064e3b; border-color: #047857; color: #a7f3d0; }
+
+    /* Compact Saved Delivery Address Card & Accordion */
+    .addr-summary-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .addr-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .addr-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .addr-type-badge.work {
+      background: #eff6ff;
+      color: #1e40af;
+      border-color: #bfdbfe;
+    }
+    .addr-change-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .addr-change-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+    .addr-preview-text {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #334155;
+    }
+    .addr-empty-nudge {
+      color: #64748b;
+      font-size: 0.84rem;
+      margin-bottom: 4px;
+    }
+    .addr-type-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .addr-type-pill {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .addr-type-pill.active {
+      border-color: #0f172a;
+      background: #0f172a;
+      color: #ffffff;
+    }
+    body.dark-theme .addr-summary-card {
+      background: #1e293b;
+      border-color: #334155;
+    }
+    body.dark-theme .addr-change-btn {
+      background: #0f172a;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+    body.dark-theme .addr-preview-text {
+      color: #e2e8f0;
+    }
+    body.dark-theme .addr-type-pill {
+      background: #1e293b;
+      border-color: #334155;
+      color: #cbd5e1;
+    }
+    body.dark-theme .addr-type-pill.active {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0f172a;
+    }
   </style>
 </head>
 <body>
@@ -649,41 +762,72 @@
         </div>
       </div>
 
-      <!-- Clean Saved Delivery Address Card (Zero Clunky Tabs) -->
-      <div class="profile-card">
-        <div style="margin-bottom:14px;">
-          <h2 style="font-size:1.15rem;margin-bottom:3px;" data-en="Saved Delivery Address" data-hi="डिलीवरी पता">Saved Delivery Address</h2>
-          <p style="font-size:0.8rem;color:#64748b;" data-en="Your address will be auto-filled at checkout for instant delivery" data-hi="तेज़ डिलीवरी के लिए यह पता चेकआउट पर अपने-आप भर जाएगा">Your address will be auto-filled at checkout for instant delivery</p>
+      <!-- Clean Saved Delivery Address Card -->
+      <div class="profile-card" id="profile-address-card">
+        <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <div>
+            <h2 style="font-size:1.15rem;margin-bottom:3px;" data-en="Saved Delivery Address" data-hi="डिलीवरी पता">Saved Delivery Address</h2>
+            <p style="font-size:0.8rem;color:#64748b;" data-en="Auto-filled at checkout for instant 1-tap delivery" data-hi="तेज़ डिलीवरी के लिए यह पता चेकआउट पर अपने-आप भर जाएगा">Auto-filled at checkout for instant 1-tap delivery</p>
+          </div>
         </div>
 
-        <!-- Clean Address Form -->
-        <form id="profile-address-form">
-          <div class="p-form-group">
-            <label class="p-label" for="prof-address" data-en="Flat, House, Building & Street *" data-hi="मकान/फ़्लैट नं., गली व इलाका *">Flat, House, Building &amp; Street *</label>
-            <input type="text" id="prof-address" class="p-input" placeholder="e.g. Flat 402, Pine Grove Apartments, Ridge Road" required />
+        <!-- 1. Compact Summary View -->
+        <div id="address-summary-box" class="addr-summary-card">
+          <div class="addr-header-row">
+            <span id="addr-type-badge" class="addr-type-badge">🏠 Home</span>
+            <button type="button" class="addr-change-btn" id="addr-edit-btn" onclick="toggleAddressEditor(true)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <span id="addr-btn-text" data-en="Change Address" data-hi="पता बदलें">Change Address</span>
+            </button>
           </div>
-
-          <div class="p-form-group">
-            <label class="p-label" for="prof-landmark" data-en="Landmark (Optional)" data-hi="पहचान / लैंडमार्क (वैकल्पिक)">Landmark (Optional)</label>
-            <input type="text" id="prof-landmark" class="p-input" placeholder="Near Post Office, Mall Road, Metro..." />
+          <div id="addr-preview-text" class="addr-preview-text">
+            <!-- Rendered by JS -->
           </div>
+        </div>
 
-          <div class="grid-2col">
+        <!-- 2. Collapsible Form View (Hidden by default when address exists) -->
+        <div id="profile-address-form-wrap" style="display:none;margin-top:14px;">
+          <form id="profile-address-form">
             <div class="p-form-group">
-              <label class="p-label" for="prof-city" data-en="City & State *" data-hi="शहर व राज्य *">City &amp; State *</label>
-              <input type="text" id="prof-city" class="p-input" placeholder="e.g. Shimla, Himachal Pradesh" required />
+              <label class="p-label" data-en="Address Label / Type" data-hi="पता लेबल / प्रकार">Address Label / Type</label>
+              <div class="addr-type-selector">
+                <button type="button" class="addr-type-pill active" id="addr-type-home" onclick="setAddressType('home')">🏠 Home</button>
+                <button type="button" class="addr-type-pill" id="addr-type-work" onclick="setAddressType('work')">🏢 Work / Office</button>
+              </div>
             </div>
-            <div class="p-form-group">
-              <label class="p-label" for="prof-pincode" data-en="PIN Code *" data-hi="पिन कोड *">PIN Code *</label>
-              <input type="text" id="prof-pincode" class="p-input" placeholder="171001" maxlength="6" inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 6)" required />
-            </div>
-          </div>
 
-          <button type="submit" class="p-btn-gold" id="save-addr-btn" data-en="Save Delivery Address" data-hi="डिलीवरी पता सेव करें">
-            Save Delivery Address
-          </button>
-          <div id="addr-save-feedback" style="display:none;color:#059669;font-weight:700;font-size:0.82rem;margin-top:8px;text-align:center;"></div>
-        </form>
+            <div class="p-form-group">
+              <label class="p-label" for="prof-address" data-en="Flat, House, Building & Street *" data-hi="मकान/फ़्लैट नं., गली व इलाका *">Flat, House, Building &amp; Street *</label>
+              <input type="text" id="prof-address" class="p-input" placeholder="e.g. Flat 402, Pine Grove Apartments, Ridge Road" required />
+            </div>
+
+            <div class="p-form-group">
+              <label class="p-label" for="prof-landmark" data-en="Landmark (Optional)" data-hi="पहचान / लैंडमार्क (वैकल्पिक)">Landmark (Optional)</label>
+              <input type="text" id="prof-landmark" class="p-input" placeholder="Near Post Office, Mall Road, Metro..." />
+            </div>
+
+            <div class="grid-2col">
+              <div class="p-form-group">
+                <label class="p-label" for="prof-city" data-en="City & State *" data-hi="शहर व राज्य *">City &amp; State *</label>
+                <input type="text" id="prof-city" class="p-input" placeholder="e.g. Shimla, Himachal Pradesh" required />
+              </div>
+              <div class="p-form-group">
+                <label class="p-label" for="prof-pincode" data-en="PIN Code *" data-hi="पिन कोड *">PIN Code *</label>
+                <input type="text" id="prof-pincode" class="p-input" placeholder="171001" maxlength="6" inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 6)" required />
+              </div>
+            </div>
+
+            <div style="display:flex;gap:8px;">
+              <button type="submit" class="p-btn-gold" id="save-addr-btn" style="flex:2;" data-en="Save Delivery Address" data-hi="डिलीवरी पता सेव करें">
+                Save Delivery Address
+              </button>
+              <button type="button" class="p-btn-primary" id="cancel-addr-btn" onclick="toggleAddressEditor(false)" style="flex:1;background:#64748b;color:#fff;" data-en="Cancel" data-hi="रद्द करें">
+                Cancel
+              </button>
+            </div>
+            <div id="addr-save-feedback" style="display:none;color:#059669;font-weight:700;font-size:0.82rem;margin-top:8px;text-align:center;"></div>
+          </form>
+        </div>
       </div>
 
       <!-- My Orders History -->
@@ -850,6 +994,37 @@
     }
 
     // ── PROFILE EDITING ──
+    let currentAddressType = 'home';
+
+    function setAddressType(type) {
+      currentAddressType = type === 'work' ? 'work' : 'home';
+      const homeBtn = document.getElementById('addr-type-home');
+      const workBtn = document.getElementById('addr-type-work');
+      if (homeBtn) homeBtn.classList.toggle('active', currentAddressType === 'home');
+      if (workBtn) workBtn.classList.toggle('active', currentAddressType === 'work');
+    }
+
+    function toggleAddressEditor(show) {
+      const formWrap = document.getElementById('profile-address-form-wrap');
+      const summaryBox = document.getElementById('address-summary-box');
+      if (!formWrap || !summaryBox) return;
+
+      if (show) {
+        formWrap.style.display = 'block';
+        summaryBox.style.display = 'none';
+        const p = getSavedProfile() || {};
+        document.getElementById('prof-address').value = p.address || '';
+        document.getElementById('prof-landmark').value = p.landmark || '';
+        document.getElementById('prof-city').value = p.city || '';
+        document.getElementById('prof-pincode').value = p.pincode || '';
+        setAddressType(p.addressType || 'home');
+        document.getElementById('prof-address').focus();
+      } else {
+        formWrap.style.display = 'none';
+        summaryBox.style.display = 'flex';
+      }
+    }
+
     function toggleProfileEditCard() {
       const drawer = document.getElementById('profile-edit-drawer');
       const isHidden = drawer.style.display === 'none';
@@ -1031,11 +1206,52 @@
       }
       contactWrap.innerHTML = contactParts.join('<span class="contact-sep">•</span>');
 
-      // Populate Address Form
+      // Populate and Render Address Summary Card
+      const addrSummaryBox = document.getElementById('address-summary-box');
+      const addrFormWrap = document.getElementById('profile-address-form-wrap');
+      const addrTypeBadge = document.getElementById('addr-type-badge');
+      const addrPreviewText = document.getElementById('addr-preview-text');
+      const addrBtnText = document.getElementById('addr-btn-text');
+
+      currentAddressType = profile.addressType || 'home';
+      setAddressType(currentAddressType);
+
       document.getElementById('prof-address').value = profile.address || '';
       document.getElementById('prof-landmark').value = profile.landmark || '';
       document.getElementById('prof-city').value = profile.city || '';
       document.getElementById('prof-pincode').value = profile.pincode || '';
+
+      if (profile.address) {
+        if (addrTypeBadge) {
+          addrTypeBadge.textContent = currentAddressType === 'work' ? '🏢 Work / Office' : '🏠 Home';
+          addrTypeBadge.className = `addr-type-badge ${currentAddressType === 'work' ? 'work' : 'home'}`;
+          addrTypeBadge.style.display = 'inline-flex';
+        }
+        if (addrBtnText) {
+          const lang = localStorage.getItem('shimla-lang') || 'en';
+          addrBtnText.textContent = lang === 'hi' ? 'पता बदलें' : 'Change Address';
+        }
+        if (addrPreviewText) {
+          addrPreviewText.innerHTML = `
+            <div style="font-weight:700;color:inherit;margin-bottom:2px;">${esc(profile.address)}</div>
+            ${profile.landmark ? `<div style="font-size:0.8rem;color:#64748b;margin-bottom:2px;">Landmark: ${esc(profile.landmark)}</div>` : ''}
+            <div style="font-size:0.82rem;color:#64748b;">${esc(profile.city || '')}${profile.pincode ? ' — ' + esc(profile.pincode) : ''}</div>
+          `;
+        }
+        if (addrSummaryBox) addrSummaryBox.style.display = 'flex';
+        if (addrFormWrap) addrFormWrap.style.display = 'none';
+      } else {
+        if (addrTypeBadge) addrTypeBadge.style.display = 'none';
+        if (addrBtnText) {
+          const lang = localStorage.getItem('shimla-lang') || 'en';
+          addrBtnText.textContent = lang === 'hi' ? '+ पता जोड़ें' : '+ Add Address';
+        }
+        if (addrPreviewText) {
+          addrPreviewText.innerHTML = `<div class="addr-empty-nudge">No delivery address saved yet. Save your address once for instant 1-tap checkout.</div>`;
+        }
+        if (addrSummaryBox) addrSummaryBox.style.display = 'flex';
+        if (addrFormWrap) addrFormWrap.style.display = 'none';
+      }
 
       // Load orders immediately
       serverOrders = await fetchServerCustomerOrders();
@@ -1212,6 +1428,7 @@
       prev.landmark = landVal;
       prev.city = cityVal;
       prev.pincode = pinVal;
+      prev.addressType = currentAddressType;
       prev.loggedIn = true;
 
       saveProfileToStorage(prev);
@@ -1228,10 +1445,14 @@
             landmark: prev.landmark,
             city: prev.city,
             pincode: prev.pincode,
+            addressType: prev.addressType,
             updatedAt: new Date().toISOString()
           }, { merge: true });
         } catch (err) {}
       }
+
+      toggleAddressEditor(false);
+      renderProfilePage();
 
       const fb = document.getElementById('addr-save-feedback');
       if (fb) {

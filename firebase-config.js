@@ -7,6 +7,10 @@
 window.SHIMLA_FIREBASE_CONFIG = {
   enabled: true,
   adminEmail: 'admin@shimlawali.in',
+  authorizedAdminEmails: [
+    'nimaythakur1234@gmail.com',
+    'admin@shimlawali.in'
+  ],
   apiKey: 'AIzaSyBX7XUQXTrD9a6U-EmKa-_cFOvcnG7X26k',
   authDomain: 'shimlawali-store.firebaseapp.com',
   projectId: 'shimlawali-store',

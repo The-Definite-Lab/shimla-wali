@@ -200,7 +200,15 @@ window.applyStorefrontContent = function(data) {
     if (track) {
       const doubled = [...c.marquee_items, ...c.marquee_items];
       track.innerHTML = doubled
-        .map(txt => `<span class="marquee-pill-item"><span class="marquee-dot"></span> ${window.escapeHtml(txt)}</span>`)
+        .map(rawTxt => {
+          const txt = String(rawTxt || '').trim();
+          const isPromo = /20%|OFF|SHIMLA50|CODE:/i.test(txt);
+          if (isPromo) {
+            const cleanTxt = txt.replace(/^[✨🎁\s]+/, '');
+            return `<span class="marquee-pill-item promo-highlight"><span class="marquee-dot gold"></span> <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:2px;"><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> ${window.escapeHtml(cleanTxt)}</span>`;
+          }
+          return `<span class="marquee-pill-item"><span class="marquee-dot"></span> ${window.escapeHtml(txt)}</span>`;
+        })
         .join('');
     }
   }

@@ -453,8 +453,21 @@
     return result;
   }
 
+  function isAuthorizedAdminEmail(email) {
+    if (!email) return false;
+    const lower = String(email).trim().toLowerCase();
+    const list = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
+      'nimaythakur1234@gmail.com',
+      'admin@shimlawali.in'
+    ]).map(e => String(e).trim().toLowerCase());
+    return list.includes(lower);
+  }
+
   function requireAdminUser(auth) {
     if (!auth.currentUser) throw new window.ShimlaDomain.HttpError(401, 'Admin authentication required');
+    if (!isAuthorizedAdminEmail(auth.currentUser.email)) {
+      throw new window.ShimlaDomain.HttpError(403, `Access Denied: ${auth.currentUser.email || 'Account'} is not authorized to access Admin Studio.`);
+    }
     return auth.currentUser;
   }
 
@@ -667,6 +680,9 @@
         const email = String(body.email || cfg.adminEmail || '').trim();
         const password = String(body.password || '');
         if (!email || !password) return jsonResponse({ ok: false, error: 'Admin email and password required' }, 400);
+        if (!isAuthorizedAdminEmail(email)) {
+          return jsonResponse({ ok: false, error: 'Access Denied: Email is not authorized for Admin Studio.' }, 403);
+        }
         const cred = await auth.signInWithEmailAndPassword(email, password);
         return jsonResponse({
           ok: true,

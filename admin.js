@@ -51,6 +51,22 @@ function applyAdminTheme() {
   const lightBtn = document.getElementById('theme-btn-light');
   if (darkBtn) darkBtn.className = `btn ${!isLight ? 'primary' : ''}`;
   if (lightBtn) lightBtn.className = `btn ${isLight ? 'primary' : ''}`;
+  updateSidefootControls();
+}
+
+function updateSidefootControls() {
+  const isLight = adminTheme === 'light';
+  const themeIcon = document.getElementById('side-theme-icon');
+  const themeLabel = document.getElementById('side-theme-label');
+  if (themeIcon) themeIcon.textContent = isLight ? '🌙' : '☀️';
+  if (themeLabel) themeLabel.textContent = isLight
+    ? (adminLang === 'en' ? 'Night Mode' : 'नाइट मोड')
+    : (adminLang === 'en' ? 'Day Mode' : 'डे मोड');
+
+  const langIcon = document.getElementById('side-lang-icon');
+  const langLabel = document.getElementById('side-lang-label');
+  if (langIcon) langIcon.textContent = adminLang === 'en' ? '🇮🇳' : '🇬🇧';
+  if (langLabel) langLabel.textContent = adminLang === 'en' ? 'हिन्दी' : 'English';
 }
 
 function setAdminTheme(mode) {
@@ -368,6 +384,11 @@ function applyAdminLang() {
     crumbEl.textContent = navBtn.querySelector('.nav-title')?.textContent.trim() || currentTab;
   }
   updateAdminGreeting();
+  updateSidefootControls();
+}
+
+function toggleAdminLang() {
+  setAdminLang(adminLang === 'en' ? 'hi' : 'en');
 }
 
 function setAdminLang(lang) {
@@ -425,6 +446,76 @@ function toggleMobileSide(forceOpen) {
   const next = forceOpen !== undefined ? forceOpen : !side.classList.contains('open');
   side.classList.toggle('open', next);
   backdrop.classList.toggle('show', next);
+  document.body.classList.toggle('mobile-side-open', next);
+}
+
+function togglePasscodeFallback() {
+  const form = document.getElementById('admin-login-form');
+  const arrow = document.getElementById('passcode-fallback-arrow');
+  if (!form) return;
+  const isHidden = form.style.display === 'none' || !form.style.display;
+  form.style.display = isHidden ? 'block' : 'none';
+  if (arrow) arrow.textContent = isHidden ? '▴' : '▾';
+  if (isHidden) {
+    const pwInput = document.getElementById('admin-pw');
+    if (pwInput) pwInput.focus();
+  }
+}
+
+async function doAdminGoogleLogin() {
+  const errEl = document.getElementById('login-error');
+  const btn = document.getElementById('admin-google-btn');
+  const btnTxt = document.getElementById('admin-google-btn-text');
+  if (errEl) { errEl.style.display = 'none'; errEl.innerHTML = ''; }
+  if (btn) btn.disabled = true;
+  if (btnTxt) btnTxt.textContent = 'Verifying Google Account…';
+
+  try {
+    if (!window.shimlaFirebaseBridge || !window.shimlaFirebaseBridge.ready) {
+      throw new Error('Firebase connection is initializing. Please wait a moment and try again.');
+    }
+    const { auth } = await window.shimlaFirebaseBridge.ready();
+    const provider = new window.firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    const result = await auth.signInWithPopup(provider);
+    const user = result.user;
+    const email = (user && user.email ? user.email.toLowerCase().trim() : '');
+
+    const authorized = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
+      'nimaythakur1234@gmail.com',
+      'admin@shimlawali.in'
+    ]).map(e => e.toLowerCase().trim());
+
+    if (!authorized.includes(email)) {
+      await auth.signOut();
+      setStoredToken('');
+      if (errEl) {
+        errEl.innerHTML = `<strong>⛔ Access Denied (403)</strong><br>The Google account <em>${esc(email || 'unidentified')}</em> is not on the authorized whitelist. Access to Shimla Wali Business Studio is strictly prohibited.`;
+        errEl.style.display = 'block';
+      }
+      return;
+    }
+
+    const token = await user.getIdToken();
+    setStoredToken(token);
+    showStudioApp();
+    await loadBootstrap();
+    startLiveAutoSync();
+    showToast(`Welcome, ${user.displayName || email}!`);
+  } catch (err) {
+    console.error('Admin Google sign-in failed:', err);
+    if (errEl) {
+      if (err.code === 'auth/popup-closed-by-user') {
+        errEl.textContent = 'Google sign-in popup was closed. Please try again.';
+      } else {
+        errEl.textContent = err.message || 'Google sign-in could not be completed.';
+      }
+      errEl.style.display = 'block';
+    }
+  } finally {
+    if (btn) btn.disabled = false;
+    if (btnTxt) btnTxt.textContent = 'Sign In with Whitelisted Google Account';
+  }
 }
 
 // ── API Client (Cookie + Header Token with Auto 401 Lockout) ────
@@ -639,8 +730,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (emailInp) {
       emailInp.value = window.SHIMLA_FIREBASE_CONFIG?.adminEmail || 'admin@shimlawali.in';
     }
-    if (secNote) secNote.textContent = 'Protected by Encrypted Passcode & Cloud Firestore Security Rules (₹0 Spark Mode).';
+    if (secNote) secNote.textContent = 'Whitelisted Google Auth & Cloud Firestore Security Rules (₹0 Spark Mode).';
     if (seedBtn) seedBtn.style.display = 'inline-flex';
+
+    try {
+      const { auth } = await window.shimlaFirebaseBridge.ready();
+      if (auth.currentUser) {
+        const email = (auth.currentUser.email || '').toLowerCase().trim();
+        const authorized = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
+          'nimaythakur1234@gmail.com',
+          'admin@shimlawali.in'
+        ]).map(e => e.toLowerCase().trim());
+        if (!authorized.includes(email)) {
+          console.warn('Current auth user not authorized as admin:', email);
+          await auth.signOut();
+          setStoredToken('');
+          showLoginScreen();
+          const errEl = document.getElementById('login-error');
+          if (errEl) {
+            errEl.innerHTML = `<strong>⛔ Access Denied (403)</strong><br>The Google account <em>${esc(email)}</em> is not on the authorized whitelist. Access is strictly forbidden.`;
+            errEl.style.display = 'block';
+          }
+          return;
+        }
+      }
+    } catch (e) {}
   }
 
   try {

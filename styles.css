@@ -4255,7 +4255,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: #f1f5f9;
+  color: #ffffff;
 }
 
 .marquee-dot {
@@ -7451,17 +7451,17 @@ body.dark-theme .site-footer {
 
 /* Luxury Marquee Highlight */
 .marquee-pill-item.promo-highlight {
-  color: #fef08a !important;
+  color: #f59e0b !important;
   font-weight: 800;
   letter-spacing: 0.04em;
-  background: rgba(234, 179, 8, 0.14);
-  border: 1px solid rgba(234, 179, 8, 0.4);
+  background: rgba(245, 158, 11, 0.14) !important;
+  border: 1px solid rgba(245, 158, 11, 0.45) !important;
   padding: 4px 14px;
   border-radius: 999px;
 }
 .marquee-dot.gold {
-  background-color: #eab308 !important;
-  box-shadow: 0 0 8px rgba(234, 179, 8, 0.8);
+  background-color: #f59e0b !important;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.85) !important;
 }
 
 /* Cart Drawer Promo Cards */
