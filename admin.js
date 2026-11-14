@@ -3971,7 +3971,8 @@ function loadContentCms() {
   document.getElementById('cms-hero-desc').value = c.hero_description || '';
   document.getElementById('cms-about-heading').value = c.about_heading || '';
   document.getElementById('cms-about-body').value = c.about_body || '';
-  document.getElementById('cms-marquee').value = Array.isArray(c.marquee_items) ? c.marquee_items.join('\n') : '';
+  const cleanMarquee = (Array.isArray(c.marquee_items) ? c.marquee_items : []).filter(s => !/[\u0900-\u097F]/.test(String(s || '')));
+  document.getElementById('cms-marquee').value = cleanMarquee.join('\n');
   document.getElementById('cms-footer').value = c.footer_note || '';
   document.getElementById('cms-sec-featured').checked = c.sections?.featured_products !== false;
   document.getElementById('cms-sec-story').checked = c.sections?.our_story !== false;
@@ -3995,7 +3996,7 @@ async function saveContentCms() {
         hero_description: document.getElementById('cms-hero-desc').value.trim(),
         about_heading: document.getElementById('cms-about-heading').value.trim(),
         about_body: document.getElementById('cms-about-body').value.trim(),
-        marquee_items: document.getElementById('cms-marquee').value.split('\n').map(s => s.trim()).filter(Boolean),
+        marquee_items: document.getElementById('cms-marquee').value.split('\n').map(s => s.trim()).filter(s => s && !/[\u0900-\u097F]/.test(s)),
         footer_note: document.getElementById('cms-footer').value.trim(),
         sections: {
           featured_products: document.getElementById('cms-sec-featured').checked,

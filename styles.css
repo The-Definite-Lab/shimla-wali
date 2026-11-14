@@ -4271,21 +4271,26 @@ h1, h2, h3, h4, h5, h6 {
 /* Mobile Slim Marquee */
 @media (max-width: 768px) {
   .luxury-marquee-strip {
-    padding: 5px 0;
-    margin-top: 6px;
-    margin-bottom: 12px;
+    padding: 3px 0;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    min-height: 28px;
   }
   .luxury-marquee-track {
-    gap: 18px;
+    gap: 14px;
   }
   .marquee-pill-item {
-    font-size: 0.65rem;
-    letter-spacing: 0.5px;
+    font-size: 0.62rem;
+    letter-spacing: 0.4px;
     gap: 5px;
   }
+  .marquee-pill-item.promo-highlight {
+    padding: 2px 8px;
+    font-size: 0.62rem;
+  }
   .marquee-dot {
-    width: 4px;
-    height: 4px;
+    width: 3.5px;
+    height: 3.5px;
   }
 }
 

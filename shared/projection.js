@@ -127,13 +127,18 @@
         minOrderAmount: Number(d.minOrderAmount) || 0
       }));
 
+    const publicContent = { ...(catalog.content || {}) };
+    if (Array.isArray(publicContent.marquee_items)) {
+      publicContent.marquee_items = publicContent.marquee_items.filter(s => !/[\u0900-\u097F]/.test(String(s || '')));
+    }
+
     return {
       products: publicProducts,
       niches: catalog.niches || [],
       settings: publicSettings,
       batches: publicBatches,
       media: catalog.media || {},
-      content: catalog.content || {},
+      content: publicContent,
       discounts: activeDiscounts
     };
   }

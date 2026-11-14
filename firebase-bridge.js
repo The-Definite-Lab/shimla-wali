@@ -254,6 +254,9 @@
       });
     }
     pub._bySku = bySku;
+    if (pub && pub.content && Array.isArray(pub.content.marquee_items)) {
+      pub.content.marquee_items = pub.content.marquee_items.filter(s => !/[\u0900-\u097F]/.test(String(s || '')));
+    }
     return await resolveMediaRefsInObject(db, pub);
   }
 
@@ -728,6 +731,18 @@
                     await db.collection('customers').doc(dup.customerId).delete();
                   }
                 }
+              }
+            }
+
+            // Clean any Hindi items from catalog.content.marquee_items in Firestore
+            if (fullDb.catalog && fullDb.catalog.content && Array.isArray(fullDb.catalog.content.marquee_items)) {
+              const orig = fullDb.catalog.content.marquee_items;
+              const cleaned = orig.filter(s => !/[\u0900-\u097F]/.test(String(s || '')));
+              if (cleaned.length !== orig.length) {
+                fullDb.catalog.content.marquee_items = cleaned;
+                await db.collection('catalog').doc('main').set(sanitizeDoc(fullDb.catalog), { merge: true });
+                const proj = window.ShimlaProjection.buildPublicProductsProjection(fullDb);
+                await db.collection('storefront').doc('public').set(sanitizeDoc(proj), { merge: true });
               }
             }
           } catch (e) {
