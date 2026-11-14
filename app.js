@@ -1447,6 +1447,16 @@ class CoverflowCarousel {
   stopAutoPlay() {
     if (this.autoPlayTimer) clearInterval(this.autoPlayTimer);
   }
+  updateData(newItems) {
+    if (!Array.isArray(newItems) || newItems.length === 0) return;
+    this.stopAutoPlay();
+    this.items = newItems;
+    this.currentIndex = Math.min(this.currentIndex, this.items.length - 1);
+    this.render();
+    this.updateSlides();
+    this.attachEvents();
+    this.startAutoPlay();
+  }
 }
 // Initialize Coverflow Carousel & Global CMS + Analytics View Sync
 document.addEventListener('DOMContentLoaded', () => {
@@ -1461,57 +1471,82 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const customContainer = document.getElementById('my-custom-carousel');
+  const fallback = [
+    { title: 'A2 PAHADI BILONA GHEE', subtitle: '500ml Traditional Jar', price: '₹1,199', mrp: '₹1,500', image: './images/shimla-ghee.webp', link: 'product.html?id=ghee', liveNote: 'Fresh Churn • Only Few Left', pillTone: 'pill-green' },
+    { title: 'HIMACHALI WALNUTS', subtitle: '500g Kagzi Akhrot', price: '₹549', mrp: '₹750', image: './images/himachali-walnuts.webp', link: 'product.html?id=walnuts', liveNote: 'Kinnaur Fresh Harvest', pillTone: 'pill-green' },
+    { title: 'WILD FOREST RAW HONEY', subtitle: '500g Alpine Nectar', price: '₹599', mrp: '₹799', image: './images/pure-honey.webp?v=4', link: 'product.html?id=honey', liveNote: 'Raw Forest • Only 8 Left', pillTone: 'pill-red' },
+    { title: 'HOMEMADE PAHADI PICKLE', subtitle: '400g Handcrafted Jar', price: '₹349', mrp: '₹450', image: './images/homemade-pickle.webp?v=4', link: 'product.html?id=pickle', liveNote: 'Sun-Cured • 10 Jars Left', pillTone: 'pill-gold' },
+    { title: 'SHIMLA ROYAL APPLES', subtitle: '5kg Orchard Crate', price: '₹1,249', mrp: '₹1,600', image: './images/shimla-apples.webp?v=4', link: 'product.html?id=apples', liveNote: 'Orchard Picked Fresh', pillTone: 'pill-orange' },
+    { title: 'ORGANIC PAHADI RAJMA', subtitle: '1kg Mountain Harvest', price: '₹269', mrp: '₹350', image: './images/pahadi-rajma.webp', link: 'product.html?id=pulses', liveNote: 'Sun-Cured Village Harvest', pillTone: 'pill-green' },
+    { title: 'HIMACHALI RED RICE', subtitle: '1kg Chhohartu Grain', price: '₹249', mrp: '₹320', image: './images/himachali-red-rice.webp?v=2', link: 'product.html?id=red-rice', liveNote: 'Stone-Husked • Few Bags Left', pillTone: 'pill-gold' }
+  ];
+
+  function formatProductsForCarousel(catalogData) {
+    if (!catalogData || !Array.isArray(catalogData.products)) return fallback;
+    const shimlaProducts = catalogData.products
+      .filter(p => p.visible !== false)
+      .map(p => {
+        const meta = window.getProductStatusPill ? window.getProductStatusPill(p) : { liveNote: '', tone: 'pill-green' };
+        const cleanTitle = p.title || '';
+        const firstSub = p.subtitle ? p.subtitle.split(' ')[0] : '';
+        return {
+          title: cleanTitle.toUpperCase() + (firstSub && !cleanTitle.includes(firstSub) ? ` (${firstSub})` : ''),
+          subtitle: p.subtitle,
+          price: `₹${(Number(p.price) || 0).toLocaleString('en-IN')}`,
+          mrp: p.mrp > p.price ? `₹${Number(p.mrp).toLocaleString('en-IN')}` : '',
+          image: p.image,
+          link: p.link,
+          liveNote: meta.liveNote,
+          pillTone: meta.tone
+        };
+      });
+
+    if (shimlaProducts.length > 0 && shimlaProducts.length < 5) {
+      shimlaProducts.push({
+        title: 'VEDIC BILONA PROCESS',
+        subtitle: '100% Curd Churned Heritage',
+        price: 'Explore →',
+        mrp: '',
+        isDiagram: true,
+        link: 'about.html'
+      });
+    }
+    return shimlaProducts.length > 0 ? shimlaProducts : fallback;
+  }
+
+  // 1. Instantly render hero Coverflow Carousel from localStorage or fallback (0ms latency!)
+  if (customContainer) {
+    let initialList = fallback;
+    try {
+      const cached = JSON.parse(localStorage.getItem('shimla_cached_catalog') || 'null');
+      if (cached && Array.isArray(cached.products) && cached.products.length > 0) {
+        initialList = formatProductsForCarousel(cached);
+      }
+    } catch (e) {}
+    window.__heroCarouselInstance = new CoverflowCarousel('my-custom-carousel', initialList);
+  }
+
+  // 2. Load fresh catalog asynchronously, update cache, and refresh carousel
   window.loadStorefrontCatalog()
     .then(data => {
       window.applyStorefrontContent(data);
+      try {
+        localStorage.setItem('shimla_cached_catalog', JSON.stringify(data));
+      } catch (e) {}
       if (!customContainer) return;
       const renderHomeCarousel = (catalogData) => {
-        const shimlaProducts = (catalogData.products || [])
-          .filter(p => p.visible !== false)
-          .map(p => {
-            const meta = window.getProductStatusPill(p);
-            const cleanTitle = p.title || '';
-            const firstSub = p.subtitle ? p.subtitle.split(' ')[0] : '';
-            return {
-              title: cleanTitle.toUpperCase() + (firstSub && !cleanTitle.includes(firstSub) ? ` (${firstSub})` : ''),
-              subtitle: p.subtitle,
-              price: `₹${(Number(p.price) || 0).toLocaleString('en-IN')}`,
-              mrp: p.mrp > p.price ? `₹${Number(p.mrp).toLocaleString('en-IN')}` : '',
-              image: p.image,
-              link: p.link,
-              liveNote: meta.liveNote,
-              pillTone: meta.tone
-            };
-          });
-
-        if (shimlaProducts.length < 5) {
-          shimlaProducts.push({
-            title: 'VEDIC BILONA PROCESS',
-            subtitle: '100% Curd Churned Heritage',
-            price: 'Explore →',
-            mrp: '',
-            isDiagram: true,
-            link: 'about.html'
-          });
+        const freshList = formatProductsForCarousel(catalogData);
+        if (window.__heroCarouselInstance) {
+          window.__heroCarouselInstance.updateData(freshList);
+        } else {
+          window.__heroCarouselInstance = new CoverflowCarousel('my-custom-carousel', freshList);
         }
-        new CoverflowCarousel('my-custom-carousel', shimlaProducts);
       };
       renderHomeCarousel(data);
       window.onStorefrontUpdate(renderHomeCarousel);
     })
     .catch(err => {
       console.error('Failed to load products for carousel', err);
-      if (!customContainer) return;
-      const fallback = [
-        { title: 'A2 PAHADI BILONA GHEE', subtitle: '500ml Traditional Jar', price: '₹1,199', mrp: '₹1,500', image: './images/shimla-ghee.webp', link: 'product.html?id=ghee', liveNote: 'Fresh Churn • Only Few Left', pillTone: 'pill-green' },
-        { title: 'HIMACHALI WALNUTS', subtitle: '500g Kagzi Akhrot', price: '₹549', mrp: '₹750', image: './images/himachali-walnuts.webp', link: 'product.html?id=walnuts', liveNote: 'Kinnaur Fresh Harvest', pillTone: 'pill-green' },
-        { title: 'WILD FOREST RAW HONEY', subtitle: '500g Alpine Nectar', price: '₹599', mrp: '₹799', image: './images/pure-honey.webp?v=4', link: 'product.html?id=honey', liveNote: 'Raw Forest • Only 8 Left', pillTone: 'pill-red' },
-        { title: 'HOMEMADE PAHADI PICKLE', subtitle: '400g Handcrafted Jar', price: '₹349', mrp: '₹450', image: './images/homemade-pickle.webp?v=4', link: 'product.html?id=pickle', liveNote: 'Sun-Cured • 10 Jars Left', pillTone: 'pill-gold' },
-        { title: 'SHIMLA ROYAL APPLES', subtitle: '5kg Orchard Crate', price: '₹1,249', mrp: '₹1,600', image: './images/shimla-apples.webp?v=4', link: 'product.html?id=apples', liveNote: 'Orchard Picked Fresh', pillTone: 'pill-orange' },
-        { title: 'ORGANIC PAHADI RAJMA', subtitle: '1kg Mountain Harvest', price: '₹269', mrp: '₹350', image: './images/pahadi-rajma.webp', link: 'product.html?id=pulses', liveNote: 'Sun-Cured Village Harvest', pillTone: 'pill-green' },
-        { title: 'HIMACHALI RED RICE', subtitle: '1kg Chhohartu Grain', price: '₹249', mrp: '₹320', image: './images/himachali-red-rice.webp?v=2', link: 'product.html?id=red-rice', liveNote: 'Stone-Husked • Few Bags Left', pillTone: 'pill-gold' }
-      ];
-      new CoverflowCarousel('my-custom-carousel', fallback);
     });
 });
 

@@ -19,6 +19,11 @@
   const nativeFetch = window.fetch.bind(window);
   const FB_SDK_VER = '10.14.1';
   const mediaCache = new Map();
+  let cachedPublicStorefront = null;
+  let cachedPublicStorefrontAt = 0;
+  const STOREFRONT_CACHE_TTL_MS = 60000;
+  const cachedDiscounts = {};
+  let cachedDiscountsAt = 0;
 
   function loadScriptOnce(src) {
     return new Promise((resolve, reject) => {
@@ -208,19 +213,32 @@
     const phone = window.ShimlaDomain.normalizePhone(order.customerSnapshot?.phone || '');
     if (!phone) return;
     const payload = sanitizeDoc(buildReceiptLookupPayload(order));
-    const oidHash = await sha256Hex(`${phone}:${order.orderId}`);
-    const writes = [db.collection('order_lookups').doc(oidHash).set(payload)];
     const pin = String(order.customerSnapshot?.pincode || '').trim();
+    const tasks = [
+      sha256Hex(`${phone}:${order.orderId}`).then(oidHash =>
+        db.collection('order_lookups').doc(oidHash).set(payload)
+      )
+    ];
     if (/^\d{6}$/.test(pin)) {
-      const pinHash = await sha256Hex(`${phone}:${pin}`);
-      writes.push(
-        db.collection('order_pin_lookups').doc(pinHash).collection('orders').doc(order.orderId).set(payload)
+      tasks.push(
+        sha256Hex(`${phone}:${pin}`).then(pinHash =>
+          db.collection('order_pin_lookups').doc(pinHash).collection('orders').doc(order.orderId).set(payload)
+        )
       );
     }
-    await Promise.all(writes);
+    await Promise.all(tasks);
   }
 
-  async function loadPublicStorefront(db) {
+  async function loadPublicStorefront(db, options = {}) {
+    const now = Date.now();
+    const isFresh = cachedPublicStorefront && (now - cachedPublicStorefrontAt < STOREFRONT_CACHE_TTL_MS);
+
+    if (isFresh) {
+      if (options.skipMedia || cachedPublicStorefront._mediaResolved) {
+        return JSON.parse(JSON.stringify(cachedPublicStorefront));
+      }
+    }
+
     const pubSnap = await db.collection('storefront').doc('public').get();
     if (!pubSnap.exists) {
       throw new Error('Storefront database is not seeded yet. Sign in to Admin Studio -> Seed Firestore.');
@@ -257,27 +275,42 @@
     if (pub && pub.content && Array.isArray(pub.content.marquee_items)) {
       pub.content.marquee_items = pub.content.marquee_items.filter(s => !/[\u0900-\u097F]/.test(String(s || '')));
     }
-    return await resolveMediaRefsInObject(db, pub);
+
+    if (options.skipMedia) {
+      if (!cachedPublicStorefront) {
+        cachedPublicStorefront = JSON.parse(JSON.stringify(pub));
+        cachedPublicStorefrontAt = now;
+      }
+      return pub;
+    }
+
+    const resolved = await resolveMediaRefsInObject(db, pub);
+    resolved._mediaResolved = true;
+    cachedPublicStorefront = JSON.parse(JSON.stringify(resolved));
+    cachedPublicStorefrontAt = now;
+    return resolved;
   }
 
-  async function buildPseudoDbFromPublic(db, promoCode = '') {
-    const pub = await loadPublicStorefront(db);
+  async function buildPseudoDbFromPublic(db, promoCode = '', options = {}) {
+    const pub = await loadPublicStorefront(db, options);
     const discounts = [];
     const cleanPromo = String(promoCode || '').trim().toUpperCase();
     if (cleanPromo) {
-      try {
-        const dSnap = await db.collection('discounts').doc(cleanPromo).get();
-        if (dSnap.exists) discounts.push(dSnap.data());
-      } catch {}
-    }
-    const orderSnapCount = await (async () => {
-      try {
-        const cSnap = await db.collection('counters').doc('orders').get();
-        return cSnap.exists ? Math.max(0, (Number(cSnap.data().nextSeq) || 1001) - 1001) : 0;
-      } catch {
-        return 0;
+      const now = Date.now();
+      if (cachedDiscounts[cleanPromo] && (now - cachedDiscountsAt < STOREFRONT_CACHE_TTL_MS)) {
+        discounts.push(cachedDiscounts[cleanPromo]);
+      } else {
+        try {
+          const dSnap = await db.collection('discounts').doc(cleanPromo).get();
+          if (dSnap.exists) {
+            const dData = dSnap.data();
+            cachedDiscounts[cleanPromo] = dData;
+            cachedDiscountsAt = now;
+            discounts.push(dData);
+          }
+        } catch {}
       }
-    })();
+    }
 
     return {
       pub,
@@ -292,7 +325,7 @@
         inventory: { bySku: pub._bySku || {} },
         batches: { batches: pub.batches || [] },
         discounts: { discounts },
-        orders: { orders: new Array(orderSnapCount).fill(null) },
+        orders: { orders: [] },
         customers: { customers: [] },
         auditLogs: { logs: [] }
       }
@@ -534,6 +567,9 @@
       db.collection('storefront').doc('public').onSnapshot(async snap => {
         if (!snap.exists) return;
         const data = await resolveMediaRefsInObject(db, snap.data());
+        data._mediaResolved = true;
+        cachedPublicStorefront = JSON.parse(JSON.stringify(data));
+        cachedPublicStorefrontAt = Date.now();
         cb(data);
       });
     }).catch(() => {});
@@ -573,13 +609,13 @@
       }
       if (reqPath === '/api/checkout/quote' && method === 'POST') {
         const body = parseBody();
-        const { dbObj } = await buildPseudoDbFromPublic(db, body.promoCode);
+        const { dbObj } = await buildPseudoDbFromPublic(db, body.promoCode, { skipMedia: true });
         const quote = window.ShimlaDomain.calculateCheckoutQuote(dbObj, body);
         return jsonResponse({ ok: true, quote });
       }
       if (reqPath === '/api/orders' && method === 'POST') {
         const body = parseBody();
-        const { dbObj } = await buildPseudoDbFromPublic(db, body.promoCode);
+        const { dbObj } = await buildPseudoDbFromPublic(db, body.promoCode, { skipMedia: true });
         const result = window.ShimlaDomain.createOrderRequest(dbObj, () => {}, body, {
           actorMeta: { actor: 'guest', ip: 'firebase-web' }
         });
@@ -599,8 +635,10 @@
           orderId = `SW-ORD-${Date.now().toString(36).toUpperCase().slice(-5)}`;
           result.order.orderId = orderId;
         }
-        await db.collection('orders').doc(orderId).set(sanitizeDoc(result.order));
-        await syncOrderLookupDocs(db, result.order);
+        await Promise.all([
+          db.collection('orders').doc(orderId).set(sanitizeDoc(result.order)),
+          syncOrderLookupDocs(db, result.order)
+        ]);
         const custToken = btoa(JSON.stringify({
           phone: result.order.customerSnapshot?.phone || '',
           orderId,

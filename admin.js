@@ -3466,12 +3466,32 @@ async function submitVerifyBuyDecision() {
         ? `Order ${orderId} snoozed — will re-ask when follow-up is due!`
         : `Order ${orderId} marked Not Bought`;
     showToast(msg);
-    await loadBootstrap();
+
+    // Optimistically update order in state.orders for instantaneous UI response
+    const targetOrder = (state.orders || []).find(x => x.orderId === orderId);
+    if (targetOrder) {
+      if (decision === 'accept') {
+        targetOrder.orderStatus = payload.dispatchNow ? 'dispatched' : 'confirmed';
+        targetOrder.verificationState = 'bought';
+        if (payload.dispatchNow) targetOrder.stockDeducted = true;
+        else targetOrder.stockReserved = true;
+      } else if (decision === 'wait') {
+        targetOrder.orderStatus = 'waiting_followup';
+        targetOrder.followUpAt = new Date(Date.now() + (payload.followUpDays || 2) * 86400000).toISOString();
+      } else if (decision === 'not_bought') {
+        targetOrder.orderStatus = 'cancelled';
+        targetOrder.verificationState = 'not_bought';
+      }
+    }
+    if (typeof renderOrdersTable === 'function') renderOrdersTable();
+    if (typeof renderKanbanBoard === 'function') renderKanbanBoard();
+
     if (decision === 'accept') {
       const stage = payload.dispatchNow ? 'dispatch' : 'confirm';
       const waInfo = (res.whatsapp && res.whatsapp[stage]) || (res.messages && res.messages[stage]) || null;
       openWhatsAppSendModal(orderId, stage, waInfo);
     }
+    loadBootstrap().catch(() => {});
   } catch (err) {
     showToast(err.message, true);
   }
@@ -3488,7 +3508,14 @@ async function quickWaitOrder(orderId, days = 2) {
       })
     });
     showToast(`${orderId} snoozed for ${days} days — portal will re-ask automatically!`);
-    await loadBootstrap();
+    const targetOrder = (state.orders || []).find(x => x.orderId === orderId);
+    if (targetOrder) {
+      targetOrder.orderStatus = 'waiting_followup';
+      targetOrder.followUpAt = new Date(Date.now() + days * 86400000).toISOString();
+    }
+    if (typeof renderOrdersTable === 'function') renderOrdersTable();
+    if (typeof renderKanbanBoard === 'function') renderKanbanBoard();
+    loadBootstrap().catch(() => {});
   } catch (err) {
     showToast(err.message, true);
   }
@@ -3496,9 +3523,19 @@ async function quickWaitOrder(orderId, days = 2) {
 
 async function doConfirmOrder(orderId) {
   try {
-    await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/confirm`, { method: 'POST', body: JSON.stringify({}) });
+    const res = await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/confirm`, { method: 'POST', body: JSON.stringify({}) });
     showToast(`Order ${orderId} confirmed — stock reserved`);
-    await loadBootstrap();
+    const targetOrder = (state.orders || []).find(x => x.orderId === orderId);
+    if (targetOrder) {
+      targetOrder.orderStatus = 'confirmed';
+      targetOrder.stockReserved = true;
+    }
+    if (typeof renderOrdersTable === 'function') renderOrdersTable();
+    if (typeof renderKanbanBoard === 'function') renderKanbanBoard();
+    if (res.whatsapp && res.whatsapp.confirm) {
+      openWhatsAppSendModal(orderId, 'confirm', res.whatsapp.confirm);
+    }
+    loadBootstrap().catch(() => {});
   } catch (err) {
     showToast(err.message, true);
   }
@@ -3511,7 +3548,13 @@ async function doAdvanceStatus(orderId, targetStatus) {
       body: JSON.stringify({ targetStatus })
     });
     showToast(`Order ${orderId} moved to ${targetStatus}`);
-    await loadBootstrap();
+    const targetOrder = (state.orders || []).find(x => x.orderId === orderId);
+    if (targetOrder) {
+      targetOrder.orderStatus = targetStatus;
+    }
+    if (typeof renderOrdersTable === 'function') renderOrdersTable();
+    if (typeof renderKanbanBoard === 'function') renderKanbanBoard();
+    loadBootstrap().catch(() => {});
   } catch (err) {
     showToast(err.message, true);
   }
@@ -3558,12 +3601,15 @@ async function submitDispatch() {
     ? document.getElementById('dp-eta-custom').value.trim()
     : etaSel;
   try {
+    const courier = document.getElementById('dp-courier').value.trim();
+    const trackingId = document.getElementById('dp-tracking').value.trim();
+    const trackingUrl = document.getElementById('dp-tracking-url').value.trim();
     const res = await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/dispatch`, {
       method: 'POST',
       body: JSON.stringify({
-        courier: document.getElementById('dp-courier').value.trim(),
-        trackingId: document.getElementById('dp-tracking').value.trim(),
-        trackingUrl: document.getElementById('dp-tracking-url').value.trim(),
+        courier,
+        trackingId,
+        trackingUrl,
         expectedDeliveryText,
         dispatchNotes: document.getElementById('dp-notes').value.trim(),
         idempotencyKey: `disp-${orderId}-${Date.now()}`
@@ -3571,10 +3617,21 @@ async function submitDispatch() {
     });
     closeModal('dispatch-modal');
     showToast(`Order ${orderId} dispatched & stock deducted!`);
-    await loadBootstrap();
+
+    // Optimistically update order in state.orders
+    const targetOrder = (state.orders || []).find(x => x.orderId === orderId);
+    if (targetOrder) {
+      targetOrder.orderStatus = 'dispatched';
+      targetOrder.stockDeducted = true;
+      targetOrder.shippingDetails = { courier, trackingId, trackingUrl, expectedDeliveryText };
+    }
+    if (typeof renderOrdersTable === 'function') renderOrdersTable();
+    if (typeof renderKanbanBoard === 'function') renderKanbanBoard();
+
     if (res.whatsapp && res.whatsapp.dispatch) {
       openWhatsAppSendModal(orderId, 'dispatch', res.whatsapp.dispatch);
     }
+    loadBootstrap().catch(() => {});
   } catch (err) {
     showToast(err.message, true);
   }
@@ -3696,11 +3753,22 @@ async function doDeliverOrder(orderId) {
       body: JSON.stringify({ autoCollectCod: true })
     });
     showToast(`Order ${orderId} marked Delivered!${isCod ? ' (Cash collected)' : ''}`);
-    await loadBootstrap();
+
+    // Optimistically update order in state.orders
+    const targetOrder = (state.orders || []).find(x => x.orderId === orderId);
+    if (targetOrder) {
+      targetOrder.orderStatus = 'delivered';
+      if (isCod) targetOrder.paymentStatus = 'paid';
+      targetOrder.deliveredAt = new Date().toISOString();
+    }
+    if (typeof renderOrdersTable === 'function') renderOrdersTable();
+    if (typeof renderKanbanBoard === 'function') renderKanbanBoard();
+
     if (res.whatsapp || res.messages) {
       const waGroup = res.whatsapp || res.messages || {};
       openWhatsAppSendModal(orderId, 'delivered', waGroup.delivered || null);
     }
+    loadBootstrap().catch(() => {});
   } catch (err) {
     showToast(err.message, true);
   }
