@@ -1403,6 +1403,71 @@ function isAcceptedOrderRow(o) {
   return o && !['pending_whatsapp', 'waiting_followup', 'cancelled'].includes(o.orderStatus) && o.paymentStatus !== 'refunded';
 }
 
+window.onDonutHover = function(idx) {
+  const container = document.getElementById('svg-donut-container');
+  if (!container) return;
+  const row = document.getElementById(`donut-row-${idx}`);
+  if (!row) return;
+
+  const label = row.getAttribute('data-label') || '';
+  const val = row.getAttribute('data-val') || '';
+  const pct = row.getAttribute('data-pct') || '0';
+  const color = row.getAttribute('data-color') || 'var(--text)';
+
+  const centerVal = document.getElementById('svg-donut-center-val');
+  const centerLbl = document.getElementById('svg-donut-center-lbl');
+  if (centerVal && centerLbl) {
+    centerVal.textContent = val;
+    centerVal.style.color = color;
+    centerVal.style.transform = 'scale(1.06)';
+    centerLbl.textContent = `${label} (${pct}%)`;
+    centerLbl.style.color = color;
+  }
+
+  document.querySelectorAll('.donut-slice').forEach(el => {
+    if (el.getAttribute('data-index') === String(idx)) {
+      el.classList.add('is-highlighted');
+      el.classList.remove('is-dimmed');
+    } else {
+      el.classList.add('is-dimmed');
+      el.classList.remove('is-highlighted');
+    }
+  });
+
+  document.querySelectorAll('.donut-leg-item').forEach(el => {
+    if (el.getAttribute('data-index') === String(idx)) {
+      el.classList.add('is-active');
+    } else {
+      el.classList.remove('is-active');
+    }
+  });
+};
+
+window.onDonutLeave = function() {
+  const container = document.getElementById('svg-donut-container');
+  if (!container) return;
+
+  const defaultVal = container.getAttribute('data-center-val') || '';
+  const defaultLbl = container.getAttribute('data-center-lbl') || '';
+
+  const centerVal = document.getElementById('svg-donut-center-val');
+  const centerLbl = document.getElementById('svg-donut-center-lbl');
+  if (centerVal && centerLbl) {
+    centerVal.textContent = defaultVal;
+    centerVal.style.color = 'var(--text)';
+    centerVal.style.transform = 'scale(1)';
+    centerLbl.textContent = defaultLbl;
+    centerLbl.style.color = 'var(--text-secondary)';
+  }
+
+  document.querySelectorAll('.donut-slice').forEach(el => {
+    el.classList.remove('is-highlighted', 'is-dimmed');
+  });
+  document.querySelectorAll('.donut-leg-item').forEach(el => {
+    el.classList.remove('is-active');
+  });
+};
+
 function buildSvgDonutHtml(segments, centerVal, centerLbl, emptyMsg) {
   const total = segments.reduce((s, d) => s + (Number(d.value) || 0), 0);
   if (!segments.length || total <= 0) {
@@ -1411,40 +1476,82 @@ function buildSvgDonutHtml(segments, centerVal, centerLbl, emptyMsg) {
   const R = 64;
   const C = 2 * Math.PI * R;
   let offset = 0;
-  const circles = segments.filter(s => s.value > 0).map(seg => {
+
+  const circles = segments.map((seg, idx) => {
+    if (seg.value <= 0) return '';
     const frac = seg.value / total;
     const len = frac * C;
     const dashArray = `${len.toFixed(2)} ${(C - len).toFixed(2)}`;
     const dashOffset = (-offset).toFixed(2);
     offset += len;
-    return `<circle cx="88" cy="88" r="${R}" fill="none" stroke="${seg.color}" stroke-width="24" stroke-dasharray="${dashArray}" stroke-dashoffset="${dashOffset}" stroke-linecap="butt"><title>${esc(seg.label)}: ${esc(seg.displayVal)} (${Math.round(frac * 100)}%)</title></circle>`;
+    const pct = Math.round(frac * 100);
+    return `
+      <circle id="donut-slice-${idx}" class="donut-slice"
+        cx="88" cy="88" r="${R}" fill="none"
+        stroke="${seg.color}" stroke-width="24"
+        stroke-dasharray="${dashArray}" stroke-dashoffset="${dashOffset}"
+        stroke-linecap="butt"
+        data-index="${idx}"
+        data-label="${esc(seg.label)}"
+        data-val="${esc(seg.displayVal)}"
+        data-pct="${pct}"
+        data-color="${seg.color}"
+        onmouseenter="window.onDonutHover && window.onDonutHover(${idx})"
+        onmouseleave="window.onDonutLeave && window.onDonutLeave()">
+        <title>${esc(seg.label)}: ${esc(seg.displayVal)} (${pct}%)</title>
+      </circle>
+    `;
   }).join('');
 
-  const ringTrack = adminTheme === 'light' ? 'rgba(19, 34, 28, 0.09)' : 'rgba(255,255,255,0.07)';
+  const ringTrack = adminTheme === 'light' ? 'rgba(19, 34, 28, 0.08)' : 'rgba(255,255,255,0.06)';
+
   return `
-    <div class="svg-donut-wrap">
+    <div class="svg-donut-wrap" id="svg-donut-container" data-center-val="${esc(centerVal)}" data-center-lbl="${esc(centerLbl)}">
       <div class="svg-donut-box">
-        <svg viewBox="0 0 176 176" width="100%" height="100%" style="transform:rotate(-90deg);">
+        <svg viewBox="0 0 176 176" width="100%" height="100%">
           <circle cx="88" cy="88" r="${R}" fill="none" stroke="${ringTrack}" stroke-width="24"></circle>
           ${circles}
         </svg>
-        <div class="svg-donut-center">
-          <strong>${esc(centerVal)}</strong>
-          <span>${esc(centerLbl)}</span>
+        <div class="svg-donut-center" id="svg-donut-center-box">
+          <strong id="svg-donut-center-val">${esc(centerVal)}</strong>
+          <span id="svg-donut-center-lbl">${esc(centerLbl)}</span>
         </div>
       </div>
       <div class="donut-legend-grid">
-        ${segments.slice(0, 6).map(seg => {
-          const pct = Math.round((seg.value / total) * 100);
+        ${segments.map((seg, idx) => {
+          const frac = total > 0 ? (seg.value / total) : 0;
+          const pct = Math.round(frac * 100);
+          const hasVal = seg.value > 0;
+          const bgFill = hasVal ? `background: linear-gradient(90deg, ${seg.color}15 0%, ${seg.color}2e 100%);` : '';
+          const bottomLine = hasVal ? `background: ${seg.color};` : '';
+          const countBadge = hasVal
+            ? `<span class="leg-count-badge" style="background:${seg.color}1c; color:${seg.color}; border:1px solid ${seg.color}45;">${esc(seg.displayVal)}</span>`
+            : `<span class="leg-count-badge" style="background:var(--track-fill); color:var(--text-secondary); opacity:0.65;">${esc(seg.displayVal)}</span>`;
+          const pctPill = hasVal
+            ? `<span class="leg-pct-pill has-val" style="background:${seg.color};">${pct}%</span>`
+            : `<span class="leg-pct-pill is-zero">0%</span>`;
+
           return `
-            <div class="donut-leg-item">
+            <div id="donut-row-${idx}" class="donut-leg-item ${hasVal ? 'has-orders' : 'is-zero'}"
+              style="${hasVal ? `border-color:${seg.color}35;` : ''}"
+              data-index="${idx}"
+              data-label="${esc(seg.label)}"
+              data-val="${esc(seg.displayVal)}"
+              data-pct="${pct}"
+              data-color="${seg.color}"
+              onmouseenter="window.onDonutHover && window.onDonutHover(${idx})"
+              onmouseleave="window.onDonutLeave && window.onDonutLeave()">
+              <div class="donut-bar-track">
+                <div class="donut-bar-fill" style="width:${pct}%; ${bgFill}"></div>
+                <div class="donut-bar-line" style="width:${pct}%; ${bottomLine}"></div>
+              </div>
               <span class="donut-leg-left">
-                <span class="legend-dot" style="background:${seg.color};flex:none;"></span>
-                <span style="overflow:hidden;text-overflow:ellipsis;">${esc(seg.label)}</span>
+                <span class="legend-dot" style="background:${seg.color}; color:${seg.color};"></span>
+                <span>${esc(seg.label)}</span>
               </span>
               <span class="donut-leg-right">
-                <strong>${esc(seg.displayVal)}</strong>
-                <span class="leg-pct-pill">${pct}%</span>
+                ${countBadge}
+                ${pctPill}
               </span>
             </div>
           `;
@@ -1936,14 +2043,14 @@ function renderCategoryMix(dist) {
   const orders = getFilteredDashOrders();
 
   if (dashDonutMode === 'stages') {
-    if (sub) sub.textContent = isEn ? 'Order count & share across every stage — clean single-line view' : 'हर स्थिति में कितने ऑर्डर हैं — बिल्कुल साफ एक लाइन में';
+    if (sub) sub.textContent = isEn ? 'Order count & visual share across every stage' : 'हर स्थिति में कितने ऑर्डर हैं — रंग-बिरंगी विज़ुअल प्रोग्रेस';
     const stages = [
-      { label: isEn ? 'Delivered' : 'पहुंच गए (Delivered)', color: '#16D69A', count: orders.filter(o => o.orderStatus === 'delivered').length },
-      { label: isEn ? 'Dispatched (In Transit)' : 'रास्ते में (Dispatched)', color: '#32E6A6', count: orders.filter(o => o.orderStatus === 'dispatched').length },
-      { label: isEn ? 'Confirmed & Packing' : 'पक्का व पैकिंग (Confirmed)', color: '#A78BFA', count: orders.filter(o => ['confirmed', 'processing', 'ready_for_dispatch'].includes(o.orderStatus)).length },
-      { label: isEn ? 'WhatsApp Verify Pending' : 'WhatsApp जाँच बाकी', color: '#4DA3FF', count: orders.filter(o => o.orderStatus === 'pending_whatsapp').length },
-      { label: isEn ? '2-Day Follow-up Waiting' : '2 दिन इंतज़ार (Waiting)', color: '#F5B942', count: orders.filter(o => o.orderStatus === 'waiting_followup').length },
-      { label: isEn ? 'Cancelled / Returned' : 'रद्द / वापस (Cancelled)', color: '#FF6B72', count: orders.filter(o => o.orderStatus === 'cancelled' || o.orderStatus.startsWith('return_')).length }
+      { label: isEn ? 'Delivered' : 'पहुंच गए (Delivered)', color: '#10B981', count: orders.filter(o => o.orderStatus === 'delivered').length },
+      { label: isEn ? 'Dispatched (In Transit)' : 'रास्ते में (Dispatched)', color: '#06B6D4', count: orders.filter(o => o.orderStatus === 'dispatched').length },
+      { label: isEn ? 'Confirmed & Packing' : 'पक्का व पैकिंग (Confirmed)', color: '#8B5CF6', count: orders.filter(o => ['confirmed', 'processing', 'ready_for_dispatch'].includes(o.orderStatus)).length },
+      { label: isEn ? 'WhatsApp Verify Pending' : 'WhatsApp जाँच बाकी', color: '#3B82F6', count: orders.filter(o => o.orderStatus === 'pending_whatsapp').length },
+      { label: isEn ? '2-Day Follow-up Waiting' : '2 दिन इंतज़ार (Waiting)', color: '#F59E0B', count: orders.filter(o => o.orderStatus === 'waiting_followup').length },
+      { label: isEn ? 'Cancelled / Returned' : 'रद्द / वापस (Cancelled)', color: '#EF4444', count: orders.filter(o => o.orderStatus === 'cancelled' || o.orderStatus.startsWith('return_')).length }
     ].map(s => ({ ...s, value: s.count, displayVal: isEn ? `${s.count} order${s.count === 1 ? '' : 's'}` : `${s.count} ऑर्डर` }));
 
     wrap.innerHTML = buildSvgDonutHtml(stages, String(orders.length), isEn ? 'Total Orders' : 'कुल ऑर्डर', isEn ? 'No orders yet in selected window.' : 'इस समय के दौरान अभी तक कोई ऑर्डर नहीं आया है।');
@@ -1957,9 +2064,9 @@ function renderCategoryMix(dist) {
     const codPaid = activeOrders.filter(o => (o.paymentMethod === 'COD' || o.paymentMethod === 'CASH') && o.paymentStatus === 'paid').reduce((s, o) => s + o.grandTotal, 0);
     const awaiting = activeOrders.filter(o => o.paymentStatus !== 'paid' && o.paymentStatus !== 'refunded').reduce((s, o) => s + o.grandTotal, 0);
     const segs = [
-      { label: isEn ? 'Online (UPI) Paid' : 'ऑनलाइन (UPI) से मिले पैसे', color: '#4DA3FF', value: upiPaid, displayVal: cash(upiPaid) },
-      { label: isEn ? 'Cash on Delivery (COD) Paid' : 'कैश ऑन डिलीवरी (COD) मिला', color: '#16D69A', value: codPaid, displayVal: cash(codPaid) },
-      { label: isEn ? 'Awaiting Settlement' : 'पेमेंट आना बाकी है (Pending)', color: '#F5B942', value: awaiting, displayVal: cash(awaiting) }
+      { label: isEn ? 'Online (UPI) Paid' : 'ऑनलाइन (UPI) से मिले पैसे', color: '#3B82F6', value: upiPaid, displayVal: cash(upiPaid) },
+      { label: isEn ? 'Cash on Delivery (COD) Paid' : 'कैश ऑन डिलीवरी (COD) मिला', color: '#10B981', value: codPaid, displayVal: cash(codPaid) },
+      { label: isEn ? 'Awaiting Settlement' : 'पेमेंट आना बाकी है (Pending)', color: '#F59E0B', value: awaiting, displayVal: cash(awaiting) }
     ];
     wrap.innerHTML = buildSvgDonutHtml(segs, cash(upiPaid + codPaid + awaiting), isEn ? 'Total Value' : 'कुल रकम', isEn ? 'No payment data recorded yet.' : 'अभी तक कोई पेमेंट डेटा दर्ज नहीं है।');
     return;
