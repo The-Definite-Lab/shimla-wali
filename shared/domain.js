@@ -148,7 +148,7 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
       stage: 'confirm',
       phone,
       message: confirmMessage,
-      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(confirmMessage)}` : '',
+      waUrl: waTarget ? `https://api.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(confirmMessage)}` : '',
       appUrl: waTarget ? `whatsapp://send?phone=${waTarget}&text=${encodeURIComponent(confirmMessage)}` : '',
       webUrl: waTarget ? `https://web.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(confirmMessage)}` : ''
     },
@@ -157,7 +157,7 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
       phone,
       trackingUrl: trackUrl,
       message: dispatchMessage,
-      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(dispatchMessage)}` : '',
+      waUrl: waTarget ? `https://api.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(dispatchMessage)}` : '',
       appUrl: waTarget ? `whatsapp://send?phone=${waTarget}&text=${encodeURIComponent(dispatchMessage)}` : '',
       webUrl: waTarget ? `https://web.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(dispatchMessage)}` : ''
     },
@@ -165,7 +165,7 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
       stage: 'delivered',
       phone,
       message: deliveredMessage,
-      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(deliveredMessage)}` : '',
+      waUrl: waTarget ? `https://api.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(deliveredMessage)}` : '',
       appUrl: waTarget ? `whatsapp://send?phone=${waTarget}&text=${encodeURIComponent(deliveredMessage)}` : '',
       webUrl: waTarget ? `https://web.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(deliveredMessage)}` : ''
     }

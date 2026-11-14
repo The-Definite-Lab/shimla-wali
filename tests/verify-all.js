@@ -556,7 +556,7 @@ async function runSuite() {
       assert.ok(acceptRes.json.whatsapp && acceptRes.json.whatsapp.confirm.message.includes('Namaste Karan Negi'));
       assert.ok(acceptRes.json.whatsapp.confirm.message.includes('1,050'));
       assert.ok(acceptRes.json.whatsapp.confirm.message.includes('sharing payment'));
-      assert.ok(acceptRes.json.whatsapp.confirm.waUrl.startsWith('https://wa.me/919876599881'));
+      assert.ok(acceptRes.json.whatsapp.confirm.waUrl.startsWith('https://api.whatsapp.com/send?phone=919876599881'));
 
       // Log Stage 1 WhatsApp Sent & Dispatch with Courier + Auto Tracking Link -> Stage 2 WhatsApp Dispatch
       const waLog1 = await reqJson(baseUrl, `/api/admin/orders/${oid1}/whatsapp-sent`, {

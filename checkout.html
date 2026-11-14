@@ -1155,7 +1155,7 @@
           `• *PIN Code:* *${order.customerSnapshot.pincode}*`
         ].filter(x => x !== '').join('\n');
 
-        const waUrl = `https://wa.me/${storeWhatsAppNum}?text=${encodeURIComponent(waMsg)}`;
+        const waUrl = `https://api.whatsapp.com/send?phone=${storeWhatsAppNum}&text=${encodeURIComponent(waMsg)}`;
         const payText = order.paymentMethod === 'COD' ? 'Cash on Delivery (COD)' : 'Direct Online / UPI Payment';
 
         try { localStorage.removeItem('shimla_cart'); } catch (err) {}

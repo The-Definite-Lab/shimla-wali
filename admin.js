@@ -3635,7 +3635,7 @@ async function sendWhatsAppUpdateAndLog() {
   const encodedMsg = encodeURIComponent(message);
 
   if (isMobile) {
-    window.location.href = `https://wa.me/91${phone}?text=${encodedMsg}`;
+    window.location.href = `https://api.whatsapp.com/send?phone=91${phone}&text=${encodedMsg}`;
   } else {
     // Priority: Open WhatsApp Desktop app directly without permission barriers
     const appUrl = `whatsapp://send?phone=91${phone}&text=${encodedMsg}`;

@@ -1099,7 +1099,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const waMessage = `🛒 *NEW ${bNameUp} ORDER*\n*Order ID:* *${order.orderId}*\n*Status:* *Pending WhatsApp Confirmation*\n\n📦 *ITEMS:*\n${itemsListText.trim()}\n\n💰 *Total Payable:* *₹${order.grandTotal.toLocaleString('en-IN')}* (${paymentMethod})\n\n👤 *CUSTOMER:*\n• *Name:* *${order.customerSnapshot.name}*\n• *Phone:* *+91 ${order.customerSnapshot.phone}*\n• *Address:* ${order.customerSnapshot.address}`;
         
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || '') || (window.innerWidth <= 768);
-        const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent(waMessage)}`;
+        const waUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${encodeURIComponent(waMessage)}`;
 
         state.cart = [];
         saveCart();
