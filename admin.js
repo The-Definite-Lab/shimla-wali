@@ -3623,7 +3623,7 @@ async function openWhatsAppSendModal(orderId, stage = 'confirm', preloadedPayloa
   openModal('wa-send-modal');
 }
 
-async function openWhatsAppDirect(targetMode = 'app') {
+async function sendWhatsAppUpdateAndLog() {
   const orderId = document.getElementById('was-order-id').value;
   const stage = document.getElementById('was-stage').value;
   const rawPhone = String(document.getElementById('was-phone').value || '');
@@ -3631,34 +3631,19 @@ async function openWhatsAppDirect(targetMode = 'app') {
   const message = document.getElementById('was-msg').value.trim();
   if (!phone || phone.length !== 10) return showToast('Valid 10-digit customer mobile number missing', true);
 
-  // Auto-copy the exact Unicode message to clipboard with complete emojis
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(message);
-    }
-  } catch (e) {}
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || '');
+  const encodedMsg = encodeURIComponent(message);
 
-  let targetUrl = '';
-  if (targetMode === 'app') {
-    // Direct Windows/Desktop app protocol link — skips wa.me intermediary!
-    targetUrl = `whatsapp://send?phone=91${phone}&text=${encodeURIComponent(message)}`;
-  } else if (targetMode === 'web') {
-    // Direct WhatsApp Web tab link — skips wa.me intermediary!
-    targetUrl = `https://web.whatsapp.com/send?phone=91${phone}&text=${encodeURIComponent(message)}`;
+  if (isMobile) {
+    window.location.href = `https://wa.me/91${phone}?text=${encodedMsg}`;
   } else {
-    // Standard Universal link
-    targetUrl = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
-  }
-
-  // Open target URL
-  if (targetMode === 'app') {
+    // Priority: Open WhatsApp Desktop app directly without permission barriers
+    const appUrl = `whatsapp://send?phone=91${phone}&text=${encodedMsg}`;
     const a = document.createElement('a');
-    a.href = targetUrl;
+    a.href = appUrl;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 500);
-  } else {
-    window.open(targetUrl, '_blank', 'noopener,noreferrer');
   }
 
   try {
@@ -3667,18 +3652,15 @@ async function openWhatsAppDirect(targetMode = 'app') {
       body: JSON.stringify({ stage })
     });
     closeModal('wa-send-modal');
-    showToast(targetMode === 'app'
-      ? 'Opening WhatsApp Desktop App… (Message copied, ready to Ctrl+V!)'
-      : 'Opening WhatsApp Web… (Message copied to clipboard!)'
-    );
+    showToast('WhatsApp launched & status recorded!');
     await loadBootstrap();
   } catch (err) {
     showToast(err.message, true);
   }
 }
 
-async function sendWhatsAppUpdateAndLog() {
-  return openWhatsAppDirect('app');
+async function openWhatsAppDirect(targetMode = 'app') {
+  return sendWhatsAppUpdateAndLog();
 }
 
 async function copyWhatsAppMessageOnly() {

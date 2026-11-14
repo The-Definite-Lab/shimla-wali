@@ -101,7 +101,7 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
     '',
     `Your *${brandName}* order *${order.orderId}* is confirmed! ✅`,
     `*Items:* ${itemsSummaryShort || 'Mountain Harvest Pack'}`,
-    `*Order Total:* ${totalStr}${payMethodTag}`,
+    `*Order Total:* *${totalStr}*${payMethodTag}`,
     '',
     'We are sharing payment details shortly. Your order is being freshly packed in Shimla! 🏔'
   ].join('\n');
@@ -118,14 +118,14 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
     '',
     `Good news — your *${brandName}* order *${order.orderId}* has been *DISPATCHED*! 📦🚚`,
     `*Items:* ${itemsSummaryShort || 'Mountain Harvest Pack'}`,
-    `*Courier Partner:* ${courierName}`
+    `*Courier Partner:* *${courierName}*`
   ];
   if (trackUrl) {
     dispatchLines.push(`*Track Your Parcel:* ${trackUrl}`);
   } else if (trackId) {
-    dispatchLines.push(`*Tracking ID:* ${trackId}`);
+    dispatchLines.push(`*Tracking ID:* *${trackId}*`);
   }
-  dispatchLines.push(`*Estimated Delivery:* ${etaText}`);
+  dispatchLines.push(`*Estimated Delivery:* *${etaText}*`);
   dispatchLines.push('');
   dispatchLines.push('Thank you for supporting small Himachal farm families! 🌿');
 

@@ -1094,21 +1094,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const order = data.order;
         const waNum = window.__shimlaWhatsAppNumber || '917018168156';
-        const itemsListText = (order.itemsSnapshot || []).map(i => `• ${i.productName} (${i.variantLabel}) [${i.sku}] × ${i.quantity} = ₹${i.lineTotal.toLocaleString('en-IN')}\n`).join('');
+        const itemsListText = (order.itemsSnapshot || []).map(i => `• ${i.productName} (${i.variantLabel}) × ${i.quantity} = *₹${i.lineTotal.toLocaleString('en-IN')}*\n`).join('');
         const bNameUp = (window.__shimlaBrandName || 'Shimla Wali').toUpperCase();
-        const waMessage = `🛒 *NEW ${bNameUp} ORDER*\n*Order ID:* ${order.orderId}\n*📦 ITEMS:*\n${itemsListText}*💰 Total:* ₹${order.grandTotal.toLocaleString('en-IN')} (${paymentMethod})\n*👤 CUSTOMER:* ${order.customerSnapshot.name} (+91 ${order.customerSnapshot.phone})\n• *Address:* ${order.customerSnapshot.address}`;
+        const waMessage = `🛒 *NEW ${bNameUp} ORDER*\n*Order ID:* *${order.orderId}*\n*Status:* *Pending WhatsApp Confirmation*\n\n📦 *ITEMS:*\n${itemsListText.trim()}\n\n💰 *Total Payable:* *₹${order.grandTotal.toLocaleString('en-IN')}* (${paymentMethod})\n\n👤 *CUSTOMER:*\n• *Name:* *${order.customerSnapshot.name}*\n• *Phone:* *+91 ${order.customerSnapshot.phone}*\n• *Address:* ${order.customerSnapshot.address}`;
         
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || '') || (window.innerWidth <= 768);
-        const encodedWa = encodeURIComponent(waMessage);
-        const waWebUrl = `https://web.whatsapp.com/send?phone=${waNum}&text=${encodedWa}`;
-        const waUniversalUrl = `https://wa.me/${waNum}?text=${encodedWa}`;
-
-        // Auto-copy pristine text to clipboard:
-        try {
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(waMessage).catch(() => {});
-          }
-        } catch (e) {}
+        const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent(waMessage)}`;
 
         state.cart = [];
         saveCart();
@@ -1117,20 +1108,18 @@ document.addEventListener('DOMContentLoaded', () => {
           const esc = window.escapeHtml;
           orderSuccessCard.style.display = 'block';
           orderSuccessCard.innerHTML = `
-            <h3 style="color:#0f172a;font-size:1.35rem;font-weight:800;margin-bottom:4px;">Order Request Recorded</h3>
-            <p style="color:#64748b;font-size:0.85rem;margin-bottom:12px;">Order ID: <strong style="color:#315d43;">${esc(order.orderId)}</strong></p>
+            <h3 style="color:#0f172a;font-size:1.35rem;font-weight:800;margin-bottom:4px;">Order Details Generated!</h3>
+            <p style="color:#64748b;font-size:0.85rem;margin-bottom:12px;">Ref ID: <strong style="color:#b45309;">${esc(order.orderId)}</strong></p>
+            <a href="${esc(waUrl)}" class="whatsapp-order-btn" style="text-decoration:none;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px;">Confirm on WhatsApp</a>
             <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:left;margin-bottom:12px;font-size:0.80rem;color:#334155;">
-              <div><strong>Customer:</strong> ${esc(order.customerSnapshot.name)} (+91 ${esc(order.customerSnapshot.phone)})</div>
-              <div style="margin-top:4px;"><strong>Total:</strong> ₹${order.grandTotal.toLocaleString('en-IN')}</div>
+              <div><strong>Status:</strong> <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:700;">Pending WhatsApp Confirmation</span></div>
+              <div style="margin-top:4px;"><strong>Customer:</strong> ${esc(order.customerSnapshot.name)} (+91 ${esc(order.customerSnapshot.phone)})</div>
+              <div style="margin-top:4px;"><strong>Total:</strong> <strong style="color:#059669;">₹${order.grandTotal.toLocaleString('en-IN')}</strong></div>
             </div>
-            <a href="${esc(isMobile ? waUniversalUrl : waWebUrl)}" ${isMobile ? '' : 'target="_blank" rel="noopener noreferrer"'} class="whatsapp-order-btn" style="text-decoration:none;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px;">${isMobile ? 'Confirm on WhatsApp' : '🌐 Open WhatsApp Web ↗'}</a>
-            <div style="font-size:0.75rem;color:#059669;margin-top:6px;font-weight:600;text-align:center;">✓ Order text copied to clipboard!</div>
           `;
         }
         if (isMobile) {
-          window.location.href = waUniversalUrl;
-        } else {
-          try { window.open(waWebUrl, '_blank', 'noopener,noreferrer'); } catch (e) {}
+          window.location.href = waUrl;
         }
       } catch (err) {
         showToast('Network error submitting order');
