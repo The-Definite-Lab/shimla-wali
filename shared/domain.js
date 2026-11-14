@@ -1211,7 +1211,7 @@ function upsertCustomerProfile(db, markDirty, customerInput) {
   if (name.length < 2) throw new HttpError(400, 'Please enter customer full name');
 
   if (!db.customers.customers) db.customers.customers = [];
-  let customer = db.customers.customers.find(c => c.phone === phone);
+  let customer = db.customers.customers.find(c => normalizePhone(c.phone) === phone);
   const now = nowIso();
   if (!customer) {
     customer = {
@@ -2578,30 +2578,148 @@ function generateReportCsv(db, reportType = 'orders', filters = {}) {
 }
 
 function buildCustomersDirectory(db) {
-  const customers = (db.customers && db.customers.customers) || [];
+  const rawCustomers = (db.customers && db.customers.customers) || [];
   const orders = (db.orders && db.orders.orders) || [];
   const refundsMap = getOrderNetRefundsMap((db.payments && db.payments.payments) || []);
 
-  return customers.map(c => {
-    const cOrders = orders.filter(o => o.customerId === c.customerId || o.customerSnapshot?.phone === c.phone);
+  // Map to hold canonical customers keyed by normalized 10-digit phone
+  // (or customerId / orderId if no phone is present)
+  const customerMap = new Map();
+
+  const getCustomerKey = (phone, custId, name) => {
+    const cleanPhone = normalizePhone(phone);
+    if (cleanPhone && cleanPhone.length === 10) return `phone:${cleanPhone}`;
+    if (custId && String(custId).trim()) return `id:${String(custId).trim()}`;
+    if (name && String(name).trim()) return `name:${String(name).trim().toLowerCase()}`;
+    return null;
+  };
+
+  // 1. Ingest existing customer profiles into customerMap (deduplicating by phone)
+  rawCustomers.forEach(c => {
+    const key = getCustomerKey(c.phone, c.customerId, c.name);
+    if (!key) return;
+    if (!customerMap.has(key)) {
+      customerMap.set(key, {
+        customerId: c.customerId || makeId('CUST'),
+        name: String(c.name || '').trim(),
+        phone: normalizePhone(c.phone),
+        defaultAddress: String(c.defaultAddress || c.address || '').trim(),
+        landmark: String(c.landmark || '').trim(),
+        pincode: String(c.pincode || '').trim(),
+        city: String(c.city || '').trim(),
+        email: String(c.email || '').trim(),
+        createdAt: c.createdAt || null,
+        updatedAt: c.updatedAt || null,
+        matchedOrders: []
+      });
+    } else {
+      const existing = customerMap.get(key);
+      if (!existing.name && c.name) existing.name = String(c.name).trim();
+      if (!existing.phone && c.phone) existing.phone = normalizePhone(c.phone);
+      if (!existing.defaultAddress && (c.defaultAddress || c.address)) existing.defaultAddress = String(c.defaultAddress || c.address).trim();
+      if (!existing.landmark && c.landmark) existing.landmark = String(c.landmark).trim();
+      if (!existing.city && c.city) existing.city = String(c.city).trim();
+      if (!existing.pincode && c.pincode) existing.pincode = String(c.pincode).trim();
+      if (!existing.email && c.email) existing.email = String(c.email).trim();
+      if (c.createdAt && (!existing.createdAt || c.createdAt < existing.createdAt)) existing.createdAt = c.createdAt;
+      if (c.updatedAt && (!existing.updatedAt || c.updatedAt > existing.updatedAt)) existing.updatedAt = c.updatedAt;
+    }
+  });
+
+  // 2. Ingest all orders: link each order to its canonical customer (or create one if missing)
+  orders.forEach(o => {
+    const snap = o.customerSnapshot || {};
+    const oPhone = normalizePhone(snap.phone || o.customerPhone || o.phone || '');
+    const oCustId = o.customerId || '';
+    const oName = String(snap.name || o.customerName || '').trim();
+
+    const key = getCustomerKey(oPhone, oCustId, oName) || `order:${o.orderId}`;
+    if (!customerMap.has(key)) {
+      customerMap.set(key, {
+        customerId: oCustId || makeId('CUST'),
+        name: oName || 'Customer',
+        phone: oPhone,
+        defaultAddress: String(snap.address || '').trim(),
+        landmark: String(snap.landmark || '').trim(),
+        pincode: String(snap.pincode || '').trim(),
+        city: String(snap.city || '').trim(),
+        email: String(snap.email || o.email || '').trim(),
+        createdAt: o.createdAt || null,
+        updatedAt: o.createdAt || null,
+        matchedOrders: []
+      });
+    }
+
+    const cust = customerMap.get(key);
+    // Update name if current name is generic or placeholder
+    if (oName && (!cust.name || cust.name === 'Customer' || cust.name === 'Himalayan Customer' || cust.name === 'The Last Percent')) {
+      cust.name = oName;
+    }
+    if (!cust.phone && oPhone) cust.phone = oPhone;
+    if (!cust.city && snap.city) cust.city = String(snap.city).trim();
+    if (!cust.defaultAddress && snap.address) cust.defaultAddress = String(snap.address).trim();
+    if (!cust.pincode && snap.pincode) cust.pincode = String(snap.pincode).trim();
+    if (!cust.email && (snap.email || o.email)) cust.email = String(snap.email || o.email).trim();
+
+    // Prevent duplicate orders from being added to the same customer
+    if (!cust.matchedOrders.some(existingO => existingO.orderId === o.orderId)) {
+      cust.matchedOrders.push(o);
+    }
+  });
+
+  // 3. Compute final metrics for each unique canonical customer
+  const result = [];
+  customerMap.forEach(cust => {
+    const cOrders = cust.matchedOrders.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     const acceptedOrders = cOrders.filter(o => !['pending_whatsapp', 'waiting_followup', 'cancelled'].includes(o.orderStatus));
-    const verifiedSpend = cOrders
-      .filter(o => (o.stockDeducted || ['dispatched', 'delivered'].includes(o.orderStatus)) && ['paid', 'partially_refunded'].includes(o.paymentStatus))
-      .reduce((s, o) => s + Math.max(0, o.grandTotal - (refundsMap.get(o.orderId) || 0)), 0);
+    const latestOrder = cOrders[0] || null;
+
+    // Prefer human person name over agency/placeholder name
+    const humanNameCandidate = [
+      latestOrder?.customerSnapshot?.name,
+      ...cOrders.map(o => o.customerSnapshot?.name),
+      cust.name
+    ].map(n => String(n || '').trim()).find(n => n && !['The Last Percent', 'Customer', 'Himalayan Customer', 'Guest'].includes(n));
+    const displayName = humanNameCandidate || latestOrder?.customerSnapshot?.name || cust.name || 'Customer';
+
+    // Spend from accepted orders (excluding refunds)
     const acceptedSpend = acceptedOrders
       .filter(o => o.paymentStatus !== 'refunded')
-      .reduce((s, o) => s + Math.max(0, o.grandTotal - (refundsMap.get(o.orderId) || 0)), 0);
-    const lastOrder = cOrders[0] || null;
-    return {
-      ...c,
+      .reduce((s, o) => s + Math.max(0, (Number(o.grandTotal) || 0) - (refundsMap.get(o.orderId) || 0)), 0);
+
+    // Verified / Paid spend
+    const verifiedSpend = cOrders
+      .filter(o => (o.stockDeducted || ['dispatched', 'delivered'].includes(o.orderStatus)) && ['paid', 'partially_refunded'].includes(o.paymentStatus))
+      .reduce((s, o) => s + Math.max(0, (Number(o.grandTotal) || 0) - (refundsMap.get(o.orderId) || 0)), 0);
+
+    const paidSpend = cOrders
+      .filter(o => o.orderStatus !== 'cancelled' && ['paid', 'partially_refunded'].includes(o.paymentStatus))
+      .reduce((s, o) => s + Math.max(0, (Number(o.grandTotal) || 0) - (refundsMap.get(o.orderId) || 0)), 0);
+
+    const pendingSpend = Math.max(0, acceptedSpend - paidSpend);
+
+    result.push({
+      customerId: cust.customerId,
+      name: displayName,
+      phone: cust.phone || '',
+      defaultAddress: latestOrder?.customerSnapshot?.address || cust.defaultAddress || '',
+      landmark: latestOrder?.customerSnapshot?.landmark || cust.landmark || '',
+      pincode: latestOrder?.customerSnapshot?.pincode || cust.pincode || '',
+      city: latestOrder?.customerSnapshot?.city || cust.city || '',
+      email: cust.email || '',
       totalOrders: acceptedOrders.length,
       totalRequests: cOrders.length,
       acceptedSpend,
       verifiedSpend,
-      lastOrderAt: lastOrder ? lastOrder.createdAt : null,
+      paidSpend,
+      pendingSpend,
+      lastOrderAt: latestOrder ? latestOrder.createdAt : cust.createdAt,
       orders: cOrders
-    };
+    });
   });
+
+  // Sort customers by accepted spend descending
+  return result.sort((a, b) => (b.acceptedSpend - a.acceptedSpend) || (b.totalOrders - a.totalOrders));
 }
 
 return {

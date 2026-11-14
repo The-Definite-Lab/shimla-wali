@@ -2021,6 +2021,17 @@ function renderRepeatAndVipCustomers() {
     repWrap.innerHTML = repeaters.slice(0, 5).map((c, idx) => {
       const col = STUDIO_PALETTE[idx % STUDIO_PALETTE.length];
       const initials = (c.name || 'CU').trim().split(/\s+/).map(x => x[0]).join('').slice(0, 2).toUpperCase();
+      const totalSpend = Number(c.acceptedSpend ?? c.verifiedSpend) || 0;
+      const paidSpend = Number(c.paidSpend !== undefined ? c.paidSpend : c.verifiedSpend) || 0;
+      const dueSpend = Math.max(0, totalSpend - paidSpend);
+      let payStatusBadge = '';
+      if (dueSpend === 0 && totalSpend > 0) {
+        payStatusBadge = `<span style="color:var(--c-emerald,#059669);font-weight:600;font-size:11px;">✓ ${isEn ? 'Paid' : 'भुगतान प्राप्त'}</span>`;
+      } else if (paidSpend > 0) {
+        payStatusBadge = `<span style="color:var(--c-amber,#d97706);font-size:11px;font-weight:600;">${isEn ? `Paid ${cash(paidSpend)} • Due ${cash(dueSpend)}` : `मिला ${cash(paidSpend)} • बाकी ${cash(dueSpend)}`}</span>`;
+      } else {
+        payStatusBadge = `<span style="color:var(--c-amber,#d97706);font-size:11px;font-weight:600;">${isEn ? `Due ${cash(dueSpend)}` : `बाकी ${cash(dueSpend)}`}</span>`;
+      }
       return `
         <div class="vip-row">
           <div class="vip-left">
@@ -2030,12 +2041,13 @@ function renderRepeatAndVipCustomers() {
                 <span>${esc(c.name)}</span>
                 <span class="pill warn">${isEn ? `${c.totalOrders} orders` : `${c.totalOrders} बार खरीदा`}</span>
               </div>
-              <div class="tiny">${esc(c.city || '')} &bull; ${isEn ? 'Top' : 'पसंदीदा'}: ${esc(getCustomerTopProduct(c))}</div>
+              <div class="tiny">${esc(c.city ? c.city + ' • ' : '')}${isEn ? 'Top' : 'पसंदीदा'}: ${esc(getCustomerTopProduct(c))}</div>
             </div>
           </div>
-          <div class="vip-right">
-            <div class="vip-amt">${cash(c.acceptedSpend ?? c.verifiedSpend)}</div>
-            <div class="toolbar" style="margin-top:4px;justify-content:flex-end;">
+          <div class="vip-right" style="text-align:right;">
+            <div class="vip-amt">${cash(totalSpend)}</div>
+            <div class="tiny" style="margin-top:2px;">${payStatusBadge}</div>
+            <div class="toolbar" style="margin-top:6px;justify-content:flex-end;">
               <button type="button" class="btn sm" onclick="openCustomerOrders('${esc(c.customerId)}')">${isEn ? 'Orders' : 'ऑर्डर देखें'}</button>
               <a class="btn sm" href="https://wa.me/91${esc(c.phone)}" target="_blank">WA ↗</a>
             </div>
@@ -2080,20 +2092,35 @@ function renderRepeatAndVipCustomers() {
     .slice(0, 5);
   vipWrap.innerHTML = topBuyers.length ? topBuyers.map((c, idx) => {
     const rankCls = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-other';
-    const unitsTotal = (c.orders || []).filter(isAcceptedOrderRow).reduce((sum, o) => sum + (o.itemsSnapshot || []).reduce((s, it) => s + (it.quantity || 0), 0), 0);
+    const totalSpend = Number(c.acceptedSpend ?? c.verifiedSpend) || 0;
     const paidTotal = (c.orders || []).filter(o => o.orderStatus !== 'cancelled' && ['paid', 'partially_refunded'].includes(o.paymentStatus)).reduce((sum, o) => sum + (Number(o.grandTotal) || 0), 0);
+    const dueTotal = Math.max(0, totalSpend - paidTotal);
+    const unitsTotal = (c.orders || []).filter(isAcceptedOrderRow).reduce((sum, o) => sum + (o.itemsSnapshot || []).reduce((s, it) => s + (it.quantity || 0), 0), 0);
+
+    let payStatusHtml = '';
+    if (dueTotal === 0 && totalSpend > 0) {
+      payStatusHtml = `<span style="color:var(--c-emerald,#059669);font-weight:600;font-size:11px;">✓ ${isEn ? 'Fully Paid' : 'पूरा भुगतान प्राप्त'}</span>`;
+    } else if (paidTotal > 0) {
+      payStatusHtml = `<span style="color:var(--c-amber,#d97706);font-size:11px;font-weight:600;">${isEn ? `Paid ${cash(paidTotal)} • Due ${cash(dueTotal)}` : `मिला ${cash(paidTotal)} • बाकी ${cash(dueTotal)}`}</span>`;
+    } else {
+      payStatusHtml = `<span style="color:var(--c-amber,#d97706);font-size:11px;font-weight:600;">${isEn ? `Due: ${cash(dueTotal)} (COD/Pending)` : `बाकी: ${cash(dueTotal)} (कैश/पेंडिंग)`}</span>`;
+    }
+
     return `
       <div class="vip-row" style="cursor:pointer;" onclick="openCustomerOrders('${esc(c.customerId)}')">
         <div class="vip-left">
           <div class="rank-medal ${rankCls}">#${idx + 1}</div>
           <div class="vip-meta">
-            <div class="vip-name"><span>${esc(c.name)}</span><span class="pill muted">${isEn ? `${unitsTotal} units` : `${unitsTotal} पीस`}</span></div>
-            <div class="tiny">${isEn ? `${c.totalOrders} accepted &bull; Paid: <strong>${cash(paidTotal || c.verifiedSpend)}</strong>` : `${c.totalOrders} पक्के ऑर्डर &bull; मिला पैसा: <strong>${cash(paidTotal || c.verifiedSpend)}</strong>`}</div>
+            <div class="vip-name">
+              <span>${esc(c.name)}</span>
+              <span class="pill muted">${isEn ? `${c.totalOrders} order${c.totalOrders === 1 ? '' : 's'} (${unitsTotal} items)` : `${c.totalOrders} ऑर्डर (${unitsTotal} पीस)`}</span>
+            </div>
+            <div class="tiny">${esc(c.city ? c.city + ' • ' : '')}${c.phone ? '+91 ' + esc(c.phone) : ''}</div>
           </div>
         </div>
-        <div class="vip-right">
-          <div class="vip-amt">${cash(c.acceptedSpend ?? c.verifiedSpend)}</div>
-          <div class="tiny">${esc(c.city || `+91 ${c.phone}`)}</div>
+        <div class="vip-right" style="text-align:right;">
+          <div class="vip-amt" title="${isEn ? 'Total Order Value' : 'कुल ऑर्डर मूल्य'}">${cash(totalSpend)}</div>
+          <div class="tiny" style="margin-top:2px;">${payStatusHtml}</div>
         </div>
       </div>
     `;
@@ -3761,24 +3788,32 @@ function renderCustomers() {
   const rows = (state.customers || []).filter(c =>
     `${c.name} ${c.phone} ${c.city} ${c.pincode}`.toLowerCase().includes(q)
   );
-  document.getElementById('customers-tbody').innerHTML = rows.length ? rows.map(c => `
-    <tr>
-      <td><strong>${esc(c.name)}</strong><div class="tiny">${esc(c.customerId)}</div></td>
-      <td>+91 ${esc(c.phone)}</td>
-      <td class="tiny">${esc(c.defaultAddress || '')} ${esc(c.city || '')} ${esc(c.pincode || '')}</td>
-      <td><strong>${c.totalOrders} buys</strong> <span class="tiny">(${c.totalRequests} req)</span></td>
-      <td><strong>${cash(c.acceptedSpend ?? c.verifiedSpend)}</strong><div class="tiny">Paid: ${cash(c.verifiedSpend)}</div></td>
-      <td class="tiny">${esc(fmtDateTime(c.lastOrderAt))}</td>
-      <td><button type="button" class="btn sm" onclick="openCustomerOrders('${esc(c.customerId)}')">History</button></td>
-    </tr>
-  `).join('') : '<tr><td colspan="7" class="empty-state">No customers recorded yet. Real checkout orders build customer records automatically.</td></tr>';
+  document.getElementById('customers-tbody').innerHTML = rows.length ? rows.map(c => {
+    const tot = Number(c.acceptedSpend ?? c.verifiedSpend) || 0;
+    const paid = Number(c.paidSpend !== undefined ? c.paidSpend : c.verifiedSpend) || 0;
+    const due = Math.max(0, tot - paid);
+    return `
+      <tr>
+        <td><strong>${esc(c.name)}</strong><div class="tiny">${esc(c.customerId)}</div></td>
+        <td>+91 ${esc(c.phone)}</td>
+        <td class="tiny">${esc(c.defaultAddress || '')} ${esc(c.city || '')} ${esc(c.pincode || '')}</td>
+        <td><strong>${c.totalOrders} buys</strong> <span class="tiny">(${c.totalRequests} req)</span></td>
+        <td><strong>${cash(tot)}</strong><div class="tiny">Paid: ${cash(paid)}${due > 0 ? ` &bull; Due: ${cash(due)}` : ''}</div></td>
+        <td class="tiny">${esc(fmtDateTime(c.lastOrderAt))}</td>
+        <td><button type="button" class="btn sm" onclick="openCustomerOrders('${esc(c.customerId)}')">History</button></td>
+      </tr>
+    `;
+  }).join('') : '<tr><td colspan="7" class="empty-state">No customers recorded yet. Real checkout orders build customer records automatically.</td></tr>';
 }
 
 function openCustomerOrders(custId) {
-  const c = state.customers.find(x => x.customerId === custId);
+  const norm = String(custId || '').replace(/\D+/g, '').slice(-10);
+  const c = (state.customers || []).find(x => x.customerId === custId || (norm && x.phone && x.phone === norm));
   if (!c) return;
+  const tot = Number(c.acceptedSpend ?? c.verifiedSpend) || 0;
+  const paid = Number(c.paidSpend !== undefined ? c.paidSpend : c.verifiedSpend) || 0;
   document.getElementById('dm-title').textContent = c.name;
-  document.getElementById('dm-sub').textContent = `+91 ${c.phone} · Verified Spend: ${cash(c.verifiedSpend)}`;
+  document.getElementById('dm-sub').textContent = `+91 ${c.phone} · Total: ${cash(tot)} · Paid: ${cash(paid)}`;
   document.getElementById('dm-body').innerHTML = (c.orders || []).length
     ? c.orders.map(o => `<div class="item"><span><strong>${esc(o.orderId)}</strong> · ${esc(o.orderStatus)} / ${esc(o.paymentStatus)}</span><strong>${cash(o.grandTotal)}</strong></div>`).join('')
     : '<div class="empty-state">No orders yet.</div>';

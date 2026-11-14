@@ -706,6 +706,34 @@
         const resolvedCatalog = await resolveMediaRefsInObject(db, fullDb.catalog);
         const metrics = window.ShimlaDomain.computeDashboardMetrics(fullDb);
         const customersDir = window.ShimlaDomain.buildCustomersDirectory(fullDb);
+
+        // Background maintenance: deduplicate duplicate customer docs in Firestore
+        (async () => {
+          try {
+            const rawCusts = (fullDb.customers && fullDb.customers.customers) || [];
+            const phoneMap = new Map();
+            rawCusts.forEach(c => {
+              const p = window.ShimlaDomain ? window.ShimlaDomain.normalizePhone(c.phone) : String(c.phone || '').replace(/\D+/g, '').slice(-10);
+              if (p && p.length === 10) {
+                if (!phoneMap.has(p)) phoneMap.set(p, []);
+                phoneMap.get(p).push(c);
+              }
+            });
+            for (const [, list] of phoneMap.entries()) {
+              if (list.length > 1) {
+                list.sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
+                const duplicates = list.slice(1);
+                for (const dup of duplicates) {
+                  if (dup.customerId) {
+                    await db.collection('customers').doc(dup.customerId).delete();
+                  }
+                }
+              }
+            }
+          } catch (e) {
+            console.warn('Customer deduplication background pass:', e);
+          }
+        })();
         const bSnap = await db.collection('backups').orderBy('createdAt', 'desc').limit(15).get();
         const backups = [];
         bSnap.forEach(d => {
