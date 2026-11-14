@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shimla Wali — Zero-Rent Architecture & Lifetime Free Limits</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #060e0a;
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      color: #f1f5f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .slide-canvas {
+      width: 1200px;
+      background: radial-gradient(circle at 50% 0%, #11291d 0%, #08150f 60%, #040a07 100%);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 24px;
+      padding: 44px 50px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.65), 0 0 100px rgba(16, 185, 129, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .slide-canvas::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -100px;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #d4af37;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .title {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      line-height: 1.25;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: #9baaa7;
+      margin-top: 6px;
+    }
+    .grid-compare {
+      display: grid;
+      grid-template-columns: 1fr 1.18fr;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+    .card {
+      border-radius: 18px;
+      padding: 26px 28px;
+      position: relative;
+    }
+    .card-market {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(239, 68, 68, 0.22);
+    }
+    .card-shimla {
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.12) 0%, rgba(8, 26, 18, 0.6) 100%);
+      border: 1.5px solid rgba(16, 185, 129, 0.45);
+      box-shadow: 0 10px 35px rgba(16, 185, 129, 0.14);
+    }
+    .card-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+    .card-market .card-tag {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+    }
+    .card-shimla .card-tag {
+      background: #10b981;
+      color: #041a12;
+    }
+    .card-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 18px;
+    }
+    .cost-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 13.5px;
+    }
+    .cost-row:last-child {
+      border-bottom: none;
+    }
+    .cost-label {
+      color: #9baaa7;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cost-val-bad {
+      color: #f87171;
+      font-weight: 700;
+    }
+    .cost-val-good {
+      color: #34d399;
+      font-weight: 800;
+      font-size: 14.5px;
+    }
+    .highlight-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .highlight-box.bad {
+      background: rgba(239, 68, 68, 0.08);
+      color: #fca5a5;
+      border: 1px dashed rgba(239, 68, 68, 0.3);
+    }
+    .highlight-box.good {
+      background: rgba(212, 175, 55, 0.12);
+      color: #fde68a;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+    .big-zero {
+      font-size: 38px;
+      font-weight: 900;
+      color: #10b981;
+      line-height: 1;
+      margin-bottom: 2px;
+      letter-spacing: -1px;
+    }
+    .limits-strip {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .limit-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .limit-num {
+      font-size: 20px;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .limit-num span {
+      font-size: 11.5px;
+      color: #10b981;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.15);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+    .limit-lbl {
+      font-size: 12px;
+      font-weight: 600;
+      color: #9baaa7;
+    }
+    .limit-desc {
+      font-size: 11.5px;
+      color: #64748b;
+    }
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: #718096;
+      margin-top: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slide-canvas">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="eyebrow">✨ 100% Transparent Zero-Rent Architecture</div>
+      <h1 class="title">Shimla Wali E-Commerce Cost Breakdown</h1>
+      <p class="subtitle">सिर्फ वन-टाइम सेटअप — इसके बाद हर महीने सर्वर या होस्टिंग का खर्चा लाइफटाइम ₹0 रहेगा।</p>
+    </div>
+
+    <!-- Side-by-Side Comparison -->
+    <div class="grid-compare">
+      
+      <!-- Market Card -->
+      <div class="card card-market">
+        <span class="card-tag">Market Standard (Shopify / WooCommerce)</span>
+        <div class="card-title">आम बाज़ार का भारी बिल ❌</div>
+
+        <div class="cost-row">
+          <span class="cost-label">मंथली सर्वर रेंट</span>
+          <span class="cost-val-bad">₹1,999 – ₹7,499 / माह</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">सेल पर कमीशन (Gateway Cut)</span>
+          <span class="cost-val-bad">1.5% से 2% प्रति ऑर्डर</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">SSL सिक्योरिटी ताला</span>
+          <span class="cost-val-bad">₹1,200 / साल अलग से</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">प्रोडक्ट व इमेज लिमिट</span>
+          <span class="cost-val-bad">प्लान अपग्रेड का दबाव</span>
+        </div>
+
+        <div class="highlight-box bad">
+          ⚠️ <strong>सालाना नुकसान:</strong> बिना किसी सेल के भी हर साल ₹30,000 से ₹65,000 फिक्स्ड रेंट आपकी जेब से कटेगा।
+        </div>
+      </div>
+
+      <!-- Shimla Wali Card -->
+      <div class="card card-shimla">
+        <span class="card-tag">Google Cloud Spark Architecture</span>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div class="card-title">Shimla Wali Store ✅</div>
+          <div style="text-align:right;">
+            <div class="big-zero">₹0</div>
+            <div style="font-size:11.5px;color:#34d399;font-weight:700;">MONTHLY RENT</div>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <span class="cost-label">मंथली सर्वर व होस्टिंग</span>
+          <span class="cost-val-good">₹0 / महीना (Google पर फ्री)</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">सेल पर कमीशन (0% Cut)</span>
+          <span class="cost-val-good">0% (100% पैसा आपके बैंक में)</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">Google SSL सिक्योरिटी</span>
+          <span class="cost-val-good">हमेशा के लिए फ्री</span>
+        </div>
+        <div class="cost-row">
+          <span class="cost-label">एकमात्र वास्तविक खर्चा</span>
+          <span class="cost-val-good">सिर्फ अपना डोमेन (~₹799/साल)</span>
+        </div>
+
+        <div class="highlight-box good">
+          🌟 <strong>सीधा फायदा:</strong> आप अपने बिज़नेस के 100% मालिक हैं। वेबसाइट चलाने के लिए किसी तीसरे पक्ष को ₹1 का रेंट नहीं देना है।
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Google Spark Free Tier Limits -->
+    <div class="limits-strip">
+      <div class="limit-item">
+        <div class="limit-num">20,000+ <span>FREE / DAY</span></div>
+        <div class="limit-lbl">दैनिक ग्राहक (Daily Visitors)</div>
+        <div class="limit-desc">महीने के 5 लाख से ज्यादा पेज व्यूज तक ₹0 सर्वर बिल।</div>
+      </div>
+      <div class="limit-item">
+        <div class="limit-num">3,000+ <span>ORDERS / DAY</span></div>
+        <div class="limit-lbl">दैनिक ऑर्डर क्षमता (Daily Orders)</div>
+        <div class="limit-desc">Google डेटाबेस 20,000 राइट्स रोज़ाना फ्री देता है।</div>
+      </div>
+      <div class="limit-item">
+        <div class="limit-num">10,000+ <span>PRODUCTS</span></div>
+        <div class="limit-lbl">कैटलॉग और डेटा स्टोरेज</div>
+        <div class="limit-desc">1 GB डेटाबेस में 5,00,000+ ऑर्डर्स का रिकॉर्ड सुरक्षित रहेगा।</div>
+      </div>
+    </div>
+
+    <!-- Footnote -->
+    <div class="footer-note">
+      🔒 Powered by Google Cloud Platform &bull; Domain registered directly in client's name &bull; Zero Lock-in &bull; Full Data Ownership
+    </div>
+
+  </div>
+
+</body>
+</html>
