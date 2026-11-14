@@ -3623,7 +3623,7 @@ async function openWhatsAppSendModal(orderId, stage = 'confirm', preloadedPayloa
   openModal('wa-send-modal');
 }
 
-async function sendWhatsAppUpdateAndLog() {
+async function openWhatsAppDirect(targetMode = 'app') {
   const orderId = document.getElementById('was-order-id').value;
   const stage = document.getElementById('was-stage').value;
   const rawPhone = String(document.getElementById('was-phone').value || '');
@@ -3631,27 +3631,34 @@ async function sendWhatsAppUpdateAndLog() {
   const message = document.getElementById('was-msg').value.trim();
   if (!phone || phone.length !== 10) return showToast('Valid 10-digit customer mobile number missing', true);
 
-  const waUrl = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
-
-  // Reliable open with mobile browser / popup blocker fallback
-  let opened = false;
+  // Auto-copy the exact Unicode message to clipboard with complete emojis
   try {
-    const w = window.open(waUrl, '_blank', 'noopener,noreferrer');
-    if (w && !w.closed && typeof w.closed !== 'undefined') {
-      opened = true;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(message);
     }
   } catch (e) {}
 
-  if (!opened) {
+  let targetUrl = '';
+  if (targetMode === 'app') {
+    // Direct Windows/Desktop app protocol link — skips wa.me intermediary!
+    targetUrl = `whatsapp://send?phone=91${phone}&text=${encodeURIComponent(message)}`;
+  } else if (targetMode === 'web') {
+    // Direct WhatsApp Web tab link — skips wa.me intermediary!
+    targetUrl = `https://web.whatsapp.com/send?phone=91${phone}&text=${encodeURIComponent(message)}`;
+  } else {
+    // Standard Universal link
+    targetUrl = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
+  }
+
+  // Open target URL
+  if (targetMode === 'app') {
     const a = document.createElement('a');
-    a.href = waUrl;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
+    a.href = targetUrl;
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => {
-      if (document.body.contains(a)) document.body.removeChild(a);
-    }, 500);
+    setTimeout(() => { if (document.body.contains(a)) document.body.removeChild(a); }, 500);
+  } else {
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
   }
 
   try {
@@ -3660,11 +3667,18 @@ async function sendWhatsAppUpdateAndLog() {
       body: JSON.stringify({ stage })
     });
     closeModal('wa-send-modal');
-    showToast(`Opened WhatsApp & logged ${stage} message sent!`);
+    showToast(targetMode === 'app'
+      ? 'Opening WhatsApp Desktop App… (Message copied, ready to Ctrl+V!)'
+      : 'Opening WhatsApp Web… (Message copied to clipboard!)'
+    );
     await loadBootstrap();
   } catch (err) {
     showToast(err.message, true);
   }
+}
+
+async function sendWhatsAppUpdateAndLog() {
+  return openWhatsAppDirect('app');
 }
 
 async function copyWhatsAppMessageOnly() {
@@ -3672,15 +3686,17 @@ async function copyWhatsAppMessageOnly() {
   const stage = document.getElementById('was-stage').value;
   const message = document.getElementById('was-msg').value;
   try {
-    if (navigator.clipboard) await navigator.clipboard.writeText(message);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(message);
+    }
     await apiFetch(`/api/admin/orders/${encodeURIComponent(orderId)}/whatsapp-sent`, {
       method: 'POST',
       body: JSON.stringify({ stage })
     });
-    showToast('Message copied to clipboard & marked Sent!');
+    showToast('✓ Message copied to clipboard with emojis! Paste (Ctrl+V) directly in chat.');
     await loadBootstrap();
   } catch (err) {
-    showToast(err.message || 'Copied message', false);
+    showToast('Could not copy to clipboard. Select text and copy manually.', true);
   }
 }
 

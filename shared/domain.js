@@ -89,23 +89,21 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
   const name = String(order.customerSnapshot?.name || 'Customer').trim();
   const phone = normalizePhone(order.customerSnapshot?.phone || '');
   const waTarget = phone ? `91${phone}` : '';
-  const itemsLines = (order.itemsSnapshot || []).map(it =>
-    `• ${it.productName} (${it.variantLabel}) × ${it.quantity} — ₹${Math.round(Number(it.lineTotal) || 0).toLocaleString('en-IN')}`
-  ).join('\n');
-  const itemsShippedLines = (order.itemsSnapshot || []).map(it =>
-    `• ${it.productName} (${it.variantLabel}) × ${it.quantity}`
-  ).join('\n');
+  const itemsSummaryShort = (order.itemsSnapshot || []).map(it =>
+    `${it.productName} (${it.variantLabel}) × ${it.quantity}`
+  ).join(', ');
+  const payMethodTag = order.paymentMethod ? ` (${order.paymentMethod})` : '';
   const totalStr = `₹${Math.round(Number(order.grandTotal) || 0).toLocaleString('en-IN')}`;
 
+  // Short & crisp confirmation message (fast to read on phone)
   const confirmMessage = [
     `Namaste ${name} ji 🙏`,
-    `Thank you for ordering from *${brandName}*!`,
     '',
-    `Your order *${order.orderId}* has been recorded and confirmed:`,
-    itemsLines || '• Fresh Himalayan Harvest Pack',
-    `*Order Total:* ${totalStr}`,
+    `Your *${brandName}* order *${order.orderId}* is confirmed! ✅`,
+    `*Items:* ${itemsSummaryShort || 'Mountain Harvest Pack'}`,
+    `*Order Total:* ${totalStr}${payMethodTag}`,
     '',
-    'We are sharing payment & confirmation details with you shortly. Your order is being freshly packed in Shimla and will be dispatched soon!'
+    'We are sharing payment details shortly. Your order is being freshly packed in Shimla! 🏔️'
   ].join('\n');
 
   const ship = order.shippingDetails || {};
@@ -114,33 +112,33 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
   const trackUrl = sanitizeHttpUrl(ship.trackingUrl || buildCourierTrackingUrl(courierName, trackId));
   const etaText = String(ship.expectedDeliveryText || '').trim() || 'In 2–4 days';
 
+  // Short & crisp dispatch message with carrier, tracking & ETA
   const dispatchLines = [
     `Namaste ${name} ji 🙏`,
-    `Good news — your *${brandName}* order *${order.orderId}* has been *DISPATCHED*! 📦`,
     '',
-    '*Items Dispatched:*',
-    itemsShippedLines || '• Fresh Himalayan Harvest Pack',
-    '',
+    `Good news — your *${brandName}* order *${order.orderId}* has been *DISPATCHED*! 📦🚚`,
+    `*Items:* ${itemsSummaryShort || 'Mountain Harvest Pack'}`,
     `*Courier Partner:* ${courierName}`
   ];
-  if (trackId) dispatchLines.push(`*Tracking ID:* ${trackId}`);
-  if (trackUrl) dispatchLines.push(`*Track Your Parcel:* ${trackUrl}`);
+  if (trackUrl) {
+    dispatchLines.push(`*Track Your Parcel:* ${trackUrl}`);
+  } else if (trackId) {
+    dispatchLines.push(`*Tracking ID:* ${trackId}`);
+  }
   dispatchLines.push(`*Estimated Delivery:* ${etaText}`);
   dispatchLines.push('');
   dispatchLines.push('Thank you for supporting small Himachal farm families! 🌿');
 
   const dispatchMessage = dispatchLines.join('\n');
 
+  // Medium & warm delivery complete message
   const deliveredLines = [
     `Namaste ${name} ji 🙏`,
-    `Your *${brandName}* parcel for order *${order.orderId}* has been *DELIVERED*! 🏡✨`,
     '',
-    itemsShippedLines || '• Fresh Himalayan Harvest Pack',
+    `Your *${brandName}* order *${order.orderId}* has been successfully *DELIVERED*! 🏡✨`,
     '',
-    'We hope you love the pure, unadulterated taste of our handcrafted mountain harvest.',
-    'For any queries, culinary guidance, or re-orders, you can reply directly to this chat.',
-    '',
-    'Thank you for being part of our Shimla Wali family! 🌿'
+    'We hope you enjoy the pure, handcrafted mountain harvest. 🏔️',
+    'For re-orders or feedback, simply reply to this chat. Thank you for choosing Shimla Wali! 🌿'
   ];
   const deliveredMessage = deliveredLines.join('\n');
 
@@ -150,20 +148,26 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
       stage: 'confirm',
       phone,
       message: confirmMessage,
-      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(confirmMessage)}` : ''
+      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(confirmMessage)}` : '',
+      appUrl: waTarget ? `whatsapp://send?phone=${waTarget}&text=${encodeURIComponent(confirmMessage)}` : '',
+      webUrl: waTarget ? `https://web.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(confirmMessage)}` : ''
     },
     dispatch: {
       stage: 'dispatch',
       phone,
       trackingUrl: trackUrl,
       message: dispatchMessage,
-      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(dispatchMessage)}` : ''
+      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(dispatchMessage)}` : '',
+      appUrl: waTarget ? `whatsapp://send?phone=${waTarget}&text=${encodeURIComponent(dispatchMessage)}` : '',
+      webUrl: waTarget ? `https://web.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(dispatchMessage)}` : ''
     },
     delivered: {
       stage: 'delivered',
       phone,
       message: deliveredMessage,
-      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(deliveredMessage)}` : ''
+      waUrl: waTarget ? `https://wa.me/${waTarget}?text=${encodeURIComponent(deliveredMessage)}` : '',
+      appUrl: waTarget ? `whatsapp://send?phone=${waTarget}&text=${encodeURIComponent(deliveredMessage)}` : '',
+      webUrl: waTarget ? `https://web.whatsapp.com/send?phone=${waTarget}&text=${encodeURIComponent(deliveredMessage)}` : ''
     }
   };
 }
