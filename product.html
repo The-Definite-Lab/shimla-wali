@@ -1401,8 +1401,12 @@
     };
 
     const urlParams = new URLSearchParams(window.location.search);
-    let currentProdKey = urlParams.get('id') || 'ghee';
-    if (!PRODUCTS_DATA[currentProdKey] && !urlParams.get('id')) currentProdKey = 'ghee';
+    let currentProdKey = urlParams.get('id') || sessionStorage.getItem('shimla_last_product_id') || localStorage.getItem('shimla_last_product_id') || 'ghee';
+    if (!PRODUCTS_DATA[currentProdKey]) currentProdKey = 'ghee';
+    try {
+      sessionStorage.setItem('shimla_last_product_id', currentProdKey);
+      localStorage.setItem('shimla_last_product_id', currentProdKey);
+    } catch (e) {}
     let activeProd = PRODUCTS_DATA[currentProdKey] || PRODUCTS_DATA.ghee;
 
     function renderActiveProduct() {
@@ -1548,10 +1552,18 @@
 
     function handlePdpBuyNow() {
       handlePdpAdd();
-      window.location.href = 'checkout.html';
+      try {
+        sessionStorage.setItem('shimla_last_product_id', activeProd.id);
+        localStorage.setItem('shimla_last_product_id', activeProd.id);
+      } catch (e) {}
+      window.location.href = 'checkout.html?from=' + encodeURIComponent(activeProd.id);
     }
   
     function handlePdpAdd() {
+      try {
+        sessionStorage.setItem('shimla_last_product_id', activeProd.id);
+        localStorage.setItem('shimla_last_product_id', activeProd.id);
+      } catch (e) {}
       const matched = resolveMatchingVariant(currentSelectedSize, currentSelectedVariety);
       const itemName = activeProd.title + (currentSelectedVariety ? ' (' + currentSelectedVariety + ')' : '');
       const item = {

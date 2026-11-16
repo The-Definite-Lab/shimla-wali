@@ -706,7 +706,10 @@
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: left; margin-bottom: 16px; font-size: 0.82rem; color: #334155; line-height: 1.5;" id="success-summary-body">
       </div>
       
-      <a href="index.html" style="color: #64748b; font-size: 0.78rem; font-weight: 700; text-decoration: none;">&larr; Return to Store</a>
+      <div style="display:flex; flex-direction:column; gap:9px; align-items:center;">
+        <a id="success-back-product-link" href="product.html" style="color: #059669; font-size: 0.84rem; font-weight: 700; text-decoration: none;">&larr; Back to Product</a>
+        <a href="index.html" style="color: #64748b; font-size: 0.78rem; font-weight: 700; text-decoration: none;">&larr; Return to Store Home</a>
+      </div>
     </div>
 
   </main>
@@ -800,6 +803,25 @@
 
       loadStoredProfile();
       refreshCheckoutQuote();
+      updateBackNavLinks();
+    }
+
+    function updateBackNavLinks(targetProdId, targetProdName) {
+      const urlP = new URLSearchParams(window.location.search);
+      const prodId = targetProdId || urlP.get('from') || urlP.get('id') || (Array.isArray(cartItems) && cartItems[0] && cartItems[0].productId) || sessionStorage.getItem('shimla_last_product_id') || localStorage.getItem('shimla_last_product_id');
+      const backUrl = prodId ? `product.html?id=${encodeURIComponent(prodId)}` : 'product.html';
+
+      const topBackBtn = document.querySelector('.lux-back-btn');
+      if (topBackBtn) {
+        topBackBtn.href = backUrl;
+      }
+      const succBackLink = document.getElementById('success-back-product-link');
+      if (succBackLink) {
+        succBackLink.href = backUrl;
+        if (targetProdName) {
+          succBackLink.innerHTML = `&larr; Back to ${esc(targetProdName)}`;
+        }
+      }
     }
 
     function mapItemsForApi() {
@@ -1170,6 +1192,15 @@
 
         const waUrl = `https://api.whatsapp.com/send?phone=${storeWhatsAppNum}&text=${encodeURIComponent(waMsg)}`;
         const payText = order.paymentMethod === 'COD' ? 'Cash on Delivery (COD)' : 'Direct Online / UPI Payment';
+
+        const firstItem = (order.itemsSnapshot && order.itemsSnapshot[0]) || (cartItems && cartItems[0]);
+        const orderedProdId = firstItem?.productId || 'ghee';
+        const orderedProdName = firstItem?.productName ? firstItem.productName.split('(')[0].trim() : '';
+        try {
+          sessionStorage.setItem('shimla_last_product_id', orderedProdId);
+          localStorage.setItem('shimla_last_product_id', orderedProdId);
+        } catch (e) {}
+        updateBackNavLinks(orderedProdId, orderedProdName);
 
         try { localStorage.removeItem('shimla_cart'); } catch (err) {}
 
