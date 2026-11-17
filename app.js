@@ -28,20 +28,48 @@ window.__activeDiscountsPromise = (typeof fetch === 'function')
     }).catch(() => null)
   : Promise.resolve(null);
 
-// Session Navigation Stack for Reliable Subpage Back Navigation
-(function() {
+// ── Storefront History & Breadcrumb Navigation Engine ──────────────
+// 1. Session Navigation Stack & Subpage Anchor
+(function initStorefrontHistory() {
   try {
-    const currentPath = window.location.pathname + window.location.search;
+    const currentPath = window.location.pathname || '';
+    const isHomePage = currentPath.endsWith('/') || 
+                       currentPath.endsWith('/index.html') || 
+                       currentPath === '' || 
+                       currentPath === '/';
+    window.__isStoreSubpage = !isHomePage;
+
+    // Track navigation history within session
     let stack = [];
     try {
       stack = JSON.parse(sessionStorage.getItem('sc_nav_stack') || '[]');
     } catch(e) { stack = []; }
 
-    // If reloading same page, don't duplicate
-    if (stack.length === 0 || stack[stack.length - 1] !== currentPath) {
-      stack.push(currentPath);
+    const fullCurrent = window.location.pathname + window.location.search;
+    if (stack.length === 0 || stack[stack.length - 1] !== fullCurrent) {
+      stack.push(fullCurrent);
       if (stack.length > 30) stack.shift();
       sessionStorage.setItem('sc_nav_stack', JSON.stringify(stack));
+    }
+
+    if (isHomePage) {
+      sessionStorage.setItem('sc_visited_home', 'true');
+    } else {
+      // User is on a SUBPAGE (e.g. profile.html, shop.html, product.html, policies.html).
+      const hasInternalRef = document.referrer && document.referrer.includes(window.location.host);
+      const visitedHome = sessionStorage.getItem('sc_visited_home') === 'true';
+
+      // If user landed directly on a subpage without home in the history:
+      // Anchor 'index.html' as the root history entry before this subpage.
+      if (!hasInternalRef && !visitedHome) {
+        try {
+          const homeUrl = new URL('index.html', window.location.href).href;
+          const currentUrl = window.location.href;
+          history.replaceState({ scIsRootHome: true }, '', homeUrl);
+          history.pushState({ scSubpage: true }, '', currentUrl);
+          sessionStorage.setItem('sc_visited_home', 'true');
+        } catch(e) {}
+      }
     }
   } catch(e) {}
 })();
@@ -105,7 +133,7 @@ window.smartGoBack = function(fallback = 'index.html') {
 let _isDrawerPushed = false;
 
 // Global Bag Drawer Helpers
-window.openCart = function() {
+window.openCart = function(isFromHistory = false) {
   if (typeof window.syncCartAndRender === 'function') {
     window.syncCartAndRender();
   }
@@ -115,13 +143,17 @@ window.openCart = function() {
   if (cartOverlay) cartOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  // Push history state so Android back gesture closes drawer instead of exiting site
-  try {
-    if (!_isDrawerPushed) {
-      history.pushState({ scDrawer: 'cart' }, '');
-      _isDrawerPushed = true;
-    }
-  } catch(e) {}
+  // Push history state with #bag hash so Android back gesture & subpage return restores bag
+  if (!isFromHistory) {
+    try {
+      if (!_isDrawerPushed && window.location.hash !== '#bag') {
+        history.pushState({ scDrawer: 'cart' }, '', '#bag');
+        _isDrawerPushed = true;
+      }
+    } catch(e) {}
+  } else {
+    _isDrawerPushed = true;
+  }
 };
 
 window.closeCart = function(isFromPopstate = false) {
@@ -131,14 +163,27 @@ window.closeCart = function(isFromPopstate = false) {
   if (cartOverlay) cartOverlay.classList.remove('active');
   document.body.style.overflow = '';
 
-  if (!isFromPopstate && _isDrawerPushed) {
+  if (!isFromPopstate) {
+    const wasPushed = _isDrawerPushed || window.location.hash === '#bag' || window.location.hash === '#cart';
     _isDrawerPushed = false;
-    try { history.back(); } catch(e) {}
+    if (wasPushed) {
+      try {
+        if (window.location.hash === '#bag' || window.location.hash === '#cart') {
+          history.back();
+        } else {
+          history.back();
+        }
+      } catch(e) {
+        try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch(e) {}
+      }
+    }
+  } else {
+    _isDrawerPushed = false;
   }
 };
 
 // Global Nav Drawer Helpers
-window.openNavDrawer = function() {
+window.openNavDrawer = function(isFromHistory = false) {
   if (typeof window.refreshDrawerAuthCard === 'function') window.refreshDrawerAuthCard();
   let navDrawer = document.getElementById('nav-drawer');
   let navOverlay = document.getElementById('nav-drawer-overlay');
@@ -151,12 +196,16 @@ window.openNavDrawer = function() {
   if (navOverlay) navOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  try {
-    if (!_isDrawerPushed) {
-      history.pushState({ scDrawer: 'nav' }, '');
-      _isDrawerPushed = true;
-    }
-  } catch(e) {}
+  if (!isFromHistory) {
+    try {
+      if (!_isDrawerPushed && window.location.hash !== '#menu') {
+        history.pushState({ scDrawer: 'nav' }, '', '#menu');
+        _isDrawerPushed = true;
+      }
+    } catch(e) {}
+  } else {
+    _isDrawerPushed = true;
+  }
 };
 
 window.closeNavDrawer = function(isFromPopstate = false) {
@@ -166,11 +215,50 @@ window.closeNavDrawer = function(isFromPopstate = false) {
   if (navOverlay) navOverlay.classList.remove('active');
   document.body.style.overflow = '';
 
-  if (!isFromPopstate && _isDrawerPushed) {
+  if (!isFromPopstate) {
+    const wasPushed = _isDrawerPushed || window.location.hash === '#menu';
     _isDrawerPushed = false;
-    try { history.back(); } catch(e) {}
+    if (wasPushed) {
+      try {
+        if (window.location.hash === '#menu') {
+          history.back();
+        } else {
+          history.back();
+        }
+      } catch(e) {
+        try { history.replaceState(null, '', window.location.pathname + window.location.search); } catch(e) {}
+      }
+    }
+  } else {
+    _isDrawerPushed = false;
   }
 };
+
+// Automatic Drawer Restoration on Back Navigation or Deep Link (#bag / #menu)
+function checkInitialDrawerState() {
+  try {
+    const hash = window.location.hash;
+    const state = history.state || {};
+    if (hash === '#bag' || hash === '#cart' || (state && state.scDrawer === 'cart')) {
+      if (typeof window.openCart === 'function') {
+        window.openCart(true);
+      }
+    } else if (hash === '#menu' || (state && state.scDrawer === 'nav')) {
+      if (typeof window.openNavDrawer === 'function') {
+        window.openNavDrawer(true);
+      }
+    }
+  } catch(e) {}
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', checkInitialDrawerState);
+} else {
+  checkInitialDrawerState();
+}
+window.addEventListener('pageshow', function() {
+  setTimeout(checkInitialDrawerState, 50);
+});
 
 // Android Back Gesture & Popstate Listener
 window.addEventListener('popstate', function(event) {
@@ -193,7 +281,23 @@ window.addEventListener('popstate', function(event) {
   }
 
   _isDrawerPushed = false;
-  // If no drawer/modal was open, the browser naturally moves to the previous page in history!
+
+  // If a drawer or modal was handled, do not proceed with subpage redirection
+  if (handled) return;
+
+  // If running inside a subpage document and popped back to the seeded root home entry:
+  if (window.__isStoreSubpage) {
+    const isNowHome = window.location.pathname.endsWith('/index.html') || 
+                      window.location.pathname.endsWith('/') || 
+                      window.location.pathname === '';
+    if ((event.state && event.state.scIsRootHome) || isNowHome) {
+      window.location.replace('index.html');
+      return;
+    }
+  }
+
+  // Check if the destination state requested a drawer to be open
+  checkInitialDrawerState();
 });
 
 // Global Theme & Language Controllers
