@@ -390,6 +390,9 @@
     <!-- ==========================================================================
        THE 72-HOUR FRESHNESS JOURNEY (Full Width Clean Editorial Layout)
        ========================================================================== -->
+    <!-- ==========================================================================
+       THE 72-HOUR FRESHNESS JOURNEY (Compact Single-Open Accordion Layout)
+       ========================================================================== -->
   <section class="zero-confusion-section" id="how-to-order">
     <div class="orchard-flow-bg-decor" aria-hidden="true">
       <img src="./images/apples-harvest.webp" alt="" class="flow-bg-branch" />
@@ -400,85 +403,142 @@
         <!-- Centered Header -->
         <div class="dispatch-flow-header text-center">
           <div class="dispatch-flow-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
             <span>72-HOUR FRESHNESS CLOCK</span>
           </div>
-          <h2 class="dispatch-flow-title">From Tree Branch to Your Door in 72h</h2>
+          <h2 class="dispatch-flow-title">From Tree Branch to<br class="f-mobile-br"> Your Door in 72h</h2>
           <p class="dispatch-flow-desc">Commercial supermarket fruits sit 9 months in chemical chillers with toxic wax. Every Tribal Treasure order is plucked fresh at 10,000 ft Kinnaur orchards only after you order.</p>
         </div>
 
-        <!-- 3 Horizontal Milestone Columns (Desktop: 3-col grid, Mobile: stacked cards) -->
-        <div class="freshness-cards-grid" role="region" aria-label="72-Hour Freshness Journey">
+        <!-- Compact Interactive Accordion / Dropdown (Only 1 item open at a time) -->
+        <div class="freshness-accordion-wrap" role="region" aria-label="72-Hour Freshness Journey Steps">
           
-          <!-- Stage 1 -->
-          <div class="freshness-step-card">
-            <div class="f-step-badge-row">
-              <span class="f-step-day">DAY 0</span>
-              <span class="f-step-tag">100% Tree-Ripened</span>
-            </div>
-            <div class="f-step-icon-wrap">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-            </div>
-            <h3 class="f-step-title">Hand-Plucked at 10,000 Ft</h3>
-            <p class="f-step-desc">Harvested from high Kinnaur branches only when natural sugar brix &amp; aroma peak. Zero synthetic ethylene ripening gas.</p>
-            <div class="f-step-proof">
-              <span class="f-proof-pill">10,240 Ft Elevation</span>
-              <span class="f-proof-pill">0 Days Chiller</span>
+          <!-- Step 1: Day 0 (Open by default) -->
+          <div class="freshness-accordion-item active" data-stage="1">
+            <button type="button" class="f-accordion-header" onclick="window.toggleFreshnessAccordion(1)" aria-expanded="true">
+              <div class="f-acc-header-left">
+                <span class="f-step-day">DAY 0</span>
+                <span class="f-acc-title">Hand-Plucked at 10,000 Ft</span>
+                <span class="f-step-tag">100% Tree-Ripened</span>
+              </div>
+              <div class="f-acc-chevron-wrap">
+                <svg class="f-accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </button>
+            <div class="f-accordion-content">
+              <div class="f-acc-body-inner">
+                <div class="f-acc-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                  </svg>
+                </div>
+                <div class="f-acc-text-box">
+                  <p class="f-step-desc">Harvested from high Kinnaur branches only when natural sugar brix &amp; aroma peak. Zero synthetic ethylene ripening gas.</p>
+                  <div class="f-step-proof">
+                    <span class="f-proof-pill">10,240 Ft Elevation</span>
+                    <span class="f-proof-pill">0 Days Chiller</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Stage 2 -->
-          <div class="freshness-step-card">
-            <div class="f-step-badge-row">
-              <span class="f-step-day">DAY 1</span>
-              <span class="f-step-tag">Zero Wax Polish</span>
-            </div>
-            <div class="f-step-icon-wrap">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            </div>
-            <h3 class="f-step-title">Honeycomb Zero-Damage Cradling</h3>
-            <p class="f-step-desc">Nested into breathable shockproof honeycomb foam trays. Natural white protective bloom preserved—bite in with peel.</p>
-            <div class="f-step-proof">
-              <span class="f-proof-pill">0.00% Petroleum Wax</span>
-              <span class="f-proof-pill">Shockproof Nest</span>
+          <!-- Step 2: Day 1 -->
+          <div class="freshness-accordion-item" data-stage="2">
+            <button type="button" class="f-accordion-header" onclick="window.toggleFreshnessAccordion(2)" aria-expanded="false">
+              <div class="f-acc-header-left">
+                <span class="f-step-day">DAY 1</span>
+                <span class="f-acc-title">Honeycomb Zero-Damage Cradling</span>
+                <span class="f-step-tag">Zero Wax Polish</span>
+              </div>
+              <div class="f-acc-chevron-wrap">
+                <svg class="f-accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </button>
+            <div class="f-accordion-content">
+              <div class="f-acc-body-inner">
+                <div class="f-acc-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <div class="f-acc-text-box">
+                  <p class="f-step-desc">Nested into breathable shockproof honeycomb foam trays. Natural white protective bloom preserved—bite in with peel.</p>
+                  <div class="f-step-proof">
+                    <span class="f-proof-pill">0.00% Petroleum Wax</span>
+                    <span class="f-proof-pill">Shockproof Nest</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Stage 3 -->
-          <div class="freshness-step-card">
-            <div class="f-step-badge-row">
-              <span class="f-step-day">DAY 2-3</span>
-              <span class="f-step-tag">Doorstep Delivery</span>
-            </div>
-            <div class="f-step-icon-wrap">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-            </div>
-            <h3 class="f-step-title">Direct Mountain Express</h3>
-            <p class="f-step-desc">Dispatched straight from Kinnaur with live WhatsApp photo tracking. 100% free instant replacement if any damage occurs.</p>
-            <div class="f-step-proof">
-              <span class="f-proof-pill">Pan-India Express</span>
-              <span class="f-proof-pill">WhatsApp Tracking</span>
+          <!-- Step 3: Day 2-3 -->
+          <div class="freshness-accordion-item" data-stage="3">
+            <button type="button" class="f-accordion-header" onclick="window.toggleFreshnessAccordion(3)" aria-expanded="false">
+              <div class="f-acc-header-left">
+                <span class="f-step-day">DAY 2-3</span>
+                <span class="f-acc-title">Direct Mountain Express</span>
+                <span class="f-step-tag">Doorstep Delivery</span>
+              </div>
+              <div class="f-acc-chevron-wrap">
+                <svg class="f-accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </button>
+            <div class="f-accordion-content">
+              <div class="f-acc-body-inner">
+                <div class="f-acc-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2">
+                    <rect x="1" y="3" width="15" height="13"></rect>
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                  </svg>
+                </div>
+                <div class="f-acc-text-box">
+                  <p class="f-step-desc">Dispatched straight from Kinnaur with live WhatsApp photo tracking. 100% free instant replacement if any damage occurs.</p>
+                  <div class="f-step-proof">
+                    <span class="f-proof-pill">Pan-India Express</span>
+                    <span class="f-proof-pill">WhatsApp Tracking</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
         </div>
 
-        <!-- Full-Width Bottom Trust Strip -->
+        <!-- Full-Width Bottom Trust Strip (Short, Single-Line, Aligned Icons) -->
         <div class="freshness-full-guarantees">
           <div class="f-guarantee-pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            <span><strong>100% Zero-Damage Guarantee:</strong> Free instant replacement in transit</span>
+            <svg class="f-guarantee-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span class="f-guarantee-text">100% Zero-Damage Guarantee</span>
           </div>
           <div class="f-guarantee-pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-            <span><strong>Plucked on Demand:</strong> Zero chemical cold storage</span>
+            <svg class="f-guarantee-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span class="f-guarantee-text">Plucked on Demand</span>
           </div>
           <div class="f-guarantee-pill">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            <span><strong>Edible Skin with Natural Bloom:</strong> 0% Petroleum Wax</span>
+            <svg class="f-guarantee-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span class="f-guarantee-text">0% Wax Edible Skin</span>
           </div>
         </div>
 

@@ -2007,3 +2007,30 @@ document.addEventListener('DOMContentLoaded', () => {
     setup();
   }
 })();
+
+
+
+// Exclusive Accordion Logic for 72-Hour Freshness Journey
+window.toggleFreshnessAccordion = function(stageNum) {
+  const items = document.querySelectorAll('.freshness-accordion-item');
+  items.forEach(item => {
+    const itemStage = item.getAttribute('data-stage');
+    const headerBtn = item.querySelector('.f-accordion-header');
+    if (itemStage === String(stageNum)) {
+      const isOpen = item.classList.contains('active');
+      if (isOpen) {
+        // Toggle closed
+        item.classList.remove('active');
+        if (headerBtn) headerBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        // Open
+        item.classList.add('active');
+        if (headerBtn) headerBtn.setAttribute('aria-expanded', 'true');
+      }
+    } else {
+      // Close all other items
+      item.classList.remove('active');
+      if (headerBtn) headerBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+};
