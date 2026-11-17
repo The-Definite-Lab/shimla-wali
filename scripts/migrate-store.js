@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Non-Destructive Data Migration & Store Seeder
+ * Shimla Crunch — Non-Destructive Data Migration & Store Seeder
  * Migrates legacy products.json + product.html catalog details into normalized db/*.json
  * Automatically creates a backup snapshot before modifying any store files.
  */
@@ -41,7 +41,7 @@ const RICH_PDP_DEFAULTS = {
       { val: '25–30 Litres', label: 'Fresh Himalayan A2 milk' },
       { val: 'Curd → Bilona', label: 'Traditional wooden hand churn' },
       { val: 'Slow Fire', label: 'Simmered in pure brass & clay' },
-      { val: 'Pure Liquid Gold', label: 'Shimla Wali A2 Desi Ghee' }
+      { val: 'Pure Liquid Gold', label: 'Shimla Crunch A2 Desi Ghee' }
     ]
   },
   walnuts: {
@@ -76,7 +76,7 @@ const RICH_PDP_DEFAULTS = {
       { val: 'Zero Bleaching', label: 'Natural protective shells' },
       { val: 'Hand Cracking', label: 'Cracks with gentle pressure' },
       { val: 'Cold Climate', label: 'Rich natural walnut oil locked' },
-      { val: 'Grade-A Kernels', label: 'Shimla Wali Walnuts' }
+      { val: 'Grade-A Kernels', label: 'Shimla Crunch Walnuts' }
     ]
   },
   honey: {
@@ -110,7 +110,7 @@ const RICH_PDP_DEFAULTS = {
       { val: 'Himalayan Bees', label: 'Naturally built comb honey' },
       { val: 'Zero Heating', label: 'Raw enzymes & pollen preserved' },
       { val: 'Pure Filtration', label: 'Traditional fine cotton mesh' },
-      { val: 'Pure Amber Gold', label: 'Shimla Wali Forest Honey' }
+      { val: 'Pure Amber Gold', label: 'Shimla Crunch Forest Honey' }
     ]
   },
   pickle: {
@@ -145,7 +145,7 @@ const RICH_PDP_DEFAULTS = {
       { val: 'Kachi Ghani', label: 'Cold-pressed mountain mustard oil' },
       { val: 'Sun Cured', label: '21 days of slow terrace sunbathing' },
       { val: 'Zero Preservative', label: 'Traditional Himalayan rock salt' },
-      { val: 'Pahadi Swad', label: 'Shimla Wali Homemade Pickle' }
+      { val: 'Pahadi Swad', label: 'Shimla Crunch Homemade Pickle' }
     ]
   },
   apples: {
@@ -179,7 +179,7 @@ const RICH_PDP_DEFAULTS = {
       { val: 'Tree Ripened', label: 'Picked by hand at sweet peak' },
       { val: 'Zero Wax Polish', label: '100% natural edible apple skin' },
       { val: 'Foam Cushioned', label: 'Safe transit to your doorstep' },
-      { val: 'Crisp & Sweet', label: 'Shimla Wali Royal Apples' }
+      { val: 'Crisp & Sweet', label: 'Shimla Crunch Royal Apples' }
     ]
   },
   'red-rice': {
@@ -214,7 +214,7 @@ const RICH_PDP_DEFAULTS = {
       { val: 'Heirloom Seed', label: 'Untouched mountain genetics' },
       { val: 'Red Bran Intact', label: 'Rich in natural iron & zinc' },
       { val: 'Low Glycemic', label: 'Sustained healthy energy' },
-      { val: 'Nutty & Fragrant', label: 'Shimla Wali Red Rice' }
+      { val: 'Nutty & Fragrant', label: 'Shimla Crunch Red Rice' }
     ]
   },
   pulses: {
@@ -248,7 +248,7 @@ const RICH_PDP_DEFAULTS = {
       { val: 'Natural Manure', label: 'Zero artificial fertilizers' },
       { val: 'Small-Grain Bean', label: 'Distinctive buttery taste' },
       { val: 'Sun Dried', label: 'Traditional terrace sun curing' },
-      { val: 'Authentic Dal', label: 'Shimla Wali Pahadi Rajma' }
+      { val: 'Authentic Dal', label: 'Shimla Crunch Pahadi Rajma' }
     ]
   }
 };
@@ -483,8 +483,8 @@ function runMigrationIfNeeded(storeManager, legacyProductsFile) {
 
   const settings = {
     ...(legacy.settings || {}),
-    whatsapp_number: '917018168156',
-    support_email: 'care@shimlawali.in',
+    whatsapp_number: '918580861606',
+    support_email: 'care@shimlacrunch.com',
     upi_id: '',
     accept_orders: true,
     allow_guest_checkout: true,

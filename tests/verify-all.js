@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — End-to-End Backend, Concurrency, Security & Workflow Test Suite
+ * Shimla Crunch — End-to-End Backend, Concurrency, Security & Workflow Test Suite
  */
 const assert = require('assert');
 const fs = require('fs');
@@ -84,7 +84,7 @@ async function runSuite() {
   let backupFile = '';
 
   try {
-    console.log('\n🧪 Running Shimla Wali Production Verification Suite...\n');
+    console.log('\n🧪 Running Shimla Crunch Production Verification Suite...\n');
 
     await test('1. Initial migration seeds 7 products & 21 structured SKUs with ZERO fake orders/revenue', async () => {
       const pub = await reqJson(baseUrl, '/api/products');

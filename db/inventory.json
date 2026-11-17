@@ -1,214 +1,164 @@
 {
   "bySku": {
-    "GHSM-250ML-01": {
-      "sku": "GHSM-250ML-01",
-      "productId": "ghee",
-      "variantLabel": "250ml",
-      "availableQty": 18,
-      "reservedQty": 1,
-      "damagedQty": 0,
-      "reorderThreshold": 8,
-      "updatedAt": "2026-11-13T10:44:01.342Z"
-    },
-    "GHSM-500ML-01": {
-      "sku": "GHSM-500ML-01",
-      "productId": "ghee",
-      "variantLabel": "500ml",
-      "availableQty": 23,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 10,
-      "updatedAt": "2026-11-13T08:06:57.652Z"
-    },
-    "GHSM-1000ML-01": {
-      "sku": "GHSM-1000ML-01",
-      "productId": "ghee",
-      "variantLabel": "1000ml",
-      "availableQty": 12,
+    "DISC-STD-01": {
+      "sku": "DISC-STD-01",
+      "productId": "discovery-box",
+      "variantLabel": "The Discovery Trial Box (4-in-1)",
+      "availableQty": 25,
       "reservedQty": 0,
       "damagedQty": 0,
       "reorderThreshold": 5,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "DISC-FAM-01": {
+      "sku": "DISC-FAM-01",
+      "productId": "discovery-box",
+      "variantLabel": "Family Feast Grand Hamper (Double Portion)",
+      "availableQty": 15,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 5,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "APRD-5KG-01": {
+      "sku": "APRD-5KG-01",
+      "productId": "royal-apples",
+      "variantLabel": "5 kg Harvest Box",
+      "availableQty": 20,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 5,
+      "updatedAt": "2026-11-16T10:53:24.195Z"
+    },
+    "APRD-10KG-01": {
+      "sku": "APRD-10KG-01",
+      "productId": "royal-apples",
+      "variantLabel": "10 kg Family Pack",
+      "availableQty": 15,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 4,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "APRD-20KG-01": {
+      "sku": "APRD-20KG-01",
+      "productId": "royal-apples",
+      "variantLabel": "20 kg Bulk Orchard Box",
+      "availableQty": 10,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 3,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "APGL-5KG-01": {
+      "sku": "APGL-5KG-01",
+      "productId": "gala-apples",
+      "variantLabel": "5 kg Box",
+      "availableQty": 25,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 5,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "APGL-10KG-01": {
+      "sku": "APGL-10KG-01",
+      "productId": "gala-apples",
+      "variantLabel": "10 kg Pack",
+      "availableQty": 18,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 4,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "APGL-20KG-01": {
+      "sku": "APGL-20KG-01",
+      "productId": "gala-apples",
+      "variantLabel": "20 kg Orchard Crate",
+      "availableQty": 8,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 3,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "CRCH-100G-01": {
+      "sku": "CRCH-100G-01",
+      "productId": "apple-crunch",
+      "variantLabel": "100g Snack Pouch",
+      "availableQty": 60,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 10,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
+    },
+    "CRCH-300G-01": {
+      "sku": "CRCH-300G-01",
+      "productId": "apple-crunch",
+      "variantLabel": "300g Triple Pack (3x 100g)",
+      "availableQty": 50,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 10,
+      "updatedAt": "2026-11-17T14:04:06.053Z"
+    },
+    "CRCH-500G-01": {
+      "sku": "CRCH-500G-01",
+      "productId": "apple-crunch",
+      "variantLabel": "500g Family Pantry Pouch",
+      "availableQty": 30,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 5,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
     },
     "AKSM-250G-01": {
       "sku": "AKSM-250G-01",
       "productId": "walnuts",
-      "variantLabel": "250g",
-      "availableQty": 15,
+      "variantLabel": "250g Pack",
+      "availableQty": 45,
       "reservedQty": 0,
       "damagedQty": 0,
       "reorderThreshold": 8,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
+      "updatedAt": "2026-11-16T10:52:35.648Z"
     },
     "AKSM-500G-01": {
       "sku": "AKSM-500G-01",
       "productId": "walnuts",
-      "variantLabel": "500g",
-      "availableQty": 22,
+      "variantLabel": "500g Pack",
+      "availableQty": 50,
       "reservedQty": 0,
       "damagedQty": 0,
       "reorderThreshold": 8,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
+      "updatedAt": "2026-11-16T10:52:35.648Z"
     },
     "AKSM-1KG-01": {
       "sku": "AKSM-1KG-01",
       "productId": "walnuts",
-      "variantLabel": "1kg",
-      "availableQty": 14,
+      "variantLabel": "1 kg Harvest Pack",
+      "availableQty": 20,
       "reservedQty": 0,
       "damagedQty": 0,
       "reorderThreshold": 5,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
+      "updatedAt": "2026-11-16T10:52:35.648Z"
     },
     "HNSM-500G-01": {
       "sku": "HNSM-500G-01",
       "productId": "honey",
-      "variantLabel": "500g",
-      "availableQty": 8,
+      "variantLabel": "500g Glass Jar",
+      "availableQty": 35,
       "reservedQty": 0,
       "damagedQty": 0,
-      "reorderThreshold": 10,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-16T10:52:35.648Z"
     },
     "HNSM-1KG-01": {
       "sku": "HNSM-1KG-01",
       "productId": "honey",
-      "variantLabel": "1kg",
-      "availableQty": 6,
+      "variantLabel": "1 kg Glass Jar",
+      "availableQty": 18,
       "reservedQty": 0,
       "damagedQty": 0,
       "reorderThreshold": 5,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "PKSM-GAL-400G": {
-      "sku": "PKSM-GAL-400G",
-      "productId": "pickle",
-      "variantLabel": "Pahadi Galgal (Hill Lemon) · 400g",
-      "availableQty": 10,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 10,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "PKSM-GAL-800G": {
-      "sku": "PKSM-GAL-800G",
-      "productId": "pickle",
-      "variantLabel": "Pahadi Galgal (Hill Lemon) · 800g",
-      "availableQty": 8,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 6,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "PKSM-AAM-400G": {
-      "sku": "PKSM-AAM-400G",
-      "productId": "pickle",
-      "variantLabel": "Kacha Aam & Green Chilly · 400g",
-      "availableQty": 10,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 10,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "PKSM-AAM-800G": {
-      "sku": "PKSM-AAM-800G",
-      "productId": "pickle",
-      "variantLabel": "Kacha Aam & Green Chilly · 800g",
-      "availableQty": 8,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 6,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "PKSM-MIX-400G": {
-      "sku": "PKSM-MIX-400G",
-      "productId": "pickle",
-      "variantLabel": "Mixed Mountain Spices · 400g",
-      "availableQty": 10,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 10,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "PKSM-MIX-800G": {
-      "sku": "PKSM-MIX-800G",
-      "productId": "pickle",
-      "variantLabel": "Mixed Mountain Spices · 800g",
-      "availableQty": 8,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 6,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "APSM-5KG-01": {
-      "sku": "APSM-5KG-01",
-      "productId": "apples",
-      "variantLabel": "5kg Box",
-      "availableQty": 20,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 8,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "APSM-10KG-01": {
-      "sku": "APSM-10KG-01",
-      "productId": "apples",
-      "variantLabel": "10kg Box",
-      "availableQty": 10,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 4,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "RCSM-1KG-01": {
-      "sku": "RCSM-1KG-01",
-      "productId": "red-rice",
-      "variantLabel": "1kg",
-      "availableQty": 25,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 10,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "RCSM-2KG-01": {
-      "sku": "RCSM-2KG-01",
-      "productId": "red-rice",
-      "variantLabel": "2kg",
-      "availableQty": 16,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 6,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "RCSM-5KG-01": {
-      "sku": "RCSM-5KG-01",
-      "productId": "red-rice",
-      "variantLabel": "5kg",
-      "availableQty": 9,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 4,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
-    },
-    "RJSM-1KG-01": {
-      "sku": "RJSM-1KG-01",
-      "productId": "pulses",
-      "variantLabel": "1kg",
-      "availableQty": 19,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 8,
-      "updatedAt": "2026-11-11T18:07:29.439Z"
-    },
-    "RJSM-2KG-01": {
-      "sku": "RJSM-2KG-01",
-      "productId": "pulses",
-      "variantLabel": "2kg",
-      "availableQty": 14,
-      "reservedQty": 0,
-      "damagedQty": 0,
-      "reorderThreshold": 6,
-      "updatedAt": "2026-11-10T10:04:28.932Z"
+      "updatedAt": "2026-11-16T10:52:35.648Z"
     }
   }
 }

@@ -1,14 +1,14 @@
 {
-  "name": "shimla-wali",
+  "name": "shimla-crunch",
   "version": "1.0.0",
-  "description": "Shimla Wali - Pure Pahadi Desi Ghee, Walnuts, Honey, Apples & Organic Hill Produce",
+  "description": "Shimla Crunch - Pure Pahadi Desi Ghee, Walnuts, Honey, Apples & Organic Hill Produce",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "node tests/verify-all.js"
   },
   "keywords": [
-    "shimla-wali",
+    "shimla-crunch",
     "pahadi-ghee",
     "walnuts",
     "himachal"

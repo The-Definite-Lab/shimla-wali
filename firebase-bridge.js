@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Zero-Cost Firebase Spark (₹0) Bridge
+ * Shimla Crunch — Zero-Cost Firebase Spark (₹0) Bridge
  * Routes /api/* requests to Cloud Firestore + Firebase Auth when enabled in firebase-config.js,
  * while preserving 100% parity with shared/domain.js and local server.js.
  */
@@ -494,7 +494,7 @@
     const lower = String(email).trim().toLowerCase();
     const list = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
       'nimaythakur1234@gmail.com',
-      'admin@shimlawali.in'
+      'admin@shimlacrunch.com'
     ]).map(e => String(e).trim().toLowerCase());
     return list.includes(lower);
   }
@@ -949,7 +949,7 @@
         const fullDb = await loadFullAdminDb(db);
         const ord = (fullDb.orders.orders || []).find(o => o.orderId === orderId);
         if (!ord) throw new window.ShimlaDomain.HttpError(404, `Order ${orderId} not found`);
-        const brandName = fullDb.catalog?.settings?.brand_name || 'Shimla Wali';
+        const brandName = fullDb.catalog?.settings?.brand_name || 'Shimla Crunch';
         const messages = window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName);
         return jsonResponse({ ok: true, orderId, whatsapp: messages, messages });
       }
@@ -960,7 +960,7 @@
         const body = parseBody();
         const actionRes = await runAdminTx(db, auth, (txDb, markDirty, actor) => {
           const p = { ...body, orderId };
-          const brandName = txDb.catalog?.settings?.brand_name || 'Shimla Wali';
+          const brandName = txDb.catalog?.settings?.brand_name || 'Shimla Crunch';
           if (action === 'verify-buy') {
             const ord = window.ShimlaDomain.verifyWhatsAppBuy(txDb, markDirty, p, actor);
             return { order: ord, whatsapp: window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName) };

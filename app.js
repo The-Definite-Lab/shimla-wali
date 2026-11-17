@@ -5,7 +5,7 @@
     ['shimla_cached_catalog', 'shimla_store_settings', 'shimla_brand_name', 'shimla_cart', 'shimla_catalog_cache', 'shimlacrunch_cached_catalog'].forEach(k => {
       try {
         const val = localStorage.getItem(k);
-        if (val && (val.includes('GHSM') || val.includes('Shimla Wali') || val.includes('bilona') || val.includes('shimlawali') || val.includes('A2 Pahadi Cow') || val.includes('red-rice'))) {
+        if (val && (val.includes('GHSM') || val.includes('bilona') || val.includes('A2 Pahadi Cow') || val.includes('red-rice'))) {
           localStorage.removeItem(k);
         }
       } catch (e) {}
@@ -283,7 +283,7 @@ window.renderCategoryStories = function(products) {
     <div class="category-story-item active" onclick="location.href='shop.html'">
       <div class="category-story-ring">
         <div class="category-story-img-wrap">
-          <img src="./images/shimla-wali-trio.webp" alt="All Harvest" />
+          <img src="./images/shimla-crunch-trio.webp" alt="All Harvest" />
         </div>
       </div>
       <span class="category-story-label">All Harvest</span>
@@ -506,7 +506,7 @@ window.applyStorefrontContent = function(data) {
   document.querySelectorAll('.brand-title, .footer-brand-name, .drawer-brand-title, [data-brand-text]').forEach(el => {
     el.textContent = brandName;
   });
-  const replaceBrand = (txt) => String(txt || '').replace(/Shimla Wali/gi, m => (m === m.toUpperCase() ? brandName.toUpperCase() : brandName));
+  const replaceBrand = (txt) => String(txt || '').replace(/Shimla Crunch/gi, m => (m === m.toUpperCase() ? brandName.toUpperCase() : brandName));
   document.querySelectorAll('[data-brand-copy]').forEach(el => {
     if (!el.dataset.brandTpl) el.dataset.brandTpl = el.textContent;
     const replaced = replaceBrand(el.dataset.brandTpl);
@@ -808,7 +808,7 @@ window.renderSharedNavDrawer = function() {
   window.refreshDrawerAuthCard();
 };
 /* ==========================================================================
-   Shimla Wali - INTERACTIVE FUNCTIONALITY (app.js)
+   Shimla Crunch - INTERACTIVE FUNCTIONALITY (app.js)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {

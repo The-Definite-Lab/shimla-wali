@@ -252,7 +252,7 @@ When an operation falls within the **Developer Scope**, submit a support request
 
 ### Official Developer Support Contacts:
 - **Direct Phone / WhatsApp**: `+91 8580861606`
-- **Email Support**: `support@shimlawali.com` / `tech@shimlawali.com`
+- **Email Support**: `support@shimlacrunch.com` / `tech@shimlacrunch.com`
 - **Business Hours**: 09:00 AM – 08:00 PM IST (Mon – Sat)  
 - **Emergency Hotlines**: Active 24/7 for Tier 1 incidents.
 

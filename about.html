@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us | Shimla Wali - From Our Hills To Your Home</title>
-  <meta name="description" content="Learn about Shimla Wali's commitment to Himalayan purity, A2 Pahadi Bilona Ghee, fresh mountain walnuts, raw forest honey, authentic pickles and organic hill produce." />
+  <title>About Us | Shimla Crunch - 4th Generation High-Altitude Apple Orchards</title>
+  <meta name="description" content="Meet Prajwal & Kushan, 4th generation orchardists from Kalbog-Baghi Valley under Hatu Peak. Learn how Shimla Crunch brings tree-ripened fresh apples and pure fruit crisps directly to your doorstep." />
   <link rel="icon" href="./images/logo.png" type="image/png" />
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
-  
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..900;1,9..40,400..900&family=Playfair+Display:ital,wght@0,600..900;1,600..900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="product-page-body">
 
   <!-- Top Announcement Bar -->
   <div class="top-bar">
@@ -27,28 +26,35 @@
             <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
             <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
           </svg>
-          <span>From Our Hills To Your Home</span>
+          <span>ORCHARD FRESH HARVEST • KALBOG VALLEY (7,500 FT)</span>
         </span>
       </div>
       <div class="top-bar-right">
-        <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none; margin-right: 15px;">
-          <span>Instagram: @shimla_wali08</span>
+        <a href="https://www.instagram.com/shimlacrunch/" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none; margin-right: 15px;">
+          <span>Instagram: @shimlacrunch</span>
         </a>
-        <a href="tel:+917018168156">
+        <a href="tel:+918580861606">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
           </svg>
-          <span>+91 7018168156</span>
+          <span>+91 8580861606</span>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Header -->
+  <!-- Main Site Header -->
   <header class="site-header">
     <div class="container header-inner">
       <div class="header-left">
-        <button class="nav-round-btn header-menu-btn" aria-label="Toggle Navigation Menu" onclick="window.openNavDrawer ? window.openNavDrawer() : document.getElementById('nav-drawer').classList.add('active')">
+        <button class="nav-round-btn subpage-back-btn" aria-label="Go Back to Previous Page" onclick="window.smartGoBack ? window.smartGoBack() : history.back()" title="Go Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+
+        <button class="nav-round-btn header-menu-btn" aria-label="Toggle Navigation Menu" onclick="document.getElementById('nav-drawer').classList.add('active')">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="7" x2="20" y2="7"></line>
             <line x1="4" y1="12" x2="20" y2="12"></line>
@@ -57,123 +63,253 @@
         </button>
 
         <a href="index.html" class="brand-logo-clean">
-          <img src="./images/logo.png" alt="Shimla Wali Logo" class="brand-logo-img" />
-          <span class="brand-title">Shimla Wali</span>
+          <img src="./images/logo.png" alt="Shimla Crunch Logo" class="brand-logo-img" />
+          <span class="brand-title">Shimla Crunch</span>
         </a>
       </div>
 
       <nav class="main-nav">
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="about.html" class="active">About Us</a></li>
-          <li><a href="shop.html">Shop Collection</a></li>
-          <li><a href="product.html?id=ghee">A2 Ghee</a></li>
-          <li><a href="product.html?id=walnuts">Walnuts</a></li>
-          <li><a href="verify.html">Our Promise</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="shop.html">Shop All</a></li>
+          <li><a href="product.html?id=royal-apples">Royal Apples</a></li>
+          <li><a href="product.html?id=apple-crunch">Apple Crunch</a></li>
+          <li><a href="product.html?id=walnuts">Kagzi Walnuts</a></li>
+          <li><a href="about.html" class="active">Our Story</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
 
       <div class="header-actions">
-        <button id="cart-btn" class="cart-btn" aria-label="View Shopping Cart" onclick="window.openCart ? window.openCart() : document.getElementById('cart-drawer').classList.add('active')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-svg"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
-          <span>Cart</span>
+        <button id="cart-btn" class="nav-round-btn cart-round-btn" aria-label="Shopping Bag" onclick="window.openCart ? window.openCart() : document.getElementById('cart-drawer').classList.add('active')">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
           <span class="cart-count">0</span>
-        </button>
-        <button class="mobile-menu-toggle" aria-label="Toggle Menu">
-          <span></span><span></span><span></span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Page Banner -->
-  <div class="page-banner" style="background: linear-gradient(rgba(15,23,42,0.65), rgba(15,23,42,0.75)), url('./images/shimla-wali-trio.webp') center/cover no-repeat; padding: 70px 20px; text-align: center; color: white;">
+  <div class="page-banner" style="background: linear-gradient(rgba(21,26,20,0.7), rgba(21,26,20,0.85)), url('./images/hero-orchard.webp') center/cover no-repeat; padding: 75px 20px; text-align: center; color: white;">
     <div class="container">
-      <span style="font-family: 'Caveat', cursive; font-size: 1.6rem; color: #f59e0b; display: block; margin-bottom: 6px;">From Our Hills To Your Home</span>
-      <h1 style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 12px;">Our Heritage & Mountain Philosophy</h1>
-      <p style="max-width: 650px; margin: 0 auto; font-size: 1.05rem; opacity: 0.92;">Pure • Local • Natural &bull; The Soul of Himachal Pradesh</p>
+      <span style="font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem; color: #a3e635; display: block; margin-bottom: 8px;">Direct From Our Orchards</span>
+      <h1 style="font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 2.9rem); margin-bottom: 12px; color: #ffffff !important; text-shadow: 0 2px 12px rgba(0,0,0,0.65);">Four Generations of Himalayan Apple Cultivation</h1>
+      <p style="max-width: 650px; margin: 0 auto; font-size: 1.05rem; opacity: 0.95; color: #f8fafc !important; text-shadow: 0 1px 6px rgba(0,0,0,0.5);">Nestled under Hatu Peak in the historic Kalbog-Baghi apple belt, Kotkhai, Himachal Pradesh.</p>
     </div>
   </div>
 
   <!-- Story Section -->
-  <section class="container" style="padding: 80px 24px;">
+  <section class="container" style="padding: 60px 24px;">
     <div class="about-grid">
       <div class="about-text">
-        <span class="section-tag" data-brand-copy>THE SHIMLA WALI HERITAGE</span>
-        <h2>Rooted In The High Himalayas</h2>
-        <p data-brand-copy>
-          At <strong>Shimla Wali</strong>, our journey started with a heartfelt purpose: to connect discerning families across India directly with the untouched, pristine purity of Himachal Pradesh.
+        <span class="section-tag" style="color:var(--color-primary);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">WHO WE ARE</span>
+        <h2>The Story of Shimla Crunch</h2>
+        <p>
+          Nestled under the famous <strong>HATU PEAK</strong> lies the Kalbog-Baghi valley, one of the premier high-altitude apple-producing belts of Himachal Pradesh. Operated by the Khalain family, our farming legacy stretches back across four generations of passionate apple growers.
         </p>
         <p>
-          We are not an industrial factory or a commercial warehouse. We are a direct trust with small Himachali households, farmers, and orchard growers across Shimla, Kinnaur, and Chamba. From pure A2 Desi Ghee hand-churned in wooden Bilona, to thin-shelled Kagzi Walnuts, raw multiflora forest honey, grandmother's sun-cured pickles, crisp mountain apples, and mineral-rich pulses — everything is 100% natural and harvested with love.
+          <strong>Shimla Crunch</strong>, a brainchild of <strong>Prajwal</strong> and <strong>Kushan</strong>, came into existence only after years of offering our produce to friends and getting the exact same reply: <em>"This apple tastes completely different from what we buy in city retail markets."</em>
         </p>
-        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;padding:12px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;font-size:0.86rem;color:#78350f;">
-          <span><strong id="stat-households">40+</strong> Partner Households</span>
+        <p>
+          Pondering over this, we researched the commercial market only to find that traditional resellers push the shelf life of fruit to the absolute limit—frequently selling produce that has been locked in artificial cold-storage warehouses for months. 
+        </p>
+        <p>
+          Our mission was clear: <strong>Cut out every middleman and ship tree-ripened, unwaxed fruits directly from the orchard branches to consumers' homes across India.</strong>
+        </p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:20px;padding:14px 18px;background:rgba(61,107,34,0.08);border:1px solid rgba(61,107,34,0.2);border-radius:12px;font-size:0.9rem;color:#274814;">
+          <span><strong>4 Generations</strong> of Khalain Family</span>
           <span>&bull;</span>
-          <span><strong id="stat-districts">3</strong> Districts</span>
+          <span><strong>7,500 Ft</strong> Elevation</span>
           <span>&bull;</span>
-          <span id="verify-maker-method" style="font-weight:600;">Vedic Bilona Wooden Churn</span>
+          <span><strong>FSSAI:</strong> 20924009001289</span>
         </div>
-        <div style="margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap;">
-          <a href="shop.html" class="btn btn-gold">Explore All Harvest</a>
-          <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer" class="btn" style="border: 1px solid #0f172a; color: #0f172a; text-decoration: none;">Follow on Instagram (@shimla_wali08)</a>
+
+        <div style="margin-top: 26px; display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="shop.html" class="btn btn-gold" style="background:var(--color-primary);color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;">Shop Fresh Harvest</a>
+          <a href="https://www.instagram.com/shimlacrunch/" target="_blank" rel="noopener noreferrer" class="btn" style="border: 1px solid var(--color-primary); color: var(--color-primary); text-decoration: none; padding:12px 24px;border-radius:8px;font-weight:600;">Follow on Instagram (@shimlacrunch)</a>
         </div>
       </div>
       <div class="about-img">
-        <img src="./images/shimla-wali-trio.webp" alt="Shimla Wali Pure Products Trio" style="border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);" />
+        <img src="./images/royal-delicious-box.webp" alt="Direct Harvest from Prajwal &amp; Kushan's Family Orchards" style="width:100%;border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); object-fit: cover; max-height: 480px;" />
+        <div style="text-align:center;font-size:0.85rem;color:#5F6B5C;margin-top:8px;">Prajwal &amp; Kushan &bull; 4th Gen Orchardists &bull; Kalbog-Baghi Valley</div>
       </div>
     </div>
 
     <!-- Pillars Grid -->
-    <div class="features-grid" style="margin-top: 60px;">
+    <div class="features-grid" style="margin-top: 60px; display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
       <div class="feature-box" style="background: var(--color-white); border-radius: var(--radius-md); border: 1px solid var(--color-border); padding: 28px;">
-        <div class="f-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
-        <h4>High-Altitude Pastures</h4>
-        <p>Our indigenous cows graze freely across Himalayan hillsides rich in wild medicinal herbs, clover, and snow-melt water.</p>
+        <div class="f-icon" style="color:var(--color-primary);margin-bottom:12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div>
+        <h4>Direct-to-Consumer Model</h4>
+        <p>By cutting out wholesale mandis and commission agents, we retain 100% control over quality, ensuring you receive fruit harvested days, not months, ago.</p>
       </div>
       <div class="feature-box" style="background: var(--color-white); border-radius: var(--radius-md); border: 1px solid var(--color-border); padding: 28px;">
-        <div class="f-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg></div>
-        <h4>Traditional Vedic Bilona</h4>
-        <p>Cultured curd butter is gently churned by hand with a two-way wooden churner and slow-simmered in clay and brass vessels.</p>
+        <div class="f-icon" style="color:var(--color-primary);margin-bottom:12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg></div>
+        <h4>European High-Density Grafting</h4>
+        <p>We pioneered imported European planting material in Kotkhai. This modern method allows higher density planting and results in exceptionally sweet, juicy apples.</p>
       </div>
       <div class="feature-box" style="background: var(--color-white); border-radius: var(--radius-md); border: 1px solid var(--color-border); padding: 28px;">
-        <div class="f-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg></div>
-        <h4>Zero Chemical Processing</h4>
-        <p>No chemical bleaching, no artificial wax on apples, no high-heat pasteurization of honey, and no artificial food colors.</p>
+        <div class="f-icon" style="color:var(--color-primary);margin-bottom:12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+        <h4>Signature Fruit Crunch</h4>
+        <p>Our low-temperature dehydration process crafts addictive, healthy apple crisps without oil, frying, or added sugar—the pure crunch of Himachal.</p>
+      </div>
+    </div>
+
+    <!-- Official Government Registrations & Terroir Credentials -->
+    <div style="margin-top: 60px;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <span class="section-tag" style="color:var(--color-primary);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">OFFICIAL TRANSPARENCY</span>
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin-top: 6px;">Government Registrations &amp; Licenses</h2>
+        <p style="color: #64748b; font-size: 0.95rem; max-width: 600px; margin: 6px auto 0;">All farm operations, post-harvest drying, and pan-India dispatches are fully compliant with Indian food standards.</p>
+      </div>
+
+      <div class="legal-tabs-container">
+        <!-- 4 Simultaneous Tabs Visible in One View -->
+        <div class="legal-tabs-nav" role="tablist" aria-label="Legal Certifications &amp; Terroir">
+          <button type="button" class="legal-tab-btn active" role="tab" id="tab-btn-fssai" aria-selected="true" aria-controls="tab-pane-fssai" onclick="switchLegalTab('fssai')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            <span class="tab-label-short">FSSAI</span>
+            <span class="tab-label-full">FSSAI Safety</span>
+          </button>
+          <button type="button" class="legal-tab-btn" role="tab" id="tab-btn-udyam" aria-selected="false" aria-controls="tab-pane-udyam" onclick="switchLegalTab('udyam')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="13" y2="16"></line></svg>
+            <span class="tab-label-short">UDYAM</span>
+            <span class="tab-label-full">MSME Udyam</span>
+          </button>
+          <button type="button" class="legal-tab-btn" role="tab" id="tab-btn-valley" aria-selected="false" aria-controls="tab-pane-valley" onclick="switchLegalTab('valley')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"></path></svg>
+            <span class="tab-label-short">Kalbog</span>
+            <span class="tab-label-full">Kalbog Valley</span>
+          </button>
+          <button type="button" class="legal-tab-btn" role="tab" id="tab-btn-cushion" aria-selected="false" aria-controls="tab-pane-cushion" onclick="switchLegalTab('cushion')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            <span class="tab-label-short">Cushion</span>
+            <span class="tab-label-full">Shock Cushion</span>
+          </button>
+        </div>
+
+        <!-- Tab 1: FSSAI License -->
+        <div class="legal-tab-pane active" id="tab-pane-fssai" role="tabpanel" aria-labelledby="tab-btn-fssai">
+          <div class="compact-trust-card">
+            <div class="compact-trust-left">
+              <div class="trust-badge-row">
+                <span class="trust-pill-tag green">Govt. Verified License</span>
+                <span class="trust-sub-kicker">Food Safety and Standards Authority of India</span>
+              </div>
+              <h3 class="trust-cert-title">FSSAI # 20924009001289</h3>
+              <p class="trust-cert-desc">Certified Food Business Operator license for fresh apples, dried snacks, mountain honey, and walnut processing with zero toxic chemical washes.</p>
+            </div>
+            <div class="compact-trust-right">
+              <div class="seal-icon-circle green">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+              </div>
+              <span class="seal-status">100% Lab Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: MSME UDYAM -->
+        <div class="legal-tab-pane" id="tab-pane-udyam" role="tabpanel" aria-labelledby="tab-btn-udyam">
+          <div class="compact-trust-card">
+            <div class="compact-trust-left">
+              <div class="trust-badge-row">
+                <span class="trust-pill-tag gold">Registered Micro-Agro Enterprise</span>
+                <span class="trust-sub-kicker">Ministry of MSME, Govt. of India</span>
+              </div>
+              <h3 class="trust-cert-title">UDYAM-HP-09-0019824</h3>
+              <p class="trust-cert-desc">Registered Micro-Enterprise in Himachal Pradesh dedicated to sustainable rural horticulture and authentic direct fair trade with zero market yard middlemen.</p>
+            </div>
+            <div class="compact-trust-right">
+              <div class="seal-icon-circle gold">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              </div>
+              <span class="seal-status">Official MSME Entity</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Kalbog-Baghi Valley -->
+        <div class="legal-tab-pane" id="tab-pane-valley" role="tabpanel" aria-labelledby="tab-btn-valley">
+          <div class="compact-trust-card">
+            <div class="compact-trust-left">
+              <div class="trust-badge-row">
+                <span class="trust-pill-tag blue">High-Altitude Terroir Origin</span>
+                <span class="trust-sub-kicker">Tehsil Kotkhai, Distt. Shimla (PIN 171202)</span>
+              </div>
+              <h3 class="trust-cert-title">Kalbog-Baghi Valley &bull; 7,500 Ft</h3>
+              <p class="trust-cert-desc">Direct single-origin harvesting under Hatu Peak. Sub-zero alpine nights and diurnal Himalayan breezes force apple trees into concentrated 15.5° Brix fructose sweetness.</p>
+            </div>
+            <div class="compact-trust-right">
+              <div class="seal-icon-circle blue">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+              </div>
+              <span class="seal-status">100% Single Origin</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Honeycomb Transit Cushion -->
+        <div class="legal-tab-pane" id="tab-pane-cushion" role="tabpanel" aria-labelledby="tab-btn-cushion">
+          <div class="compact-trust-card">
+            <div class="compact-trust-left">
+              <div class="trust-badge-row">
+                <span class="trust-pill-tag green">Zero-Bruise Transit Cushion</span>
+                <span class="trust-sub-kicker">Custom Honeycomb Shock Armor</span>
+              </div>
+              <h3 class="trust-cert-title">Preserved Fruit Cushion Armor</h3>
+              <p class="trust-cert-desc">Every piece of fruit sits in an isolated shock-absorbing cellular foam socket inside heavy-duty 5-ply cartons with 100% free carton replacement guarantee backed by founders Prajwal &amp; Kushan.</p>
+            </div>
+            <div class="compact-trust-right">
+              <div class="seal-icon-circle green">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+              </div>
+              <span class="seal-status">Transit Replacement</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Site Ultra-Compact Footer -->
+  <!-- Site Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-compact-row">
         <div class="footer-brand-box">
-          <span class="footer-brand-name">Shimla Wali</span>
-          <span class="footer-brand-tagline">From Our Hills To Your Home &bull; Pure &bull; Local &bull; Natural</span>
+          <span class="footer-brand-name">Shimla Crunch</span>
+          <span class="footer-brand-tagline">Fresh Orchard Apples &amp; Fruit Crisps • Kalbog-Baghi Valley, Kotkhai (H.P.)</span>
         </div>
 
-        <div class="footer-nav-inline">
+                <div class="footer-nav-inline">
           <a href="index.html">Home</a>
           <span class="f-dot">&bull;</span>
           <a href="shop.html">Shop All</a>
           <span class="f-dot">&bull;</span>
           <a href="about.html">Our Story</a>
           <span class="f-dot">&bull;</span>
-          <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer">Instagram (@shimla_wali08)</a>
-          <span class="f-dot">&bull;</span>
           <a href="verify.html">Our Promise</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#terms">Terms</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#refund">Refund Policy</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#privacy">Privacy Policy</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#shipping">Shipping</a>
           <span class="f-dot">&bull;</span>
           <a href="contact.html">Contact</a>
         </div>
 
         <div class="footer-action-box">
-          <a href="https://wa.me/917018168156?text=Hello%20Shimla%20Wali,%20I%20want%20to%20order%20pure%20mountain%20products." 
+          <a href="https://wa.me/918580861606?text=Hello%20Shimla%20Crunch,%20I%20want%20to%20order%20orchard%20fresh%20apples." 
              class="footer-wa-card" 
              target="_blank" 
              rel="noopener noreferrer" 
-             aria-label="Contact Shimla Wali on WhatsApp">
+             aria-label="Contact Shimla Crunch on WhatsApp">
             <div class="footer-wa-icon">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                 <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.15.11-3.69-.94-2.17-.9-3.57-3.11-3.68-3.26-.11-.15-.88-1.17-.88-2.23 0-1.06.56-1.58.76-1.8.2-.22.44-.28.59-.28.15 0 .3 0 .43.01.14.01.32-.05.5.39.19.46.65 1.58.71 1.7.06.12.1.26.02.42-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.25.25-.11.49.14.24.63 1.04 1.35 1.68.93.83 1.71 1.09 1.95 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26z"/>
@@ -181,7 +317,7 @@
             </div>
             <div class="footer-wa-text">
               <span class="f-wa-title">Need Help?</span>
-              <span class="f-wa-sub">Chat with us</span>
+              <span class="f-wa-sub">WhatsApp Us</span>
             </div>
             <div class="footer-wa-arrow">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -191,7 +327,7 @@
       </div>
 
       <div class="footer-bottom">
-        <div data-brand-copy>&copy; 2026 Shimla Wali. All Rights Reserved. &bull; Himachal Pradesh</div>
+        <div>&copy; 2026 Shimla Crunch &bull; FSSAI: 20924009001289 &bull; UDYAM-HP-09-0019824 &bull; Kotkhai, Shimla</div>
         <div class="footer-admin-wrap">
           <a href="admin.html" class="footer-admin-link" title="Admin Portal">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -206,7 +342,14 @@
   <div id="cart-drawer-overlay" class="cart-drawer-overlay" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')"></div>
   <div id="cart-drawer" class="cart-drawer">
     <div class="cart-drawer-header">
-      <h2 class="cart-drawer-main-title">YOUR BAG</h2>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <h2 class="cart-drawer-main-title">YOUR BAG</h2>
+      </div>
       <button id="close-cart-btn" class="nav-round-btn cart-close-btn" aria-label="Close Bag" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -217,42 +360,14 @@
     <div class="cart-drawer-body" id="cart-drawer-body"></div>
   </div>
 
-  <!-- Navigation Drawer -->
-  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer ? window.closeNavDrawer() : document.getElementById('nav-drawer').classList.remove('active')"></div>
-  <div id="nav-drawer" class="nav-drawer-card">
-    <div class="nav-drawer-header">
-      <div class="drawer-brand-title">Shimla Wali</div>
-      <button id="nav-drawer-close" class="nav-round-btn drawer-close-btn" aria-label="Close Menu" onclick="window.closeNavDrawer ? window.closeNavDrawer() : document.getElementById('nav-drawer').classList.remove('active')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-
-    <div class="drawer-section-label">PRODUCTS</div>
-    <div class="drawer-nav-list">
-      <a href="product.html?id=ghee" class="drawer-nav-item item-highlight"><span class="d-item-text">A2 PAHADI GHEE</span><span class="drawer-badge-purple">BILONA</span></a>
-      <a href="product.html?id=walnuts" class="drawer-nav-item"><span class="d-item-text">HIMACHALI WALNUTS</span></a>
-      <a href="product.html?id=honey" class="drawer-nav-item"><span class="d-item-text">WILD FOREST RAW HONEY</span></a>
-      <a href="product.html?id=pickle" class="drawer-nav-item"><span class="d-item-text">HOMEMADE PAHADI PICKLE</span></a>
-      <a href="product.html?id=apples" class="drawer-nav-item"><span class="d-item-text">SHIMLA ROYAL APPLES</span></a>
-      <a href="product.html?id=pulses" class="drawer-nav-item"><span class="d-item-text">ORGANIC PAHADI RAJMA</span></a>
-    </div>
-
-    <div class="drawer-section-label" style="margin-top: 24px;">EXPLORE</div>
-    <div class="drawer-nav-list">
-      <a href="index.html" class="drawer-nav-item"><span class="d-item-text">HOME</span></a>
-      <a href="shop.html" class="drawer-nav-item"><span class="d-item-text">SHOP ALL HARVEST</span></a>
-      <a href="about.html" class="drawer-nav-item"><span class="d-item-text">OUR STORY & HERITAGE</span></a>
-      <a href="verify.html" class="drawer-nav-item"><span class="d-item-text">OUR PROMISE & LAB PURITY</span></a>
-      <a href="https://www.instagram.com/shimla_wali08" target="_blank" rel="noopener noreferrer" class="drawer-nav-item"><span class="d-item-text">INSTAGRAM (@shimla_wali08)</span></a>
-      <a href="contact.html" class="drawer-nav-item"><span class="d-item-text">CONTACT CARE</span></a>
-    </div>
-  </div>
-
   <script src="firebase-config.js"></script>
   <script src="firebase-bridge.js"></script>
   <script src="app.js"></script>
+
+  <!-- Navigation Drawer & Overlay -->
+  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer()"></div>
+  <div id="nav-drawer" class="nav-drawer-card"></div>
+
+  <script src="floating-widget.js"></script>
 </body>
 </html>

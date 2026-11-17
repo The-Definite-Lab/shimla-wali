@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Security, Cryptographic Sessions, Rate Limiting & Auth Middleware
+ * Shimla Crunch — Security, Cryptographic Sessions, Rate Limiting & Auth Middleware
  */
 const crypto = require('crypto');
 const fs = require('fs');

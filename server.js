@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Storefront + Production Admin Backend Server
+ * Shimla Crunch — Storefront + Production Admin Backend Server
  */
 const http = require('http');
 const fs = require('fs');
@@ -710,7 +710,7 @@ function createAppServer(options = {}) {
           requireAdmin(req, db);
           const ord = (db.orders.orders || []).find(o => o.orderId === orderId);
           if (!ord) throw new domain.HttpError(404, `Order "${orderId}" not found`);
-          const brandName = (db.catalog.settings && db.catalog.settings.brand_name) || 'Shimla Wali';
+          const brandName = (db.catalog.settings && db.catalog.settings.brand_name) || 'Shimla Crunch';
           return sendJSON(res, { ok: true, whatsapp: domain.buildWhatsAppMessagesForOrder(ord, brandName) });
         }
 
@@ -723,7 +723,7 @@ function createAppServer(options = {}) {
           const result = await store.withTransaction((db, markDirty) => {
             const sess = requireAdmin(req, db);
             const actorMeta = { actor: `admin:${sess.subject}`, ip };
-            const brandName = (db.catalog.settings && db.catalog.settings.brand_name) || 'Shimla Wali';
+            const brandName = (db.catalog.settings && db.catalog.settings.brand_name) || 'Shimla Crunch';
             if (action === 'verify-buy') {
               const order = domain.verifyWhatsAppBuy(db, markDirty, { ...body, orderId }, actorMeta);
               return { order, whatsapp: domain.buildWhatsAppMessagesForOrder(order, brandName) };
@@ -796,7 +796,7 @@ function createAppServer(options = {}) {
           const from = parsedUrl.searchParams.get('from') || '';
           const to = parsedUrl.searchParams.get('to') || '';
           const csv = domain.generateReportCsv(db, type, { from, to });
-          return sendCsv(res, csv, `shimlawali-${type}-${new Date().toISOString().slice(0, 10)}.csv`);
+          return sendCsv(res, csv, `shimlacrunch-${type}-${new Date().toISOString().slice(0, 10)}.csv`);
         }
 
         if (reqPath === '/api/admin/reports' && method === 'GET') {

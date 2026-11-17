@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Niche & Structured Alphanumeric SKU / Batch Helpers
+ * Shimla Crunch — Niche & Structured Alphanumeric SKU / Batch Helpers
  */
 (function(root, factory) {
   if (typeof module === 'object' && module.exports) {

@@ -1,20 +1,18 @@
 /**
- * Shimla Wali — Firebase Spark (₹0) Configuration
- * Set enabled: true and paste your Firebase Web App credentials from:
- * Firebase Console -> Project Settings -> Your Apps -> Web App
- * When enabled is false (or apiKey is empty), the site runs on local Node server.js.
+ * Shimla Crunch - Firebase Configuration
+ * Currently running in local mode (enabled: false) so it serves from local products.json & server.js.
+ * Set enabled: true once the client's dedicated Firebase project (shimla-crunch) is provisioned.
  */
 window.SHIMLA_FIREBASE_CONFIG = {
-  enabled: true,
-  adminEmail: 'admin@shimlawali.in',
+  enabled: false,
+  adminEmail: 'shimlacrunch@gmail.com',
   authorizedAdminEmails: [
-    'nimaythakur1234@gmail.com',
-    'admin@shimlawali.in'
+    'shimlacrunch@gmail.com'
   ],
-  apiKey: 'AIzaSyBX7XUQXTrD9a6U-EmKa-_cFOvcnG7X26k',
-  authDomain: 'shimlawali-store.firebaseapp.com',
-  projectId: 'shimlawali-store',
-  storageBucket: 'shimlawali-store.firebasestorage.app',
-  messagingSenderId: '931009690281',
-  appId: '1:931009690281:web:12e7dcbff9f1111b7087b8'
+  apiKey: '',
+  authDomain: '',
+  projectId: 'shimla-crunch',
+  storageBucket: '',
+  messagingSenderId: '',
+  appId: ''
 };

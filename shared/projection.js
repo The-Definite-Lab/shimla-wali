@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Shared Public Catalog & Storefront Projection Builder
+ * Shimla Crunch — Shared Public Catalog & Storefront Projection Builder
  * Used identically by both local Node (server/db.js) and Firebase Spark (firebase-bridge.js).
  */
 (function(root, factory) {
@@ -18,27 +18,35 @@
       .filter(p => !p.archived && p.visible !== false)
       .map(p => {
         const variants = (p.variants || []).map(v => {
-          const inv = bySku[v.sku] || { availableQty: 0, reservedQty: 0, reorderThreshold: 5 };
-          const freeQty = Math.max(0, (inv.availableQty || 0) - (inv.reservedQty || 0));
+          const invKey = v.sku || v.id || `${p.id}-${v.id}`;
+          const inv = bySku[invKey] || (v.sku && bySku[v.sku]) || null;
+          const hasInv = Boolean(inv && typeof inv.availableQty === 'number');
+          const freeQty = hasInv
+            ? Math.max(0, (inv.availableQty || 0) - (inv.reservedQty || 0))
+            : ((v.inStock !== false && p.inStock !== false) ? (v.availableUnits ?? 15) : 0);
+          const isStocked = (v.inStock !== false && p.inStock !== false) && (hasInv ? freeQty > 0 : (freeQty > 0 || v.inStock === true));
+          const sizeVal = v.size || v.name || v.label || (v.id ? v.id.toUpperCase() : 'Standard');
+          const availUnits = hasInv ? freeQty : (isStocked ? (v.availableUnits ?? 15) : 0);
+          const threshold = Number((inv && inv.reorderThreshold) ?? v.reorderThreshold) || 5;
           return {
-            sku: v.sku,
+            sku: v.sku || invKey,
             legacySku: v.legacySku || '',
-            label: v.label || v.size || 'Standard',
-            size: v.size || v.label || 'Standard',
+            label: v.name || v.label || sizeVal,
+            size: sizeVal,
             variety: v.variety || '',
             price: Number(v.price) || 0,
             mrp: Number(v.mrp) || 0,
-            discount: v.discount || '',
+            discount: v.discount || (v.mrp > v.price ? Math.round((1 - v.price / v.mrp) * 100) + '% OFF' : ''),
             isDefault: Boolean(v.isDefault),
             visible: v.visible !== false,
-            inStock: freeQty > 0,
-            availableUnits: freeQty,
-            lowStock: freeQty > 0 && freeQty <= (Number(inv.reorderThreshold ?? v.reorderThreshold) || 5)
+            inStock: isStocked,
+            availableUnits: availUnits,
+            lowStock: isStocked && availUnits > 0 && availUnits <= threshold
           };
         });
 
         const defaultVar = variants.find(v => v.isDefault && v.visible) || variants[0];
-        const totalFree = variants.reduce((sum, v) => sum + (v.visible ? v.availableUnits : 0), 0);
+        const totalFree = variants.reduce((sum, v) => sum + (v.visible ? (v.availableUnits || 0) : 0), 0);
 
         return {
           id: p.id,
@@ -99,11 +107,11 @@
 
     const s = catalog.settings || {};
     const publicSettings = {
-      brand_name: s.brand_name || 'Shimla Wali',
+      brand_name: s.brand_name || 'Shimla Crunch',
       tagline: s.tagline || '',
-      phone: s.phone || '+91 7018168156',
-      whatsapp_number: s.whatsapp_number || '917018168156',
-      support_email: s.support_email || 'care@shimlawali.in',
+      phone: s.phone || '+91 8580861606',
+      whatsapp_number: s.whatsapp_number || '918580861606',
+      support_email: s.support_email || 'care@shimlacrunch.com',
       instagram: s.instagram || '',
       instagram_handle: s.instagram_handle || '@shimla_wali08',
       fssai_number: s.fssai_number || '',

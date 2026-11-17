@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Live Headless Chrome E2E, Visual Responsive & Sync Verification
+ * Shimla Crunch — Live Headless Chrome E2E, Visual Responsive & Sync Verification
  */
 const assert = require('assert');
 const { spawn } = require('child_process');

@@ -1,6 +1,6 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * SHIMLA WALI ADMIN STUDIO CO-PILOT (3D Interactive Assistant)
+ * SHIMLA CRUNCH ADMIN STUDIO CO-PILOT (3D Interactive Assistant)
  * ═══════════════════════════════════════════════════════════════════════════
  * Embedded at bottom-right of admin.html.
  * Ultra-minimal screen footprint with interactive 3D robot character.
@@ -71,24 +71,25 @@
       align-items: center;
       gap: 5.5px;
       padding: 3px 9px;
-      background: rgba(15, 23, 42, 0.94);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(18, 36, 16, 0.95);
+      border: 1px solid rgba(34, 197, 94, 0.45);
       border-radius: 999px;
       backdrop-filter: blur(12px);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), 0 0 10px rgba(34, 197, 94, 0.2);
       pointer-events: none;
       transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
     #admin-copilot-container:hover .copilot-badge-pill {
-      border-color: #38bdf8;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+      border-color: #22c55e;
+      box-shadow: 0 6px 18px rgba(34, 197, 94, 0.45);
       transform: translateY(-1px);
     }
     .copilot-status-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #38bdf8;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
       animation: copilotPulse 2.2s infinite ease-in-out;
     }
     @keyframes copilotPulse {
@@ -99,7 +100,7 @@
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.8px;
-      color: #38bdf8;
+      color: #ffffff;
       text-transform: uppercase;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
@@ -177,7 +178,7 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      background: linear-gradient(135deg, #15803d, #22c55e);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -253,13 +254,13 @@
     }
     .copilot-chip:hover {
       background: #f1f5f9;
-      border-color: #0284c7;
-      color: #0284c7;
+      border-color: #16a34a;
+      color: #16a34a;
       transform: translateY(-1px);
     }
     .copilot-chip.active {
-      background: #0284c7;
-      border-color: #0284c7;
+      background: #16a34a;
+      border-color: #16a34a;
       color: #ffffff;
     }
     .copilot-chip svg {
@@ -303,7 +304,7 @@
     }
     .copilot-msg.user {
       align-self: flex-end;
-      background: #0284c7;
+      background: #16a34a;
       color: #ffffff;
       border-bottom-right-radius: 3px;
       box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
@@ -323,7 +324,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: #0284c7;
+      color: #16a34a;
       margin-bottom: 6px;
       display: flex;
       align-items: center;
@@ -355,7 +356,7 @@
       transition: border-color 0.18s;
     }
     .copilot-input:focus, .copilot-select:focus {
-      border-color: #0284c7;
+      border-color: #16a34a;
     }
 
     /* Action Buttons inside Card */
@@ -389,11 +390,11 @@
       transform: translateY(-1px);
     }
     .copilot-btn.accent {
-      background: #0284c7;
+      background: #16a34a;
       color: #ffffff;
     }
     .copilot-btn.accent:hover {
-      background: #0369a1;
+      background: #15803d;
       transform: translateY(-1px);
     }
     .copilot-btn.secondary {
@@ -426,7 +427,7 @@
       gap: 3px;
     }
     .copilot-prod-card:hover {
-      border-color: #0284c7;
+      border-color: #16a34a;
       background: #f0f9ff;
       transform: translateY(-1px);
     }
@@ -462,7 +463,7 @@
     .copilot-stat-val {
       font-size: 16px;
       font-weight: 800;
-      color: #0284c7;
+      color: #16a34a;
     }
     .copilot-stat-val.gold { color: #d97706; }
     .copilot-stat-val.emerald { color: #059669; }
@@ -497,14 +498,14 @@
       font-family: inherit;
     }
     .copilot-footer-input:focus {
-      border-color: #0284c7;
+      border-color: #16a34a;
       box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
     }
     .copilot-send-btn {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #0284c7;
+      background: #16a34a;
       border: none;
       color: #ffffff;
       display: flex;
@@ -515,7 +516,7 @@
       transition: all 0.18s;
     }
     .copilot-send-btn:hover {
-      background: #0369a1;
+      background: #15803d;
       transform: scale(1.06);
     }
 
@@ -561,7 +562,7 @@
     }
     [data-theme="light"] .copilot-icon-btn:hover {
       background: rgba(56, 189, 248, 0.2);
-      border-color: #38bdf8;
+      border-color: #22c55e;
       color: #ffffff;
     }
     [data-theme="light"] .copilot-chips-bar {
@@ -575,12 +576,12 @@
     }
     [data-theme="light"] .copilot-chip:hover {
       background: rgba(56, 189, 248, 0.15);
-      border-color: #38bdf8;
-      color: #38bdf8;
+      border-color: #22c55e;
+      color: #22c55e;
     }
     [data-theme="light"] .copilot-chip.active {
-      background: #0284c7;
-      border-color: #38bdf8;
+      background: #16a34a;
+      border-color: #22c55e;
       color: #ffffff;
     }
     [data-theme="light"] .copilot-messages {
@@ -599,7 +600,7 @@
       box-shadow: none;
     }
     [data-theme="light"] .copilot-card-title {
-      color: #38bdf8;
+      color: #22c55e;
     }
     [data-theme="light"] .copilot-field label {
       color: #cbd5e1;
@@ -617,8 +618,8 @@
     }
     [data-theme="light"] .copilot-btn.secondary:hover {
       background: rgba(56, 189, 248, 0.2);
-      border-color: #38bdf8;
-      color: #38bdf8;
+      border-color: #22c55e;
+      color: #22c55e;
     }
     [data-theme="light"] .copilot-prod-card {
       background: #131f37;
@@ -633,7 +634,7 @@
       box-shadow: none;
     }
     [data-theme="light"] .copilot-stat-val {
-      color: #38bdf8;
+      color: #22c55e;
     }
     [data-theme="light"] .copilot-stat-val.gold { color: #f59e0b; }
     [data-theme="light"] .copilot-stat-val.emerald { color: #10b981; }
@@ -651,7 +652,7 @@
       color: #ffffff;
     }
     [data-theme="light"] .copilot-footer-input:focus {
-      border-color: #38bdf8;
+      border-color: #22c55e;
       box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
     }
   `;
@@ -681,7 +682,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="3"></rect><circle cx="9" cy="16" r="1.5" fill="currentColor"></circle><circle cx="15" cy="16" r="1.5" fill="currentColor"></circle><path d="M12 2v4"></path><line x1="8" y1="2" x2="16" y2="2"></line></svg>
         </div>
         <div class="copilot-title-group">
-          <h4>DOVA <span style="font-size:9.5px;padding:2px 6px;background:rgba(56,189,248,0.2);color:#38bdf8;border-radius:999px;border:1px solid rgba(56,189,248,0.4);font-weight:700;">AI</span></h4>
+          <h4>DOVA <span style="font-size:9.5px;padding:2px 6px;background:rgba(56,189,248,0.2);color:#22c55e;border-radius:999px;border:1px solid rgba(56,189,248,0.4);font-weight:700;">AI</span></h4>
           <p>Store Execution Assistant • Live</p>
         </div>
       </div>
@@ -810,22 +811,22 @@
 
     // Materials (DOVA Sleek Titanium & Electric Cyan AI Aesthetic)
     const cyberTitanium = new THREE.MeshPhysicalMaterial({
-      color: 0x1e293b,
-      roughness: 0.18,
-      metalness: 0.52,
+      color: 0x142b12, // Rich dark forest green
+      roughness: 0.16,
+      metalness: 0.45,
       clearcoat: 0.95,
       clearcoatRoughness: 0.08
     });
     const electricCyan = new THREE.MeshPhysicalMaterial({
-      color: 0x0284c7,
-      emissive: 0x0369a1,
-      emissiveIntensity: 0.45,
-      roughness: 0.2,
-      metalness: 0.7,
-      clearcoat: 0.85
+      color: 0x22c55e, // Luminous mountain emerald
+      emissive: 0x15803d,
+      emissiveIntensity: 0.55,
+      roughness: 0.18,
+      metalness: 0.65,
+      clearcoat: 0.9
     });
     const screenGloss = new THREE.MeshPhysicalMaterial({
-      color: 0x020617,
+      color: 0x051608,
       roughness: 0.04,
       clearcoat: 1.0
     });
@@ -868,8 +869,8 @@
       return new THREE.CanvasTexture(c);
     }
 
-    const eyeNorm = makeEyeTex('#38bdf8');
-    const eyeHappy = makeHappyTex('#38bdf8');
+    const eyeNorm = makeEyeTex('#22c55e');
+    const eyeHappy = makeHappyTex('#22c55e');
     const leftEyeMat = new THREE.MeshBasicMaterial({ map: eyeNorm, transparent: true, depthWrite: false });
     const rightEyeMat = new THREE.MeshBasicMaterial({ map: eyeNorm, transparent: true, depthWrite: false });
 
@@ -913,8 +914,7 @@
     antRod.position.set(0, 2.2, 0);
     headGroup.add(antRod);
     const antTip = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 12), new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      emissive: 0x0284c7,
+      color: 0x4ade80, emissive: 0x22c55e,
       emissiveIntensity: 0.8,
       roughness: 0.15
     }));
@@ -1165,8 +1165,8 @@
     if (!stream || stream.children.length > 0) return;
 
     appendMsg(`
-      <div style="font-weight:700;color:#0284c7;font-size:11px;letter-spacing:0.6px;text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
-        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#0284c7;"></span> DOVA AI ACTIVE
+      <div style="font-weight:700;color:#16a34a;font-size:11px;letter-spacing:0.6px;text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#16a34a;"></span> DOVA AI ACTIVE
       </div>
       <p style="margin:0 0 6px 0;font-weight:600;font-size:13px;">Hello Admin! I am DOVA, your store execution assistant.</p>
       <p style="margin:0 0 8px 0;font-size:11.5px;opacity:0.8;">Execute instant changes directly without searching through tables:</p>
@@ -1317,7 +1317,7 @@
     });
 
     try {
-      card.innerHTML = `<div style="font-size:12px;color:#38bdf8;padding:8px 0;">Syncing price to storefront catalog...</div>`;
+      card.innerHTML = `<div style="font-size:12px;color:#22c55e;padding:8px 0;">Syncing price to storefront catalog...</div>`;
       const res = await window.apiFetch(`/api/admin/products/${encodeURIComponent(prodId)}`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -1415,7 +1415,7 @@
     if (!qty || qty <= 0) return showToast('Enter valid quantity to reserve', true);
 
     try {
-      card.innerHTML = `<div style="font-size:12px;color:#38bdf8;padding:8px 0;">Reserving ${qty} unit(s) and protecting website stock...</div>`;
+      card.innerHTML = `<div style="font-size:12px;color:#22c55e;padding:8px 0;">Reserving ${qty} unit(s) and protecting website stock...</div>`;
       const res = await window.apiFetch('/api/admin/inventory/hold', {
         method: 'POST',
         body: JSON.stringify({ sku, qty, note })
@@ -1515,7 +1515,7 @@
     if (!qty || qty <= 0) return showToast('Enter valid quantity to release', true);
 
     try {
-      card.innerHTML = `<div style="font-size:12px;color:#38bdf8;padding:8px 0;">Releasing ${qty} unit(s) back to website free stock...</div>`;
+      card.innerHTML = `<div style="font-size:12px;color:#22c55e;padding:8px 0;">Releasing ${qty} unit(s) back to website free stock...</div>`;
       const res = await window.apiFetch('/api/admin/inventory/release', {
         method: 'POST',
         body: JSON.stringify({ sku, qty, reason })
@@ -1595,7 +1595,7 @@
     if (!reason || reason.length < 3) return showToast('Descriptive audit reason required', true);
 
     try {
-      card.innerHTML = `<div style="font-size:12px;color:#38bdf8;padding:8px 0;">Recording stock movement...</div>`;
+      card.innerHTML = `<div style="font-size:12px;color:#22c55e;padding:8px 0;">Recording stock movement...</div>`;
       const res = await window.apiFetch('/api/admin/inventory/adjust', {
         method: 'POST',
         body: JSON.stringify({ sku, movementType, qtyDelta, reason })

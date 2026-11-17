@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Authoritative Domain Logic, State Machines, Pricing & Reporting
+ * Shimla Crunch — Authoritative Domain Logic, State Machines, Pricing & Reporting
  */
 (function(root, factory) {
   if (typeof module === 'object' && module.exports) {
@@ -85,7 +85,7 @@ function buildCourierTrackingUrl(courier, trackingId, customTrackingUrl = '') {
   return '';
 }
 
-function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
+function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Crunch') {
   const name = String(order.customerSnapshot?.name || 'Customer').trim();
   const phone = normalizePhone(order.customerSnapshot?.phone || '');
   const waTarget = phone ? `91${phone}` : '';
@@ -138,7 +138,7 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Wali') {
     `Your *${brandName}* order *${order.orderId}* has been successfully *DELIVERED*! 🏡✨`,
     '',
     'We hope you enjoy the pure, handcrafted mountain harvest. 🏔',
-    'For re-orders or feedback, simply reply to this chat. Thank you for choosing Shimla Wali! 🌿'
+    'For re-orders or feedback, simply reply to this chat. Thank you for choosing Shimla Crunch! 🌿'
   ];
   const deliveredMessage = deliveredLines.join('\n');
 
@@ -510,7 +510,7 @@ function upsertProduct(db, markDirty, payload, actorMeta = {}, isUpdate = false)
   }
 
   const defVar = normalizedVariants.find(v => v.isDefault) || normalizedVariants[0];
-  const img = String(payload.image || existingProd?.image || './images/shimla-ghee.webp').trim();
+  const img = String(payload.image || existingProd?.image || './images/royal-delicious-box.webp').trim();
   const gallery = Array.isArray(payload.gallery) && payload.gallery.length
     ? payload.gallery.map(x => String(x).trim()).filter(Boolean)
     : existingProd?.gallery?.length

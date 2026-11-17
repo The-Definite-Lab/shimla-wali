@@ -1,5 +1,5 @@
 /**
- * Shimla Wali — Transactional JSON Data Store with Mutex & Atomic Writes
+ * Shimla Crunch — Transactional JSON Data Store with Mutex & Atomic Writes
  */
 const fs = require('fs');
 const path = require('path');

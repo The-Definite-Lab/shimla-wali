@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Express Checkout | Shimla Wali - From Our Hills To Your Home</title>
+  <title>Express Checkout | Shimla Crunch - From Our Hills To Your Home</title>
   <link rel="icon" href="./images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -498,7 +498,7 @@
   <!-- Minimal Luxury Navigation Header -->
   <header class="lux-nav">
     <div class="lux-nav-inner">
-      <a href="product.html" class="lux-back-btn">
+      <a href="javascript:void(0)" onclick="window.smartGoBack ? window.smartGoBack('shop.html') : history.back()" class="lux-back-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         <span>Back</span>
       </a>
@@ -706,10 +706,7 @@
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: left; margin-bottom: 16px; font-size: 0.82rem; color: #334155; line-height: 1.5;" id="success-summary-body">
       </div>
       
-      <div style="display:flex; flex-direction:column; gap:9px; align-items:center;">
-        <a id="success-back-product-link" href="product.html" style="color: #059669; font-size: 0.84rem; font-weight: 700; text-decoration: none;">&larr; Back to Product</a>
-        <a href="index.html" style="color: #64748b; font-size: 0.78rem; font-weight: 700; text-decoration: none;">&larr; Return to Store Home</a>
-      </div>
+      <a href="index.html" style="color: #64748b; font-size: 0.78rem; font-weight: 700; text-decoration: none;">&larr; Return to Store</a>
     </div>
 
   </main>
@@ -737,7 +734,7 @@
         .catch(() => {});
     }
     let liveQuote = null;
-    let storeWhatsAppNum = '917018168156';
+    let storeWhatsAppNum = '918580861606';
     let checkoutPolicyLockMsg = '';
 
     function esc(s) {
@@ -750,7 +747,7 @@
         window.applyStorefrontContent(d);
       }
       if (d.settings.whatsapp_number) {
-        storeWhatsAppNum = String(d.settings.whatsapp_number).replace(/\D/g, '') || '917018168156';
+        storeWhatsAppNum = String(d.settings.whatsapp_number).replace(/\D/g, '') || '918580861606';
       }
       let isLoggedIn = false;
       try {
@@ -786,7 +783,7 @@
           size,
           price: 1199,
           quantity: 1,
-          image: './images/tribal-ghee.webp'
+          image: './images/shimla-ghee.webp'
         }];
       }
 
@@ -803,25 +800,6 @@
 
       loadStoredProfile();
       refreshCheckoutQuote();
-      updateBackNavLinks();
-    }
-
-    function updateBackNavLinks(targetProdId, targetProdName) {
-      const urlP = new URLSearchParams(window.location.search);
-      const prodId = targetProdId || urlP.get('from') || urlP.get('id') || (Array.isArray(cartItems) && cartItems[0] && cartItems[0].productId) || sessionStorage.getItem('shimla_last_product_id') || localStorage.getItem('shimla_last_product_id');
-      const backUrl = prodId ? `product.html?id=${encodeURIComponent(prodId)}` : 'product.html';
-
-      const topBackBtn = document.querySelector('.lux-back-btn');
-      if (topBackBtn) {
-        topBackBtn.href = backUrl;
-      }
-      const succBackLink = document.getElementById('success-back-product-link');
-      if (succBackLink) {
-        succBackLink.href = backUrl;
-        if (targetProdName) {
-          succBackLink.innerHTML = `&larr; Back to ${esc(targetProdName)}`;
-        }
-      }
     }
 
     function mapItemsForApi() {
@@ -936,11 +914,11 @@
       let fallbackSub = 0;
       container.innerHTML = displayItems.map(item => {
         fallbackSub += Number(item.lineTotal) || 0;
-        const img = item.image || './images/tribal-ghee.webp';
+        const img = item.image || './images/shimla-ghee.webp';
         return `
           <div class="lux-item-preview">
             <div class="lux-item-img">
-              <img src="${esc(img)}" alt="${esc(item.productName)}" onerror="this.src='./images/tribal-ghee.webp'" />
+              <img src="${esc(img)}" alt="${esc(item.productName)}" onerror="this.src='./images/shimla-ghee.webp'" />
             </div>
             <div class="lux-item-info">
               <h4>${esc(item.productName)}</h4>
@@ -1163,7 +1141,7 @@
           ? `• *Mode:* *Cash on Delivery (COD verified)*\n• *Handling Fee:* +₹${order.shippingCharge} courier verification fee\n• *Status:* Pay rider via Cash or UPI QR on arrival`
           : `• *Mode:* *Direct UPI / Online Payment*\n👉 *PLEASE SHARE PAYMENT DETAILS:*\n_Kindly share your UPI ID / QR Code so I can complete payment!_`;
 
-        const brandUpper = (window.__shimlaBrandName || 'Shimla Wali').toUpperCase();
+        const brandUpper = (window.__shimlaBrandName || 'Shimla Crunch').toUpperCase();
         const promoLine = order.discountAmount
           ? `*🔖 Promo (${order.discountCode}):* *-₹${order.discountAmount.toLocaleString('en-IN')}*`
           : '';
@@ -1192,15 +1170,6 @@
 
         const waUrl = `https://api.whatsapp.com/send?phone=${storeWhatsAppNum}&text=${encodeURIComponent(waMsg)}`;
         const payText = order.paymentMethod === 'COD' ? 'Cash on Delivery (COD)' : 'Direct Online / UPI Payment';
-
-        const firstItem = (order.itemsSnapshot && order.itemsSnapshot[0]) || (cartItems && cartItems[0]);
-        const orderedProdId = firstItem?.productId || 'ghee';
-        const orderedProdName = firstItem?.productName ? firstItem.productName.split('(')[0].trim() : '';
-        try {
-          sessionStorage.setItem('shimla_last_product_id', orderedProdId);
-          localStorage.setItem('shimla_last_product_id', orderedProdId);
-        } catch (e) {}
-        updateBackNavLinks(orderedProdId, orderedProdName);
 
         try { localStorage.removeItem('shimla_cart'); } catch (err) {}
 
@@ -1253,5 +1222,10 @@
       initCheckout();
     }
   </script>
+
+  <!-- Navigation Drawer & Overlay -->
+  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer()"></div>
+  <div id="nav-drawer" class="nav-drawer-card"></div>
+
 </body>
 </html>

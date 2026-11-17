@@ -483,7 +483,7 @@ async function doAdminGoogleLogin() {
 
     const authorized = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
       'nimaythakur1234@gmail.com',
-      'admin@shimlawali.in'
+      'admin@shimlacrunch.com'
     ]).map(e => e.toLowerCase().trim());
 
     if (!authorized.includes(email)) {
@@ -575,7 +575,7 @@ function showStudioApp() {
 
 async function doLogin() {
   const emailEl = document.getElementById('admin-email');
-  const email = (emailEl && emailEl.value.trim()) || window.SHIMLA_FIREBASE_CONFIG?.adminEmail || 'admin@shimlawali.in';
+  const email = (emailEl && emailEl.value.trim()) || window.SHIMLA_FIREBASE_CONFIG?.adminEmail || 'admin@shimlacrunch.com';
   const pw = document.getElementById('admin-pw').value;
   const errEl = document.getElementById('login-error');
   const btn = document.getElementById('login-submit-btn');
@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const seedBtn = document.getElementById('btn-seed-firestore');
     if (emailWrap) emailWrap.style.display = 'none';
     if (emailInp) {
-      emailInp.value = window.SHIMLA_FIREBASE_CONFIG?.adminEmail || 'admin@shimlawali.in';
+      emailInp.value = window.SHIMLA_FIREBASE_CONFIG?.adminEmail || 'admin@shimlacrunch.com';
     }
     if (secNote) secNote.textContent = 'Whitelisted Google Auth & Cloud Firestore Security Rules (₹0 Spark Mode).';
     if (seedBtn) seedBtn.style.display = 'inline-flex';
@@ -739,7 +739,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const email = (auth.currentUser.email || '').toLowerCase().trim();
         const authorized = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
           'nimaythakur1234@gmail.com',
-          'admin@shimlawali.in'
+          'admin@shimlacrunch.com'
         ]).map(e => e.toLowerCase().trim());
         if (!authorized.includes(email)) {
           console.warn('Current auth user not authorized as admin:', email);
@@ -4126,7 +4126,7 @@ async function downloadReportCsv(type) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `shimlawali-${type}.csv`;
+    a.download = `shimlacrunch-${type}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     showToast(`Exported ${type} CSV`);
