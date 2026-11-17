@@ -547,8 +547,11 @@ async function apiFetch(url, options = {}) {
   if (contentType.includes('application/json')) {
     const data = await res.json();
     if (res.status === 401) {
-      setStoredToken('');
-      showLoginScreen();
+      const isMaster = Boolean(typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_master_session') === '1');
+      if (!isMaster) {
+        setStoredToken('');
+        showLoginScreen();
+      }
       throw new Error(data.error || 'Session expired — sign in again');
     }
     if (!res.ok || data.ok === false) {
@@ -569,8 +572,17 @@ function showLoginScreen() {
 
 function showStudioApp() {
   try { document.documentElement.classList.add('swa-has-session'); } catch(e) {}
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('admin-app').classList.remove('is-hidden');
+  const scr = document.getElementById('login-screen');
+  if (scr) {
+    scr.style.display = 'none';
+    scr.style.setProperty('display', 'none', 'important');
+  }
+  const app = document.getElementById('admin-app');
+  if (app) {
+    app.classList.remove('is-hidden');
+    app.style.display = 'flex';
+    app.style.setProperty('display', 'flex', 'important');
+  }
 }
 
 async function doLogin() {
@@ -667,23 +679,47 @@ async function loadBootstrap(opts = {}) {
   if (silent && document.hidden) return;
   try {
     let data;
-    try {
-      data = await apiFetch('/api/admin/bootstrap');
-    } catch (apiErr) {
-      // Graceful fallback for static hosting
-      const prodRes = await fetch('products.json');
-      const prodData = await prodRes.json();
-      data = {
-        admin: 'Store Owner',
-        products: prodData.products || [],
-        settings: prodData.settings || { brand_name: 'Shimla Crunch', phone: '+91 8580861606' },
-        content: prodData.content || {},
-        inventory: prodData.inventory || {},
-        discounts: prodData.discounts || [],
-        orders: [],
-        customers: [],
-        auditLogs: []
-      };
+    const isMasterSession = Boolean(typeof sessionStorage !== 'undefined' && (sessionStorage.getItem('sc_master_session') === '1' || getStoredToken()?.startsWith('sc_master_token_')));
+
+    if (isMasterSession && !window.__useServerBootstrap) {
+      try {
+        const prodRes = await fetch('products.json');
+        const prodData = await prodRes.json();
+        data = {
+          admin: 'Store Owner',
+          products: prodData.products || [],
+          settings: prodData.settings || { brand_name: 'Shimla Crunch', phone: '+91 8580861606' },
+          content: prodData.content || {},
+          inventory: prodData.inventory || {},
+          discounts: prodData.discounts || [],
+          orders: [],
+          customers: [],
+          auditLogs: []
+        };
+      } catch (e) {}
+    }
+
+    if (!data) {
+      try {
+        // Timeout after 2.5s if Firestore/server is slow or unresponsive
+        const fetchPromise = apiFetch('/api/admin/bootstrap');
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2500));
+        data = await Promise.race([fetchPromise, timeoutPromise]);
+      } catch (apiErr) {
+        const prodRes = await fetch('products.json');
+        const prodData = await prodRes.json();
+        data = {
+          admin: 'Store Owner',
+          products: prodData.products || [],
+          settings: prodData.settings || { brand_name: 'Shimla Crunch', phone: '+91 8580861606' },
+          content: prodData.content || {},
+          inventory: prodData.inventory || {},
+          discounts: prodData.discounts || [],
+          orders: [],
+          customers: [],
+          auditLogs: []
+        };
+      }
     }
     state = { ...state, ...data };
     window.state = state;
@@ -803,6 +839,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
     } catch (e) {}
+  }
+
+  const isMasterSess = Boolean(typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_master_session') === '1');
+  if (isMasterSess) {
+    showStudioApp();
+    await loadBootstrap();
+    startLiveAutoSync();
+    return;
   }
 
   try {
