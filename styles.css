@@ -10262,3 +10262,245 @@ body.dark-theme .nav-drawer-link:hover {
     display: inline !important;
   }
 }
+
+
+
+/* ==========================================================================
+   THE 72-HOUR FRESHNESS JOURNEY - FULL-WIDTH CLEAN EDITORIAL LAYOUT
+   ========================================================================== */
+.zero-confusion-section {
+  position: relative !important;
+  background: linear-gradient(180deg, #F9FAF7 0%, #F3F6F0 100%) !important;
+  border-top: 1px solid #E6ECE1 !important;
+  border-bottom: 1px solid #E6ECE1 !important;
+  padding: clamp(28px, 4vw, 44px) 0 !important;
+  overflow: hidden !important;
+}
+
+.orchard-flow-bg-decor {
+  position: absolute !important;
+  top: -60px !important;
+  right: -60px !important;
+  width: 280px !important;
+  opacity: 0.08 !important;
+  pointer-events: none !important;
+}
+
+.dispatch-flow-full {
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 22px !important;
+}
+
+.dispatch-flow-full .dispatch-flow-header {
+  text-align: center !important;
+  align-items: center !important;
+  max-width: 720px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.dispatch-flow-full .dispatch-flow-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: rgba(18, 61, 43, 0.08) !important;
+  color: #123D2B !important;
+  border: 1px solid rgba(18, 61, 43, 0.18) !important;
+  border-radius: 9999px !important;
+  padding: 4px 12px !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+.dispatch-flow-full .dispatch-flow-title {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif) !important;
+  font-size: clamp(1.45rem, 3.2vw, 2.1rem) !important;
+  font-weight: 800 !important;
+  color: #0F2B1D !important;
+  line-height: 1.22 !important;
+  margin: 0 !important;
+}
+
+.dispatch-flow-full .dispatch-flow-desc {
+  font-size: clamp(0.85rem, 1.6vw, 0.94rem) !important;
+  color: #4A5D50 !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+}
+
+/* 3-Column Milestone Cards Grid */
+.freshness-cards-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+  width: 100% !important;
+}
+
+@media (min-width: 768px) {
+  .freshness-cards-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 18px !important;
+  }
+}
+
+.freshness-step-card {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8DC !important;
+  border-radius: 18px !important;
+  padding: 20px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  box-shadow: 0 4px 14px rgba(15, 43, 29, 0.04) !important;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease !important;
+  position: relative !important;
+}
+
+.freshness-step-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 24px rgba(15, 43, 29, 0.08) !important;
+  border-color: #123D2B !important;
+}
+
+.f-step-badge-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+.f-step-day {
+  background: #123D2B !important;
+  color: #FFFFFF !important;
+  font-size: 0.68rem !important;
+  font-weight: 800 !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+.f-step-tag {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  color: #B45309 !important;
+  background: #FEF3C7 !important;
+  padding: 3px 8px !important;
+  border-radius: 999px !important;
+}
+
+.f-step-icon-wrap {
+  width: 40px !important;
+  height: 40px !important;
+  background: rgba(18, 61, 43, 0.06) !important;
+  border: 1px solid rgba(18, 61, 43, 0.12) !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 2px !important;
+}
+
+.f-step-title {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif) !important;
+  font-size: 1.08rem !important;
+  font-weight: 800 !important;
+  color: #0F2B1D !important;
+  line-height: 1.3 !important;
+  margin: 0 !important;
+}
+
+.f-step-desc {
+  font-size: 0.84rem !important;
+  color: #556B5B !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  flex: 1 !important;
+}
+
+.f-step-proof {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  padding-top: 8px !important;
+  border-top: 1px dashed #E5EADF !important;
+}
+
+.f-proof-pill {
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  color: #123D2B !important;
+  background: #F0FDF4 !important;
+  border: 1px solid #BBF7D0 !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+}
+
+/* Full-Width Bottom Trust Strip */
+.freshness-full-guarantees {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px clamp(12px, 3vw, 24px) !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8DC !important;
+  border-radius: 14px !important;
+  padding: 12px 18px !important;
+  box-shadow: 0 2px 8px rgba(15, 43, 29, 0.03) !important;
+}
+
+.f-guarantee-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 0.82rem !important;
+  color: #243E30 !important;
+}
+
+.f-guarantee-pill strong {
+  color: #0F2B1D !important;
+}
+
+
+
+/* ==========================================================================
+   RESET & FULL-WIDTH GRID FIX FOR FRESHNESS SECTION
+   ========================================================================== */
+@media (min-width: 992px) {
+  .flow-container {
+    display: block !important;
+    max-width: 1120px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    padding: 0 20px !important;
+  }
+
+  .dispatch-flow-full {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .freshness-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 22px !important;
+    width: 100% !important;
+  }
+
+  .freshness-full-guarantees {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-evenly !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+}

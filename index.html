@@ -387,186 +387,101 @@
   </section>
 
         <!-- THE 72-HOUR FRESHNESS JOURNEY & LIVE HARVEST RESERVE -->
+    <!-- ==========================================================================
+       THE 72-HOUR FRESHNESS JOURNEY (Full Width Clean Editorial Layout)
+       ========================================================================== -->
   <section class="zero-confusion-section" id="how-to-order">
     <div class="orchard-flow-bg-decor" aria-hidden="true">
       <img src="./images/apples-harvest.webp" alt="" class="flow-bg-branch" />
     </div>
 
     <div class="container flow-container">
-      <!-- Left Column on Desktop (Header + 3-Stage Freshness Milestones + Assurances) -->
-      <div class="dispatch-flow-left-col">
-        <div class="dispatch-flow-header">
+      <div class="dispatch-flow-full">
+        <!-- Centered Header -->
+        <div class="dispatch-flow-header text-center">
           <div class="dispatch-flow-badge">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
             <span>72-HOUR FRESHNESS CLOCK</span>
           </div>
-          <h2 class="dispatch-flow-title">From Tree Branch to<br class="flow-br-mobile"> Your Door in 72h</h2>
+          <h2 class="dispatch-flow-title">From Tree Branch to Your Door in 72h</h2>
           <p class="dispatch-flow-desc">Commercial supermarket fruits sit 9 months in chemical chillers with toxic wax. Every Tribal Treasure order is plucked fresh at 10,000 ft Kinnaur orchards only after you order.</p>
         </div>
 
-        <!-- 3-Stage Freshness Milestones (Replaces generic checkout steps) -->
-        <div class="freshness-timeline-wrap" role="region" aria-label="72-Hour Freshness Journey">
+        <!-- 3 Horizontal Milestone Columns (Desktop: 3-col grid, Mobile: stacked cards) -->
+        <div class="freshness-cards-grid" role="region" aria-label="72-Hour Freshness Journey">
           
           <!-- Stage 1 -->
-          <div class="freshness-milestone-card active" data-stage="1" onclick="window.switchFreshnessStage(1)">
-            <div class="f-milestone-marker">
-              <span class="f-milestone-dot"></span>
-              <span class="f-milestone-line"></span>
+          <div class="freshness-step-card">
+            <div class="f-step-badge-row">
+              <span class="f-step-day">DAY 0</span>
+              <span class="f-step-tag">100% Tree-Ripened</span>
             </div>
-            <div class="f-milestone-body">
-              <div class="f-milestone-top">
-                <span class="f-milestone-day">DAY 0</span>
-                <span class="f-milestone-tag">100% Tree-Ripened</span>
-              </div>
-              <h4 class="f-milestone-title">Hand-Plucked at 10,000 Ft</h4>
-              <p class="f-milestone-desc">Plucked from high Kinnaur branches only when natural sweetness peaks. Zero synthetic ethylene gas.</p>
+            <div class="f-step-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+            </div>
+            <h3 class="f-step-title">Hand-Plucked at 10,000 Ft</h3>
+            <p class="f-step-desc">Harvested from high Kinnaur branches only when natural sugar brix &amp; aroma peak. Zero synthetic ethylene ripening gas.</p>
+            <div class="f-step-proof">
+              <span class="f-proof-pill">10,240 Ft Elevation</span>
+              <span class="f-proof-pill">0 Days Chiller</span>
             </div>
           </div>
 
           <!-- Stage 2 -->
-          <div class="freshness-milestone-card" data-stage="2" onclick="window.switchFreshnessStage(2)">
-            <div class="f-milestone-marker">
-              <span class="f-milestone-dot"></span>
-              <span class="f-milestone-line"></span>
+          <div class="freshness-step-card">
+            <div class="f-step-badge-row">
+              <span class="f-step-day">DAY 1</span>
+              <span class="f-step-tag">Zero Wax Polish</span>
             </div>
-            <div class="f-milestone-body">
-              <div class="f-milestone-top">
-                <span class="f-milestone-day">DAY 1</span>
-                <span class="f-milestone-tag">Zero Wax Polish</span>
-              </div>
-              <h4 class="f-milestone-title">Honeycomb Zero-Damage Cradling</h4>
-              <p class="f-milestone-desc">Nested individually into breathable shock-absorbing honeycomb trays. Natural mountain bloom preserved, bite straight in.</p>
+            <div class="f-step-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3 class="f-step-title">Honeycomb Zero-Damage Cradling</h3>
+            <p class="f-step-desc">Nested into breathable shockproof honeycomb foam trays. Natural white protective bloom preserved—bite in with peel.</p>
+            <div class="f-step-proof">
+              <span class="f-proof-pill">0.00% Petroleum Wax</span>
+              <span class="f-proof-pill">Shockproof Nest</span>
             </div>
           </div>
 
           <!-- Stage 3 -->
-          <div class="freshness-milestone-card" data-stage="3" onclick="window.switchFreshnessStage(3)">
-            <div class="f-milestone-marker">
-              <span class="f-milestone-dot"></span>
+          <div class="freshness-step-card">
+            <div class="f-step-badge-row">
+              <span class="f-step-day">DAY 2-3</span>
+              <span class="f-step-tag">Doorstep Delivery</span>
             </div>
-            <div class="f-milestone-body">
-              <div class="f-milestone-top">
-                <span class="f-milestone-day">DAY 2-3</span>
-                <span class="f-milestone-tag">Doorstep Delivery</span>
-              </div>
-              <h4 class="f-milestone-title">Direct Mountain Express</h4>
-              <p class="f-milestone-desc">Express-dispatched directly from Kinnaur to your home with live WhatsApp photo tracking &amp; 100% zero-damage replacement.</p>
+            <div class="f-step-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </div>
+            <h3 class="f-step-title">Direct Mountain Express</h3>
+            <p class="f-step-desc">Dispatched straight from Kinnaur with live WhatsApp photo tracking. 100% free instant replacement if any damage occurs.</p>
+            <div class="f-step-proof">
+              <span class="f-proof-pill">Pan-India Express</span>
+              <span class="f-proof-pill">WhatsApp Tracking</span>
             </div>
           </div>
 
         </div>
 
-        <!-- Desktop Trust Reassurance (Desktop only) -->
-        <div class="dispatch-desktop-assurance desktop-only">
-          <div class="d-assur-item">
-            <div class="d-assur-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            </div>
-            <div class="d-assur-text">
-              <strong>100% Tree-Ripened Guarantee</strong>
-              <span>Plucked fresh on order from 10,000 ft Kinnaur orchards.</span>
-            </div>
+        <!-- Full-Width Bottom Trust Strip -->
+        <div class="freshness-full-guarantees">
+          <div class="f-guarantee-pill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <span><strong>100% Zero-Damage Guarantee:</strong> Free instant replacement in transit</span>
           </div>
-          <div class="d-assur-item">
-            <div class="d-assur-icon">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-            </div>
-            <div class="d-assur-text">
-              <strong>Zero-Damage Delivery</strong>
-              <span>Shockproof honeycomb foam pack with 100% free transit replacement.</span>
-            </div>
+          <div class="f-guarantee-pill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+            <span><strong>Plucked on Demand:</strong> Zero chemical cold storage</span>
+          </div>
+          <div class="f-guarantee-pill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.3"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <span><strong>Edible Skin with Natural Bloom:</strong> 0% Petroleum Wax</span>
           </div>
         </div>
-      </div>
 
-      <!-- Right Column: Interactive Live Harvest Reserve Card -->
-      <div class="zc-panels-wrap">
-        <div class="dispatch-main-card">
-          
-          <!-- Micro Bar: Status and Plucking Ticker -->
-          <div class="main-card-micro-bar">
-            <span class="main-card-micro-label">SELECT FRESH HARVEST</span>
-            <div class="main-card-live-pulse">
-              <span class="pulse-dot"></span>
-              <span>Plucking Active &bull; Next Dispatch Tomorrow 8 AM</span>
-            </div>
-          </div>
-
-          <!-- Product Selection Grid (3 Cards) -->
-          <div class="harvest-products-grid" role="radiogroup" aria-label="Select Harvest Variety">
-            
-            <!-- Product 1: Royal Delicious Apples -->
-            <div class="harvest-product-card active" id="h-prod-apples" role="radio" aria-checked="true" tabindex="0" onclick="window.selectHarvestProduct('apples')">
-              <div class="h-prod-img-wrap">
-                <img src="./images/royal-delicious-box.webp" alt="Royal Delicious Apples" class="h-prod-img" loading="lazy" />
-              </div>
-              <h4 class="h-prod-name">Royal Delicious<br>Apples</h4>
-            </div>
-
-            <!-- Product 2: Kagzi Walnuts -->
-            <div class="harvest-product-card" id="h-prod-walnuts" role="radio" aria-checked="false" tabindex="0" onclick="window.selectHarvestProduct('walnuts')">
-              <div class="h-prod-img-wrap">
-                <img src="./images/himachali-walnuts.webp" alt="Kagzi Walnuts" class="h-prod-img" loading="lazy" />
-              </div>
-              <h4 class="h-prod-name">Kagzi<br>Walnuts</h4>
-            </div>
-
-            <!-- Product 3: Vedic Bilona Ghee -->
-            <div class="harvest-product-card" id="h-prod-ghee" role="radio" aria-checked="false" tabindex="0" onclick="window.selectHarvestProduct('ghee')">
-              <div class="h-prod-img-wrap">
-                <img src="./images/tribal-ghee.webp" alt="Vedic Bilona Ghee" class="h-prod-img" loading="lazy" />
-              </div>
-              <h4 class="h-prod-name">Vedic Bilona<br>Ghee</h4>
-            </div>
-
-          </div>
-
-          <!-- Pack Size Selection Row -->
-          <div class="pack-size-selection-row">
-            <span class="pack-size-heading">Pack Size</span>
-            <div class="pack-size-pills-group" id="pack-size-options" role="radiogroup" aria-label="Choose Pack Size">
-              <!-- Populated dynamically via renderPackSizePills -->
-            </div>
-          </div>
-
-          <!-- Dynamic Price & Stock Urgency Row -->
-          <div class="harvest-price-row" id="harvest-price-banner">
-            <div class="h-price-left">
-              <span class="h-live-price" id="h-disp-price">₹1,399</span>
-              <span class="h-live-mrp" id="h-disp-mrp">₹1,699</span>
-              <span class="h-live-save" id="h-disp-save">Save ₹300 (18% OFF)</span>
-            </div>
-            <div class="h-stock-left" id="h-disp-stock">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              <span id="h-disp-stock-text">Only 14 crates left in today's harvest run</span>
-            </div>
-          </div>
-
-          <!-- Dynamic Trust / Quality Indicators Bar -->
-          <div class="harvest-trust-strip" id="harvest-trust-items">
-            <!-- Populated dynamically -->
-          </div>
-
-          <!-- High-Converting Primary Action Button -->
-          <button type="button" class="dispatch-primary-btn" id="dispatch-cta-btn" onclick="window.handleDispatchCta()">
-            <span id="dispatch-cta-text">Reserve Fresh Harvest &bull; ₹1,399 (Dispatches Tomorrow)</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
-
-          <!-- Guarantee Micro Line -->
-          <div class="dispatch-guarantee-micro">
-            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> 100% Zero-Damage Replacement</span>
-            <span class="d-dot">&bull;</span>
-            <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#123D2B" stroke-width="2.2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg> Express Pan-India Courier</span>
-          </div>
-
-        </div>
       </div>
     </div>
   </section>
