@@ -10,9 +10,9 @@
       "price": 1199,
       "mrp": 1500,
       "discount": "20% off",
-      "image": "./images/shimla-ghee.webp",
+      "image": "./images/tribal-ghee.webp",
       "gallery": [
-        "./images/shimla-ghee.webp",
+        "./images/tribal-ghee.webp",
         "./images/farm-cows.webp"
       ],
       "link": "product.html?id=ghee",
@@ -533,9 +533,9 @@
       "price": 1249,
       "mrp": 1600,
       "discount": "22% off",
-      "image": "./images/shimla-apples.webp?v=4",
+      "image": "./images/kinnauri-golden-apples.webp?v=4",
       "gallery": [
-        "./images/shimla-apples.webp?v=4"
+        "./images/kinnauri-golden-apples.webp?v=4"
       ],
       "link": "product.html?id=apples",
       "badge": "Seasonal Special",

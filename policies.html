@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Customer Trust &amp; Legal Policies | Shimla Crunch</title>
+  <meta name="description" content="Official Terms &amp; Conditions, Refund and Return Policy, Privacy Policy, and Shipping Standards for Shimla Crunch - 100% high-altitude orchard direct produce from Kotkhai, Himachal Pradesh." />
+  <link rel="icon" href="./images/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..900;1,9..40,400..900&family=Playfair+Display:ital,wght@0,600..900;1,600..900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Viewport Containment & Box Sizing ── */
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box !important;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    /* ── Policies Hub Specific Styles ── */
+    .policy-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%);
+      padding: 48px 20px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      color: #ffffff;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 0 !important;
+    }
+    .policy-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(22, 163, 74, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .policy-hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: #86efac;
+      text-transform: uppercase;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: rgba(22, 101, 52, 0.4);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      border: 1px solid rgba(134, 239, 172, 0.3);
+    }
+    .policy-hero h1 {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      margin: 0 0 12px;
+      color: #ffffff;
+      line-height: 1.2;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-hero p {
+      font-size: 0.95rem;
+      max-width: 580px;
+      margin: 0 auto;
+      color: #cbd5e1;
+      line-height: 1.6;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    /* Policy Main Container */
+    .policy-hub-container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto 60px !important;
+      padding: 0 20px;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    .policy-hub-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
+    /* Sidebar Navigation (Left Side Tabs) */
+    .policy-sidebar {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+      position: sticky;
+      top: 90px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    .policy-sidebar-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      padding: 8px 12px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      margin-bottom: 10px;
+    }
+    .policy-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    .policy-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: #334155;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    .policy-nav-btn span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .policy-nav-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #64748b;
+      flex-shrink: 0;
+      transition: stroke 0.2s ease;
+    }
+    .policy-nav-btn:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+    .policy-nav-btn.active {
+      background: #f0fdf4;
+      color: #166534;
+      border-color: #86efac;
+      box-shadow: 0 2px 8px rgba(22, 101, 52, 0.08);
+    }
+    .policy-nav-btn.active svg {
+      stroke: #166534;
+    }
+    .policy-sidebar-contact {
+      margin-top: 24px;
+      padding: 14px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      font-size: 0.76rem;
+      color: #475569;
+      line-height: 1.5;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-sidebar-contact strong {
+      display: block;
+      color: #0f172a;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+    }
+    .policy-sidebar-contact a {
+      color: #166534;
+      font-weight: 700;
+      text-decoration: none;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-sidebar-contact a:hover {
+      text-decoration: underline;
+    }
+
+    /* Policy Content Pane (Right Side) */
+    .policy-content-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 36px 40px;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.04);
+      min-height: 520px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-pane {
+      display: none;
+      animation: policyFade 0.25s ease-in-out;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-pane.active {
+      display: block;
+    }
+    @keyframes policyFade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typography inside policy panes */
+    .policy-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      color: #166534;
+      border: 1.5px solid #86efac;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      margin-bottom: 16px;
+      max-width: 100%;
+      white-space: normal;
+      box-shadow: 0 2px 8px rgba(22, 101, 52, 0.08);
+      line-height: 1.3;
+    }
+    .policy-header-badge svg {
+      width: 14px;
+      height: 14px;
+      stroke: #166534;
+      flex-shrink: 0;
+    }
+    .policy-pane h2 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0 0 8px;
+      line-height: 1.25;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-updated-date {
+      font-size: 0.76rem;
+      color: #64748b;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-section-block {
+      margin-bottom: 28px;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-section-block h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-section-block p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #334155;
+      margin: 0 0 12px;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-section-block ul, .policy-section-block ol {
+      margin: 0 0 14px 20px;
+      padding: 0;
+      color: #334155;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-section-block li {
+      margin-bottom: 6px;
+    }
+    .policy-callout {
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 18px 0;
+      box-sizing: border-box;
+      max-width: 100%;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    .policy-callout.warning {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+    .policy-callout strong {
+      display: block;
+      color: #166534;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+    .policy-callout.warning strong {
+      color: #92400e;
+    }
+    .policy-callout p {
+      margin: 0;
+      font-size: 0.84rem;
+      color: #14532d;
+      line-height: 1.55;
+    }
+    .policy-callout.warning p {
+      color: #78350f;
+    }
+
+    /* Mobile Responsive Pill Navigation */
+    @media (max-width: 860px) {
+      .policy-hero {
+        padding: 24px 16px 20px !important;
+        margin-bottom: 0 !important;
+      }
+      .policy-hero-tag {
+        font-size: 0.68rem !important;
+        padding: 3px 10px !important;
+        margin-bottom: 8px !important;
+      }
+      .policy-hero h1 {
+        font-size: 1.45rem !important;
+        margin: 0 0 6px !important;
+        line-height: 1.25 !important;
+      }
+      .policy-hero p {
+        font-size: 0.84rem !important;
+        line-height: 1.4 !important;
+        max-width: 95% !important;
+        margin: 0 auto !important;
+      }
+      .policy-hub-container {
+        margin: -10px auto 40px !important;
+        padding: 0 12px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        position: relative !important;
+        z-index: 15 !important;
+      }
+      .policy-hub-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .policy-sidebar {
+        position: relative !important;
+        top: auto !important;
+        z-index: 10 !important;
+        padding: 10px !important;
+        border-radius: 16px !important;
+        background: #ffffff !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06) !important;
+        border: 1.5px solid #e2e8f0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-bottom: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .policy-sidebar-title,
+      .policy-sidebar-contact {
+        display: none !important;
+      }
+      .policy-nav-list {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
+      }
+      .policy-nav-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 44px !important;
+        padding: 9px 8px !important;
+        font-size: 0.76rem !important;
+        font-weight: 700 !important;
+        line-height: 1.25 !important;
+        text-align: center !important;
+        border-radius: 11px !important;
+        background: #f8fafc !important;
+        border: 1.5px solid #e2e8f0 !important;
+        color: #334155 !important;
+        box-sizing: border-box !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        transition: all 0.2s ease !important;
+      }
+      .policy-nav-btn span {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        display: inline-block !important;
+        line-height: 1.2 !important;
+      }
+      .policy-nav-btn svg {
+        width: 14px !important;
+        height: 14px !important;
+        flex-shrink: 0 !important;
+      }
+      .policy-nav-btn.active {
+        background: #166534 !important;
+        color: #ffffff !important;
+        border-color: #166534 !important;
+        box-shadow: 0 2px 8px rgba(22, 101, 52, 0.25) !important;
+      }
+      .policy-nav-btn.active svg {
+        stroke: #ffffff !important;
+      }
+      .policy-content-card {
+        padding: 26px 18px 28px !important;
+        border-radius: 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        scroll-margin-top: 80px !important;
+      }
+      .policy-pane {
+        scroll-margin-top: 80px !important;
+      }
+      .policy-header-badge {
+        margin-top: 0 !important;
+        margin-bottom: 16px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .policy-hero {
+        padding: 20px 14px 18px !important;
+      }
+      .policy-hero h1 {
+        font-size: 1.3rem !important;
+        margin: 0 0 5px !important;
+      }
+      .policy-hero p {
+        font-size: 0.8rem !important;
+        line-height: 1.35 !important;
+      }
+      .policy-hub-container {
+        margin: -12px auto 30px !important;
+        padding: 0 10px !important;
+      }
+      .policy-sidebar {
+        padding: 8px !important;
+        border-radius: 14px !important;
+      }
+      .policy-nav-list {
+        gap: 6px !important;
+      }
+      .policy-nav-btn {
+        font-size: 0.72rem !important;
+        padding: 8px 6px !important;
+        min-height: 40px !important;
+        gap: 5px !important;
+      }
+      .policy-nav-btn svg {
+        width: 13px !important;
+        height: 13px !important;
+      }
+      .policy-content-card {
+        padding: 22px 14px 24px !important;
+        border-radius: 14px !important;
+      }
+      .policy-pane h2 {
+        font-size: 1.25rem !important;
+      }
+      .policy-section-block h3 {
+        font-size: 0.95rem !important;
+      }
+      .policy-section-block p,
+      .policy-section-block ul,
+      .policy-section-block ol {
+        font-size: 0.84rem !important;
+        line-height: 1.65 !important;
+      }
+    }
+
+    /* Dark Theme */
+    body.dark-theme .policy-sidebar {
+      background: #0f172a !important;
+      border-color: #1e293b !important;
+    }
+    body.dark-theme .policy-sidebar-title {
+      border-bottom-color: #1e293b !important;
+      color: #94a3b8 !important;
+    }
+    body.dark-theme .policy-nav-btn {
+      color: #cbd5e1 !important;
+      background: #1e293b !important;
+      border-color: #334155 !important;
+    }
+    body.dark-theme .policy-nav-btn:hover {
+      background: #334155 !important;
+      color: #ffffff !important;
+    }
+    body.dark-theme .policy-nav-btn.active {
+      background: #166534 !important;
+      border-color: #22c55e !important;
+      color: #ffffff !important;
+    }
+    body.dark-theme .policy-nav-btn.active svg {
+      stroke: #ffffff !important;
+    }
+    body.dark-theme .policy-sidebar-contact {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+      color: #94a3b8 !important;
+    }
+    body.dark-theme .policy-sidebar-contact strong {
+      color: #f8fafc !important;
+    }
+    body.dark-theme .policy-content-card {
+      background: #0f172a !important;
+      border-color: #1e293b !important;
+    }
+    body.dark-theme .policy-pane h2 {
+      color: #f8fafc !important;
+    }
+    body.dark-theme .policy-header-badge {
+      background: rgba(22, 101, 52, 0.35) !important;
+      border-color: #22c55e !important;
+      color: #86efac !important;
+    }
+    body.dark-theme .policy-header-badge svg {
+      stroke: #86efac !important;
+    }
+    body.dark-theme .policy-updated-date {
+      border-bottom-color: #1e293b !important;
+      color: #94a3b8 !important;
+    }
+    body.dark-theme .policy-section-block h3 {
+      color: #f8fafc !important;
+    }
+    body.dark-theme .policy-section-block p,
+    body.dark-theme .policy-section-block ul,
+    body.dark-theme .policy-section-block ol {
+      color: #cbd5e1 !important;
+    }
+    body.dark-theme .policy-callout {
+      background: rgba(22, 101, 52, 0.2) !important;
+      border-color: #166534 !important;
+    }
+    body.dark-theme .policy-callout strong {
+      color: #86efac !important;
+    }
+    body.dark-theme .policy-callout p {
+      color: #4ade80 !important;
+    }
+    body.dark-theme .policy-callout.warning {
+      background: rgba(180, 83, 9, 0.18) !important;
+      border-color: #92400e !important;
+    }
+    body.dark-theme .policy-callout.warning strong {
+      color: #fde68a !important;
+    }
+    body.dark-theme .policy-callout.warning p {
+      color: #fcd34d !important;
+    }
+  </style>
+</head>
+<body class="product-page-body">
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-bar-left">
+        <span class="announcement-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+          <span>Pan India Shipping &bull; 100% Tree-Ripened Orchard Harvest</span>
+        </span>
+      </div>
+      <div class="top-bar-right">
+        <a href="tel:+918580861606">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span>Call / WhatsApp: +91 8580861606</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="header-left">
+        <button class="nav-round-btn subpage-back-btn" aria-label="Go Back to Previous Page" onclick="window.smartGoBack ? window.smartGoBack() : history.back()" title="Go Back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+        </button>
+
+        <a href="index.html" class="brand-logo-clean">
+          <img src="./images/logo.png" alt="Shimla Crunch Logo" class="brand-logo-img" />
+          <span class="brand-title">Shimla Crunch</span>
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Shop All</a></li>
+          <li><a href="about.html">Our Story</a></li>
+          <li><a href="verify.html">Our Promise</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="shop.html" class="nav-round-btn" aria-label="Search Products">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </a>
+        <button id="cart-btn" class="nav-round-btn cart-round-btn" aria-label="Shopping Bag" onclick="window.openCart ? window.openCart() : document.getElementById('cart-drawer').classList.add('active')">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <div class="policy-hero">
+    <span class="policy-hero-tag">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      Transparency &amp; Consumer Trust
+    </span>
+    <h1>Customer Trust &amp; Legal Policies</h1>
+    <p>Clear, honest, and farm-direct standards for every high-altitude Shimla Crunch harvest.</p>
+  </div>
+
+  <!-- Policies Hub Main Layout -->
+  <div class="policy-hub-container">
+    <div class="policy-hub-layout">
+
+      <!-- Left Sidebar Tabs -->
+      <aside class="policy-sidebar">
+        <div class="policy-sidebar-title">Legal &amp; Policy Hub</div>
+        <nav class="policy-nav-list" role="tablist">
+          <button type="button" class="policy-nav-btn active" id="tab-btn-terms" role="tab" aria-selected="true" aria-controls="pane-terms" onclick="switchPolicyTab('terms')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>Terms &amp; Conditions</span>
+          </button>
+
+          <button type="button" class="policy-nav-btn" id="tab-btn-refund" role="tab" aria-selected="false" aria-controls="pane-refund" onclick="switchPolicyTab('refund')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>
+            <span>Refund &amp; Returns</span>
+          </button>
+
+          <button type="button" class="policy-nav-btn" id="tab-btn-privacy" role="tab" aria-selected="false" aria-controls="pane-privacy" onclick="switchPolicyTab('privacy')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>Privacy Policy</span>
+          </button>
+
+          <button type="button" class="policy-nav-btn" id="tab-btn-shipping" role="tab" aria-selected="false" aria-controls="pane-shipping" onclick="switchPolicyTab('shipping')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            <span>Shipping &amp; Delivery</span>
+          </button>
+        </nav>
+
+        <div class="policy-sidebar-contact">
+          <strong>Need Assistance?</strong>
+          Direct Orchard Dispatch &amp; Support:<br />
+          WhatsApp: <a href="https://wa.me/918580861606" target="_blank">+91 8580861606</a><br />
+          Email: <a href="mailto:care@shimlacrunch.com">care@shimlacrunch.com</a><br />
+          Kotkhai, Shimla, HP (PIN 171202)
+        </div>
+      </aside>
+
+      <!-- Right Content Card -->
+      <main class="policy-content-card">
+
+        <!-- ============================================================
+             PANE 1: TERMS & CONDITIONS
+             ============================================================ -->
+        <article class="policy-pane active" id="pane-terms" role="tabpanel" aria-labelledby="tab-btn-terms">
+          <span class="policy-header-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Legal Contract &bull; User Agreement</span>
+          </span>
+          <h2>Terms &amp; Conditions</h2>
+          <div class="policy-updated-date">Last Updated: November 2026 &bull; Operative for www.shimlacrunch.com</div>
+
+          <div class="policy-section-block">
+            <h3>1. Introduction &amp; Ownership</h3>
+            <p>Welcome to <strong>Shimla Crunch</strong>. The terms &ldquo;We,&rdquo; &ldquo;Us,&rdquo; &ldquo;Our,&rdquo; or &ldquo;Brand&rdquo; refer to <strong>Shimla Crunch</strong>, operating high-altitude family apple orchards and artisanal processing in Tehsil Kotkhai, District Shimla, Himachal Pradesh (PIN: 171202). The terms &ldquo;Visitor,&rdquo; &ldquo;User,&rdquo; &ldquo;Customer,&rdquo; or &ldquo;You&rdquo; refer to any person accessing, browsing, or purchasing from <strong>www.shimlacrunch.com</strong>.</p>
+            <p>By accessing or purchasing from our platform, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please exit the website.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>2. Nature of High-Altitude Orchard Harvest</h3>
+            <p>Every harvest carton, fruit crisp pouch, walnut pack, or raw blossom honey jar is supplied direct from our high-altitude mountain orchards under Hatu Peak (7,500 Ft elevation):</p>
+            <ul>
+              <li><strong>Zero Wax &amp; Chemical Alteration:</strong> Our apples are 100% natural and tree-ripened without artificial synthetic wax sprays or synthetic ripening gas. Natural white mountain bloom on the peel is an authentic mark of purity.</li>
+              <li><strong>Natural Produce Variations:</strong> Because our fruit is grown on living mountain trees rather than manufactured in a factory, natural variations in fruit color, calibration, shape, and sweetness levels (Brix degrees) occur across seasonal batches and are celebrated hallmarks of genuine single-origin terroir.</li>
+            </ul>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>3. Pricing, Orders &amp; Billing</h3>
+            <p>All prices displayed on www.shimlacrunch.com are in Indian Rupees (INR) and include applicable taxes unless specifically stated otherwise. We reserve the right to revise harvest pricing based on seasonal availability, crop yields, and courier partner rates.</p>
+            <p>An order is confirmed once payment is successfully authorized through our secure payment gateway or cash-on-delivery (COD) verification is completed via WhatsApp/SMS.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>4. Intellectual Property Rights</h3>
+            <p>All trademarks, logos, brand typography, terroir indices, sensory metrics, packaging designs, photographs, and website source content are the exclusive intellectual property of Shimla Crunch. Unauthorized copying, commercial reproduction, or digital hotlinking is strictly prohibited.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>5. Limitation of Liability &amp; Jurisdiction</h3>
+            <p>Shimla Crunch shall not be liable for incidental, indirect, or consequential delays resulting from mountain highway blockages, weather disruptions, or courier force majeure events. All legal claims and disputes arising under these terms shall be subject exclusively to the jurisdiction of the competent courts in <strong>Shimla, Himachal Pradesh</strong>.</p>
+          </div>
+        </article>
+
+        <!-- ============================================================
+             PANE 2: REFUND AND RETURNS POLICY
+             ============================================================ -->
+        <article class="policy-pane" id="pane-refund" role="tabpanel" aria-labelledby="tab-btn-refund">
+          <span class="policy-header-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Consumer Protection &bull; 100% Taste &amp; Transit Guarantee</span>
+          </span>
+          <h2>Refund &amp; Returns Policy</h2>
+          <div class="policy-updated-date">Last Updated: November 2026 &bull; Fair &amp; Transparent Policy</div>
+
+          <div class="policy-section-block">
+            <h3>1. Farm-to-Table Commitment</h3>
+            <p>At <strong>Shimla Crunch</strong>, we take profound pride in dispatching freshly harvested, tree-ripened Himalayan produce. Every order is packed with cellular foam cushioning and individually hand-inspected by 4th-generation orchard growers in Kotkhai before dispatch.</p>
+          </div>
+
+          <div class="policy-callout">
+            <strong>Nature of Perishable Goods</strong>
+            <p>Fresh apples, hand-cracked walnuts, and natural orchard harvest are perishable commodities. To maintain cold-chain integrity and prevent health risks, <em>we do not require or accept physical return shipments</em> of opened or spoiled fruits back to Himachal Pradesh.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>2. What To Do In Case of Transit Damage or Spoilage</h3>
+            <p>While our cellular protective packaging absorbs road vibration, rare courier handling incidents may occur. If you receive fruit that has suffered transit bruising or spoilage, we resolve it promptly:</p>
+            <ol>
+              <li><strong>Record an Unboxing Video:</strong> Kindly record a quick unboxing video or take clear photos when opening your carton or pouch.</li>
+              <li><strong>Notify Us Within 24 Hours:</strong> Inform our Orchard Care team within <strong>24 hours of package delivery</strong> so our batch dispatch records can trace the incident.</li>
+              <li><strong>Send to WhatsApp / Email:</strong> Share your Order ID and photo/video proof via WhatsApp at <strong>+91 8580861606</strong> or email <strong>care@shimlacrunch.com</strong>.</li>
+            </ol>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>3. Resolution Options (Full / Partial Refund or Replacement)</h3>
+            <ul>
+              <li><strong>Pro-Rata / Full Refund:</strong> Once verified by our harvest coordinator, we immediately issue a partial or 100% full refund proportional to the affected fruit quantity.</li>
+              <li><strong>Free Replacement Carton:</strong> If severe box crushing occurs during courier transit, an immediate fresh replacement box will be express-dispatched from Kotkhai at zero extra cost.</li>
+              <li><strong>Processing Time:</strong> Approved refunds are credited directly to your original payment method (UPI, Bank Account, or Card) within <strong>5 to 7 business days</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="policy-callout warning">
+            <strong>Important Exclusions</strong>
+            <p>Refunds or replacements are applicable strictly for genuine physical damage, transit spoilage, or incorrect items delivered. Natural biological variations in fruit color, light surface russeting (natural sun marks), or minor size variance are inherent to authentic unwaxed mountain farming and do not qualify for returns.</p>
+          </div>
+        </article>
+
+        <!-- ============================================================
+             PANE 3: PRIVACY POLICY
+             ============================================================ -->
+        <article class="policy-pane" id="pane-privacy" role="tabpanel" aria-labelledby="tab-btn-privacy">
+          <span class="policy-header-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Data Security &bull; IT Act 2000 Compliant</span>
+          </span>
+          <h2>Privacy Policy</h2>
+          <div class="policy-updated-date">Last Updated: November 2026 &bull; Strict Zero Data Sharing Policy</div>
+
+          <div class="policy-section-block">
+            <h3>1. Electronic Record &amp; Compliance</h3>
+            <p>This Privacy Policy is an electronic record published under the provisions of the <strong>Information Technology Act, 2000</strong> and the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>2. Information We Collect</h3>
+            <p>When you place an order or interact with our storefront, we collect only the necessary information required to deliver your orchard produce:</p>
+            <ul>
+              <li><strong>Contact Information:</strong> Full name, delivery shipping address, landmark, PIN code, email address, and mobile number.</li>
+              <li><strong>Transaction Data:</strong> Payment transaction reference numbers and gateway status. <em>(Note: Shimla Crunch NEVER collects or stores credit/debit card numbers, CVVs, or bank passwords. All payments are processed through RBI-approved, PCI-DSS compliant gateways.)</em></li>
+              <li><strong>Customer Service Logs:</strong> WhatsApp or email communications regarding order tracking or batch feedback.</li>
+            </ul>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>3. How We Use Your Information</h3>
+            <p>Your information is used solely for the following legitimate purposes:</p>
+            <ul>
+              <li>Packaging and dispatching your orchard produce via our courier partners.</li>
+              <li>Sending automated WhatsApp/SMS dispatch tracking links and delivery status updates.</li>
+              <li>Processing customer care inquiries and authorized refund requests.</li>
+              <li>Complying with statutory Food Safety (FSSAI) and tax billing regulations.</li>
+            </ul>
+          </div>
+
+          <div class="policy-callout">
+            <strong>Zero Data Selling Guarantee</strong>
+            <p>Shimla Crunch does NOT sell, rent, trade, or monetize your personal details with third-party advertisers or marketing data brokers. Your contact details remain confidential with our family farm.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>4. Data Security &amp; Encryption</h3>
+            <p>Our website utilizes industry-standard 256-bit SSL encryption to protect data transmission between your browser and our secure servers. All access to administrative portals is protected with multi-layer authentication and tokenized session controls.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>5. Grievance Officer</h3>
+            <p>In accordance with Information Technology Act guidelines, our designated Grievance Officer can be contacted at:</p>
+            <p><strong>Grievance Officer:</strong> Prajwal &amp; Kushan Chauhan<br />
+            <strong>Address:</strong> Shimla Crunch, Tehsil Kotkhai, District Shimla, Himachal Pradesh &bull; PIN 171202<br />
+            <strong>Email:</strong> support@shimlacrunch.com | <strong>Direct Care:</strong> +91 8580861606</p>
+          </div>
+        </article>
+
+        <!-- ============================================================
+             PANE 4: SHIPPING & DELIVERY POLICY
+             ============================================================ -->
+        <article class="policy-pane" id="pane-shipping" role="tabpanel" aria-labelledby="tab-btn-shipping">
+          <span class="policy-header-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Orchard Dispatch &bull; Pan-India Courier Network</span>
+          </span>
+          <h2>Shipping &amp; Delivery Policy</h2>
+          <div class="policy-updated-date">Last Updated: November 2026 &bull; Express Air &amp; Surface Dispatch</div>
+
+          <div class="policy-section-block">
+            <h3>1. Direct Orchard Dispatch from Kotkhai (7,500 Ft)</h3>
+            <p>Unlike commercial supermarket brands that store apples in industrial cold storage warehouses for 6 to 9 months, <strong>Shimla Crunch picks and packs your fruit directly in our Kotkhai orchards</strong> within hours of your order confirmation.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>2. Cellular Cushion Packaging</h3>
+            <p>High-altitude mountain transit requires zero-bruise engineering. We pack our harvest in specialized cellular foam trays inside heavy-duty, five-ply ventilated corrugated master cartons to guarantee safe arrival.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>3. Estimated Transit Times Across India</h3>
+            <ul>
+              <li><strong>Delhi-NCR &amp; North India:</strong> 2 to 3 Business Days from dispatch.</li>
+              <li><strong>Mumbai, Pune, Ahmedabad &amp; Western India:</strong> 3 to 4 Business Days from dispatch.</li>
+              <li><strong>Bengaluru, Hyderabad, Chennai &amp; South India:</strong> 3 to 5 Business Days from dispatch.</li>
+              <li><strong>Kolkata, Guwahati &amp; Eastern India:</strong> 4 to 6 Business Days from dispatch.</li>
+            </ul>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>4. Real-Time WhatsApp Tracking</h3>
+            <p>As soon as our courier partner scans your carton at the Shimla sorting facility, an automated WhatsApp message and SMS containing your live tracking URL and courier AWB number is sent to your mobile number.</p>
+          </div>
+
+          <div class="policy-section-block">
+            <h3>5. Delivery Attempts &amp; Address Accuracy</h3>
+            <p>Our courier partners make up to 3 delivery attempts. Please ensure your mobile number and shipping address (including landmark and correct PIN code) are accurate during checkout to prevent unnecessary delays.</p>
+          </div>
+        </article>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Site Footer (Standard Compact Matching Entire Site) -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-compact-row">
+        <div class="footer-brand-box">
+          <span class="footer-brand-name">Shimla Crunch</span>
+          <span class="footer-brand-tagline">Fresh Orchard Apples &amp; Fruit Crisps &bull; Kalbog-Baghi Valley, Kotkhai (H.P.)</span>
+        </div>
+
+        <div class="footer-nav-inline">
+          <a href="index.html">Home</a>
+          <span class="f-dot">&bull;</span>
+          <a href="shop.html">Shop All</a>
+          <span class="f-dot">&bull;</span>
+          <a href="about.html">Our Story</a>
+          <span class="f-dot">&bull;</span>
+          <a href="verify.html">Our Promise</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#terms">Terms</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#refund">Refund Policy</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#privacy">Privacy Policy</a>
+          <span class="f-dot">&bull;</span>
+          <a href="policies.html#shipping">Shipping</a>
+          <span class="f-dot">&bull;</span>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <div class="footer-action-box">
+          <a href="https://wa.me/918580861606?text=Hello%20Shimla%20Crunch,%20I%20have%20a%20question%20about%20policies." 
+             class="footer-wa-card" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             aria-label="Contact Shimla Crunch on WhatsApp">
+            <div class="footer-wa-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.15.11-3.69-.94-2.17-.9-3.57-3.11-3.68-3.26-.11-.15-.88-1.17-.88-2.23 0-1.06.56-1.58.76-1.8.2-.22.44-.28.59-.28.15 0 .3 0 .43.01.14.01.32-.05.5.39.19.46.65 1.58.71 1.7.06.12.1.26.02.42-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.25.25-.11.49.14.24.63 1.04 1.35 1.68.93.83 1.71 1.09 1.95 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26z"/>
+              </svg>
+            </div>
+            <div class="footer-wa-text">
+              <span class="f-wa-title">Need Help?</span>
+              <span class="f-wa-sub">WhatsApp Us</span>
+            </div>
+            <div class="footer-wa-arrow">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Shimla Crunch &bull; FSSAI: 20924009001289 &bull; UDYAM-HP-09-0019824 &bull; Kotkhai, Shimla</div>
+        <div class="footer-admin-wrap">
+          <a href="admin.html" class="footer-admin-link" title="Admin Portal">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Admin</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shopping Bag Drawer -->
+  <div id="cart-drawer-overlay" class="cart-drawer-overlay" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')"></div>
+  <div id="cart-drawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <h2 class="cart-drawer-main-title">YOUR BAG</h2>
+      </div>
+      <button id="close-cart-btn" class="nav-round-btn cart-close-btn" aria-label="Close Bag" onclick="window.closeCart ? window.closeCart() : document.getElementById('cart-drawer').classList.remove('active')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cart-drawer-body"></div>
+  </div>
+
+  <!-- Navigation Drawer & Overlay -->
+  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer ? window.closeNavDrawer() : document.getElementById('nav-drawer').classList.remove('active')"></div>
+  <div id="nav-drawer" class="nav-drawer-card"></div>
+
+  <!-- Core Storefront & Cart Scripts -->
+  <script src="firebase-config.js"></script>
+  <script src="firebase-bridge.js"></script>
+  <script src="app.js"></script>
+  <script src="floating-widget.js"></script>
+
+  <!-- Interactive Tab Switching Script -->
+  <script>
+    function switchPolicyTab(tabId, shouldScroll = true) {
+      const validTabs = ['terms', 'refund', 'privacy', 'shipping'];
+      if (!validTabs.includes(tabId)) tabId = 'terms';
+
+      // 1. Update buttons
+      document.querySelectorAll('.policy-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      const targetBtn = document.getElementById('tab-btn-' + tabId);
+      if (targetBtn) {
+        targetBtn.classList.add('active');
+        targetBtn.setAttribute('aria-selected', 'true');
+      }
+
+      // 2. Update panes
+      document.querySelectorAll('.policy-pane').forEach(pane => {
+        pane.classList.remove('active');
+      });
+      const targetPane = document.getElementById('pane-' + tabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+
+      // 3. Update hash in URL smoothly without jump
+      if (history.replaceState) {
+        history.replaceState(null, null, '#' + tabId);
+      } else {
+        location.hash = '#' + tabId;
+      }
+
+      // 4. On mobile, when a user explicitly taps a tab, smooth scroll to content card
+      if (shouldScroll && window.innerWidth <= 860) {
+        const card = document.querySelector('.policy-content-card');
+        if (card) {
+          // Leave 64px offset below the sticky site header so card and badge are fully visible
+          const cardTop = card.getBoundingClientRect().top + window.pageYOffset;
+          const targetY = cardTop - 64;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+      }
+    }
+
+    // Auto-detect hash on page load without sudden jumps
+    window.addEventListener('DOMContentLoaded', () => {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (['terms', 'refund', 'privacy', 'shipping'].includes(hash)) {
+        switchPolicyTab(hash, false);
+      } else if (hash.includes('return') || hash.includes('refund')) {
+        switchPolicyTab('refund', false);
+      } else if (hash.includes('privac')) {
+        switchPolicyTab('privacy', false);
+      } else if (hash.includes('ship') || hash.includes('deliver')) {
+        switchPolicyTab('shipping', false);
+      }
+    });
+
+    // Support back/forward navigation
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (['terms', 'refund', 'privacy', 'shipping'].includes(hash)) {
+        switchPolicyTab(hash, true);
+      }
+    });
+  </script>
+</body>
+</html>

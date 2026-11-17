@@ -786,7 +786,7 @@
           size,
           price: 1199,
           quantity: 1,
-          image: './images/shimla-ghee.webp'
+          image: './images/tribal-ghee.webp'
         }];
       }
 
@@ -936,11 +936,11 @@
       let fallbackSub = 0;
       container.innerHTML = displayItems.map(item => {
         fallbackSub += Number(item.lineTotal) || 0;
-        const img = item.image || './images/shimla-ghee.webp';
+        const img = item.image || './images/tribal-ghee.webp';
         return `
           <div class="lux-item-preview">
             <div class="lux-item-img">
-              <img src="${esc(img)}" alt="${esc(item.productName)}" onerror="this.src='./images/shimla-ghee.webp'" />
+              <img src="${esc(img)}" alt="${esc(item.productName)}" onerror="this.src='./images/tribal-ghee.webp'" />
             </div>
             <div class="lux-item-info">
               <h4>${esc(item.productName)}</h4>
