@@ -738,7 +738,14 @@ async function loadBootstrap(opts = {}) {
     const bName = (state.settings && state.settings.brand_name) || 'Shimla Crunch';
     document.title = `${bName} — Business Studio Admin`;
     document.querySelectorAll('.side .brand').forEach(el => {
-      el.innerHTML = `${esc(bName)}<small>BUSINESS STUDIO</small>`;
+      el.className = 'brand brand-with-logo';
+      el.innerHTML = `
+        <img src="./images/logo.svg" alt="Business Studio Logo" class="admin-brand-logo" />
+        <div class="brand-text">
+          <span class="brand-name">Business Studio</span>
+          <span class="brand-sub">${esc(bName).toUpperCase()}</span>
+        </div>
+      `;
     });
     document.querySelectorAll('.login-logo').forEach(el => { el.textContent = bName; });
     const topCrumbLabel = document.querySelector('.top-left span');
