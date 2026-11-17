@@ -1,18 +1,18 @@
 /**
- * Shimla Crunch - Firebase Configuration
- * Currently running in local mode (enabled: false) so it serves from local products.json & server.js.
- * Set enabled: true once the client's dedicated Firebase project (shimla-crunch) is provisioned.
+ * Shimla Crunch — Firebase Cloud Configuration
  */
 window.SHIMLA_FIREBASE_CONFIG = {
-  enabled: false,
-  adminEmail: 'shimlacrunch@gmail.com',
+  enabled: true,
+  adminEmail: 'nimaythakur1234@gmail.com',
   authorizedAdminEmails: [
-    'shimlacrunch@gmail.com'
+    'nimaythakur1234@gmail.com',
+    'shimlacrunch@gmail.com',
+    'admin@shimlacrunch.com'
   ],
-  apiKey: '',
-  authDomain: '',
-  projectId: 'shimla-crunch',
-  storageBucket: '',
-  messagingSenderId: '',
-  appId: ''
+  apiKey: 'AIzaSyBX7XUQXTrD9a6U-EmKa-_cFOvcnG7X26k',
+  authDomain: 'shimlawali-store.firebaseapp.com',
+  projectId: 'shimlawali-store',
+  storageBucket: 'shimlawali-store.firebasestorage.app',
+  messagingSenderId: '931009690281',
+  appId: '1:931009690281:web:12e7dcbff9f1111b7087b8'
 };
