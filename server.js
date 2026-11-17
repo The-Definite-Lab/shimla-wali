@@ -118,11 +118,43 @@ function createAppServer(options = {}) {
     });
   }
 
+  function deepSanitizeInput(obj, depth = 0) {
+    if (depth > 20 || obj === null || typeof obj !== 'object') {
+      if (typeof obj === 'string') return obj.replace(/\0/g, '');
+      return obj;
+    }
+    if (Array.isArray(obj)) {
+      return obj.map(item => deepSanitizeInput(item, depth + 1));
+    }
+    const clean = {};
+    for (const [key, val] of Object.entries(obj)) {
+      // Prototype pollution defense
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue;
+      // Privilege escalation & role tampering defense
+      if (key === 'isAdmin' || key === 'is_admin' || key === 'role') continue;
+      clean[key] = deepSanitizeInput(val, depth + 1);
+    }
+    return clean;
+  }
+
+  function sanitizeString(val) {
+    if (typeof val !== 'string') return val;
+    return val
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+      .replace(/on\w+\s*=\s*(?:["'][^"']*["']|[^\s>]+)/gi, '')
+      .replace(/javascript\s*:/gi, '')
+      .replace(/<[^>]+>/g, '')
+      .trim();
+  }
+
   async function readJsonBody(req) {
     const raw = await collectBody(req, 2 * 1024 * 1024);
     if (!raw || raw.length === 0) return {};
     try {
-      return JSON.parse(raw.toString('utf8'));
+      const parsed = JSON.parse(raw.toString('utf8'));
+      return deepSanitizeInput(parsed);
     } catch {
       throw new domain.HttpError(400, 'Invalid JSON body');
     }
@@ -161,6 +193,17 @@ function createAppServer(options = {}) {
 
       if (reqPath === '/api/products' && method === 'GET') {
         return sendJSON(res, store.getPublicCatalog());
+      }
+
+      if (reqPath === '/api/content' && method === 'GET') {
+        const cat = store.getPublicCatalog();
+        return sendJSON(res, {
+          ok: true,
+          content: cat.content || {},
+          media: cat.media || {},
+          settings: cat.settings || {},
+          discounts: cat.discounts || []
+        });
       }
 
       if (reqPath === '/api/discounts' && method === 'GET') {
@@ -452,7 +495,7 @@ function createAppServer(options = {}) {
 
           await store.withTransaction((db, markDirty) => {
             savedFiles.forEach(file => {
-              if (['himalayan_image', 'makers_video', 'process_video'].includes(file.name)) {
+              if (['himalayan_image', 'hero_image', 'orchard_image', 'makers_video', 'process_video'].includes(file.name)) {
                 if (!db.catalog.media) db.catalog.media = {};
                 db.catalog.media[file.name] = file.url;
                 markDirty('catalog');
@@ -769,13 +812,41 @@ function createAppServer(options = {}) {
           const body = await readJsonBody(req);
           const content = await store.withTransaction((db, markDirty) => {
             const sess = requireAdmin(req, db);
-            const { media: mediaUpdates, ...contentUpdates } = body || {};
+            const { media: mediaUpdates, sections: sectionUpdates, festive_banner: festiveUpdates, ...contentUpdates } = body || {};
+
+            const cleanContent = {};
+            for (const [k, v] of Object.entries(contentUpdates)) {
+              if (typeof v === 'string') cleanContent[k] = sanitizeString(v);
+              else if (Array.isArray(v)) cleanContent[k] = v.map(item => typeof item === 'string' ? sanitizeString(item) : item);
+              else cleanContent[k] = v;
+            }
+
+            const cleanSections = {};
+            if (sectionUpdates && typeof sectionUpdates === 'object') {
+              for (const [k, v] of Object.entries(sectionUpdates)) {
+                cleanSections[k] = Boolean(v);
+              }
+            }
+
+            const cleanFestive = {};
+            if (festiveUpdates && typeof festiveUpdates === 'object') {
+              cleanFestive.badge = sanitizeString(festiveUpdates.badge || '20% OFF');
+              cleanFestive.text = sanitizeString(festiveUpdates.text || 'Orders above ₹1,500');
+              cleanFestive.code = sanitizeString(festiveUpdates.code || 'CRUNCH20').toUpperCase();
+              cleanFestive.action = sanitizeString(festiveUpdates.action || 'Apply ›');
+              cleanFestive.active = festiveUpdates.active !== false;
+            }
+
             db.catalog.content = {
               ...(db.catalog.content || {}),
-              ...contentUpdates,
+              ...cleanContent,
+              festive_banner: {
+                ...((db.catalog.content && db.catalog.content.festive_banner) || {}),
+                ...cleanFestive
+              },
               sections: {
                 ...((db.catalog.content && db.catalog.content.sections) || {}),
-                ...(contentUpdates.sections || {})
+                ...cleanSections
               }
             };
             if (mediaUpdates && typeof mediaUpdates === 'object') {
@@ -946,7 +1017,7 @@ if (require.main === module) {
   const PORT = Number(process.env.PORT || 3000);
   const { server } = createAppServer();
   server.listen(PORT, '0.0.0.0', () => {
-    console.log(`✅ Shimla Wali Server running at http://localhost:${PORT}/`);
+    console.log(`🍎 Shimla Crunch Server running at http://localhost:${PORT}/`);
     getLocalLanIps().forEach(ip => console.log(`📱 LAN access: http://${ip}:${PORT}/`));
     console.log(`🔐 Admin panel: http://localhost:${PORT}/admin.html`);
   });

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   Shimla Wali Business Studio — Production Admin JavaScript
+   Shimla Crunch Business Studio — Production Admin JavaScript
    ═══════════════════════════════════════════════════════════════ */
 
 let state = {
@@ -490,7 +490,7 @@ async function doAdminGoogleLogin() {
       await auth.signOut();
       setStoredToken('');
       if (errEl) {
-        errEl.innerHTML = `<strong>⛔ Access Denied (403)</strong><br>The Google account <em>${esc(email || 'unidentified')}</em> is not on the authorized whitelist. Access to Shimla Wali Business Studio is strictly prohibited.`;
+        errEl.innerHTML = `<strong>⛔ Access Denied (403)</strong><br>The Google account <em>${esc(email || 'unidentified')}</em> is not on the authorized whitelist. Access to Shimla Crunch Business Studio is strictly prohibited.`;
         errEl.style.display = 'block';
       }
       return;
@@ -651,7 +651,7 @@ async function loadBootstrap(opts = {}) {
       avInit.setAttribute('title', adminName);
     }
     if (avName) avName.textContent = adminName;
-    const bName = (state.settings && state.settings.brand_name) || 'Shimla Wali';
+    const bName = (state.settings && state.settings.brand_name) || 'Shimla Crunch';
     document.title = `${bName} — Business Studio Admin`;
     document.querySelectorAll('.side .brand').forEach(el => {
       el.innerHTML = `${esc(bName)}<small>BUSINESS STUDIO</small>`;
@@ -1123,7 +1123,7 @@ function renderVerificationQueue() {
     const itemsSummary = (o.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel}) × ${i.quantity}`).join(', ');
     const rawPhone = o.customerSnapshot?.phone || '';
     const cleanPhone = String(rawPhone).replace(/\D/g, '').slice(-10);
-    const brandName = (state.settings && state.settings.brand_name) || 'Shimla Wali';
+    const brandName = (state.settings && state.settings.brand_name) || 'Shimla Crunch';
     const waText = encodeURIComponent(`Hi ${o.customerSnapshot?.name || ''}, your ${brandName} order ${o.orderId} (${itemsSummary}, Total ₹${o.grandTotal}) is ready for confirmation. Please confirm on WhatsApp to proceed!`);
     return `
       <div class="verify-entry ${isDue ? 'is-due' : 'is-fresh'}">
@@ -3376,7 +3376,7 @@ function openVerifyBuyModal(orderId, initialDecision = 'accept') {
   ).join(' | ');
   const rawCustPhone = o.customerSnapshot?.phone || '';
   const cleanCustPhone = String(rawCustPhone).replace(/\D/g, '').slice(-10);
-  const brandName = (state.settings && state.settings.brand_name) || 'Shimla Wali';
+  const brandName = (state.settings && state.settings.brand_name) || 'Shimla Crunch';
   const chatMsg = encodeURIComponent(`Hi ${o.customerSnapshot?.name || ''}, regarding your ${brandName} order ${o.orderId}`);
   document.getElementById('vb-order-banner').innerHTML =
     `<strong>Customer:</strong> ${esc(o.customerSnapshot?.name)} (+91 ${esc(cleanCustPhone || rawCustPhone)})` +
@@ -4139,50 +4139,75 @@ async function downloadReportCsv(type) {
 function loadContentCms() {
   const c = state.content || {};
   const m = state.media || {};
+  const fb = c.festive_banner || {};
+
   document.getElementById('cms-announcement').value = c.announcement_bar || '';
-  document.getElementById('cms-hero-heading').value = c.hero_heading || '';
+  
+  // Festive Banner Strip
+  document.getElementById('cms-festive-badge').value = fb.badge || '20% OFF';
+  document.getElementById('cms-festive-text').value = fb.text || 'Orders above ₹1,500';
+  document.getElementById('cms-festive-code').value = fb.code || 'CRUNCH20';
+  document.getElementById('cms-festive-action').value = fb.action || 'Apply ›';
+  document.getElementById('cms-festive-active').checked = fb.active !== false;
+
+  // Hero & Messaging
+  document.getElementById('cms-hero-heading').value = c.hero_heading || 'MOUNTAIN HARVEST CATALOG';
   document.getElementById('cms-hero-desc').value = c.hero_description || '';
-  document.getElementById('cms-about-heading').value = c.about_heading || '';
+  document.getElementById('cms-hero-cta-label').value = c.hero_cta_label || 'Order Fresh Harvest →';
+  document.getElementById('cms-hero-cta-url').value = c.hero_cta_url || 'shop.html';
+  if (m.hero_image) document.getElementById('cms-prev-hero').src = m.hero_image;
+
+  // Our Story
+  document.getElementById('cms-about-heading').value = c.about_heading || '4th-Generation Kotkhai Heritage';
   document.getElementById('cms-about-body').value = c.about_body || '';
+  if (m.himalayan_image) document.getElementById('cms-prev-himalayan').src = m.himalayan_image;
+
+  // Marquee Strip & Footer
   const cleanMarquee = (Array.isArray(c.marquee_items) ? c.marquee_items : []).filter(s => !/[\u0900-\u097F]/.test(String(s || '')));
   document.getElementById('cms-marquee').value = cleanMarquee.join('\n');
   document.getElementById('cms-footer').value = c.footer_note || '';
+
+  // Section Visibility Toggles
+  document.getElementById('cms-sec-announcement').checked = c.sections?.announcement !== false;
+  document.getElementById('cms-sec-festive').checked = c.sections?.festive !== false;
   document.getElementById('cms-sec-featured').checked = c.sections?.featured_products !== false;
+  document.getElementById('cms-sec-comparison').checked = c.sections?.comparison !== false;
   document.getElementById('cms-sec-story').checked = c.sections?.our_story !== false;
   document.getElementById('cms-sec-reviews').checked = c.sections?.customer_reviews !== false;
-  if (m.himalayan_image) document.getElementById('cms-prev-himalayan').src = m.himalayan_image;
-  document.getElementById('cms-process-url').textContent = m.process_video ? `Active: ${String(m.process_video).slice(0, 60)}` : 'Current: Default';
-  document.getElementById('cms-makers-url').textContent = m.makers_video ? `Active: ${String(m.makers_video).slice(0, 60)}` : 'Current: Default';
-  document.getElementById('cms-process-video-url').value = m.process_video || '';
-  document.getElementById('cms-makers-video-url').value = m.makers_video || '';
 }
 
 async function saveContentCms() {
   try {
-    const procUrl = document.getElementById('cms-process-video-url').value.trim();
-    const makersUrl = document.getElementById('cms-makers-video-url').value.trim();
     await apiFetch('/api/admin/content', {
       method: 'POST',
       body: JSON.stringify({
         announcement_bar: document.getElementById('cms-announcement').value.trim(),
+        festive_banner: {
+          badge: document.getElementById('cms-festive-badge').value.trim(),
+          text: document.getElementById('cms-festive-text').value.trim(),
+          code: document.getElementById('cms-festive-code').value.trim().toUpperCase(),
+          action: document.getElementById('cms-festive-action').value.trim(),
+          active: document.getElementById('cms-festive-active').checked
+        },
         hero_heading: document.getElementById('cms-hero-heading').value.trim(),
         hero_description: document.getElementById('cms-hero-desc').value.trim(),
+        hero_cta_label: document.getElementById('cms-hero-cta-label').value.trim(),
+        hero_cta_url: document.getElementById('cms-hero-cta-url').value.trim(),
         about_heading: document.getElementById('cms-about-heading').value.trim(),
         about_body: document.getElementById('cms-about-body').value.trim(),
         marquee_items: document.getElementById('cms-marquee').value.split('\n').map(s => s.trim()).filter(s => s && !/[\u0900-\u097F]/.test(s)),
         footer_note: document.getElementById('cms-footer').value.trim(),
         sections: {
+          announcement: document.getElementById('cms-sec-announcement').checked,
+          festive: document.getElementById('cms-sec-festive').checked,
           featured_products: document.getElementById('cms-sec-featured').checked,
+          comparison: document.getElementById('cms-sec-comparison').checked,
           our_story: document.getElementById('cms-sec-story').checked,
           customer_reviews: document.getElementById('cms-sec-reviews').checked
-        },
-        media: {
-          process_video: procUrl,
-          makers_video: makersUrl
         }
       })
     });
-    showToast('Website content published to storefront!');
+    showToast('Website content published live to storefront!');
     await loadBootstrap();
   } catch (err) {
     showToast(err.message, true);
@@ -4194,8 +4219,18 @@ async function uploadMediaSlot(inp, slotName) {
   const fd = new FormData();
   fd.append(slotName, inp.files[0]);
   try {
-    await apiFetch('/api/admin/upload', { method: 'POST', body: fd });
-    showToast(`${slotName} updated!`);
+    const res = await apiFetch('/api/admin/upload', { method: 'POST', body: fd });
+    if (res.files && res.files[0]) {
+      const url = res.files[0].url;
+      if (slotName === 'hero_image') {
+        const prev = document.getElementById('cms-prev-hero');
+        if (prev) prev.src = url;
+      } else if (slotName === 'himalayan_image') {
+        const prev = document.getElementById('cms-prev-himalayan');
+        if (prev) prev.src = url;
+      }
+    }
+    showToast(`${slotName} photo updated!`);
     await loadBootstrap();
   } catch (err) {
     showToast(err.message, true);
@@ -4207,7 +4242,7 @@ async function uploadMediaSlot(inp, slotName) {
 // ── 10. Settings, Backups & Audit Logs ──────────────────────────
 function loadSettingsView() {
   const s = state.settings || {};
-  document.getElementById('set-brand').value = s.brand_name || 'Shimla Wali';
+  document.getElementById('set-brand').value = s.brand_name || 'Shimla Crunch';
   document.getElementById('set-wa').value = s.whatsapp_number || '';
   document.getElementById('set-phone').value = s.phone || '';
   document.getElementById('set-email').value = s.support_email || '';

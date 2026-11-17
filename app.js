@@ -1,8 +1,8 @@
 
-// Tribal Treasure - Cache Sanity Check
+// Shimla Crunch - Cache Sanity Check
 (function() {
   try {
-    ['shimla_cached_catalog', 'shimla_store_settings', 'shimla_brand_name', 'shimla_cart', 'shimla_catalog_cache', 'tribal_treasure_by_tribalgirl_cached_catalog'].forEach(k => {
+    ['shimla_cached_catalog', 'shimla_store_settings', 'shimla_brand_name', 'shimla_cart', 'shimla_catalog_cache', 'shimlacrunch_cached_catalog'].forEach(k => {
       try {
         const val = localStorage.getItem(k);
         if (val && (val.includes('GHSM') || val.includes('Shimla Wali') || val.includes('bilona') || val.includes('shimlawali') || val.includes('A2 Pahadi Cow') || val.includes('red-rice'))) {
@@ -10,9 +10,9 @@
         }
       } catch (e) {}
     });
-    const v2 = localStorage.getItem('tribal_treasure_by_tribalgirl_cached_catalog_v2');
+    const v2 = localStorage.getItem('shimlacrunch_cached_catalog_v2');
     if (v2 && (!v2.includes('apple-crunch') || v2.includes('bilona'))) {
-      localStorage.removeItem('tribal_treasure_by_tribalgirl_cached_catalog_v2');
+      localStorage.removeItem('shimlacrunch_cached_catalog_v2');
     }
   } catch(e) {}
 })();
@@ -28,6 +28,82 @@ window.__activeDiscountsPromise = (typeof fetch === 'function')
     }).catch(() => null)
   : Promise.resolve(null);
 
+// Session Navigation Stack for Reliable Subpage Back Navigation
+(function() {
+  try {
+    const currentPath = window.location.pathname + window.location.search;
+    let stack = [];
+    try {
+      stack = JSON.parse(sessionStorage.getItem('sc_nav_stack') || '[]');
+    } catch(e) { stack = []; }
+
+    // If reloading same page, don't duplicate
+    if (stack.length === 0 || stack[stack.length - 1] !== currentPath) {
+      stack.push(currentPath);
+      if (stack.length > 30) stack.shift();
+      sessionStorage.setItem('sc_nav_stack', JSON.stringify(stack));
+    }
+  } catch(e) {}
+})();
+
+// Smart Go Back function for subpage back buttons
+window.smartGoBack = function(fallback = 'index.html') {
+  // 1. If any drawer or modal is open, close it first
+  const cartDrawer = document.getElementById('cart-drawer');
+  const navDrawer = document.getElementById('nav-drawer');
+  const checkoutModal = document.getElementById('checkout-modal');
+  if (cartDrawer && cartDrawer.classList.contains('active')) {
+    window.closeCart();
+    return;
+  }
+  if (navDrawer && navDrawer.classList.contains('active')) {
+    window.closeNavDrawer();
+    return;
+  }
+  if (checkoutModal && checkoutModal.classList.contains('active')) {
+    checkoutModal.classList.remove('active');
+    return;
+  }
+
+  // 2. If referrer is internal to this site and not the same page, go to referrer
+  if (document.referrer && document.referrer.includes(window.location.host)) {
+    try {
+      const refUrl = new URL(document.referrer);
+      const currUrl = new URL(window.location.href);
+      if (refUrl.pathname !== currUrl.pathname || refUrl.search !== currUrl.search) {
+        window.location.href = document.referrer;
+        return;
+      }
+    } catch(e) {}
+  }
+
+  // 3. Check session navigation stack
+  try {
+    let stack = JSON.parse(sessionStorage.getItem('sc_nav_stack') || '[]');
+    if (stack.length > 1) {
+      stack.pop(); // remove current page
+      const prev = stack.pop(); // get previous page
+      sessionStorage.setItem('sc_nav_stack', JSON.stringify(stack));
+      if (prev) {
+        window.location.href = prev;
+        return;
+      }
+    }
+  } catch(e) {}
+
+  // 4. Try browser history if available
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+
+  // 5. Fallback to homepage
+  window.location.href = fallback;
+};
+
+// Drawer PushState flag for Android back gestures
+let _isDrawerPushed = false;
+
 // Global Bag Drawer Helpers
 window.openCart = function() {
   if (typeof window.syncCartAndRender === 'function') {
@@ -38,298 +114,87 @@ window.openCart = function() {
   if (cartDrawer) cartDrawer.classList.add('active');
   if (cartOverlay) cartOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  // Push history state so Android back gesture closes drawer instead of exiting site
+  try {
+    if (!_isDrawerPushed) {
+      history.pushState({ scDrawer: 'cart' }, '');
+      _isDrawerPushed = true;
+    }
+  } catch(e) {}
 };
 
-window.closeCart = function() {
+window.closeCart = function(isFromPopstate = false) {
   const cartDrawer = document.getElementById('cart-drawer');
   const cartOverlay = document.getElementById('cart-drawer-overlay');
   if (cartDrawer) cartDrawer.classList.remove('active');
   if (cartOverlay) cartOverlay.classList.remove('active');
   document.body.style.overflow = '';
+
+  if (!isFromPopstate && _isDrawerPushed) {
+    _isDrawerPushed = false;
+    try { history.back(); } catch(e) {}
+  }
 };
 
 // Global Nav Drawer Helpers
 window.openNavDrawer = function() {
-  if (typeof window.renderSharedNavDrawer === 'function') {
-    window.renderSharedNavDrawer();
-  }
-  if (typeof window.refreshDrawerAuthCard === 'function') {
-    window.refreshDrawerAuthCard();
-  }
+  if (typeof window.refreshDrawerAuthCard === 'function') window.refreshDrawerAuthCard();
   let navDrawer = document.getElementById('nav-drawer');
   let navOverlay = document.getElementById('nav-drawer-overlay');
+  if (!navDrawer && typeof window.renderSharedNavDrawer === 'function') {
+    window.renderSharedNavDrawer();
+    navDrawer = document.getElementById('nav-drawer');
+    navOverlay = document.getElementById('nav-drawer-overlay');
+  }
   if (navDrawer) navDrawer.classList.add('active');
   if (navOverlay) navOverlay.classList.add('active');
   document.body.style.overflow = 'hidden';
+
+  try {
+    if (!_isDrawerPushed) {
+      history.pushState({ scDrawer: 'nav' }, '');
+      _isDrawerPushed = true;
+    }
+  } catch(e) {}
 };
 
-window.closeNavDrawer = function() {
+window.closeNavDrawer = function(isFromPopstate = false) {
   const navDrawer = document.getElementById('nav-drawer');
   const navOverlay = document.getElementById('nav-drawer-overlay');
   if (navDrawer) navDrawer.classList.remove('active');
   if (navOverlay) navOverlay.classList.remove('active');
   document.body.style.overflow = '';
-};
 
-// 72-Hour Freshness Journey & Live Harvest Reserve Controllers
-window.dispatchCatalog = {
-  apples: {
-    id: 'kinnauri-royal-apples',
-    name: 'Kinnauri Royal Delicious Apples',
-    image: './images/royal-delicious-box.webp',
-    stockText: 'Only 14 crates left in today\'s harvest run',
-    sizes: [
-      { label: '3 kg', price: 999, mrp: 1199, discount: '17% OFF', sku: 'TT-ROYAL-3KG' },
-      { label: '5 kg', price: 1399, mrp: 1699, discount: '18% OFF', sku: 'TT-ROYAL-5KG', default: true },
-      { label: '10 kg', price: 2499, mrp: 2999, discount: '17% OFF', sku: 'TT-ROYAL-10KG' }
-    ],
-    trust: [
-      { strong: '100%', text: 'Tree-Ripened' },
-      { strong: 'Zero Wax', text: 'Edible Skin' },
-      { strong: '0 Days', text: 'Cold Storage' }
-    ]
-  },
-  walnuts: {
-    id: 'kinnauri-walnuts',
-    name: 'Kinnauri Paper-Shell Walnuts',
-    image: './images/himachali-walnuts.webp',
-    stockText: 'Only 19 kg left from high-altitude plucking',
-    sizes: [
-      { label: '500 g', price: 499, mrp: 699, discount: '28% OFF', sku: 'TTWN-500G-01' },
-      { label: '1 kg', price: 899, mrp: 1099, discount: '18% OFF', sku: 'TTWN-1KG-01', default: true },
-      { label: '2 kg', price: 1699, mrp: 2099, discount: '19% OFF', sku: 'TTWN-2KG-01' }
-    ],
-    trust: [
-      { strong: 'Paper-Shell', text: 'Crack by Hand' },
-      { strong: 'Mountain Air', text: 'Sun-Dried' },
-      { strong: 'Natural Oils', text: 'High Omega-3' }
-    ]
-  },
-  ghee: {
-    id: 'tribal-desi-ghee',
-    name: 'Pure Tribal Desi Ghee (Bilona)',
-    image: './images/tribal-ghee.webp',
-    stockText: 'Only 11 hand-churned jars available for tomorrow',
-    sizes: [
-      { label: '250 ml', price: 449, mrp: 549, discount: '18% OFF', sku: 'TTGH-250ML-01' },
-      { label: '500 ml', price: 849, mrp: 999, discount: '15% OFF', sku: 'TTGH-500ML-01', default: true },
-      { label: '1 L', price: 1599, mrp: 1899, discount: '16% OFF', sku: 'TTGH-1000ML-01' }
-    ],
-    trust: [
-      { strong: 'Vedic Bilona', text: 'Wooden Churned' },
-      { strong: 'Pahadi Cow', text: 'Herb-Grazing Curd' },
-      { strong: 'Danedar Gold', text: 'Zero Starch' }
-    ]
+  if (!isFromPopstate && _isDrawerPushed) {
+    _isDrawerPushed = false;
+    try { history.back(); } catch(e) {}
   }
 };
 
-window.dispatchFlowState = {
-  currentProduct: 'apples',
-  currentSize: '5 kg',
-  currentPrice: 1399,
-  currentMrp: 1699,
-  currentDiscount: '18% OFF',
-  currentSku: 'TT-ROYAL-5KG'
-};
+// Android Back Gesture & Popstate Listener
+window.addEventListener('popstate', function(event) {
+  const cartDrawer = document.getElementById('cart-drawer');
+  const navDrawer = document.getElementById('nav-drawer');
+  const checkoutModal = document.getElementById('checkout-modal');
+  let handled = false;
 
-window.switchFreshnessStage = function(stageNum) {
-  const cards = document.querySelectorAll('.freshness-milestone-card');
-  cards.forEach((c, idx) => {
-    if (idx + 1 === Number(stageNum)) {
-      c.classList.add('active');
-    } else {
-      c.classList.remove('active');
-    }
-  });
-};
-
-window.renderPackSizePills = function(prodKey) {
-  const prod = window.dispatchCatalog[prodKey];
-  if (!prod) return;
-  const container = document.getElementById('pack-size-options');
-  if (!container) return;
-
-  container.innerHTML = prod.sizes.map(s => {
-    const isActive = s.label === window.dispatchFlowState.currentSize;
-    return `
-      <button type="button" class="pack-size-pill ${isActive ? 'active' : ''}" 
-        data-size="${s.label}" 
-        data-price="${s.price}"
-        data-mrp="${s.mrp}"
-        data-discount="${s.discount}"
-        data-sku="${s.sku}"
-        onclick="window.selectPackSize(this, '${s.label}', ${s.price}, ${s.mrp}, '${s.discount}', '${s.sku}')">
-        ${isActive ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>' : ''}
-        <span>${s.label}</span>
-      </button>
-    `;
-  }).join('');
-};
-
-window.updatePriceBanner = function() {
-  const priceEl = document.getElementById('h-disp-price');
-  const mrpEl = document.getElementById('h-disp-mrp');
-  const saveEl = document.getElementById('h-disp-save');
-  const stockEl = document.getElementById('h-disp-stock-text');
-  const ctaTextEl = document.getElementById('dispatch-cta-text');
-
-  const p = window.dispatchFlowState.currentPrice;
-  const m = window.dispatchFlowState.currentMrp;
-  const d = window.dispatchFlowState.currentDiscount;
-  const saveAmount = m - p;
-  const prod = window.dispatchCatalog[window.dispatchFlowState.currentProduct];
-
-  if (priceEl) priceEl.textContent = '₹' + p.toLocaleString('en-IN');
-  if (mrpEl) mrpEl.textContent = '₹' + m.toLocaleString('en-IN');
-  if (saveEl) saveEl.textContent = 'Save ₹' + saveAmount + ' (' + d + ')';
-  if (stockEl && prod) stockEl.textContent = prod.stockText;
-  if (ctaTextEl) {
-    ctaTextEl.textContent = 'Reserve Fresh Harvest • ₹' + p.toLocaleString('en-IN') + ' (Dispatches Tomorrow)';
+  if (cartDrawer && cartDrawer.classList.contains('active')) {
+    window.closeCart(true);
+    handled = true;
   }
-};
-
-window.selectHarvestProduct = function(prodKey) {
-  const prod = window.dispatchCatalog[prodKey];
-  if (!prod) return;
-
-  window.dispatchFlowState.currentProduct = prodKey;
-  
-  // Highlight product card
-  ['apples', 'walnuts', 'ghee'].forEach(k => {
-    const card = document.getElementById('h-prod-' + k);
-    if (card) {
-      if (k === prodKey) {
-        card.classList.add('active');
-        card.setAttribute('aria-checked', 'true');
-      } else {
-        card.classList.remove('active');
-        card.setAttribute('aria-checked', 'false');
-      }
-    }
-  });
-
-  // Set default size for chosen product
-  const defSize = prod.sizes.find(s => s.default) || prod.sizes[0];
-  window.dispatchFlowState.currentSize = defSize.label;
-  window.dispatchFlowState.currentPrice = defSize.price;
-  window.dispatchFlowState.currentMrp = defSize.mrp;
-  window.dispatchFlowState.currentDiscount = defSize.discount;
-  window.dispatchFlowState.currentSku = defSize.sku;
-
-  // Render pills
-  window.renderPackSizePills(prodKey);
-
-  // Update Trust Strip highlights based on selected product
-  const trustStrip = document.getElementById('harvest-trust-items');
-  if (trustStrip) {
-    trustStrip.innerHTML = prod.trust.map(t => `
-      <div class="ht-item">
-        <div class="ht-icon-circle">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </div>
-        <span class="ht-text"><strong>${t.strong}</strong><br class="ht-br"> ${t.text}</span>
-      </div>
-    `).join('');
+  if (navDrawer && navDrawer.classList.contains('active')) {
+    window.closeNavDrawer(true);
+    handled = true;
+  }
+  if (checkoutModal && checkoutModal.classList.contains('active')) {
+    checkoutModal.classList.remove('active');
+    handled = true;
   }
 
-  window.updatePriceBanner();
-};
-
-window.selectPackSize = function(btnEl, size, price, mrp, discount, sku) {
-  window.dispatchFlowState.currentSize = size;
-  if (price) window.dispatchFlowState.currentPrice = Number(price);
-  if (mrp) window.dispatchFlowState.currentMrp = Number(mrp);
-  if (discount) window.dispatchFlowState.currentDiscount = discount;
-  if (sku) window.dispatchFlowState.currentSku = sku;
-
-  const parent = btnEl.parentElement;
-  if (parent) {
-    parent.querySelectorAll('.pack-size-pill').forEach(b => {
-      b.classList.remove('active');
-      const checkSvg = b.querySelector('svg');
-      if (checkSvg) checkSvg.remove();
-    });
-    btnEl.classList.add('active');
-    btnEl.insertAdjacentHTML('afterbegin', '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>');
-  }
-
-  window.updatePriceBanner();
-};
-
-// High-Converting Direct Reserve & Add to Bag
-window.handleDispatchCta = function() {
-  const prodKey = window.dispatchFlowState.currentProduct || 'apples';
-  const prod = window.dispatchCatalog[prodKey];
-  if (!prod) return;
-
-  const item = {
-    id: prod.id,
-    productId: prod.id,
-    sku: window.dispatchFlowState.currentSku || '',
-    name: prod.name,
-    size: window.dispatchFlowState.currentSize,
-    price: window.dispatchFlowState.currentPrice,
-    image: prod.image,
-    variety: ''
-  };
-
-  const btn = document.getElementById('dispatch-cta-btn');
-  const ctaText = document.getElementById('dispatch-cta-text');
-  const originalText = ctaText ? ctaText.textContent : 'Reserve Fresh Harvest';
-
-  if (ctaText) {
-    ctaText.textContent = '✓ Added to Bag! Opening...';
-  }
-  if (btn) {
-    btn.style.background = '#0F2B1D';
-  }
-
-  // Trigger add to cart
-  if (typeof window.addToCart === 'function') {
-    window.addToCart(item, 1);
-  } else {
-    try {
-      let cart = JSON.parse(localStorage.getItem('shimla_cart') || '[]');
-      const idx = cart.findIndex(i => i.id === item.id && i.size === item.size);
-      if (idx > -1) {
-        cart[idx].quantity = (Number(cart[idx].quantity) || 1) + 1;
-      } else {
-        cart.push({ ...item, quantity: 1 });
-      }
-      localStorage.setItem('shimla_cart', JSON.stringify(cart));
-      if (typeof window.openCart === 'function') window.openCart();
-    } catch(e) {}
-  }
-
-  setTimeout(() => {
-    if (ctaText) ctaText.textContent = originalText;
-    if (btn) btn.style.background = '';
-  }, 2200);
-};
-
-// Legacy compatibility shim for any old inline call
-window.switchZcStep = function(stepNum) {
-  window.switchFreshnessStage(stepNum);
-};
-
-// Auto-initialize freshness flow on page load
-if (typeof document !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      if (typeof window.selectHarvestProduct === 'function') {
-        window.selectHarvestProduct('apples');
-      }
-    });
-  } else {
-    setTimeout(() => {
-      if (typeof window.selectHarvestProduct === 'function') {
-        window.selectHarvestProduct('apples');
-      }
-    }, 50);
-  }
-}
+  _isDrawerPushed = false;
+  // If no drawer/modal was open, the browser naturally moves to the previous page in history!
+});
 
 // Global Theme & Language Controllers
 window.setTheme = function(theme) {
@@ -444,7 +309,7 @@ window.applyStorefrontContent = function(data) {
   const s = data.settings || {};
   const c = data.content || {};
   const m = data.media || {};
-  const brandName = String(s.brand_name || 'Tribal Treasure').trim() || 'Tribal Treasure';
+  const brandName = String(s.brand_name || 'Shimla Crunch').trim() || 'Shimla Crunch';
   window.__shimlaBrandName = brandName;
   window.__shimlaSettings = s;
   window.__shimlaContent = c;
@@ -459,21 +324,85 @@ window.applyStorefrontContent = function(data) {
   };
 
   // Announcement bar
+  const showAnnouncement = !c.sections || c.sections.announcement !== false;
+  document.querySelectorAll('.announcement-bar, .top-announcement-bar').forEach(el => {
+    el.style.display = showAnnouncement ? '' : 'none';
+  });
   if (c.announcement_bar) {
     document.querySelectorAll('.announcement-item span:last-child').forEach(el => {
       el.textContent = c.announcement_bar;
     });
   }
 
-  // Hero / Catalog Headings
+  // Festive Offer Banner Strip (Live Sync)
+  const fb = c.festive_banner || {};
+  const showFestive = (!c.sections || c.sections.festive !== false) && fb.active !== false;
+  document.querySelectorAll('.pdp-festive-offer-card').forEach(el => {
+    el.style.display = showFestive ? 'flex' : 'none';
+    if (showFestive) {
+      if (fb.badge) {
+        const b = el.querySelector('.pdp-festive-badge');
+        if (b) b.textContent = fb.badge;
+      }
+      if (fb.text) {
+        const t = el.querySelector('.pdp-festive-text');
+        if (t) t.textContent = fb.text;
+      }
+      if (fb.code) {
+        const cd = el.querySelector('.pdp-festive-code');
+        if (cd) cd.textContent = fb.code;
+        el.onclick = () => {
+          if (window.applyCartPromo) window.applyCartPromo(fb.code);
+          if (window.openCart) window.openCart();
+        };
+      }
+      if (fb.action) {
+        const ac = el.querySelector('.pdp-festive-apply');
+        if (ac) ac.textContent = fb.action;
+      }
+    }
+  });
+
+  // Section Toggles
+  if (c.sections) {
+    if (c.sections.featured_products === false) {
+      document.querySelectorAll('#catalog-section, .curated-collections').forEach(el => el.style.display = 'none');
+    }
+    if (c.sections.comparison === false) {
+      document.querySelectorAll('.comparison-section').forEach(el => el.style.display = 'none');
+    }
+    if (c.sections.our_story === false) {
+      document.querySelectorAll('.story-section, #our-story').forEach(el => el.style.display = 'none');
+    }
+    if (c.sections.reviews === false) {
+      document.querySelectorAll('.testimonials-section, #testimonials').forEach(el => el.style.display = 'none');
+    }
+  }
+
+  // Hero / Catalog Headings & Media
   if (c.hero_heading) {
     document.querySelectorAll('[data-cms-hero-heading], .archive-header-title').forEach(el => {
       applyBilingualEn(el, c.hero_heading);
     });
   }
   if (c.hero_description) {
-    document.querySelectorAll('[data-cms-hero-desc], .archive-header-sub').forEach(el => {
+    document.querySelectorAll('[data-cms-hero-desc]').forEach(el => {
       applyBilingualEn(el, c.hero_description);
+    });
+  }
+  if (c.hero_cta_label) {
+    document.querySelectorAll('.hero-cta-btn, .hero-btn-primary, [data-cms-hero-cta]').forEach(el => {
+      el.textContent = c.hero_cta_label;
+    });
+  }
+  if (c.hero_cta_url) {
+    document.querySelectorAll('.hero-cta-btn, .hero-btn-primary, [data-cms-hero-cta]').forEach(el => {
+      el.href = c.hero_cta_url;
+    });
+  }
+  if (m.hero_image) {
+    document.querySelectorAll('.hero-bg-img, .hero-banner-img').forEach(el => {
+      el.src = m.hero_image;
     });
   }
 
@@ -486,8 +415,8 @@ window.applyStorefrontContent = function(data) {
         .map(rawTxt => String(rawTxt || '').trim())
         .filter(txt => txt && !/[\u0900-\u097F]/.test(txt));
       const sourceList = englishItems.length > 0 ? englishItems : [
-        "FLAT 10% OFF ON ORDERS ABOVE ₹1,500 • USE CODE: TRIBAL10",
-        "100% ARTISANAL & TREE-RIPENED",
+        "FLAT 20% OFF ON ORDERS ABOVE ₹1,500 • USE CODE: CRUNCH20",
+        "🏔️ 100% ARTISANAL & TREE-RIPENED",
         "FROM OUR HILLS TO YOUR HOME",
         "SHIMLA ROYAL DELICIOUS APPLES",
         "CRISP RED GALA APPLES",
@@ -503,7 +432,7 @@ window.applyStorefrontContent = function(data) {
           const isPromo = /20%|OFF|SHIMLA50|CODE:/i.test(txt);
           if (isPromo) {
             const cleanTxt = txt.replace(/^[✨🎁\s\uFFFD\u2666\u25C6♦]+/, '');
-            return `<span class="marquee-pill-item promo-highlight"><span class="marquee-dot gold"></span> <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:2px;"><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> ${window.escapeHtml(cleanTxt)}</span>`;
+            return `<span class="marquee-pill-item promo-highlight" onclick="window.appyApplyPromo20 ? window.appyApplyPromo20() : (window.applyCartPromo && window.applyCartPromo('CRUNCH20'), window.openCart && window.openCart())" style="cursor:pointer;" title="Tap to apply 20% OFF coupon"><span class="marquee-dot gold"></span> <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:2px;"><polyline points="20 12 20 22 4 22 4 12"/><rect width="20" height="5" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> ${window.escapeHtml(cleanTxt)}</span>`;
           }
           return `<span class="marquee-pill-item"><span class="marquee-dot"></span> ${window.escapeHtml(txt)}</span>`;
         })
@@ -512,7 +441,7 @@ window.applyStorefrontContent = function(data) {
   }
 
   // Dynamic phone, WhatsApp, Support Email & Instagram links
-  const waNum = String(s.whatsapp_number || '919800000000').replace(/\D/g, '') || '919800000000';
+  const waNum = String(s.whatsapp_number || '918580861606').replace(/\D/g, '') || '918580861606';
   window.__shimlaWhatsAppNumber = waNum;
   if (s.phone) {
     document.querySelectorAll('a[href^="tel:"]').forEach(a => {
@@ -795,14 +724,9 @@ window.renderSharedNavDrawer = function() {
 
   navDrawer.innerHTML = `
     <div class="nav-drawer-header">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="width:36px;height:36px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#B81D24,#D97706);display:flex;align-items:center;justify-content:center;">
-          <img src="./images/logo.svg" onerror="this.src='./images/logo.png'" alt="Tribal Treasure" style="width:100%;height:100%;object-fit:contain;border-radius:50%;background:#fff;" />
-        </div>
-        <div>
-          <div class="drawer-brand-title" style="font-size:1.15rem;font-weight:850;color:#143828;line-height:1.1;">TRIBAL TREASURE</div>
-          <div style="font-size:0.62rem;font-weight:700;color:#B81D24;letter-spacing:0.06em;">BY TRIBALGIRL • KINNAUR 10,000 FT</div>
-        </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <img src="./images/logo.png" alt="Shimla Crunch" style="width:32px;height:32px;object-fit:cover;border-radius:50%;" />
+        <div class="drawer-brand-title" style="font-size:1.25rem;font-weight:800;color:#2D5A27;">Shimla Crunch</div>
       </div>
       <button id="nav-drawer-close" class="nav-round-btn drawer-close-btn" aria-label="Close Menu" onclick="window.closeNavDrawer()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -822,7 +746,7 @@ window.renderSharedNavDrawer = function() {
       </div>
     </div>
 
-    <div class="drawer-section-label">KINNAUR HARVEST</div>
+    <div class="drawer-section-label">EXPLORE</div>
     <div class="drawer-nav-list">
       <a href="index.html" class="drawer-nav-item">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
@@ -832,38 +756,34 @@ window.renderSharedNavDrawer = function() {
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
         <span class="d-item-text" data-en="All Mountain Harvest" data-hi="सभी पहाड़ी उत्पाद">All Mountain Harvest</span>
       </a>
-      <a href="product-apples.html" class="drawer-nav-item item-highlight">
+      <a href="product.html?id=royal-apples" class="drawer-nav-item item-highlight">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>
-        <span class="d-item-text" data-en="Kinnauri Royal Apples" data-hi="किन्नौरी रॉयल सेब">Kinnauri Royal Apples</span>
-        <span class="drawer-badge-purple" style="background:#B81D24;color:#fff;">LIVE</span>
+        <span class="d-item-text" data-en="Royal Delicious Apples" data-hi="रॉयल सेब">Royal Delicious Apples</span>
+        <span class="drawer-badge-purple" style="background:#2D5A27;color:#fff;">FRESH</span>
       </a>
-      <a href="product-royal-apples.html" class="drawer-nav-item">
+      <a href="product.html?id=apple-crunch" class="drawer-nav-item">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
-        <span class="d-item-text" data-en="Kinnauri Golden Apples" data-hi="किन्नौरी गोल्डन सेब">Kinnauri Golden Apples</span>
+        <span class="d-item-text" data-en="Shimla Apple Crunch" data-hi="एप्पल क्रंच">Shimla Apple Crunch</span>
       </a>
-      <a href="product-walnuts.html" class="drawer-nav-item">
+      <a href="product.html?id=walnuts" class="drawer-nav-item">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"/></svg></span>
-        <span class="d-item-text" data-en="Paper-Shell Kagzi Walnuts" data-hi="कागज़ी अखरोट">Paper-Shell Kagzi Walnuts</span>
+        <span class="d-item-text" data-en="Kagzi Walnuts" data-hi="कागज़ी अखरोट">Kagzi Walnuts</span>
       </a>
-      <a href="product-ghee.html" class="drawer-nav-item">
+      <a href="product.html?id=honey" class="drawer-nav-item">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-        <span class="d-item-text" data-en="Pure Vedic Bilona Ghee" data-hi="बिलोना देसी घी">Pure Vedic Bilona Ghee</span>
-      </a>
-      <a href="product-honey.html" class="drawer-nav-item">
-        <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-        <span class="d-item-text" data-en="Wild Blossom Honey" data-hi="जंगली शहद">Wild Blossom Honey</span>
+        <span class="d-item-text" data-en="Blossom Honey" data-hi="प्योर शहद">Blossom Honey</span>
       </a>
       <a href="about.html" class="drawer-nav-item">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5"/></svg></span>
-        <span class="d-item-text" data-en="Amita's Story (Tribal Girl)" data-hi="अमिता की कहानी">Amita's Story (Tribal Girl)</span>
+        <span class="d-item-text" data-en="Our Story" data-hi="हमारी कहानी">Our Story</span>
       </a>
       <a href="verify.html" class="drawer-nav-item">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-        <span class="d-item-text" data-en="Track Order & Purity" data-hi="ऑर्डर ट्रैक करें">Track Order & Purity</span>
+        <span class="d-item-text" data-en="Purity & Lab Reports" data-hi="शुद्धता व लैब रिपोर्ट">Purity & Lab Reports</span>
       </a>
       <a href="contact.html" class="drawer-nav-item">
         <span class="d-item-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
-        <span class="d-item-text" data-en="Help & WhatsApp Order" data-hi="सहायता व व्हाट्सएप">Help & WhatsApp Order</span>
+        <span class="d-item-text" data-en="Help & Contact" data-hi="सहायता व संपर्क">Help & Contact</span>
       </a>
     </div>
 
@@ -963,17 +883,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-  // 3-Step Zero Confusion Tab Listeners (both click and touchend)
-  for (let s = 1; s <= 3; s++) {
-    const tabBtn = document.getElementById('zc-tab-' + s);
-    if (tabBtn) {
-      tabBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.switchZcStep(s);
-      });
-    }
-  }
-
   // 3. Product Variant Selector (Hero Showcase)
   const sizeButtons = document.querySelectorAll('.size-btn');
   const priceCurrent = document.getElementById('product-price-val');
@@ -1026,7 +935,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function saveCart() {
     try {
-      localStorage.setItem('tribal_cart', JSON.stringify(state.cart));
       localStorage.setItem('shimla_cart', JSON.stringify(state.cart));
     } catch (e) {}
     updateCartUI();
@@ -1034,7 +942,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateCartUI() {
     try {
-      const saved = localStorage.getItem('tribal_cart') || localStorage.getItem('shimla_cart');
+      const saved = localStorage.getItem('shimla_cart');
       if (saved) {
         state.cart = JSON.parse(saved);
       }
@@ -1045,41 +953,31 @@ document.addEventListener('DOMContentLoaded', () => {
       badge.textContent = totalCount;
     });
 
-    // Remove any leftover static footer element from legacy layouts
-    document.querySelectorAll('.cart-footer').forEach(el => el.remove());
-
     const bodyContainer = document.getElementById('cart-drawer-body') || document.getElementById('cart-items');
     if (!bodyContainer) return;
 
+    // Always hide legacy standalone footer to avoid double subtotal and checkout buttons
+    const cartFooters = document.querySelectorAll('.cart-footer');
+    cartFooters.forEach(f => { f.style.display = 'none'; });
+
     if (!state.cart || state.cart.length === 0) {
       bodyContainer.innerHTML = `
-        <div class="cart-empty-card">
-          <div class="cart-empty-icon">
-            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#B81D24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2C10.5 2 9.5 3 9.5 4.5C9.5 5.5 10.2 6.3 11 6.7C7.5 7.4 5 10.5 5 14.5C5 18.5 8 22 12 22C16 22 19 18.5 19 14.5C19 10.5 16.5 7.4 13 6.7C13.8 6.3 14.5 5.5 14.5 4.5C14.5 3 13.5 2 12 2Z"></path>
-              <path d="M12 2v4"></path>
+        <div class="cart-empty-card" style="margin: 20px 12px; padding: 40px 20px; border-radius: 20px; background: #ffffff; border: 1.5px dashed #cbd5e1; text-align: center; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);">
+          <div class="cart-empty-icon" style="width: 72px; height: 72px; border-radius: 50%; background: #ecfdf5; color: #166534; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
           </div>
-          <h3 class="cart-empty-title">Your Harvest Bag is Empty</h3>
-          <p class="cart-empty-sub">Hand-picked Kinnauri Royal Delicious Apples & Kagzi Walnuts grown at 10,000 ft are available for direct orchard dispatch.</p>
-          <button type="button" class="btn-explore-harvest" onclick="window.closeCart(); location.href='shop.html'">
-            EXPLORE KINNAUR HARVEST &rarr;
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.02em;">Your Bag is Empty</h3>
+          <p style="color: #64748b; font-size: 0.88rem; line-height: 1.5; margin-bottom: 22px; max-width: 290px; margin-left: auto; margin-right: auto;">
+            Explore tree-ripened Royal Delicious apples, 100% dehydrated apple chips &amp; high-altitude raw forest honey.
+          </p>
+          <button class="btn btn-primary" style="width: 100%; border-radius: 9999px; padding: 14px 24px; font-weight: 700; font-size: 0.95rem; background: #2D5A27; color: #ffffff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(45, 90, 39, 0.25); transition: transform 0.15s ease;" onclick="window.closeCart(); location.href='shop.html'">
+            <span>+ EXPLORE HARVEST</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
-          
-          <div class="cart-empty-perks">
-            <div class="perk-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-              Zero Wax Coating
-            </div>
-            <div class="perk-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3l4 8 5-5 5 15H2L8 3z"></path></svg>
-              10,000 Ft Elevation
-            </div>
-            <div class="perk-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-              Shockproof Foam Pack
-            </div>
-          </div>
         </div>
       `;
       return;
@@ -1087,31 +985,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let subtotal = 0;
     state.cart.forEach(item => {
-      const price = Number(item.price) || 1399;
+      const price = Number(item.price) || 1099;
       const qty = Number(item.quantity) || 1;
       subtotal += price * qty;
     });
 
-    const promoCode = 'TRIBAL10';
-    const promoPct = 10;
-    const promoRate = 0.10;
-    const promoMin = 1000;
+    const activeDiscount = window.__primaryDiscount ||
+      (window.__activeDiscounts && window.__activeDiscounts[0]) ||
+      { code: 'CRUNCH20', value: 20, minOrderAmount: 1500 };
+    const promoCode = (activeDiscount.code || 'CRUNCH20').toUpperCase();
+    const promoPct = Number(activeDiscount.value) || 20;
+    const promoRate = promoPct / 100;
+    const promoMin = Number(activeDiscount.minOrderAmount) || 1500;
 
-    const storedPromo = (localStorage.getItem('tribal_promo_code') || localStorage.getItem('shimla_promo_code') || '').trim().toUpperCase();
+    const storedPromo = (localStorage.getItem('shimla_promo_code') || '').trim().toUpperCase();
     const isPromoEligible = subtotal >= promoMin;
     let isPromoApplied = false;
     let promoDiscount = 0;
 
-    if (storedPromo === promoCode || storedPromo === 'SHIMLA50') {
+    if (storedPromo === promoCode || storedPromo === 'CRUNCH20' || storedPromo === 'SHIMLA50') {
       if (isPromoEligible) {
         isPromoApplied = true;
         promoDiscount = Math.round(subtotal * promoRate);
       } else {
-        localStorage.removeItem('tribal_promo_code');
         localStorage.removeItem('shimla_promo_code');
       }
     }
 
+    const isShimla50Applied = isPromoApplied;
     const finalGrandTotal = Math.max(0, subtotal - promoDiscount);
 
     // Build promo nudge / unlock banner
@@ -1120,9 +1021,9 @@ document.addEventListener('DOMContentLoaded', () => {
       promoCardHtml = `
         <div class="cart-promo-unlocked-card applied">
           <div class="promo-card-left">
-            <span class="promo-badge-tag success">10% HARVEST DISCOUNT APPLIED</span>
+            <span class="promo-badge-tag success">✨ ${promoPct}% DISCOUNT APPLIED</span>
             <div class="promo-card-heading">Coupon <strong>${promoCode}</strong> Active</div>
-            <div class="promo-card-savings">You save <strong>₹${promoDiscount.toLocaleString('en-IN')}</strong> (Flat 10% OFF) on this bag!</div>
+            <div class="promo-card-savings">You save <strong>₹${promoDiscount.toLocaleString('en-IN')}</strong> (Flat ${promoPct}% OFF) on this bag!</div>
           </div>
           <button type="button" class="promo-card-btn remove" onclick="window.removeCartPromo()">
             Remove
@@ -1133,12 +1034,12 @@ document.addEventListener('DOMContentLoaded', () => {
       promoCardHtml = `
         <div class="cart-promo-unlocked-card unlocked">
           <div class="promo-card-left">
-            <span class="promo-badge-tag gold">10% OFF UNLOCKED!</span>
-            <div class="promo-card-heading">Your order is above ₹${promoMin.toLocaleString('en-IN')}!</div>
-            <div class="promo-card-savings">Apply code <strong>${promoCode}</strong> now to get 10% off and save ₹${Math.round(subtotal * promoRate).toLocaleString('en-IN')}.</div>
+            <span class="promo-badge-tag gold">🎉 ${promoPct}% OFF UNLOCKED!</span>
+            <div class="promo-card-heading">Your cart is above ₹${promoMin.toLocaleString('en-IN')}!</div>
+            <div class="promo-card-savings">Apply code <strong>${promoCode}</strong> now to get ${promoPct}% off & save ₹${Math.round(subtotal * promoRate).toLocaleString('en-IN')}.</div>
           </div>
           <button type="button" class="promo-card-btn apply-btn" onclick="window.applyCartPromo('${promoCode}')">
-            Apply 10% OFF
+            ⚡ Apply ${promoPct}% OFF
           </button>
         </div>
       `;
@@ -1148,48 +1049,43 @@ document.addEventListener('DOMContentLoaded', () => {
       promoCardHtml = `
         <div class="cart-promo-nudge-card">
           <div class="promo-nudge-top">
-            <span class="promo-nudge-title"><strong>Flat 10% OFF</strong> above ₹${promoMin.toLocaleString('en-IN')}</span>
+            <span class="promo-nudge-title">🏔️ <strong>Flat ${promoPct}% OFF</strong> above ₹${promoMin.toLocaleString('en-IN')}</span>
             <span class="promo-nudge-need">Add <strong>₹${needed.toLocaleString('en-IN')}</strong> more</span>
           </div>
           <div class="promo-nudge-progress-wrap">
             <div class="promo-nudge-progress-bar" style="width: ${pct}%;"></div>
           </div>
-          <div class="promo-nudge-sub">Reach ₹${promoMin.toLocaleString('en-IN')} & apply coupon <strong>${promoCode}</strong> to get 10% off entire bag.</div>
+          <div class="promo-nudge-sub">Reach ₹${promoMin.toLocaleString('en-IN')} & apply coupon <strong>${promoCode}</strong> to get ${promoPct}% off entire bag.</div>
         </div>
       `;
     }
-
-    // Build WhatsApp 1-Click order URL
-    const itemsSummary = state.cart.map(it => `${it.name || 'Harvest Pack'} (${it.size || 'Std'}) x ${it.quantity || 1}`).join(', ');
-    const waText = encodeURIComponent(`Namaste Tribal Treasure, I would like to order from your website:\n• Items: ${itemsSummary}\n• Total Amount: ₹${finalGrandTotal.toLocaleString('en-IN')}\n\nPlease share payment details & delivery schedule.`);
-    const waCartUrl = `https://wa.me/919800000000?text=${waText}`;
 
     bodyContainer.innerHTML = `
       <!-- Card 1: Items In Bag -->
       <div class="cart-section-card">
         <div class="cart-card-header">
-          <span class="cart-items-count-text">${totalCount} ${totalCount === 1 ? 'ITEM' : 'ITEMS'} IN HARVEST BAG</span>
-          <a href="shop.html" class="add-more-drops-link" onclick="window.closeCart();">+ ADD MORE HARVEST</a>
+          <span class="cart-items-count-text">${totalCount} ${totalCount === 1 ? 'ITEM' : 'ITEMS'} IN YOUR BAG</span>
+          <a href="index.html#shop-collection" class="add-more-drops-link" onclick="window.closeCart();">+ ADD MORE DROPS</a>
         </div>
         <div class="cart-card-divider"></div>
         
         <div class="cart-items-list">
           ${state.cart.map((item, index) => {
             const esc = window.escapeHtml;
-            const itemPrice = Number(item.price) || 1399;
+            const itemPrice = Number(item.price) || 1099;
             const itemQty = Number(item.quantity) || 1;
             const itemTotal = itemPrice * itemQty;
-            const itemImg = item.image || './images/royal-delicious-box.webp';
+            const itemImg = item.image || './images/royal-delicious-apples.webp';
             const itemSize = item.size ? String(item.size).toUpperCase() : '5KG';
             return `
               <div class="atelier-cart-item">
                 <div class="cart-item-thumb">
-                  <img src="${esc(itemImg)}" alt="${esc(item.name || 'Kinnaur Harvest')}" onerror="this.src='./images/royal-delicious-box.webp'" />
+                  <img src="${esc(itemImg)}" alt="${esc(item.name || 'Shimla Crunch Product')}" onerror="this.src='./images/royal-delicious-apples.webp'" />
                 </div>
                 <div class="atelier-item-details">
-                  <h4 class="atelier-item-title">${esc((item.name || 'Kinnauri Royal Delicious Apples').toUpperCase())}</h4>
-                  <div class="atelier-item-meta">10,000 FT KINNAUR &bull; PACK: ${esc(itemSize)}</div>
-                  <div class="atelier-item-sub">Tree-Ripened &bull; Zero Chemical Wax</div>
+                  <h4 class="atelier-item-title">${esc((item.name || 'HIMACHAL ROYAL DELICIOUS APPLES').toUpperCase())}</h4>
+                  <div class="atelier-item-meta">KOTKHAI ORCHARD &bull; SIZE: ${esc(itemSize)}</div>
+                  <div class="atelier-item-sub">Direct From Tree &bull; Shimla Crunch</div>
                   <div class="atelier-item-price">₹${itemTotal.toLocaleString('en-IN')}</div>
                   
                   <div class="atelier-item-actions-row">
@@ -1198,8 +1094,8 @@ document.addEventListener('DOMContentLoaded', () => {
                       <span class="qty-pill-num">${itemQty}</span>
                       <button type="button" class="qty-pill-btn" onclick="window.changeCartQty(${index}, 1)">+</button>
                     </div>
-                    <button type="button" class="save-for-later-btn" onclick="window.removeCartItem(${index})" aria-label="Remove item">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    <button type="button" class="save-for-later-btn" onclick="window.removeCartItem(${index})">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                       <span>Remove</span>
                     </button>
                   </div>
@@ -1210,7 +1106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
 
-      <!-- 10% Off Promo Incentive / Unlock Card -->
+      <!-- 50% Off Promo Incentive / Unlock Card -->
       ${promoCardHtml}
 
       <!-- Card 2: Order Summary -->
@@ -1222,16 +1118,16 @@ document.addEventListener('DOMContentLoaded', () => {
           <span style="font-weight: 700; color: #0f172a;">₹${subtotal.toLocaleString('en-IN')}</span>
         </div>
         
-        ${isPromoApplied ? `
+        ${isShimla50Applied ? `
           <div class="summary-line-row promo-discount-line" style="color: #059669; font-weight: 700;">
-            <span>Harvest Promo (${promoCode} &bull; 10% OFF)</span>
+            <span>Harvest Offer (${promoCode} &bull; ${promoPct}% OFF)</span>
             <span>-₹${promoDiscount.toLocaleString('en-IN')}</span>
           </div>
         ` : ''}
 
         <div class="summary-line-row">
-          <span>Packaging &amp; Transit</span>
-          <span style="color:#15803D;font-weight:700;">Foam-Carton Protected</span>
+          <span>Pan-India Shipping</span>
+          <span class="free-badge-green">FREE</span>
         </div>
 
         <div class="summary-divider"></div>
@@ -1241,29 +1137,21 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="total-val">₹${finalGrandTotal.toLocaleString('en-IN')}</span>
         </div>
 
-        ${isPromoApplied ? `
+        ${isShimla50Applied ? `
           <div class="cart-savings-pill">
-            You Save ₹${promoDiscount.toLocaleString('en-IN')} on this order!
+            ✨ You Save ₹${promoDiscount.toLocaleString('en-IN')} on this order!
           </div>
         ` : ''}
 
-        <!-- Primary Action: Fast Web Checkout -->
+        <!-- Big Green Buy Button -->
         <button type="button" class="atelier-green-buy-btn" onclick="window.location.href='checkout.html';">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
-          <span>PROCEED TO CHECKOUT (₹${finalGrandTotal.toLocaleString('en-IN')})</span>
+          <span>BUY / CONFIRM ORDER</span>
         </button>
-
-        <!-- Secondary Action: WhatsApp 1-Click Order -->
-        <a href="${waCartUrl}" target="_blank" class="cart-whatsapp-order-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-          </svg>
-          <span>Order Directly on WhatsApp</span>
-        </a>
       </div>
     `;
   }
@@ -1434,8 +1322,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const reqItems = (state.cart && state.cart.length > 0)
         ? state.cart.map(i => ({ productId: i.productId || i.id, sku: i.sku || '', size: i.size, variety: i.variety || '', quantity: Number(i.quantity) || 1 }))
         : [(() => {
-            const fb = typeof window.getCurrentVariant === 'function' ? window.getCurrentVariant() : { productId: 'ghee', size: '500ml' };
-            return { productId: fb.productId || fb.id || 'ghee', sku: fb.sku || '', size: fb.size, quantity: 1 };
+            const fb = typeof window.getCurrentVariant === 'function' ? window.getCurrentVariant() : { productId: 'royal-apples', size: '5kg' };
+            return { productId: fb.productId || fb.id || 'royal-apples', sku: fb.sku || '', size: fb.size, quantity: 1 };
           })()];
 
       try {
@@ -1454,9 +1342,9 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
         const order = data.order;
-        const waNum = window.__shimlaWhatsAppNumber || '919800000000';
+        const waNum = window.__shimlaWhatsAppNumber || '918580861606';
         const itemsListText = (order.itemsSnapshot || []).map(i => `• ${i.productName} (${i.variantLabel}) × ${i.quantity} = *₹${i.lineTotal.toLocaleString('en-IN')}*\n`).join('');
-        const bNameUp = (window.__shimlaBrandName || 'Tribal Treasure').toUpperCase();
+        const bNameUp = (window.__shimlaBrandName || 'Shimla Crunch').toUpperCase();
         const waMessage = `🛒 *NEW ${bNameUp} ORDER*\n*Order ID:* *${order.orderId}*\n*Status:* *Pending WhatsApp Confirmation*\n\n📦 *ITEMS:*\n${itemsListText.trim()}\n\n💰 *Total Payable:* *₹${order.grandTotal.toLocaleString('en-IN')}* (${paymentMethod})\n\n👤 *CUSTOMER:*\n• *Name:* *${order.customerSnapshot.name}*\n• *Phone:* *+91 ${order.customerSnapshot.phone}*\n• *Address:* ${order.customerSnapshot.address}`;
         
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || '') || (window.innerWidth <= 768);
@@ -1493,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      showToast(`Thank you! Your message has been sent to ${window.__shimlaBrandName || 'Tribal Treasure'}.`);
+      showToast(`Thank you! Your message has been sent to ${window.__shimlaBrandName || 'Shimla Crunch'}.`);
       contactForm.reset();
     });
   }
@@ -1503,7 +1391,7 @@ document.addEventListener('DOMContentLoaded', () => {
   newsletterForms.forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      showToast(`Thank you for subscribing to ${window.__shimlaBrandName || 'Tribal Treasure'} updates!`);
+      showToast(`Thank you for subscribing to ${window.__shimlaBrandName || 'Shimla Crunch'} updates!`);
       form.reset();
     });
   });
@@ -1516,11 +1404,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // Mobile-First Sticky Bar & Touch Handlers
 window.getCurrentVariant = () => {
   return (typeof state !== 'undefined' && state.selectedProductVariant) ? state.selectedProductVariant : {
-    id: 'a2-bilona-ghee-500ml',
-    name: 'A2 Pahadi Cow Bilona Desi Ghee',
-    size: '500ml',
-    price: 1199,
-    image: './images/shimla-ghee.webp'
+    id: 'royal-delicious-apples-5kg',
+    name: 'Himachal Royal Delicious Apples',
+    size: '5kg',
+    price: 999,
+    image: './images/royal-delicious-apples.webp'
   };
 };
 
@@ -1654,7 +1542,7 @@ class CoverflowCarousel {
                       <div class="diagram-main-circle">
                         <div class="d-circle-center">
                           <span class="d-circle-icon">✨</span>
-                          <span class="d-circle-text">${window.escapeHtml(window.__shimlaBrandName || 'Tribal Treasure')}<br>Pure Pahadi</span>
+                          <span class="d-circle-text">${window.escapeHtml(window.__shimlaBrandName || 'Shimla Crunch')}<br>Pure Pahadi</span>
                         </div>
                         <div class="d-orbit-node node-top">
                           <span class="d-node-icon">🏔️</span>
@@ -1833,11 +1721,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const customContainer = document.getElementById('my-custom-carousel');
   const fallback = [
-    { title: 'KINNAURI ROYAL DELICIOUS APPLES', subtitle: '5 kg Harvest Box', price: '₹1,399', mrp: '₹1,699', image: './images/royal-delicious-box.webp', link: 'product-apples.html', liveNote: '10,000 Ft Kinnaur Valley', pillTone: 'pill-green' },
-    { title: 'KINNAURI GOLDEN DELICIOUS APPLES', subtitle: '5 kg Harvest Box', price: '₹1,299', mrp: '₹1,599', image: './images/shimla-apples.webp', link: 'product-royal-apples.html', liveNote: 'Honey Sweet • Handpicked', pillTone: 'pill-gold' },
-    { title: 'KINNAURI PAPER-SHELL WALNUTS', subtitle: '1 kg Kagzi Pack', price: '₹899', mrp: '₹1,099', image: './images/himachali-walnuts.webp', link: 'product-walnuts.html', liveNote: 'Thin Kagzi Shell • Hand-Cracked', pillTone: 'pill-green' },
-    { title: 'PURE TRIBAL DESI GHEE (BILONA)', subtitle: '500ml Glass Jar', price: '₹849', mrp: '₹999', image: './images/shimla-ghee.webp', link: 'product-ghee.html', liveNote: 'Vedic Bilona • Pahadi Cow Curd', pillTone: 'pill-gold' },
-    { title: 'WILD KINNAURI FOREST HONEY', subtitle: '500g Glass Jar', price: '₹699', mrp: '₹849', image: './images/pure-honey.webp', link: 'product-honey.html', liveNote: '100% Raw • Unfiltered Nectar', pillTone: 'pill-gold' }
+    { title: 'SHIMLA ROYAL DELICIOUS APPLES', subtitle: '10 kg Family Carton', price: '₹1,699', mrp: '₹2,300', image: './images/royal-delicious-box.webp', link: 'product.html?id=royal-apples', liveNote: 'Fresh Harvest • Kalbog Valley', pillTone: 'pill-green' },
+    { title: 'CRISP RED GALA APPLES', subtitle: '10 kg Family Carton', price: '₹1,799', mrp: '₹2,500', image: './images/red-gala-apples.webp', link: 'product.html?id=gala-apples', liveNote: 'European High-Density Graft', pillTone: 'pill-green' },
+    { title: 'SHIMLA APPLE CRUNCH (CRISPS)', subtitle: 'Pack of 3 (300g)', price: '₹549', mrp: '₹799', image: './images/apple-crunch-crisps.webp', link: 'product.html?id=apple-crunch', liveNote: '100% Pure Fruit • Zero Oil', pillTone: 'pill-purple' },
+    { title: 'HIMACHALI KAGZI WALNUTS', subtitle: '500g Thin-Shelled', price: '₹549', mrp: '₹750', image: './images/himachali-walnuts.webp', link: 'product.html?id=walnuts', liveNote: 'Thin Shell • High Omega-3', pillTone: 'pill-green' },
+    { title: 'RAW APPLE BLOSSOM HONEY', subtitle: '500g Pure Honey', price: '₹499', mrp: '₹699', image: './images/pure-honey.webp', link: 'product.html?id=honey', liveNote: 'Unheated • Spring Apple Flora', pillTone: 'pill-gold' }
   ];
 
   function formatProductsForCarousel(catalogData) {
@@ -1868,7 +1756,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (customContainer) {
     let initialList = fallback;
     try {
-      const cached = JSON.parse(localStorage.getItem('tribal_treasure_by_tribalgirl_cached_catalog_v2') || 'null');
+      const cached = JSON.parse(localStorage.getItem('shimlacrunch_cached_catalog_v2') || 'null');
       if (cached && Array.isArray(cached.products) && cached.products.length > 0) {
         initialList = formatProductsForCarousel(cached);
       }
@@ -1881,7 +1769,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(data => {
       window.applyStorefrontContent(data);
       try {
-        localStorage.setItem('tribal_treasure_by_tribalgirl_cached_catalog_v2', JSON.stringify(data));
+        localStorage.setItem('shimlacrunch_cached_catalog_v2', JSON.stringify(data));
       } catch (e) {}
       if (!customContainer) return;
       const renderHomeCarousel = (catalogData) => {
@@ -1978,7 +1866,7 @@ document.addEventListener('DOMContentLoaded', () => {
         widget.classList.add('expanded');
       } else {
         // Open WhatsApp
-        const waNum = window.__shimlaWhatsAppNumber || '919800000000';
+        const waNum = window.__shimlaWhatsAppNumber || '918580861606';
         const waUrl = `https://wa.me/${waNum}?text=Hello%20Shimla%20Wali%20Care,%20I%20need%20help%20with%20my%20order%20or%20products.`;
         window.open(waUrl, '_blank');
       }
@@ -2008,29 +1896,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 
-
-
-// Exclusive Accordion Logic for 72-Hour Freshness Journey
-window.toggleFreshnessAccordion = function(stageNum) {
-  const items = document.querySelectorAll('.freshness-accordion-item');
-  items.forEach(item => {
-    const itemStage = item.getAttribute('data-stage');
-    const headerBtn = item.querySelector('.f-accordion-header');
-    if (itemStage === String(stageNum)) {
-      const isOpen = item.classList.contains('active');
-      if (isOpen) {
-        // Toggle closed
-        item.classList.remove('active');
-        if (headerBtn) headerBtn.setAttribute('aria-expanded', 'false');
-      } else {
-        // Open
-        item.classList.add('active');
-        if (headerBtn) headerBtn.setAttribute('aria-expanded', 'true');
+// ==========================================================================
+// COMPACT INTERACTIVE GOVERNMENT CERTIFICATION & TERROIR TABS SWITCHER
+// ==========================================================================
+window.switchLegalTab = function(tabId) {
+  const tabs = ['fssai', 'udyam', 'valley', 'cushion'];
+  tabs.forEach(function(t) {
+    const btn = document.getElementById('tab-btn-' + t);
+    const pane = document.getElementById('tab-pane-' + t);
+    if (t === tabId) {
+      if (btn) {
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+      }
+      if (pane) {
+        pane.classList.add('active');
       }
     } else {
-      // Close all other items
-      item.classList.remove('active');
-      if (headerBtn) headerBtn.setAttribute('aria-expanded', 'false');
+      if (btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      }
+      if (pane) {
+        pane.classList.remove('active');
+      }
     }
   });
+};
+
+// ==========================================================================
+// ORCHARD TRANSPARENCY ACCORDION (WHY KOTKHAI FRUIT HITS DIFFERENT)
+// ==========================================================================
+window.toggleTransparency = function(itemNum) {
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('trans-item-' + i);
+    if (!el) continue;
+    if (i === itemNum) {
+      const willOpen = !el.classList.contains('active');
+      el.classList.toggle('active', willOpen);
+    } else {
+      el.classList.remove('active');
+    }
+  }
 };

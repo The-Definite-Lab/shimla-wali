@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Shimla Wali — Business Studio Admin</title>
+  <title>Shimla Crunch — Business Studio Admin</title>
   <link rel="icon" href="./images/logo.png" type="image/png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,7 +26,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <span>Restricted Studio Portal</span>
       </div>
-      <div class="login-logo">Shimla Wali</div>
+      <div class="login-logo">Shimla Crunch</div>
       <p class="login-sub">Business Studio &bull; Authenticated Admin Access</p>
       <p class="login-advisory">Authorized operations personnel only. Access is strictly audited and limited to whitelisted Google accounts.</p>
 
@@ -43,21 +43,18 @@
 
       <div id="login-error" class="login-error" style="display:none;"></div>
 
-      <!-- Emergency / Offline Fallback Form (Collapsed by default) -->
-      <div class="passcode-fallback-toggle-wrap">
-        <button type="button" class="passcode-fallback-toggle" onclick="togglePasscodeFallback()">
-          <span>Offline / Emergency Passcode</span> <span id="passcode-fallback-arrow">▾</span>
-        </button>
-      </div>
-
-      <form id="admin-login-form" style="display:none;margin-top:14px;" onsubmit="event.preventDefault(); doLogin();">
+      <!-- Passcode Login Form -->
+      <form id="admin-login-form" style="margin-top:16px;" onsubmit="event.preventDefault(); doLogin();">
         <div id="admin-email-wrap" style="display:none;margin-bottom:10px;">
           <label class="login-label" for="admin-email">Admin Email (Firebase Auth)</label>
-          <input id="admin-email" type="email" class="login-input" placeholder="admin@shimlawali.in" autocomplete="email" />
+          <input id="admin-email" type="email" class="login-input" placeholder="admin@shimlacrunch.in" autocomplete="email" />
         </div>
-        <label class="login-label" for="admin-pw">Store Passcode / Emergency Master Key</label>
-        <input id="admin-pw" type="password" class="login-input" placeholder="Enter store passcode" autocomplete="current-password" />
-        <button id="login-submit-btn" type="submit" class="login-btn">Verify Passcode</button>
+        <label class="login-label" for="admin-pw" style="display:flex;justify-content:space-between;align-items:center;">
+          <span>Store Passcode / Master Key</span>
+          <span style="font-size:0.75rem;color:#166534;font-weight:700;">DEV: shimla@2024</span>
+        </label>
+        <input id="admin-pw" type="password" class="login-input" placeholder="Enter passcode: shimla@2024" value="shimla@2024" autocomplete="current-password" />
+        <button id="login-submit-btn" type="submit" class="login-btn">Verify Passcode &amp; Open Studio</button>
       </form>
 
       <p class="tiny" id="login-security-note" style="margin-top:18px;">Sessions are HMAC-signed and strictly audited.</p>
@@ -69,7 +66,13 @@
 
   <div id="admin-app" class="app is-hidden">
     <aside class="side" id="side">
-      <div class="brand">Shimla Wali<small>BUSINESS STUDIO</small></div>
+      <div class="brand brand-with-logo">
+        <img src="./images/logo.png" alt="Shimla Crunch Logo" class="admin-brand-logo" />
+        <div class="brand-text">
+          <span class="brand-name">Shimla Crunch</span>
+          <small>BUSINESS STUDIO</small>
+        </div>
+      </div>
 
       <div>
         <div class="navlabel" data-i18n="navlabel_work">मुख्य कामकाज</div>
@@ -169,7 +172,7 @@
           <button type="button" class="top-icon-btn side-toggle-btn" id="side-toggle-btn" onclick="toggleSidebar()" title="Toggle Left Navigation Bar" aria-label="Toggle Left Navigation Bar" aria-expanded="true">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
           </button>
-          <span>Shimla Wali / <strong id="crumb">मुख्य पेज (Overview)</strong></span>
+          <span>Shimla Crunch / <strong id="crumb">मुख्य पेज (Overview)</strong></span>
         </div>
         <div class="top-search-wrap">
           <svg class="top-search-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -178,7 +181,6 @@
         <div class="top-right">
           <span class="pill" id="live-sync-pill">● Live Sync</span>
           <button type="button" class="btn sm" onclick="loadBootstrap()" title="Refresh data" data-i18n="btn_sync">↻ रिफ्रेश</button>
-          <a href="verify.html" target="_blank" class="btn sm" data-i18n="btn_lab">लैब पेज ↗</a>
           <button type="button" class="top-icon-btn" id="theme-toggle-btn" onclick="toggleAdminTheme()" title="Switch to Day Mode" aria-label="Switch Day or Night Theme">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
           </button>
@@ -865,47 +867,85 @@
         <section class="section" id="content">
           <div class="head">
             <div>
-              <div class="eyebrow">STOREFRONT CMS &amp; MEDIA</div>
-              <h1>Website Content</h1>
-              <p class="sub">Manage banners, homepage copy, announcement bar, marquee strip, section toggles, and showcase media.</p>
+              <div class="eyebrow">STOREFRONT CMS &amp; LIVE BANNERS</div>
+              <h1>Website &amp; Content Management</h1>
+              <p class="sub">1-Click live control over announcement bars, festive offer codes, hero headlines, section toggles, and orchard photos.</p>
             </div>
             <button type="button" class="btn primary" onclick="saveContentCms()">Save Website Content</button>
           </div>
 
           <div class="grid two-equal">
+            <!-- Left Column: Messaging, Banners & Offers -->
             <div class="card">
-              <div class="title" style="margin-bottom:12px;">Homepage Messaging &amp; Announcements</div>
-              <div class="field"><label>Top Announcement Bar</label><input id="cms-announcement" /></div>
-              <div class="field" style="margin-top:11px;"><label>Catalog / Collection Heading</label><input id="cms-hero-heading" placeholder="MOUNTAIN HARVEST CATALOG" /></div>
-              <div class="field" style="margin-top:11px;"><label>Shop Banner Description</label><textarea id="cms-hero-desc" rows="2"></textarea></div>
-              <div class="field" style="margin-top:11px;"><label>Our Story / Himalayan Heading</label><input id="cms-about-heading" /></div>
-              <div class="field" style="margin-top:11px;"><label>Our Story / Himalayan Description</label><textarea id="cms-about-body" rows="3"></textarea></div>
-              <div class="field" style="margin-top:11px;"><label>Luxury Marquee Strip Items (one per line)</label><textarea id="cms-marquee" rows="4"></textarea></div>
-              <div class="field" style="margin-top:11px;"><label>Footer Brand Tagline</label><input id="cms-footer" /></div>
+              <div class="title" style="margin-bottom:12px;">Top Announcement &amp; Festive Offers</div>
+              <div class="field">
+                <label>Top Announcement Bar Text</label>
+                <input id="cms-announcement" placeholder="🍎 High-Altitude Kotkhai Apples Harvest is LIVE • Free Shipping Above ₹1,499" />
+              </div>
+
+              <!-- Festive Offer Banner Strip -->
+              <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px;margin:14px 0;">
+                <div style="font-weight:750;font-size:0.82rem;color:#92400e;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+                  <span>Festive Offer Banner (PDP &amp; Home)</span>
+                  <label style="font-size:0.75rem;display:flex;align-items:center;gap:5px;cursor:pointer;">
+                    <input type="checkbox" id="cms-festive-active" checked /> Enable Banner
+                  </label>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                  <div class="field"><label>Badge Text</label><input id="cms-festive-badge" placeholder="20% OFF" /></div>
+                  <div class="field"><label>Coupon Code</label><input id="cms-festive-code" placeholder="CRUNCH20" style="text-transform:uppercase;" /></div>
+                </div>
+                <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:8px;">
+                  <div class="field"><label>Offer Condition</label><input id="cms-festive-text" placeholder="Orders above ₹1,500" /></div>
+                  <div class="field"><label>Action Label</label><input id="cms-festive-action" placeholder="Apply ›" /></div>
+                </div>
+              </div>
+
+              <div class="title" style="margin:16px 0 10px;">Hero Banner &amp; Shop Messaging</div>
+              <div class="field"><label>Catalog / Collection Heading</label><input id="cms-hero-heading" placeholder="MOUNTAIN HARVEST CATALOG" /></div>
+              <div class="field" style="margin-top:11px;"><label>Shop Banner Description</label><textarea id="cms-hero-desc" rows="2" placeholder="Hand-picked at 7,500 ft elevation under Hatu Peak..."></textarea></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px;">
+                <div class="field"><label>Hero CTA Button Label</label><input id="cms-hero-cta-label" placeholder="Order Fresh Harvest →" /></div>
+                <div class="field"><label>Hero CTA Target URL</label><input id="cms-hero-cta-url" placeholder="shop.html" /></div>
+              </div>
+
+              <div class="title" style="margin:16px 0 10px;">Our Story &amp; Orchard Mission</div>
+              <div class="field"><label>Story Heading</label><input id="cms-about-heading" placeholder="4th-Generation Kotkhai Heritage" /></div>
+              <div class="field" style="margin-top:11px;"><label>Story Description</label><textarea id="cms-about-body" rows="3"></textarea></div>
+
+              <div class="field" style="margin-top:14px;"><label>Luxury Marquee Ticker Items (one per line)</label><textarea id="cms-marquee" rows="4"></textarea></div>
+              <div class="field" style="margin-top:11px;"><label>Footer Brand Tagline</label><input id="cms-footer" placeholder="100% Tree-Ripened Himachal Apples &amp; Crisps" /></div>
             </div>
 
+            <!-- Right Column: Section Toggles & Media -->
             <div class="card">
-              <div class="title" style="margin-bottom:12px;">Homepage Sections &amp; Brand Media</div>
+              <div class="title" style="margin-bottom:12px;">Homepage Section Visibility (1-Click Toggles)</div>
+              <div class="item"><span>Show Top Announcement Bar</span><input type="checkbox" id="cms-sec-announcement" /></div>
+              <div class="item"><span>Show Festive 20% Offer Banner</span><input type="checkbox" id="cms-sec-festive" /></div>
               <div class="item"><span>Show Mountain Harvest Product Grid</span><input type="checkbox" id="cms-sec-featured" /></div>
-              <div class="item"><span>Show Himalayan Advantage Story Section</span><input type="checkbox" id="cms-sec-story" /></div>
-              <div class="item"><span>Show Health Comparison / Benefits Section</span><input type="checkbox" id="cms-sec-reviews" /></div>
+              <div class="item"><span>Show "The Crunch Difference" Comparison Matrix</span><input type="checkbox" id="cms-sec-comparison" /></div>
+              <div class="item"><span>Show 4th-Gen Kotkhai Story Section</span><input type="checkbox" id="cms-sec-story" /></div>
+              <div class="item"><span>Show Customer Reviews &amp; Ratings Section</span><input type="checkbox" id="cms-sec-reviews" /></div>
 
-              <div class="field" style="margin-top:14px;">
-                <label>Himalayan Story Banner Image (Pahadi Cows Mosaic Tile)</label>
-                <img id="cms-prev-himalayan" class="media-preview" src="./images/farm-cows.webp" alt="Banner Preview" />
-                <input type="file" accept=".webp,.jpg,.jpeg,.png" onchange="uploadMediaSlot(this, 'himalayan_image')" />
+              <div class="title" style="margin:20px 0 12px;">Brand Showcase Photos (1-Click Upload)</div>
+              <div class="field">
+                <label>Hero Orchard Banner Image</label>
+                <img id="cms-prev-hero" class="media-preview" src="./images/hero-orchard.webp" alt="Hero Banner Preview" style="max-height:120px;object-fit:cover;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;display:block;" />
+                <label class="btn sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Upload New Hero Photo
+                  <input type="file" accept=".webp,.jpg,.jpeg,.png" style="display:none;" onchange="uploadMediaSlot(this, 'hero_image')" />
+                </label>
               </div>
-              <div class="field" style="margin-top:12px;">
-                <label>Bilona Process Video (MP4 / WebM or URL — PDP)</label>
-                <div class="tiny" id="cms-process-url">Current: Default</div>
-                <input id="cms-process-video-url" placeholder="https://... or /images/process.mp4" style="margin:6px 0;" />
-                <input type="file" accept=".mp4,.webm" onchange="uploadMediaSlot(this, 'process_video')" />
-              </div>
-              <div class="field" style="margin-top:12px;">
-                <label>Meet Makers Video (MP4 / WebM or YouTube/MP4 URL)</label>
-                <div class="tiny" id="cms-makers-url">Current: Default</div>
-                <input id="cms-makers-video-url" placeholder="https://youtube.com/watch?v=... or .mp4 URL" style="margin:6px 0;" />
-                <input type="file" accept=".mp4,.webm" onchange="uploadMediaSlot(this, 'makers_video')" />
+
+              <div class="field" style="margin-top:16px;">
+                <label>Orchard Story Banner Photo</label>
+                <img id="cms-prev-himalayan" class="media-preview" src="./images/founders.webp" alt="Orchard Story Preview" style="max-height:120px;object-fit:cover;border-radius:8px;border:1px solid #cbd5e1;margin-bottom:6px;display:block;" />
+                <label class="btn sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Upload New Story Photo
+                  <input type="file" accept=".webp,.jpg,.jpeg,.png" style="display:none;" onchange="uploadMediaSlot(this, 'himalayan_image')" />
+                </label>
               </div>
             </div>
           </div>
@@ -952,7 +992,7 @@
               <div class="title" style="margin-bottom:12px;">Business &amp; Checkout Details</div>
               <div class="form">
                 <div class="field"><label>Business Name</label><input id="set-brand" /></div>
-                <div class="field"><label>WhatsApp Digits (with 91)</label><input id="set-wa" placeholder="917018168156" /></div>
+                <div class="field"><label>WhatsApp Digits (with 91)</label><input id="set-wa" placeholder="918580861606" /></div>
                 <div class="field"><label>Display Phone</label><input id="set-phone" placeholder="+91 7018168156" /></div>
                 <div class="field"><label>Support Email</label><input id="set-email" /></div>
                 <div class="field"><label>Internal Reference Note (Private — never exposed publicly)</label><input id="set-upi" placeholder="Admin private note only" /></div>
@@ -1531,5 +1571,10 @@
   <script src="admin.js"></script>
   <script src="three.min.js"></script>
   <script src="admin-copilot.js"></script>
+
+  <!-- Navigation Drawer & Overlay -->
+  <div id="nav-drawer-overlay" class="nav-drawer-overlay" onclick="window.closeNavDrawer()"></div>
+  <div id="nav-drawer" class="nav-drawer-card"></div>
+
 </body>
 </html>
