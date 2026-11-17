@@ -6,7 +6,7 @@ const { spawn } = require('child_process');
 const CHROME = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
 async function check() {
-  const port = 9780;
+  const port = 9802;
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-chk-'));
   const chrome = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${userDataDir}`, '--window-size=1200,900', 'about:blank'], { stdio: 'ignore' });
   await new Promise(r => setTimeout(r, 2500));
@@ -39,25 +39,40 @@ async function check() {
       (async () => {
         document.getElementById('admin-pw').value = 'shimla@2024';
         await doLogin();
+        await new Promise(r => setTimeout(r, 600));
+        const app = document.getElementById('admin-app');
+        const side = document.querySelector('.side');
+        const brand = document.querySelector('.side .brand');
+        const logo = document.querySelector('.admin-brand-logo');
+        const name = document.querySelector('.brand-name');
         return {
-          screenDisplay: document.getElementById('login-screen')?.style.display,
-          appClasses: document.getElementById('admin-app')?.className,
-          brandText: document.querySelector('.side .brand')?.textContent,
-          hasSession: document.documentElement.classList.contains('swa-has-session'),
-          productsCount: window.state?.products?.length
+          appDisplay: window.getComputedStyle(app).display,
+          sideWidth: side.getBoundingClientRect().width,
+          brandWidth: brand.getBoundingClientRect().width,
+          brandHeight: brand.getBoundingClientRect().height,
+          nameWidth: name.getBoundingClientRect().width,
+          hasLogo: !!logo
         };
       })()
     `,
     awaitPromise: true,
     returnByValue: true
   });
-  console.log('Local Node Test Result:', loginRes.result.value);
 
-  const snap = await send('Page.captureScreenshot', { format: 'png' });
-  fs.writeFileSync('C:\\Users\\user\\.gemini\\antigravity\\brain\\de4102c9-b6de-4891-a6ec-d0587a5ae78a\\admin-local-unlocked.png', Buffer.from(snap.data, 'base64'));
-  console.log('📸 Screenshot saved: admin-local-unlocked.png');
+  console.log('Local login layout:', loginRes.result.value);
 
-  ws.close();
+  const clip = await send('Page.captureScreenshot', {
+    clip: { x: 0, y: 0, width: 340, height: 240, scale: 2 }
+  });
+  const outPath = path.join('C:\\Users\\user\\.gemini\\antigravity\\brain\\de4102c9-b6de-4891-a6ec-d0587a5ae78a', 'admin-local-perfect.png');
+  fs.writeFileSync(outPath, Buffer.from(clip.data, 'base64'));
+  console.log('Saved to:', outPath);
+
   chrome.kill();
+  process.exit(0);
 }
-check().catch(console.error);
+
+check().catch(e => {
+  console.error(e);
+  process.exit(1);
+});

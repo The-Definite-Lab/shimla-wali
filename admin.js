@@ -580,8 +580,7 @@ function showStudioApp() {
   const app = document.getElementById('admin-app');
   if (app) {
     app.classList.remove('is-hidden');
-    app.style.display = 'flex';
-    app.style.setProperty('display', 'flex', 'important');
+    app.style.removeProperty('display');
   }
 }
 
