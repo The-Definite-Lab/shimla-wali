@@ -11,7 +11,7 @@ window.SHIMLA_FIREBASE_CONFIG = {
   ],
   apiKey: 'AIzaSyBX7XUQXTrD9a6U-EmKa-_cFOvcnG7X26k',
   storefrontDoc: 'shimlacrunch',
-  authDomain: 'shimlawali-store.firebaseapp.com',
+  authDomain: 'shimlacrunch-store.firebaseapp.com',
   projectId: 'shimlawali-store',
   storageBucket: 'shimlawali-store.firebasestorage.app',
   messagingSenderId: '931009690281',
