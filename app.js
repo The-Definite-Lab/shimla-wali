@@ -924,9 +924,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const state = {
     cart: JSON.parse(localStorage.getItem('sc_cart') || localStorage.getItem('shimla_cart') || '[]'),
     selectedProductVariant: {
-      id: 'sc-royal-10kg',
+      id: 'royal-apples',
+      productId: 'royal-apples',
+      sku: 'APRD-10KG-01',
       name: 'Shimla Royal Delicious Fresh Apples',
-      size: '10 kg Family Carton',
+      size: '10 kg Family Pack',
       price: 1699,
       originalPrice: 2299,
       image: './images/royal-delicious-box.webp'
@@ -936,27 +938,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const productVariants = {
     '5kg': {
-      id: 'sc-royal-5kg',
+      id: 'royal-apples',
+      productId: 'royal-apples',
+      sku: 'APRD-5KG-01',
       name: 'Shimla Royal Delicious Fresh Apples',
-      size: '5 kg Trial Box',
+      size: '5 kg Harvest Box',
       price: 899,
       originalPrice: 1199,
       image: './images/royal-delicious-box.webp',
       discount: '25% OFF'
     },
     '10kg': {
-      id: 'sc-royal-10kg',
+      id: 'royal-apples',
+      productId: 'royal-apples',
+      sku: 'APRD-10KG-01',
       name: 'Shimla Royal Delicious Fresh Apples',
-      size: '10 kg Family Carton',
+      size: '10 kg Family Pack',
       price: 1699,
       originalPrice: 2299,
       image: './images/royal-delicious-box.webp',
       discount: '26% OFF'
     },
     '20kg': {
-      id: 'sc-royal-20kg',
+      id: 'royal-apples',
+      productId: 'royal-apples',
+      sku: 'APRD-20KG-01',
       name: 'Shimla Royal Delicious Fresh Apples',
-      size: '20 kg Orchard Master Box',
+      size: '20 kg Bulk Orchard Box',
       price: 3199,
       originalPrice: 4299,
       image: './images/royal-delicious-box.webp',
@@ -1512,22 +1520,20 @@ document.addEventListener('DOMContentLoaded', () => {
 // Mobile-First Sticky Bar & Touch Handlers
 window.getCurrentVariant = () => {
   return (typeof state !== 'undefined' && state.selectedProductVariant) ? state.selectedProductVariant : {
-    id: 'royal-delicious-apples-5kg',
-    name: 'Himachal Royal Delicious Apples',
-    size: '5kg',
-    price: 999,
-    image: './images/royal-delicious-apples.webp'
+    id: 'royal-apples',
+    productId: 'royal-apples',
+    sku: 'APRD-5KG-01',
+    name: 'Shimla Royal Delicious Fresh Apples',
+    size: '5 kg Harvest Box',
+    price: 899,
+    image: './images/royal-delicious-box.webp'
   };
 };
 
 window.quickBuyMobile = () => {
   const variant = window.getCurrentVariant();
   window.addToCart(variant, 1);
-  const checkoutModal = document.getElementById('checkout-modal');
-  if (checkoutModal) {
-    checkoutModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
+  window.location.href = 'checkout.html';
 };
 
 function syncMobileBar() {

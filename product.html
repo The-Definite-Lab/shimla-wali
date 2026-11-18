@@ -1137,10 +1137,10 @@
     }
 
     // ── 7 Products Catalog Data (Dedicated Galleries, No Mixed Products) ──
-        const PRODUCTS_DATA = {
+    const PRODUCTS_DATA = {
       'royal-apples': {
         id: 'royal-apples',
-        sku: 'SC-ROYAL-10KG',
+        sku: 'APRD-5KG-01',
         title: 'Shimla Royal Delicious Fresh Apples',
         specTag: 'KALBOG-BAGHI ORCHARDS (7,500 FT) • TREE RIPENED • ZERO WAX',
         badge: 'Fresh Harvest',
@@ -1182,7 +1182,7 @@
       },
       'gala-apples': {
         id: 'gala-apples',
-        sku: 'SC-GALA-10KG',
+        sku: 'APGL-5KG-01',
         title: 'Crisp Red Gala Apples (European High-Density)',
         specTag: 'HIGH-DENSITY EUROPEAN ROOTSTOCK • EXTRA JUICY • ZERO WAX',
         badge: 'European Graft',
@@ -1223,7 +1223,7 @@
       },
       'apple-crunch': {
         id: 'apple-crunch',
-        sku: 'SC-CRUNCH-300G',
+        sku: 'CRCH-300G-01',
         title: 'Shimla Apple Crunch (100% Dehydrated Crisps)',
         specTag: '100% REAL MOUNTAIN FRUIT • ZERO OIL • ZERO ADDED SUGAR',
         badge: 'Signature Snack',
@@ -1264,7 +1264,7 @@
       },
       'walnuts': {
         id: 'walnuts',
-        sku: 'SC-WAL-500G',
+        sku: 'AKSM-500G-01',
         title: 'Himachali Kagzi Walnuts (Thin Shell)',
         specTag: 'KOTKHAI VALLEY WILD HARVEST • HAND-CRACKABLE • HIGH NATURAL OIL',
         badge: 'Thin Shelled',
@@ -1306,7 +1306,7 @@
       },
       'honey': {
         id: 'honey',
-        sku: 'SC-HNY-500G',
+        sku: 'HNSM-500G-01',
         title: 'Pure Raw Apple Blossom Honey',
         specTag: 'SPRING BLOSSOM POLLINATION • COLD EXTRACTED • UNPASTEURIZED',
         badge: 'Raw Apiary',
@@ -1346,7 +1346,7 @@
       },
       'discovery-box': {
         id: 'discovery-box',
-        sku: 'SC-DISCOVERY-STD',
+        sku: 'DISC-STD-01',
         title: 'The Kotkhai Harvest Discovery Taster Box',
         specTag: 'COMPLETE TERROIR TASTER • 4-IN-1 ORCHARD SAMPLER • ZERO RISK',
         badge: '#1 Taster Pick',
@@ -1546,7 +1546,7 @@
       const item = {
         id: matched ? matched.sku : (activeProd.id + '-' + currentSelectedSize.replace(/[^a-zA-Z0-9]/g, '')),
         productId: activeProd.id,
-        sku: currentSelectedSku || (matched && matched.sku) || activeProd.sku || '',
+        sku: (matched && matched.sku) || currentSelectedSku || activeProd.sku || '',
         name: itemName,
         size: currentSelectedSize,
         variety: currentSelectedVariety || '',

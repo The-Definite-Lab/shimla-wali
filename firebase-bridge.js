@@ -258,6 +258,25 @@
     const invSnap = await db.collection('inventory').get();
     const bySku = {};
     invSnap.forEach(doc => { bySku[doc.id] = doc.data(); });
+    // Guarantee every product variant has an inventory record in bySku
+    if (Array.isArray(pub.products)) {
+      pub.products.forEach(p => {
+        (p.variants || []).forEach(v => {
+          if (v.sku && !bySku[v.sku]) {
+            bySku[v.sku] = {
+              sku: v.sku,
+              productId: p.id,
+              variantId: v.id || v.sku,
+              variantLabel: v.label || v.size || 'Standard',
+              availableQty: Number(v.availableUnits ?? 20) || 20,
+              reservedQty: 0,
+              damagedQty: 0,
+              reorderThreshold: Number(v.reorderThreshold) || 8
+            };
+          }
+        });
+      });
+    }
     if (Object.keys(bySku).length > 0 && Array.isArray(pub.products)) {
       pub.products = pub.products.map(p => {
         const nextVars = (p.variants || []).map(v => {
@@ -543,7 +562,7 @@
       content: snapshot.content || {},
       updatedAt: ts
     };
-    const bySku = snapshot.inventory?.bySku || {};
+    const bySku = snapshot.inventory?.bySku || snapshot.inventory || {};
     // Build inventory from variants if importing from public products.json
     if (!Object.keys(bySku).length && Array.isArray(snapshot.products)) {
       snapshot.products.forEach(p => {

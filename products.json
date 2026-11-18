@@ -32,7 +32,7 @@
       "variants": [
         {
           "sku": "DISC-STD-01",
-          "legacySku": "",
+          "legacySku": "SC-DISCOVERY-STD",
           "label": "The Discovery Trial Box (4-in-1)",
           "size": "The Discovery Trial Box (4-in-1)",
           "variety": "",
@@ -47,7 +47,7 @@
         },
         {
           "sku": "DISC-FAM-01",
-          "legacySku": "",
+          "legacySku": "SC-DISCOVERY-FAM",
           "label": "Family Feast Grand Hamper (Double Portion)",
           "size": "Family Feast Grand Hamper (Double Portion)",
           "variety": "",
@@ -106,7 +106,7 @@
       "variants": [
         {
           "sku": "APRD-5KG-01",
-          "legacySku": "",
+          "legacySku": "SC-ROYAL-5KG",
           "label": "5 kg Harvest Box",
           "size": "5 kg Harvest Box",
           "variety": "",
@@ -121,7 +121,7 @@
         },
         {
           "sku": "APRD-10KG-01",
-          "legacySku": "",
+          "legacySku": "SC-ROYAL-10KG",
           "label": "10 kg Family Pack",
           "size": "10 kg Family Pack",
           "variety": "",
@@ -136,7 +136,7 @@
         },
         {
           "sku": "APRD-20KG-01",
-          "legacySku": "",
+          "legacySku": "SC-ROYAL-20KG",
           "label": "20 kg Bulk Orchard Box",
           "size": "20 kg Bulk Orchard Box",
           "variety": "",
@@ -195,7 +195,7 @@
       "variants": [
         {
           "sku": "APGL-5KG-01",
-          "legacySku": "",
+          "legacySku": "SC-GALA-5KG",
           "label": "5 kg Box",
           "size": "5 kg Box",
           "variety": "",
@@ -210,7 +210,7 @@
         },
         {
           "sku": "APGL-10KG-01",
-          "legacySku": "",
+          "legacySku": "SC-GALA-10KG",
           "label": "10 kg Pack",
           "size": "10 kg Pack",
           "variety": "",
@@ -225,7 +225,7 @@
         },
         {
           "sku": "APGL-20KG-01",
-          "legacySku": "",
+          "legacySku": "SC-GALA-20KG",
           "label": "20 kg Orchard Crate",
           "size": "20 kg Orchard Crate",
           "variety": "",
@@ -284,7 +284,7 @@
       "variants": [
         {
           "sku": "CRCH-100G-01",
-          "legacySku": "",
+          "legacySku": "SC-CRUNCH-100G",
           "label": "100g Snack Pouch",
           "size": "100g Snack Pouch",
           "variety": "",
@@ -299,7 +299,7 @@
         },
         {
           "sku": "CRCH-300G-01",
-          "legacySku": "",
+          "legacySku": "SC-CRUNCH-300G",
           "label": "300g Triple Pack (3x 100g)",
           "size": "300g Triple Pack (3x 100g)",
           "variety": "",
@@ -314,7 +314,7 @@
         },
         {
           "sku": "CRCH-500G-01",
-          "legacySku": "",
+          "legacySku": "SC-CRUNCH-500G",
           "label": "500g Family Pantry Pouch",
           "size": "500g Family Pantry Pouch",
           "variety": "",
@@ -373,7 +373,7 @@
       "variants": [
         {
           "sku": "AKSM-250G-01",
-          "legacySku": "",
+          "legacySku": "SC-WAL-250G",
           "label": "250g Pack",
           "size": "250g Pack",
           "variety": "",
@@ -388,7 +388,7 @@
         },
         {
           "sku": "AKSM-500G-01",
-          "legacySku": "",
+          "legacySku": "SC-WAL-500G",
           "label": "500g Pack",
           "size": "500g Pack",
           "variety": "",
@@ -403,7 +403,7 @@
         },
         {
           "sku": "AKSM-1KG-01",
-          "legacySku": "",
+          "legacySku": "SC-WAL-1KG",
           "label": "1 kg Harvest Pack",
           "size": "1 kg Harvest Pack",
           "variety": "",
@@ -462,7 +462,7 @@
       "variants": [
         {
           "sku": "HNSM-500G-01",
-          "legacySku": "",
+          "legacySku": "SC-HNY-500G",
           "label": "500g Glass Jar",
           "size": "500g Glass Jar",
           "variety": "",
@@ -477,7 +477,7 @@
         },
         {
           "sku": "HNSM-1KG-01",
-          "legacySku": "",
+          "legacySku": "SC-HNY-1KG",
           "label": "1 kg Glass Jar",
           "size": "1 kg Glass Jar",
           "variety": "",

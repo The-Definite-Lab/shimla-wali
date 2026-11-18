@@ -39,7 +39,8 @@
           "availableUnits": 25,
           "reorderThreshold": 5,
           "isDefault": true,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-DISCOVERY-STD"
         },
         {
           "id": "family-feast",
@@ -54,7 +55,8 @@
           "availableUnits": 15,
           "reorderThreshold": 5,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-DISCOVERY-FAM"
         }
       ],
       "sku": "DISC-STD-01"
@@ -96,7 +98,8 @@
           "availableUnits": 20,
           "reorderThreshold": 5,
           "isDefault": true,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-ROYAL-5KG"
         },
         {
           "id": "10kg",
@@ -111,7 +114,8 @@
           "availableUnits": 15,
           "reorderThreshold": 4,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-ROYAL-10KG"
         },
         {
           "id": "20kg",
@@ -126,7 +130,8 @@
           "availableUnits": 10,
           "reorderThreshold": 3,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-ROYAL-20KG"
         }
       ],
       "features": [
@@ -175,7 +180,8 @@
           "availableUnits": 25,
           "reorderThreshold": 5,
           "isDefault": true,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-GALA-5KG"
         },
         {
           "id": "10kg",
@@ -190,7 +196,8 @@
           "availableUnits": 18,
           "reorderThreshold": 4,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-GALA-10KG"
         },
         {
           "id": "20kg",
@@ -205,7 +212,8 @@
           "availableUnits": 8,
           "reorderThreshold": 3,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-GALA-20KG"
         }
       ],
       "features": [
@@ -253,7 +261,8 @@
           "availableUnits": 60,
           "reorderThreshold": 10,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-CRUNCH-100G"
         },
         {
           "id": "300g",
@@ -268,7 +277,8 @@
           "availableUnits": 50,
           "reorderThreshold": 10,
           "isDefault": true,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-CRUNCH-300G"
         },
         {
           "id": "500g",
@@ -283,7 +293,8 @@
           "availableUnits": 30,
           "reorderThreshold": 5,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-CRUNCH-500G"
         }
       ],
       "features": [
@@ -293,7 +304,7 @@
         "Resealable moisture-barrier kraft pouch"
       ],
       "sku": "CRCH-300G-01",
-      "updatedAt": "2026-11-17T14:04:06.053Z"
+      "updatedAt": "2026-11-17T14:23:07.645Z"
     },
     {
       "id": "walnuts",
@@ -332,7 +343,8 @@
           "availableUnits": 45,
           "reorderThreshold": 8,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-WAL-250G"
         },
         {
           "id": "500g",
@@ -347,7 +359,8 @@
           "availableUnits": 50,
           "reorderThreshold": 8,
           "isDefault": true,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-WAL-500G"
         },
         {
           "id": "1kg",
@@ -362,7 +375,8 @@
           "availableUnits": 20,
           "reorderThreshold": 5,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-WAL-1KG"
         }
       ],
       "features": [
@@ -412,7 +426,8 @@
           "availableUnits": 35,
           "reorderThreshold": 8,
           "isDefault": true,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-HNY-500G"
         },
         {
           "id": "1kg",
@@ -427,7 +442,8 @@
           "availableUnits": 18,
           "reorderThreshold": 5,
           "isDefault": false,
-          "visible": true
+          "visible": true,
+          "legacySku": "SC-HNY-1KG"
         }
       ],
       "features": [

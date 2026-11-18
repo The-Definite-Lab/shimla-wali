@@ -666,15 +666,15 @@
             <div class="lux-trust-strip">
               <div class="lux-trust-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <span>100% Pure Himachal Bilona Curd Churned</span>
+                <span>100% Natural Himachal Orchard Harvest (Zero Wax)</span>
               </div>
               <div class="lux-trust-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>Airtight Glass Jar with Free Transit Insurance</span>
+                <span>Shock-Proof Packaging with Free Transit Insurance</span>
               </div>
               <div class="lux-trust-item">
                 <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 8"/></svg>
-                <span>Packed Fresh from Shimla via BlueDart / Delhivery</span>
+                <span>Packed Fresh from Kotkhai, Shimla via Express Air Delivery</span>
               </div>
             </div>
 
@@ -802,14 +802,45 @@
       refreshCheckoutQuote();
     }
 
+    const CHECKOUT_SKU_MAP = {
+      'SC-ROYAL-5KG': 'APRD-5KG-01',
+      'SC-ROYAL-10KG': 'APRD-10KG-01',
+      'SC-ROYAL-20KG': 'APRD-20KG-01',
+      'SC-GALA-5KG': 'APGL-5KG-01',
+      'SC-GALA-10KG': 'APGL-10KG-01',
+      'SC-GALA-20KG': 'APGL-20KG-01',
+      'SC-CRUNCH-100G': 'CRCH-100G-01',
+      'SC-CRUNCH-300G': 'CRCH-300G-01',
+      'SC-CRUNCH-500G': 'CRCH-500G-01',
+      'SC-WAL-250G': 'AKSM-250G-01',
+      'SC-WAL-500G': 'AKSM-500G-01',
+      'SC-WAL-1KG': 'AKSM-1KG-01',
+      'SC-HNY-500G': 'HNSM-500G-01',
+      'SC-HNY-1KG': 'HNSM-1KG-01',
+      'SC-DISCOVERY-STD': 'DISC-STD-01',
+      'SC-DISCOVERY-FAM': 'DISC-FAM-01'
+    };
+
     function mapItemsForApi() {
-      return cartItems.map(it => ({
-        productId: it.productId || it.id || 'discovery-box',
-        sku: it.sku || '',
-        size: it.size || '',
-        variety: it.variety || '',
-        quantity: Math.max(1, parseInt(it.quantity, 10) || 1)
-      }));
+      return cartItems.map(it => {
+        let rawSku = String(it.sku || '').toUpperCase();
+        if (CHECKOUT_SKU_MAP[rawSku]) rawSku = CHECKOUT_SKU_MAP[rawSku];
+        let pId = it.productId || it.id || 'discovery-box';
+        if (pId === 'ghee' || pId.startsWith('ghee-')) pId = 'discovery-box';
+        else if (pId.startsWith('sc-royal-')) pId = 'royal-apples';
+        else if (pId.startsWith('sc-gala-')) pId = 'gala-apples';
+        else if (pId === 'apple-crunch-crisps') pId = 'apple-crunch';
+        else if (pId === 'kagzi-walnuts') pId = 'walnuts';
+        else if (pId === 'blossom-honey') pId = 'honey';
+
+        return {
+          productId: pId,
+          sku: rawSku,
+          size: it.size || '',
+          variety: it.variety || '',
+          quantity: Math.max(1, parseInt(it.quantity, 10) || 1)
+        };
+      });
     }
 
     function showCheckoutError(msg) {

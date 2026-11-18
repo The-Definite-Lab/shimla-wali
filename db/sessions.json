@@ -252,6 +252,28 @@
       "ip": "127.0.0.1",
       "expiresAt": "2026-11-18T02:04:21.581Z",
       "createdAt": "2026-11-17T14:04:21.581Z"
+    },
+    {
+      "sessionId": "hGBPdXNjv13a65YCgT2SjNm6D9jU6fYs",
+      "tokenHash": "6b6721608ba56be69baf606d7cc29f8a3ee7a94ca1e241fcab746e6f17b93c00",
+      "role": "customer",
+      "subject": "9876543210",
+      "phone": "9876543210",
+      "customerId": "CUST-NEW-9876543210",
+      "ip": "127.0.0.1",
+      "expiresAt": "2026-12-17T14:23:07.433Z",
+      "createdAt": "2026-11-17T14:23:07.433Z"
+    },
+    {
+      "sessionId": "ihbfbIp04TymPB0i-te_9TAtqOM3Ax1Z",
+      "tokenHash": "ffa10d164f6329c994cf26af7f4c2dfc2e153a816eb52013bc2f12a1db841fa2",
+      "role": "admin",
+      "subject": "Owner",
+      "phone": "",
+      "customerId": "",
+      "ip": "127.0.0.1",
+      "expiresAt": "2026-11-18T02:23:07.447Z",
+      "createdAt": "2026-11-17T14:23:07.447Z"
     }
   ]
 }

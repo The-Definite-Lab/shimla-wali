@@ -1,6 +1,34 @@
 {
   "movements": [
     {
+      "movementId": "MOV-MWKS8CXP-B3E2",
+      "sku": "CRCH-300G-01",
+      "productId": "apple-crunch",
+      "movementType": "manual_adjustment",
+      "qtyDelta": 30,
+      "qtyBefore": 20,
+      "qtyAfter": 50,
+      "referenceOrderId": null,
+      "batchId": null,
+      "reason": "Restored baseline test quantity",
+      "createdBy": "admin:Owner",
+      "createdAt": "2026-11-17T14:23:07.645Z"
+    },
+    {
+      "movementId": "MOV-MWKS8CW0-0FEB",
+      "sku": "CRCH-300G-01",
+      "productId": "apple-crunch",
+      "movementType": "manual_adjustment",
+      "qtyDelta": -30,
+      "qtyBefore": 50,
+      "qtyAfter": 20,
+      "referenceOrderId": null,
+      "batchId": null,
+      "reason": "Client Stock Update via Admin Portal",
+      "createdBy": "admin:Owner",
+      "createdAt": "2026-11-17T14:23:07.584Z"
+    },
+    {
       "movementId": "MOV-MWKRJW2T-9937",
       "sku": "CRCH-300G-01",
       "productId": "apple-crunch",

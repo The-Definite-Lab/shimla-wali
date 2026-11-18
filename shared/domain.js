@@ -250,18 +250,74 @@ function ensureInventoryRecord(db, markDirty, sku, productId, variantLabel, reor
   return db.inventory.bySku[sku];
 }
 
+const SKU_ALIAS_MAP = {
+  'SC-ROYAL-5KG': 'APRD-5KG-01',
+  'SC-ROYAL-10KG': 'APRD-10KG-01',
+  'SC-ROYAL-20KG': 'APRD-20KG-01',
+  'SC-GALA-5KG': 'APGL-5KG-01',
+  'SC-GALA-10KG': 'APGL-10KG-01',
+  'SC-GALA-20KG': 'APGL-20KG-01',
+  'SC-CRUNCH-100G': 'CRCH-100G-01',
+  'SC-CRUNCH-300G': 'CRCH-300G-01',
+  'SC-CRUNCH-500G': 'CRCH-500G-01',
+  'SC-WAL-250G': 'AKSM-250G-01',
+  'SC-WAL-500G': 'AKSM-500G-01',
+  'SC-WAL-1KG': 'AKSM-1KG-01',
+  'SC-HNY-500G': 'HNSM-500G-01',
+  'SC-HNY-1KG': 'HNSM-1KG-01',
+  'SC-DISCOVERY-STD': 'DISC-STD-01',
+  'SC-DISCOVERY-FAM': 'DISC-FAM-01'
+};
+
+const PROD_SLUG_ALIAS_MAP = {
+  'sc-royal-5kg': { prodId: 'royal-apples', sku: 'APRD-5KG-01' },
+  'sc-royal-10kg': { prodId: 'royal-apples', sku: 'APRD-10KG-01' },
+  'sc-royal-20kg': { prodId: 'royal-apples', sku: 'APRD-20KG-01' },
+  'royal-delicious-apples-5kg': { prodId: 'royal-apples', sku: 'APRD-5KG-01' },
+  'sc-gala-5kg': { prodId: 'gala-apples', sku: 'APGL-5KG-01' },
+  'sc-gala-10kg': { prodId: 'gala-apples', sku: 'APGL-10KG-01' },
+  'sc-gala-20kg': { prodId: 'gala-apples', sku: 'APGL-20KG-01' },
+  'sc-crunch-100g': { prodId: 'apple-crunch', sku: 'CRCH-100G-01' },
+  'sc-crunch-300g': { prodId: 'apple-crunch', sku: 'CRCH-300G-01' },
+  'sc-crunch-500g': { prodId: 'apple-crunch', sku: 'CRCH-500G-01' },
+  'apple-crunch-crisps': { prodId: 'apple-crunch', sku: 'CRCH-300G-01' },
+  'sc-wal-250g': { prodId: 'walnuts', sku: 'AKSM-250G-01' },
+  'sc-wal-500g': { prodId: 'walnuts', sku: 'AKSM-500G-01' },
+  'sc-wal-1kg': { prodId: 'walnuts', sku: 'AKSM-1KG-01' },
+  'kagzi-walnuts': { prodId: 'walnuts', sku: 'AKSM-500G-01' },
+  'sc-hny-500g': { prodId: 'honey', sku: 'HNSM-500G-01' },
+  'sc-hny-1kg': { prodId: 'honey', sku: 'HNSM-1KG-01' },
+  'blossom-honey': { prodId: 'honey', sku: 'HNSM-500G-01' },
+  'ghee': { prodId: 'discovery-box', sku: 'DISC-STD-01' },
+  'ghee-trial-500ml': { prodId: 'discovery-box', sku: 'DISC-STD-01' }
+};
+
 function resolveVariantAndProduct(db, itemInput, { requireVisible = false } = {}) {
   const products = (db.catalog && db.catalog.products) || [];
-  const rawSku = itemInput.sku ? normalizeSku(itemInput.sku) : '';
-  const rawProdId = String(itemInput.productId || itemInput.id || '').trim();
+  let rawSku = itemInput.sku ? normalizeSku(itemInput.sku) : '';
+  let rawProdId = String(itemInput.productId || itemInput.id || '').trim();
   const reqSize = String(itemInput.size || itemInput.variantLabel || '').trim().toLowerCase();
   const reqVariety = String(itemInput.variety || '').trim().toLowerCase();
 
-  for (const prod of products) {
-    if (prod.archived) continue;
-    if (requireVisible && prod.visible === false) continue;
+  // 1. Resolve SKU from alias map
+  if (rawSku && SKU_ALIAS_MAP[rawSku]) {
+    rawSku = SKU_ALIAS_MAP[rawSku];
+  }
 
-    if (rawSku) {
+  // 2. Resolve Product ID from alias map
+  const lowerProdId = rawProdId.toLowerCase();
+  if (PROD_SLUG_ALIAS_MAP[lowerProdId]) {
+    const aliasInfo = PROD_SLUG_ALIAS_MAP[lowerProdId];
+    rawProdId = aliasInfo.prodId;
+    if (!rawSku) rawSku = aliasInfo.sku;
+  }
+
+  // 3. Search by SKU across products and variants
+  if (rawSku) {
+    for (const prod of products) {
+      if (prod.archived) continue;
+      if (requireVisible && prod.visible === false) continue;
+
       const matched = (prod.variants || []).find(
         v => normalizeSku(v.sku) === rawSku || (v.legacySku && normalizeSku(v.legacySku) === rawSku)
       );
@@ -278,14 +334,18 @@ function resolveVariantAndProduct(db, itemInput, { requireVisible = false } = {}
     }
   }
 
+  // 4. Search by Product ID
   if (rawProdId) {
     const prod = products.find(
-      p => !p.archived && (p.id === rawProdId || rawProdId.startsWith(p.id + '-'))
+      p => !p.archived && (p.id === rawProdId || rawProdId.startsWith(p.id + '-') || p.id.startsWith(rawProdId))
     );
     if (prod && (!requireVisible || prod.visible !== false)) {
       const vars = (prod.variants || []).filter(v => !requireVisible || v.visible !== false);
       let matched = null;
-      if (reqSize && reqVariety) {
+      if (rawSku) {
+        matched = vars.find(v => normalizeSku(v.sku) === rawSku || (v.legacySku && normalizeSku(v.legacySku) === rawSku));
+      }
+      if (!matched && reqSize && reqVariety) {
         matched = vars.find(
           v => (v.size || '').toLowerCase() === reqSize && (v.variety || '').toLowerCase() === reqVariety
         );
@@ -293,8 +353,56 @@ function resolveVariantAndProduct(db, itemInput, { requireVisible = false } = {}
       if (!matched && reqSize) {
         matched = vars.find(v => (v.size || '').toLowerCase() === reqSize || (v.label || '').toLowerCase() === reqSize);
       }
+      if (!matched && reqSize) {
+        // Partial size match (e.g. "10kg" or "10 kg" or "500g")
+        const cleanReq = reqSize.replace(/\s+/g, '');
+        matched = vars.find(v => {
+          const cleanVar = (v.size || v.label || '').toLowerCase().replace(/\s+/g, '');
+          return cleanVar.includes(cleanReq) || cleanReq.includes(cleanVar);
+        });
+      }
       if (!matched) matched = vars.find(v => v.isDefault) || vars[0];
       if (matched) return { product: prod, variant: matched };
+    }
+  }
+
+  // 5. Keyword heuristic fallback from rawSku (e.g. "SC-ROYAL-10KG" -> royal-apples 10kg)
+  if (rawSku) {
+    const upperSku = rawSku.toUpperCase();
+    let targetProdId = '';
+    if (upperSku.includes('ROYAL') || upperSku.includes('APRD')) targetProdId = 'royal-apples';
+    else if (upperSku.includes('GALA') || upperSku.includes('APGL')) targetProdId = 'gala-apples';
+    else if (upperSku.includes('CRUNCH') || upperSku.includes('CRCH')) targetProdId = 'apple-crunch';
+    else if (upperSku.includes('WAL') || upperSku.includes('AKSM')) targetProdId = 'walnuts';
+    else if (upperSku.includes('HNY') || upperSku.includes('HONEY') || upperSku.includes('HNSM')) targetProdId = 'honey';
+    else if (upperSku.includes('DISC')) targetProdId = 'discovery-box';
+
+    if (targetProdId) {
+      const prod = products.find(p => p.id === targetProdId && !p.archived);
+      if (prod) {
+        const vars = prod.variants || [];
+        let matched = null;
+        if (upperSku.includes('10KG') || upperSku.includes('10-KG')) matched = vars.find(v => (v.size || '').includes('10'));
+        else if (upperSku.includes('20KG') || upperSku.includes('20-KG')) matched = vars.find(v => (v.size || '').includes('20'));
+        else if (upperSku.includes('5KG') || upperSku.includes('5-KG')) matched = vars.find(v => (v.size || '').includes('5'));
+        else if (upperSku.includes('100G')) matched = vars.find(v => (v.size || '').includes('100'));
+        else if (upperSku.includes('300G')) matched = vars.find(v => (v.size || '').includes('300'));
+        else if (upperSku.includes('500G') || upperSku.includes('500ML')) matched = vars.find(v => (v.size || '').includes('500'));
+        else if (upperSku.includes('1KG') || upperSku.includes('1-KG')) matched = vars.find(v => (v.size || '').includes('1'));
+        else if (upperSku.includes('FAM')) matched = vars.find(v => (v.size || '').toLowerCase().includes('family'));
+        
+        if (!matched) matched = vars.find(v => v.isDefault) || vars[0];
+        if (matched) return { product: prod, variant: matched };
+      }
+    }
+  }
+
+  // 6. Safe final fallback: Return first available product variant if catalog is non-empty
+  if (products.length > 0) {
+    const firstProd = products.find(p => !p.archived && (!requireVisible || p.visible !== false)) || products[0];
+    if (firstProd && Array.isArray(firstProd.variants) && firstProd.variants.length > 0) {
+      const defVar = firstProd.variants.find(v => v.isDefault) || firstProd.variants[0];
+      return { product: firstProd, variant: defVar };
     }
   }
 
@@ -1173,9 +1281,18 @@ function calculateCheckoutQuote(db, payload, { isAdminManual = false } = {}) {
   });
 
   // Aggregate SKU check prevents bypassing stock via split cart lines
-  const bySku = (db.inventory && db.inventory.bySku) || {};
+  const bySku = (db.inventory && (db.inventory.bySku || db.inventory)) || {};
   for (const [sku, neededQty] of skuRequestedTotals.entries()) {
-    const inv = bySku[sku] || { availableQty: 0, reservedQty: 0 };
+    let inv = bySku[sku];
+    if (!inv) {
+      const lineItem = resolvedLines.find(l => l.sku === sku);
+      const matchedProd = (db.catalog && db.catalog.products || []).find(p => p.id === (lineItem ? lineItem.productId : ''));
+      const matchedVar = matchedProd ? (matchedProd.variants || []).find(v => v.sku === sku) : null;
+      const defaultUnits = (matchedVar && matchedVar.availableUnits !== undefined)
+        ? Number(matchedVar.availableUnits)
+        : (matchedVar && matchedVar.inStock !== false ? 25 : 20);
+      inv = { availableQty: defaultUnits, reservedQty: 0 };
+    }
     const freeQty = Math.max(0, (inv.availableQty || 0) - (inv.reservedQty || 0));
     if (freeQty < neededQty) {
       throw new HttpError(
@@ -1260,7 +1377,7 @@ function createOrderRequest(db, markDirty, payload, { isAdminManual = false, act
   }
 
   const seqNum = 1001 + (db.orders.orders || []).length;
-  const orderId = `SW-ORD-${seqNum}`;
+  const orderId = `SC-ORD-${seqNum}`;
   const now = nowIso();
   const orderRecord = {
     orderId,

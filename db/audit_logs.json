@@ -1,6 +1,90 @@
 {
   "logs": [
     {
+      "logId": "LOG-MWKS8CXP-AE9B",
+      "actor": "admin:Owner",
+      "role": "admin",
+      "action": "inventory_adjusted",
+      "entityType": "inventory",
+      "entityId": "CRCH-300G-01",
+      "summary": "Adjusted CRCH-300G-01 (manual_adjustment): 20 → 50 (Restored baseline test quantity)",
+      "details": {
+        "before": 20,
+        "after": 50,
+        "damagedQty": 0,
+        "type": "manual_adjustment",
+        "reason": "Restored baseline test quantity"
+      },
+      "ip": "127.0.0.1",
+      "createdAt": "2026-11-17T14:23:07.645Z"
+    },
+    {
+      "logId": "LOG-MWKS8CW1-99A3",
+      "actor": "admin:Owner",
+      "role": "admin",
+      "action": "inventory_adjusted",
+      "entityType": "inventory",
+      "entityId": "CRCH-300G-01",
+      "summary": "Adjusted CRCH-300G-01 (manual_adjustment): 50 → 20 (Client Stock Update via Admin Portal)",
+      "details": {
+        "before": 50,
+        "after": 20,
+        "damagedQty": 0,
+        "type": "manual_adjustment",
+        "reason": "Client Stock Update via Admin Portal"
+      },
+      "ip": "127.0.0.1",
+      "createdAt": "2026-11-17T14:23:07.585Z"
+    },
+    {
+      "logId": "LOG-MWKS8CU2-90AF",
+      "actor": "admin:Owner",
+      "role": "admin",
+      "action": "content_updated",
+      "entityType": "content",
+      "entityId": "storefront",
+      "summary": "Updated website CMS content & section settings",
+      "details": null,
+      "ip": "127.0.0.1",
+      "createdAt": "2026-11-17T14:23:07.514Z"
+    },
+    {
+      "logId": "LOG-MWKS8CS8-8C6F",
+      "actor": "admin:Owner",
+      "role": "admin",
+      "action": "admin_login_success",
+      "entityType": "auth",
+      "entityId": "Owner",
+      "summary": "Admin signed in to studio portal",
+      "details": null,
+      "ip": "127.0.0.1",
+      "createdAt": "2026-11-17T14:23:07.448Z"
+    },
+    {
+      "logId": "LOG-MWKS8CQ7-1723",
+      "actor": "anonymous",
+      "role": "unauthenticated",
+      "action": "admin_login_failed",
+      "entityType": "auth",
+      "entityId": "admin",
+      "summary": "Failed admin login attempt",
+      "details": null,
+      "ip": "127.0.0.1",
+      "createdAt": "2026-11-17T14:23:07.375Z"
+    },
+    {
+      "logId": "LOG-MWKS8CPJ-5B3A",
+      "actor": "anonymous",
+      "role": "unauthenticated",
+      "action": "admin_login_failed",
+      "entityType": "auth",
+      "entityId": "admin",
+      "summary": "Failed admin login attempt",
+      "details": null,
+      "ip": "127.0.0.1",
+      "createdAt": "2026-11-17T14:23:07.351Z"
+    },
+    {
       "logId": "LOG-MWKRK827-E953",
       "actor": "admin:Owner",
       "role": "admin",
