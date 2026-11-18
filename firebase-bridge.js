@@ -24,6 +24,7 @@
   const STOREFRONT_CACHE_TTL_MS = 60000;
   const cachedDiscounts = {};
   let cachedDiscountsAt = 0;
+  const STOREFRONT_DOC_ID = (window.SHIMLA_FIREBASE_CONFIG && window.SHIMLA_FIREBASE_CONFIG.storefrontDoc) || 'shimlacrunch';
 
   function loadScriptOnce(src) {
     return new Promise((resolve, reject) => {
@@ -239,11 +240,19 @@
       }
     }
 
-    const pubSnap = await db.collection('storefront').doc('public').get();
+    let pubSnap = await db.collection('storefront').doc(STOREFRONT_DOC_ID).get();
+    let pub;
     if (!pubSnap.exists) {
-      throw new Error('Storefront database is not seeded yet. Sign in to Admin Studio -> Seed Firestore.');
+      try {
+        const localRes = await nativeFetch('products.json', { cache: 'no-store' });
+        const localData = await localRes.json();
+        pub = window.ShimlaProjection ? window.ShimlaProjection.buildPublicProductsProjection(localData) : localData;
+      } catch (e) {
+        throw new Error('Storefront database is not seeded yet. Sign in to Admin Studio -> Seed Firestore.');
+      }
+    } else {
+      pub = pubSnap.data() || {};
     }
-    const pub = pubSnap.data() || {};
     // Overlay live inventory availability so checkout and product cards always reflect latest stock
     const invSnap = await db.collection('inventory').get();
     const bySku = {};
@@ -472,7 +481,7 @@
     }
     if (extra.syncPublic || dirtySet.has('catalog') || dirtySet.has('inventory') || dirtySet.has('batches')) {
       const projection = window.ShimlaProjection.buildPublicProductsProjection(nextDb);
-      writes.push(db.collection('storefront').doc('public').set(sanitizeDoc({ ...projection, updatedAt: ts })));
+      writes.push(db.collection('storefront').doc(STOREFRONT_DOC_ID).set(sanitizeDoc({ ...projection, updatedAt: ts })));
     }
     await Promise.all(writes);
   }
@@ -551,7 +560,7 @@
     const projection = window.ShimlaProjection.buildPublicProductsProjection(dbObj);
     const ops = [
       db.collection('catalog').doc('main').set(sanitizeDoc(catalogDoc)),
-      db.collection('storefront').doc('public').set(sanitizeDoc({ ...projection, updatedAt: ts })),
+      db.collection('storefront').doc(STOREFRONT_DOC_ID).set(sanitizeDoc({ ...projection, updatedAt: ts })),
       db.collection('counters').doc('orders').set({ nextSeq: 1001 + ((snapshot.orders && snapshot.orders.length) || 0) }, { merge: true })
     ];
     Object.entries(bySku).forEach(([sku, rec]) => {
@@ -570,7 +579,7 @@
 
   window.shimlaFirebaseBridge.subscribeStorefront = function(cb) {
     ensureFirebase().then(({ db }) => {
-      db.collection('storefront').doc('public').onSnapshot(async snap => {
+      db.collection('storefront').doc(STOREFRONT_DOC_ID).onSnapshot(async snap => {
         if (!snap.exists) return;
         const data = await resolveMediaRefsInObject(db, snap.data());
         data._mediaResolved = true;
@@ -800,7 +809,7 @@
                 fullDb.catalog.content.marquee_items = cleaned;
                 await db.collection('catalog').doc('main').set(sanitizeDoc(fullDb.catalog), { merge: true });
                 const proj = window.ShimlaProjection.buildPublicProductsProjection(fullDb);
-                await db.collection('storefront').doc('public').set(sanitizeDoc(proj), { merge: true });
+                await db.collection('storefront').doc(STOREFRONT_DOC_ID).set(sanitizeDoc(proj), { merge: true });
               }
             }
           } catch (e) {

@@ -106,14 +106,17 @@
       }));
 
     const s = catalog.settings || {};
+    const cleanBrand = (!s.brand_name || /shimla[\s_-]*wali/i.test(s.brand_name)) ? 'Shimla Crunch' : s.brand_name;
+    const cleanInsta = (!s.instagram || /shimla_wali/i.test(s.instagram)) ? 'https://www.instagram.com/shimlacrunch' : s.instagram;
+    const cleanInstaHandle = (!s.instagram_handle || /shimla_wali/i.test(s.instagram_handle)) ? '@shimlacrunch' : s.instagram_handle;
     const publicSettings = {
-      brand_name: s.brand_name || 'Shimla Crunch',
+      brand_name: cleanBrand,
       tagline: s.tagline || '',
       phone: s.phone || '+91 8580861606',
       whatsapp_number: s.whatsapp_number || '918580861606',
       support_email: s.support_email || 'care@shimlacrunch.com',
-      instagram: s.instagram || '',
-      instagram_handle: s.instagram_handle || '@shimla_wali08',
+      instagram: cleanInsta,
+      instagram_handle: cleanInstaHandle,
       fssai_number: s.fssai_number || '',
       maker_households: s.maker_households || '',
       maker_districts: s.maker_districts || '',

@@ -14,8 +14,8 @@
 (function () {
   'use strict';
 
-  if (window.__SHIMLA_WALI_BOT_INITIALIZED__) return;
-  window.__SHIMLA_WALI_BOT_INITIALIZED__ = true;
+  if (window.__SHIMLA_CRUNCH_BOT_INITIALIZED__) return;
+  window.__SHIMLA_CRUNCH_BOT_INITIALIZED__ = true;
 
   // -------------------------------------------------------------
   // 1. BESPOKE VECTOR SVG ICONS (ZERO EMOJIS)

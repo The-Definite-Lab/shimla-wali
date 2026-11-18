@@ -413,7 +413,8 @@ window.applyStorefrontContent = function(data) {
   const s = data.settings || {};
   const c = data.content || {};
   const m = data.media || {};
-  const brandName = String(s.brand_name || 'Shimla Crunch').trim() || 'Shimla Crunch';
+  const rawBrand = String(s.brand_name || '').trim();
+  const brandName = (!rawBrand || /shimla[\s_-]*wali/i.test(rawBrand)) ? 'Shimla Crunch' : rawBrand;
   window.__shimlaBrandName = brandName;
   window.__shimlaSettings = s;
   window.__shimlaContent = c;
@@ -566,9 +567,12 @@ window.applyStorefrontContent = function(data) {
     });
   }
   if (s.instagram || s.instagram_handle) {
-    const handle = s.instagram_handle || '@shimla_wali08';
+    const rawHandle = s.instagram_handle || '';
+    const handle = (!rawHandle || /shimla_wali/i.test(rawHandle)) ? '@shimlacrunch' : rawHandle;
+    const rawInsta = s.instagram || '';
+    const instaUrl = (!rawInsta || /shimla_wali/i.test(rawInsta)) ? 'https://www.instagram.com/shimlacrunch' : rawInsta;
     document.querySelectorAll('a[href*="instagram.com"]').forEach(a => {
-      if (s.instagram) a.href = s.instagram;
+      a.href = instaUrl;
       if (handle) {
         const sp = a.querySelector('span');
         if (sp && sp.textContent.includes('@')) {
@@ -1971,7 +1975,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         // Open WhatsApp
         const waNum = window.__shimlaWhatsAppNumber || '918580861606';
-        const waUrl = `https://wa.me/${waNum}?text=Hello%20Shimla%20Wali%20Care,%20I%20need%20help%20with%20my%20order%20or%20products.`;
+        const waUrl = `https://wa.me/${waNum}?text=Hello%20Shimla%20Crunch%20Care,%20I%20need%20help%20with%20my%20order%20or%20products.`;
         window.open(waUrl, '_blank');
       }
     }

@@ -18,7 +18,7 @@ const DEFAULT_NICHES = [
   { id: 'pulses', name: 'Pahadi Rajma & Pulses', tag: 'RJSM' }
 ];
 
-function sanitizeAlnum(str, fallback = 'SW') {
+function sanitizeAlnum(str, fallback = 'SC') {
   const cleaned = String(str || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   return cleaned || fallback;
 }
@@ -30,7 +30,7 @@ function normalizeNicheTag(tagOrName) {
   );
   if (known) return known.tag;
   const alnum = sanitizeAlnum(raw, '');
-  if (!alnum) return 'SWSM';
+  if (!alnum) return 'SCSM';
   if (alnum.length >= 4 && alnum.endsWith('SM')) return alnum.slice(0, 6);
   const letters = alnum.slice(0, 2);
   return `${letters}SM`;
