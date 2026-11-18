@@ -1360,30 +1360,48 @@
 
         const brandUpper = (window.__shimlaBrandName || 'Shimla Crunch').toUpperCase();
         const promoLine = order.discountAmount
-          ? `*🔖 Promo (${order.discountCode}):* *-₹${order.discountAmount.toLocaleString('en-IN')}*`
+          ? `🏷️ *Promo (${order.discountCode}):* *-₹${order.discountAmount.toLocaleString('en-IN')}*`
           : '';
 
-        const waMsg = [
+        const sep = '--------------------------------';
+        const waMsgParts = [
           `🛒 *NEW ${brandUpper} ORDER*`,
           `*Order ID:* *${order.orderId}*`,
           `*Status:* *Pending WhatsApp Confirmation*`,
-          '',
+          sep,
           `📦 *ORDERED ITEMS:*`,
-          itemsList,
-          promoLine,
+          itemsList
+        ];
+
+        if (promoLine) {
+          waMsgParts.push(promoLine);
+        }
+
+        waMsgParts.push(
           `💰 *Total Payable:* *₹${order.grandTotal.toLocaleString('en-IN')}*`,
-          '',
+          sep,
           `💳 *PAYMENT DETAILS:*`,
           payActionText,
-          '',
+          sep,
           `👤 *DELIVERY ADDRESS:*`,
           `• *Name:* *${order.customerSnapshot.name}*`,
           `• *Phone:* *+91 ${order.customerSnapshot.phone}*`,
-          `• *Address:* ${order.customerSnapshot.address}`,
-          order.customerSnapshot.landmark ? `• *Landmark:* ${order.customerSnapshot.landmark}` : '',
+          `• *Address:* ${order.customerSnapshot.address}`
+        );
+
+        if (order.customerSnapshot.landmark) {
+          waMsgParts.push(`• *Landmark:* ${order.customerSnapshot.landmark}`);
+        }
+
+        waMsgParts.push(
           `• *City / State:* ${order.customerSnapshot.city}`,
-          `• *PIN Code:* *${order.customerSnapshot.pincode}*`
-        ].filter(x => x !== '').join('\n');
+          `• *PIN Code:* *${order.customerSnapshot.pincode}*`,
+          sep,
+          `🌿 *Shimla Crunch Orchard Harvest*`,
+          `_Freshly handpicked from Kotkhai, Shimla._`
+        );
+
+        const waMsg = waMsgParts.join('\n');
 
         const waUrl = `https://api.whatsapp.com/send?phone=${storeWhatsAppNum}&text=${encodeURIComponent(waMsg)}`;
         const payText = order.paymentMethod === 'COD' ? 'Cash on Delivery (COD)' : 'Direct Online / UPI Payment';

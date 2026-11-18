@@ -1459,9 +1459,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const order = data.order;
         const waNum = window.__shimlaWhatsAppNumber || '918580861606';
-        const itemsListText = (order.itemsSnapshot || []).map(i => `• ${i.productName} (${i.variantLabel}) × ${i.quantity} = *₹${i.lineTotal.toLocaleString('en-IN')}*\n`).join('');
+        const itemsListText = (order.itemsSnapshot || []).map(i => `• ${i.productName} (${i.variantLabel}) × ${i.quantity} = *₹${i.lineTotal.toLocaleString('en-IN')}*`).join('\n');
         const bNameUp = (window.__shimlaBrandName || 'Shimla Crunch').toUpperCase();
-        const waMessage = `🛒 *NEW ${bNameUp} ORDER*\n*Order ID:* *${order.orderId}*\n*Status:* *Pending WhatsApp Confirmation*\n\n📦 *ITEMS:*\n${itemsListText.trim()}\n\n💰 *Total Payable:* *₹${order.grandTotal.toLocaleString('en-IN')}* (${paymentMethod})\n\n👤 *CUSTOMER:*\n• *Name:* *${order.customerSnapshot.name}*\n• *Phone:* *+91 ${order.customerSnapshot.phone}*\n• *Address:* ${order.customerSnapshot.address}`;
+        const sep = '--------------------------------';
+        const waMsgParts = [
+          `🛒 *NEW ${bNameUp} ORDER*`,
+          `*Order ID:* *${order.orderId}*`,
+          `*Status:* *Pending WhatsApp Confirmation*`,
+          sep,
+          `📦 *ORDERED ITEMS:*`,
+          itemsListText
+        ];
+        if (order.discountAmount) {
+          waMsgParts.push(`🏷️ *Promo (${order.discountCode}):* *-₹${order.discountAmount.toLocaleString('en-IN')}*`);
+        }
+        waMsgParts.push(
+          `💰 *Total Payable:* *₹${order.grandTotal.toLocaleString('en-IN')}*`,
+          sep,
+          `💳 *PAYMENT DETAILS:*`,
+          paymentMethod === 'COD'
+            ? `• *Mode:* *Cash on Delivery (COD verified)*\n• *Handling Fee:* +₹${order.shippingCharge || 25} courier verification fee\n• *Status:* Pay rider via Cash or UPI QR on arrival`
+            : `• *Mode:* *Direct UPI / Online Payment*\n👉 *PLEASE SHARE PAYMENT DETAILS:*\n_Kindly share your UPI ID / QR Code so I can complete payment!_`,
+          sep,
+          `👤 *DELIVERY ADDRESS:*`,
+          `• *Name:* *${order.customerSnapshot.name}*`,
+          `• *Phone:* *+91 ${order.customerSnapshot.phone}*`,
+          `• *Address:* ${order.customerSnapshot.address}`
+        );
+        if (order.customerSnapshot.landmark) {
+          waMsgParts.push(`• *Landmark:* ${order.customerSnapshot.landmark}`);
+        }
+        waMsgParts.push(
+          `• *City / State:* ${order.customerSnapshot.city || 'Shimla, HP'}`,
+          `• *PIN Code:* *${order.customerSnapshot.pincode || '171001'}*`,
+          sep,
+          `🌿 *Shimla Crunch Orchard Harvest*`,
+          `_Freshly handpicked from Kotkhai, Shimla._`
+        );
+        const waMessage = waMsgParts.join('\n');
         
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent || '') || (window.innerWidth <= 768);
         const waUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${encodeURIComponent(waMessage)}`;
