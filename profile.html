@@ -888,7 +888,7 @@
 
     function getSavedProfile() {
       try {
-        const raw = localStorage.getItem('shimla_user_profile');
+        const raw = localStorage.getItem('sc_user_profile') || localStorage.getItem('shimla_user_profile');
         if (!raw) return null;
         return JSON.parse(raw);
       } catch (e) {
@@ -898,7 +898,7 @@
 
     function saveProfileToStorage(profile) {
       try {
-        localStorage.setItem('shimla_user_profile', JSON.stringify(profile));
+        localStorage.setItem('sc_user_profile', JSON.stringify(profile));
       } catch (e) {}
     }
 
@@ -919,6 +919,71 @@
       return map[st] || st || 'Confirmed';
     }
 
+    let cachedAuthInstance = null;
+    let cachedDbInstance = null;
+
+    async function handleSuccessfulAuthUser(user, db) {
+      if (!user) return;
+      const prevProfile = getSavedProfile() || {};
+      let savedAddr = prevProfile.address || '';
+      let savedLandmark = prevProfile.landmark || '';
+      let savedCity = prevProfile.city || '';
+      let savedPincode = prevProfile.pincode || '';
+
+      // Load profile doc from Firestore if user previously saved for this store
+      if (db && user.uid) {
+        try {
+          const userDocSnap = await db.collection('users').doc(user.uid).get();
+          if (userDocSnap.exists) {
+            const data = userDocSnap.data();
+            if (data.address) savedAddr = data.address;
+            if (data.landmark) savedLandmark = data.landmark;
+            if (data.city) savedCity = data.city;
+            if (data.pincode) savedPincode = data.pincode;
+          }
+        } catch (e) {}
+      }
+
+      const updated = {
+        ...prevProfile,
+        uid: user.uid,
+        name: user.displayName || prevProfile.name || 'Himalayan Friend',
+        email: user.email || '',
+        photoURL: user.photoURL || '',
+        phone: prevProfile.phone || user.phoneNumber?.replace(/\D/g, '').slice(-10) || '',
+        authProvider: 'google',
+        loggedIn: true,
+        address: savedAddr,
+        landmark: savedLandmark,
+        city: savedCity,
+        pincode: savedPincode
+      };
+
+      saveProfileToStorage(updated);
+      await renderProfilePage();
+    }
+
+    // Pre-initialize Firebase in background so popup is NOT blocked by browser delays
+    if (typeof window !== 'undefined') {
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.shimlaFirebaseBridge && window.shimlaFirebaseBridge.ready) {
+          window.shimlaFirebaseBridge.ready().then(async ({ auth, db }) => {
+            cachedAuthInstance = auth;
+            cachedDbInstance = db;
+            // Seamlessly check if user returned from Google redirect sign-in
+            try {
+              const res = await auth.getRedirectResult();
+              if (res && res.user) {
+                await handleSuccessfulAuthUser(res.user, db);
+              }
+            } catch (err) {
+              console.warn('Redirect auth result check:', err);
+            }
+          }).catch(err => console.warn('Pre-init error:', err));
+        }
+      });
+    }
+
     // ── GOOGLE SIGN-IN HANDLER ──
     async function doGoogleLogin() {
       const btn = document.getElementById('google-login-btn');
@@ -930,54 +995,30 @@
         if (btn) { btn.disabled = true; btn.style.opacity = '0.7'; }
         if (btnTxt) btnTxt.textContent = 'Connecting Google...';
 
-        if (!window.shimlaFirebaseBridge || !window.shimlaFirebaseBridge.ready) {
-          throw new Error('Firebase connection initializing. Please retry in a second.');
-        }
+        const { auth, db } = cachedAuthInstance
+          ? { auth: cachedAuthInstance, db: cachedDbInstance }
+          : await (window.shimlaFirebaseBridge ? window.shimlaFirebaseBridge.ready() : Promise.reject(new Error('Firebase bridge unavailable')));
 
-        const { auth, db } = await window.shimlaFirebaseBridge.ready();
         const provider = new window.firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
 
-        const result = await auth.signInWithPopup(provider);
-        const user = result.user;
-
-        const prevProfile = getSavedProfile() || {};
-        let savedAddr = prevProfile.address || '';
-        let savedLandmark = prevProfile.landmark || '';
-        let savedCity = prevProfile.city || '';
-        let savedPincode = prevProfile.pincode || '';
-
-        // Load profile doc from Firestore if user previously saved
-        if (db && user.uid) {
-          try {
-            const userDocSnap = await db.collection('users').doc(user.uid).get();
-            if (userDocSnap.exists) {
-              const data = userDocSnap.data();
-              if (data.address) savedAddr = data.address;
-              if (data.landmark) savedLandmark = data.landmark;
-              if (data.city) savedCity = data.city;
-              if (data.pincode) savedPincode = data.pincode;
-            }
-          } catch (e) {}
+        let result;
+        try {
+          result = await auth.signInWithPopup(provider);
+        } catch (popupErr) {
+          // If popup is blocked by Edge/Chrome tracking prevention or extensions, fallback automatically to redirect!
+          if (popupErr.code === 'auth/popup-blocked' || popupErr.message?.includes('popup-blocked')) {
+            console.warn('Popup blocked by browser. Seamlessly falling back to signInWithRedirect...');
+            if (btnTxt) btnTxt.textContent = 'Redirecting to Google...';
+            await auth.signInWithRedirect(provider);
+            return;
+          }
+          throw popupErr;
         }
 
-        const updated = {
-          ...prevProfile,
-          uid: user.uid,
-          name: user.displayName || prevProfile.name || 'Himalayan Friend',
-          email: user.email || '',
-          photoURL: user.photoURL || '',
-          phone: prevProfile.phone || user.phoneNumber?.replace(/\D/g, '').slice(-10) || '',
-          authProvider: 'google',
-          loggedIn: true,
-          address: savedAddr,
-          landmark: savedLandmark,
-          city: savedCity,
-          pincode: savedPincode
-        };
-
-        saveProfileToStorage(updated);
-        await renderProfilePage();
+        if (result && result.user) {
+          await handleSuccessfulAuthUser(result.user, db);
+        }
 
       } catch (err) {
         console.error('Google Sign-In Error:', err);
@@ -986,6 +1027,8 @@
             errEl.innerHTML = `⚠️ This domain (<strong>${window.location.hostname}</strong>) is not authorized in Firebase.<br/>Please visit <a href="https://shimlacrunch-store.web.app/profile.html" style="color:#b91c1c;text-decoration:underline;font-weight:bold;">shimlacrunch-store.web.app</a> or add this domain in Firebase Console.`;
           } else if (err.code === 'auth/popup-closed-by-user' || err.message?.includes('closed-by-user')) {
             errEl.textContent = 'Sign-in popup was closed. Tap again to connect.';
+          } else if (err.code === 'auth/popup-blocked' || err.message?.includes('popup-blocked')) {
+            errEl.innerHTML = 'Browser blocked the popup. <button type="button" onclick="doGoogleRedirectLogin()" style="background:none;border:none;color:#b91c1c;font-weight:bold;text-decoration:underline;cursor:pointer;">Click here to sign in via Redirect</button>';
           } else {
             errEl.textContent = err.message || 'Unable to connect with Google.';
           }
@@ -994,10 +1037,17 @@
       } finally {
         if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
         if (btnTxt) {
-          const lang = localStorage.getItem('shimla-lang') || 'en';
+          const lang = localStorage.getItem('sc_lang') || localStorage.getItem('shimla-lang') || 'en';
           btnTxt.textContent = lang === 'hi' ? 'Google के साथ जारी रखें' : 'Continue with Google';
         }
       }
+    }
+
+    async function doGoogleRedirectLogin() {
+      const { auth } = cachedAuthInstance ? { auth: cachedAuthInstance } : await window.shimlaFirebaseBridge.ready();
+      const provider = new window.firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      await auth.signInWithRedirect(provider);
     }
 
     // ── PROFILE EDITING ──
@@ -1097,25 +1147,30 @@
       const profile = getSavedProfile() || {};
       let localOrders = [];
       try {
-        localOrders = JSON.parse(localStorage.getItem('shimla_customer_orders') || '[]');
+        localOrders = JSON.parse(localStorage.getItem('sc_customer_orders') || '[]');
         if (!Array.isArray(localOrders)) localOrders = [];
       } catch (e) {
         localOrders = [];
       }
 
-      // Also check legacy order history key if present
+      // Strictly isolate orders to Shimla Crunch store
+      const isStoreOrder = (o) => o && (o.storeId === 'shimlacrunch' || (!o.storeId && (o.brandName === 'Shimla Crunch' || (o.orderId && o.orderId.startsWith('SC-')))));
+      localOrders = localOrders.filter(isStoreOrder);
+
+      // Check legacy order history if matching this store
       try {
-        const legacy = JSON.parse(localStorage.getItem('shimla_order_history') || '[]');
+        const legacy = JSON.parse(localStorage.getItem('sc_order_history') || '[]');
         if (Array.isArray(legacy) && legacy.length) {
-          legacy.forEach(leg => {
+          legacy.filter(isStoreOrder).forEach(leg => {
             if (leg && leg.orderId && !localOrders.some(o => o.orderId === leg.orderId)) {
               localOrders.push({
                 orderId: leg.orderId,
+                storeId: 'shimlacrunch',
                 createdAt: leg.date || new Date().toISOString(),
                 grandTotal: Number(leg.total) || 0,
                 orderStatus: leg.status || 'confirmed',
                 paymentMethod: 'COD',
-                itemsSnapshot: [{ productName: leg.items || 'Himalayan Harvest Items', quantity: 1, unitPrice: leg.total, lineTotal: leg.total }]
+                itemsSnapshot: [{ productName: leg.items || 'Shimla Crunch Harvest Items', quantity: 1, unitPrice: leg.total, lineTotal: leg.total }]
               });
             }
           });
@@ -1165,7 +1220,7 @@
       });
 
       try {
-        if (merged.length) localStorage.setItem('shimla_customer_orders', JSON.stringify(merged));
+        if (merged.length) localStorage.setItem('sc_customer_orders', JSON.stringify(merged));
       } catch (e) {}
 
       return merged;

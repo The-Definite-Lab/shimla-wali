@@ -24,6 +24,7 @@
   const STOREFRONT_CACHE_TTL_MS = 60000;
   const cachedDiscounts = {};
   let cachedDiscountsAt = 0;
+  const STORE_ID = (window.SHIMLA_FIREBASE_CONFIG && window.SHIMLA_FIREBASE_CONFIG.storeId) || 'shimlacrunch';
   const STOREFRONT_DOC_ID = (window.SHIMLA_FIREBASE_CONFIG && window.SHIMLA_FIREBASE_CONFIG.storefrontDoc) || 'shimlacrunch';
 
   function loadScriptOnce(src) {
@@ -366,7 +367,12 @@
     const discounts = [];
     discSnap.forEach(d => discounts.push(d.data()));
     const orders = [];
-    ordSnap.forEach(d => orders.push(d.data()));
+    ordSnap.forEach(d => {
+      const o = d.data();
+      if (o.storeId === STORE_ID || (!o.storeId && (o.brandName === 'Shimla Crunch' || (o.orderId && o.orderId.startsWith('SC-'))))) {
+        orders.push(o);
+      }
+    });
     const customers = [];
     custSnap.forEach(d => customers.push(d.data()));
     const payments = [];
@@ -512,7 +518,8 @@
     if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_master_session') === '1') {
       return { email: 'admin@shimlacrunch.com', uid: 'master-owner' };
     }
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('swa_admin_token')?.startsWith('sc_master_token_')) {
+    const curToken = (typeof localStorage !== 'undefined' ? (localStorage.getItem('sc_admin_token') || localStorage.getItem('swa_admin_token')) : '') || '';
+    if (curToken.startsWith('sc_master_token_')) {
       return { email: 'admin@shimlacrunch.com', uid: 'master-owner' };
     }
     if (!auth.currentUser) throw new window.ShimlaDomain.HttpError(401, 'Admin authentication required');
@@ -644,12 +651,14 @@
             tx.set(cRef, { nextSeq: cur + 1 }, { merge: true });
             return cur;
           });
-          orderId = `SW-ORD-${seqNum}`;
+          orderId = `SC-ORD-${seqNum}`;
           result.order.orderId = orderId;
         } catch {
-          orderId = `SW-ORD-${Date.now().toString(36).toUpperCase().slice(-5)}`;
+          orderId = `SC-ORD-${Date.now().toString(36).toUpperCase().slice(-5)}`;
           result.order.orderId = orderId;
         }
+        result.order.storeId = STORE_ID;
+        result.order.brandName = 'Shimla Crunch';
         await Promise.all([
           db.collection('orders').doc(orderId).set(sanitizeDoc(result.order)),
           syncOrderLookupDocs(db, result.order)
@@ -659,7 +668,7 @@
           orderId,
           pincode: result.order.customerSnapshot?.pincode || ''
         }));
-        try { sessionStorage.setItem('swa_cust_fb_sess', custToken); } catch (e) {}
+        try { sessionStorage.setItem('sc_cust_fb_sess', custToken); } catch (e) {}
         return jsonResponse({ ok: true, order: result.order, customerToken: custToken }, 201);
       }
 
@@ -681,13 +690,18 @@
         if (!orders.length && /^\d{6}$/.test(pin)) {
           const ph = await sha256Hex(`${phone}:${pin}`);
           const q = await db.collection('order_pin_lookups').doc(ph).collection('orders').get();
-          q.forEach(d => orders.push(d.data()));
+          q.forEach(d => {
+            const ord = d.data();
+            if (ord.storeId === STORE_ID || (!ord.storeId && (ord.brandName === 'Shimla Crunch' || (ord.orderId && ord.orderId.startsWith('SC-'))))) {
+              orders.push(ord);
+            }
+          });
         }
         if ((oid || pin) && !orders.length) {
           return jsonResponse({ ok: false, error: 'No matching order found for this phone + Order ID / PIN.' }, 403);
         }
         const token = btoa(JSON.stringify({ phone, orderId: oid, pincode: pin }));
-        sessionStorage.setItem('swa_cust_fb_sess', token);
+        sessionStorage.setItem('sc_cust_fb_sess', token);
         const cust = {
           customerId: `CUST-${phone}`,
           name: String(body.name || '').trim() || 'Guest Customer',
@@ -697,7 +711,7 @@
         return jsonResponse({ ok: true, customerToken: token, customer: cust, orders });
       }
       if (reqPath === '/api/customer/orders' && method === 'GET') {
-        const raw = (options.headers && options.headers['X-Customer-Token']) || sessionStorage.getItem('swa_cust_fb_sess') || '';
+        const raw = (options.headers && options.headers['X-Customer-Token']) || sessionStorage.getItem('sc_cust_fb_sess') || '';
         if (!raw) return jsonResponse({ ok: false, error: 'Unauthorized' }, 401);
         let sess = {};
         try { sess = JSON.parse(atob(raw)); } catch { return jsonResponse({ ok: false, error: 'Invalid session' }, 401); }
@@ -708,8 +722,10 @@
           const snap = await db.collection('order_lookups').doc(h).get();
           if (snap.exists) {
             const ord = snap.data();
-            orders.push(ord);
-            seen.add(ord.orderId);
+            if (ord.storeId === STORE_ID || (!ord.storeId && (ord.brandName === 'Shimla Crunch' || (ord.orderId && ord.orderId.startsWith('SC-'))))) {
+              orders.push(ord);
+              seen.add(ord.orderId);
+            }
           }
         }
         if (/^\d{6}$/.test(sess.pincode || '')) {
@@ -717,7 +733,7 @@
           const q = await db.collection('order_pin_lookups').doc(ph).collection('orders').get();
           q.forEach(d => {
             const ord = d.data();
-            if (!seen.has(ord.orderId)) {
+            if (!seen.has(ord.orderId) && (ord.storeId === STORE_ID || (!ord.storeId && (ord.brandName === 'Shimla Crunch' || (ord.orderId && ord.orderId.startsWith('SC-')))))) {
               orders.push(ord);
               seen.add(ord.orderId);
             }
@@ -726,7 +742,7 @@
         return jsonResponse({ ok: true, customer: { phone: sess.phone }, orders });
       }
       if (reqPath === '/api/customer/logout' && method === 'POST') {
-        sessionStorage.removeItem('swa_cust_fb_sess');
+        sessionStorage.removeItem('sc_cust_fb_sess');
         return jsonResponse({ ok: true });
       }
 

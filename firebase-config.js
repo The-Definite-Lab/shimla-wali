@@ -10,6 +10,7 @@ window.SHIMLA_FIREBASE_CONFIG = {
     'admin@shimlacrunch.com'
   ],
   apiKey: 'AIzaSyBX7XUQXTrD9a6U-EmKa-_cFOvcnG7X26k',
+  storeId: 'shimlacrunch',
   storefrontDoc: 'shimlacrunch',
   authDomain: 'shimlacrunch-store.firebaseapp.com',
   projectId: 'shimlawali-store',

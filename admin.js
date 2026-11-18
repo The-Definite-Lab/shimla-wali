@@ -520,17 +520,17 @@ async function doAdminGoogleLogin() {
 
 // ── API Client (Cookie + Header Token with Auto 401 Lockout) ────
 function getStoredToken() {
-  return localStorage.getItem('swa_admin_token') || sessionStorage.getItem('swa_admin_token') || '';
+  return localStorage.getItem('sc_admin_token') || sessionStorage.getItem('sc_admin_token') || localStorage.getItem('swa_admin_token') || sessionStorage.getItem('swa_admin_token') || '';
 }
 
 function setStoredToken(token) {
   if (token) {
-    try { localStorage.setItem('swa_admin_token', token); } catch(e) {}
-    try { sessionStorage.setItem('swa_admin_token', token); } catch(e) {}
+    try { localStorage.setItem('sc_admin_token', token); } catch(e) {}
+    try { sessionStorage.setItem('sc_admin_token', token); } catch(e) {}
     try { document.documentElement.classList.add('swa-has-session'); } catch(e) {}
   } else {
-    try { localStorage.removeItem('swa_admin_token'); } catch(e) {}
-    try { sessionStorage.removeItem('swa_admin_token'); } catch(e) {}
+    try { localStorage.removeItem('sc_admin_token'); localStorage.removeItem('swa_admin_token'); } catch(e) {}
+    try { sessionStorage.removeItem('sc_admin_token'); sessionStorage.removeItem('swa_admin_token'); } catch(e) {}
     try { document.documentElement.classList.remove('swa-has-session'); } catch(e) {}
   }
 }

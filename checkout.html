@@ -767,7 +767,7 @@
 
     function initCheckout() {
       try {
-        const saved = localStorage.getItem('shimla_cart');
+        const saved = localStorage.getItem('sc_cart') || localStorage.getItem('shimla_cart');
         if (saved) cartItems = JSON.parse(saved);
       } catch (e) {}
 
@@ -1089,26 +1089,27 @@
 
         const order = data.order;
         try {
-          // Immediately save order to customer orders list for instant visibility in My Account
-          const existingOrders = JSON.parse(localStorage.getItem('shimla_customer_orders') || '[]');
+          // Immediately save order to customer orders list for instant visibility in My Account (isolated to Shimla Crunch)
+          const existingOrders = JSON.parse(localStorage.getItem('sc_customer_orders') || '[]');
           if (!existingOrders.some(o => o.orderId === order.orderId)) {
             existingOrders.unshift(order);
-            localStorage.setItem('shimla_customer_orders', JSON.stringify(existingOrders));
+            localStorage.setItem('sc_customer_orders', JSON.stringify(existingOrders));
           }
-          const legacyOrders = JSON.parse(localStorage.getItem('shimla_order_history') || '[]');
+          const legacyOrders = JSON.parse(localStorage.getItem('sc_order_history') || '[]');
           if (!legacyOrders.some(o => o.orderId === order.orderId)) {
             legacyOrders.unshift({
               orderId: order.orderId,
+              storeId: 'shimlacrunch',
               date: order.createdAt || new Date().toISOString(),
               total: order.grandTotal,
               status: order.orderStatus,
               items: (order.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel || ''}) × ${i.quantity}`).join(', ')
             });
-            localStorage.setItem('shimla_order_history', JSON.stringify(legacyOrders.slice(0, 20)));
+            localStorage.setItem('sc_order_history', JSON.stringify(legacyOrders.slice(0, 20)));
           }
 
           // Always update customer profile so returning to profile.html shows verified profile and past orders
-          const existing = JSON.parse(localStorage.getItem('shimla_user_profile') || '{}');
+          const existing = JSON.parse(localStorage.getItem('sc_user_profile') || localStorage.getItem('shimla_user_profile') || '{}');
           const shouldSaveAll = !document.getElementById('save-info-chk') || document.getElementById('save-info-chk').checked;
           const custToken = data.customerToken || existing.customerToken || (order.customerSnapshot?.phone ? btoa(JSON.stringify({
             phone: order.customerSnapshot.phone,
@@ -1130,7 +1131,7 @@
           if (shouldSaveAll || !existing.pincode) updatedProfile.pincode = order.customerSnapshot.pincode;
           if (shouldSaveAll || !existing.city) updatedProfile.city = order.customerSnapshot.city;
 
-          localStorage.setItem('shimla_user_profile', JSON.stringify(updatedProfile));
+          localStorage.setItem('sc_user_profile', JSON.stringify(updatedProfile));
         } catch (err) {}
 
         const itemsList = (order.itemsSnapshot || []).map(it =>
@@ -1171,7 +1172,7 @@
         const waUrl = `https://api.whatsapp.com/send?phone=${storeWhatsAppNum}&text=${encodeURIComponent(waMsg)}`;
         const payText = order.paymentMethod === 'COD' ? 'Cash on Delivery (COD)' : 'Direct Online / UPI Payment';
 
-        try { localStorage.removeItem('shimla_cart'); } catch (err) {}
+        try { localStorage.removeItem('sc_cart'); localStorage.removeItem('shimla_cart'); } catch (err) {}
 
         document.getElementById('lux-main-grid').style.display = 'none';
         const successCard = document.getElementById('lux-success-card');

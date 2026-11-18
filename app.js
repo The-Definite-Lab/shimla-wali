@@ -764,7 +764,7 @@ window.recordOrderHistory = function(order) {
       paymentMode: order.paymentMode || 'COD',
       addressSummary: order.addressSummary || ''
     });
-    localStorage.setItem('shimla_order_history', JSON.stringify(existing.slice(0, 20)));
+    localStorage.setItem('sc_order_history', JSON.stringify(existing.slice(0, 20)));
   } catch (e) {}
 };
 
@@ -772,7 +772,7 @@ window.refreshDrawerAuthCard = function() {
   const card = document.getElementById('drawer-auth-card');
   if (!card) return;
   let profile = null;
-  try { profile = JSON.parse(localStorage.getItem('shimla_user_profile') || 'null'); } catch (e) {}
+  try { profile = JSON.parse(localStorage.getItem('sc_user_profile') || localStorage.getItem('shimla_user_profile') || 'null'); } catch (e) {}
   const isLoggedIn = profile && profile.loggedIn && (profile.name || profile.phone || profile.email || profile.uid);
   const iconEl = card.querySelector('.vip-user-icon');
   const titleEl = card.querySelector('.vip-title');
@@ -922,7 +922,7 @@ window.renderSharedNavDrawer = function() {
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initial State & Elements
   const state = {
-    cart: JSON.parse(localStorage.getItem('shimla_cart') || '[]'),
+    cart: JSON.parse(localStorage.getItem('sc_cart') || localStorage.getItem('shimla_cart') || '[]'),
     selectedProductVariant: {
       id: 'sc-royal-10kg',
       name: 'Shimla Royal Delicious Fresh Apples',
@@ -1043,14 +1043,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function saveCart() {
     try {
-      localStorage.setItem('shimla_cart', JSON.stringify(state.cart));
+      localStorage.setItem('sc_cart', JSON.stringify(state.cart));
     } catch (e) {}
     updateCartUI();
   }
 
   function updateCartUI() {
     try {
-      const saved = localStorage.getItem('shimla_cart');
+      const saved = localStorage.getItem('sc_cart') || localStorage.getItem('shimla_cart');
       if (saved) {
         state.cart = JSON.parse(saved);
       }
@@ -1277,7 +1277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.syncCartAndRender = () => {
     try {
-      const saved = localStorage.getItem('shimla_cart');
+      const saved = localStorage.getItem('sc_cart') || localStorage.getItem('shimla_cart');
       state.cart = saved ? JSON.parse(saved) : [];
     } catch (e) {
       state.cart = [];
@@ -1305,7 +1305,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addToCart = (product, qty = 1) => {
     try {
-      const saved = localStorage.getItem('shimla_cart');
+      const saved = localStorage.getItem('sc_cart') || localStorage.getItem('shimla_cart');
       if (saved) state.cart = JSON.parse(saved);
     } catch (e) {}
 
