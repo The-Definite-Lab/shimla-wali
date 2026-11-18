@@ -889,8 +889,14 @@
     function getSavedProfile() {
       try {
         const raw = localStorage.getItem('sc_user_profile') || localStorage.getItem('shimla_user_profile');
-        if (!raw) return null;
-        return JSON.parse(raw);
+        let profile = raw ? JSON.parse(raw) : {};
+        if (!profile.phone) {
+          profile.phone = localStorage.getItem('sc_customer_phone') || '';
+        }
+        if (!profile.name) {
+          profile.name = localStorage.getItem('sc_customer_name') || '';
+        }
+        return (profile.phone || profile.name || profile.loggedIn || profile.email) ? profile : null;
       } catch (e) {
         return null;
       }
@@ -899,6 +905,12 @@
     function saveProfileToStorage(profile) {
       try {
         localStorage.setItem('sc_user_profile', JSON.stringify(profile));
+        if (profile && profile.phone) {
+          localStorage.setItem('sc_customer_phone', profile.phone);
+        }
+        if (profile && profile.name) {
+          localStorage.setItem('sc_customer_name', profile.name);
+        }
       } catch (e) {}
     }
 
@@ -925,6 +937,7 @@
     async function handleSuccessfulAuthUser(user, db) {
       if (!user) return;
       const prevProfile = getSavedProfile() || {};
+      let savedPhone = prevProfile.phone || localStorage.getItem('sc_customer_phone') || '';
       let savedAddr = prevProfile.address || '';
       let savedLandmark = prevProfile.landmark || '';
       let savedCity = prevProfile.city || '';
@@ -936,6 +949,7 @@
           const userDocSnap = await db.collection('users').doc(user.uid).get();
           if (userDocSnap.exists) {
             const data = userDocSnap.data();
+            if (data.phone) savedPhone = data.phone;
             if (data.address) savedAddr = data.address;
             if (data.landmark) savedLandmark = data.landmark;
             if (data.city) savedCity = data.city;
@@ -950,7 +964,7 @@
         name: user.displayName || prevProfile.name || 'Himalayan Friend',
         email: user.email || '',
         photoURL: user.photoURL || '',
-        phone: prevProfile.phone || user.phoneNumber?.replace(/\D/g, '').slice(-10) || '',
+        phone: savedPhone || user.phoneNumber?.replace(/\D/g, '').slice(-10) || '',
         authProvider: 'google',
         loggedIn: true,
         address: savedAddr,
@@ -960,6 +974,12 @@
       };
 
       saveProfileToStorage(updated);
+      if (updated.phone) {
+        try { localStorage.setItem('sc_customer_phone', updated.phone); } catch (e) {}
+      }
+      if (updated.name) {
+        try { localStorage.setItem('sc_customer_name', updated.name); } catch (e) {}
+      }
       await renderProfilePage();
     }
 

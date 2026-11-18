@@ -539,7 +539,7 @@
                 <label class="lux-label" for="cust-phone">WhatsApp Number *</label>
                 <div class="lux-phone-wrap">
                   <div class="lux-phone-prefix">+91</div>
-                  <input type="tel" id="cust-phone" class="lux-phone-input" placeholder="98765 43210" maxlength="10" required />
+                  <input type="tel" id="cust-phone" class="lux-phone-input" placeholder="98765 43210" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/\D/g, '').slice(0, 10)" autocomplete="tel" required />
                 </div>
               </div>
             </div>
@@ -751,7 +751,7 @@
       }
       let isLoggedIn = false;
       try {
-        const p = JSON.parse(localStorage.getItem('shimla_user_profile') || 'null');
+        const p = JSON.parse(localStorage.getItem('sc_user_profile') || localStorage.getItem('shimla_user_profile') || 'null');
         isLoggedIn = Boolean(p && p.loggedIn);
       } catch (e) {}
 
@@ -773,17 +773,17 @@
 
       if (!cartItems || cartItems.length === 0) {
         const urlParams = new URLSearchParams(window.location.search);
-        const prodId = urlParams.get('id') || 'ghee';
-        const size = urlParams.get('size') || '500ml';
-        const sku = urlParams.get('sku') || '';
+        const prodId = urlParams.get('id') || 'discovery-box';
+        const size = urlParams.get('size') || 'Standard';
+        const sku = urlParams.get('sku') || 'DISC-STD-01';
         cartItems = [{
           productId: prodId,
           sku,
-          name: 'A2 Pahadi Cow Bilona Desi Ghee',
+          name: 'The Kotkhai Harvest Discovery Taster Box',
           size,
-          price: 1199,
+          price: 1499,
           quantity: 1,
-          image: './images/shimla-ghee.webp'
+          image: './images/products/discovery-box.webp'
         }];
       }
 
@@ -804,7 +804,7 @@
 
     function mapItemsForApi() {
       return cartItems.map(it => ({
-        productId: it.productId || it.id || 'ghee',
+        productId: it.productId || it.id || 'discovery-box',
         sku: it.sku || '',
         size: it.size || '',
         variety: it.variety || '',
@@ -1019,25 +1019,184 @@
       refreshCheckoutQuote();
     }
 
+    function updateAuthStripUI(profile) {
+      const lbl = document.getElementById('checkout-auth-label');
+      const lnk = document.getElementById('checkout-auth-link');
+      if (!lbl || !lnk) return;
+
+      const hasIdentity = Boolean(profile && (profile.phone || profile.name || profile.email));
+      if (hasIdentity) {
+        const displayName = esc(profile.name || 'Himalayan Friend');
+        const phonePart = profile.phone ? ` (+91 ${esc(profile.phone)})` : '';
+        lbl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><strong style="color:#0f172a;">${displayName}</strong> <img src="./images/verified-green.webp" onerror="this.src='./images/verified-green.png'" alt="Verified" style="width:16px;height:16px;display:inline-block;vertical-align:middle;" />${phonePart}</span>`;
+        lnk.textContent = 'My Account →';
+      } else {
+        lbl.innerHTML = `<span style="color:#475569;">⚡ <strong>Fast Express Checkout:</strong> Details save to your profile automatically.</span>`;
+        lnk.textContent = 'Login / 1-Tap Profile →';
+      }
+    }
+
+    function autoSaveCheckoutInputs() {
+      try {
+        const name = (document.getElementById('cust-name')?.value || '').trim();
+        const phone = (document.getElementById('cust-phone')?.value || '').replace(/\D/g, '').slice(0, 10);
+        const address = (document.getElementById('cust-address')?.value || '').trim();
+        const landmark = (document.getElementById('cust-landmark')?.value || '').trim();
+        const pincode = (document.getElementById('cust-pincode')?.value || '').trim();
+        const city = (document.getElementById('cust-city')?.value || '').trim();
+
+        if (phone) {
+          try { localStorage.setItem('sc_customer_phone', phone); } catch (e) {}
+        }
+        if (name) {
+          try { localStorage.setItem('sc_customer_name', name); } catch (e) {}
+        }
+
+        let existing = {};
+        try {
+          existing = JSON.parse(localStorage.getItem('sc_user_profile') || localStorage.getItem('shimla_user_profile') || '{}');
+        } catch (e) {}
+
+        const updated = {
+          ...existing,
+          name: name || existing.name || '',
+          phone: phone || existing.phone || '',
+          address: address || existing.address || '',
+          landmark: landmark || existing.landmark || '',
+          pincode: pincode || existing.pincode || '',
+          city: city || existing.city || '',
+          updatedAt: new Date().toISOString()
+        };
+
+        try { localStorage.setItem('sc_user_profile', JSON.stringify(updated)); } catch (e) {}
+        updateAuthStripUI(updated);
+      } catch (e) {}
+    }
+
     function loadStoredProfile() {
       try {
-        const data = localStorage.getItem('shimla_user_profile');
-        if (data) {
-          const profile = JSON.parse(data);
-          if (profile.name) document.getElementById('cust-name').value = profile.name;
-          if (profile.phone) document.getElementById('cust-phone').value = profile.phone;
-          if (profile.address) document.getElementById('cust-address').value = profile.address;
-          if (profile.landmark && document.getElementById('cust-landmark')) document.getElementById('cust-landmark').value = profile.landmark;
-          if (profile.pincode) document.getElementById('cust-pincode').value = profile.pincode;
-          if (profile.city) document.getElementById('cust-city').value = profile.city;
-          const lbl = document.getElementById('checkout-auth-label');
-          const lnk = document.getElementById('checkout-auth-link');
-          if (profile.loggedIn && profile.phone && lbl && lnk) {
-            lbl.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><strong style="color:#0f172a;">${esc(profile.name || 'Customer')}</strong> <img src="./images/verified-green.webp" onerror="this.src='./images/verified-green.png'" alt="Verified" style="width:16px;height:16px;display:inline-block;vertical-align:middle;" /> (+91 ${esc(profile.phone)})</span>`;
-            lnk.textContent = 'My Account →';
-          }
+        let profile = null;
+        const raw = localStorage.getItem('sc_user_profile') || localStorage.getItem('shimla_user_profile');
+        if (raw) {
+          try { profile = JSON.parse(raw); } catch (e) {}
         }
-      } catch (e) {}
+        if (!profile) profile = {};
+
+        // Fallback to standalone keys so phone and name are NEVER lost
+        if (!profile.phone) {
+          profile.phone = localStorage.getItem('sc_customer_phone') || localStorage.getItem('shimla_customer_phone') || '';
+        }
+        if (!profile.name) {
+          profile.name = localStorage.getItem('sc_customer_name') || localStorage.getItem('shimla_customer_name') || '';
+        }
+
+        const nameInp = document.getElementById('cust-name');
+        const phoneInp = document.getElementById('cust-phone');
+        const addrInp = document.getElementById('cust-address');
+        const landInp = document.getElementById('cust-landmark');
+        const pinInp = document.getElementById('cust-pincode');
+        const cityInp = document.getElementById('cust-city');
+
+        if (profile.name && nameInp && !nameInp.value) nameInp.value = profile.name;
+        if (profile.phone && phoneInp && !phoneInp.value) phoneInp.value = profile.phone;
+        if (profile.address && addrInp && !addrInp.value) addrInp.value = profile.address;
+        if (profile.landmark && landInp && !landInp.value) landInp.value = profile.landmark;
+        if (profile.pincode && pinInp && !pinInp.value) pinInp.value = profile.pincode;
+        if (profile.city && cityInp && !cityInp.value) cityInp.value = profile.city;
+
+        updateAuthStripUI(profile);
+      } catch (e) {
+        console.warn('Error loading stored profile in checkout:', e);
+      }
+    }
+
+    // Attach real-time input persistence listeners
+    if (typeof window !== 'undefined') {
+      window.addEventListener('DOMContentLoaded', () => {
+        ['cust-name', 'cust-phone', 'cust-address', 'cust-landmark', 'cust-pincode', 'cust-city'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.addEventListener('input', autoSaveCheckoutInputs);
+            el.addEventListener('change', autoSaveCheckoutInputs);
+            el.addEventListener('blur', autoSaveCheckoutInputs);
+          }
+        });
+
+        loadStoredProfile();
+
+        if (window.shimlaFirebaseBridge && window.shimlaFirebaseBridge.ready) {
+          window.shimlaFirebaseBridge.ready().then(async ({ auth, db }) => {
+            if (auth && auth.currentUser) {
+              const u = auth.currentUser;
+              try {
+                let existing = JSON.parse(localStorage.getItem('sc_user_profile') || '{}');
+                let remotePhone = '';
+                let remoteName = u.displayName || '';
+                let remoteAddress = '';
+                let remoteLandmark = '';
+                let remoteCity = '';
+                let remotePincode = '';
+
+                if (db && u.uid) {
+                  const docSnap = await db.collection('users').doc(u.uid).get();
+                  if (docSnap.exists) {
+                    const data = docSnap.data();
+                    if (data.phone) remotePhone = data.phone;
+                    if (data.name) remoteName = data.name;
+                    if (data.address) remoteAddress = data.address;
+                    if (data.landmark) remoteLandmark = data.landmark;
+                    if (data.city) remoteCity = data.city;
+                    if (data.pincode) remotePincode = data.pincode;
+                  }
+                }
+
+                const finalPhone = existing.phone || remotePhone || localStorage.getItem('sc_customer_phone') || '';
+                const finalName = existing.name || remoteName || localStorage.getItem('sc_customer_name') || '';
+                const finalAddress = existing.address || remoteAddress || '';
+                const finalLandmark = existing.landmark || remoteLandmark || '';
+                const finalCity = existing.city || remoteCity || '';
+                const finalPincode = existing.pincode || remotePincode || '';
+
+                const updated = {
+                  ...existing,
+                  uid: u.uid,
+                  email: u.email || existing.email || '',
+                  name: finalName,
+                  phone: finalPhone,
+                  address: finalAddress,
+                  landmark: finalLandmark,
+                  city: finalCity,
+                  pincode: finalPincode,
+                  loggedIn: true,
+                  authProvider: 'google'
+                };
+
+                localStorage.setItem('sc_user_profile', JSON.stringify(updated));
+                if (finalPhone) localStorage.setItem('sc_customer_phone', finalPhone);
+                if (finalName) localStorage.setItem('sc_customer_name', finalName);
+
+                const phoneInp = document.getElementById('cust-phone');
+                const nameInp = document.getElementById('cust-name');
+                const addrInp = document.getElementById('cust-address');
+                const landInp = document.getElementById('cust-landmark');
+                const cityInp = document.getElementById('cust-city');
+                const pinInp = document.getElementById('cust-pincode');
+
+                if (finalPhone && phoneInp && !phoneInp.value) phoneInp.value = finalPhone;
+                if (finalName && nameInp && !nameInp.value) nameInp.value = finalName;
+                if (finalAddress && addrInp && !addrInp.value) addrInp.value = finalAddress;
+                if (finalLandmark && landInp && !landInp.value) landInp.value = finalLandmark;
+                if (finalCity && cityInp && !cityInp.value) cityInp.value = finalCity;
+                if (finalPincode && pinInp && !pinInp.value) pinInp.value = finalPincode;
+
+                updateAuthStripUI(updated);
+              } catch (e) {
+                console.warn('Firebase user sync in checkout:', e);
+              }
+            }
+          }).catch(() => {});
+        }
+      });
     }
 
     let isSubmittingOrder = false;
@@ -1121,7 +1280,9 @@
             ...existing,
             lastOrderId: order.orderId,
             customerToken: custToken,
-            loggedIn: true
+            loggedIn: true,
+            authProvider: existing.authProvider || 'order_saved',
+            updatedAt: new Date().toISOString()
           };
 
           if (shouldSaveAll || !existing.name) updatedProfile.name = order.customerSnapshot.name;
@@ -1132,6 +1293,30 @@
           if (shouldSaveAll || !existing.city) updatedProfile.city = order.customerSnapshot.city;
 
           localStorage.setItem('sc_user_profile', JSON.stringify(updatedProfile));
+          if (updatedProfile.phone) {
+            try { localStorage.setItem('sc_customer_phone', updatedProfile.phone); } catch (e) {}
+          }
+          if (updatedProfile.name) {
+            try { localStorage.setItem('sc_customer_name', updatedProfile.name); } catch (e) {}
+          }
+
+          // If signed in with Firebase, update Firestore user doc
+          if (window.shimlaFirebaseBridge && window.shimlaFirebaseBridge.ready) {
+            window.shimlaFirebaseBridge.ready().then(async ({ auth, db }) => {
+              if (auth && auth.currentUser && db) {
+                await db.collection('users').doc(auth.currentUser.uid).set({
+                  name: updatedProfile.name,
+                  phone: updatedProfile.phone,
+                  address: updatedProfile.address,
+                  landmark: updatedProfile.landmark,
+                  city: updatedProfile.city,
+                  pincode: updatedProfile.pincode,
+                  lastOrderId: order.orderId,
+                  updatedAt: new Date().toISOString()
+                }, { merge: true });
+              }
+            }).catch(() => {});
+          }
         } catch (err) {}
 
         const itemsList = (order.itemsSnapshot || []).map(it =>
