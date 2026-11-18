@@ -752,6 +752,9 @@ async function loadBootstrap(opts = {}) {
       });
     }
     state = { ...state, ...data };
+    if (state.settings && (!state.settings.brand_name || /shimla[\s_-]*wali/i.test(state.settings.brand_name))) {
+      state.settings.brand_name = 'Shimla Crunch';
+    }
     window.state = state;
     window.apiFetch = apiFetch;
     window.loadBootstrap = loadBootstrap;
@@ -765,7 +768,8 @@ async function loadBootstrap(opts = {}) {
       avInit.setAttribute('title', adminName);
     }
     if (avName) avName.textContent = adminName;
-    const bName = (state.settings && state.settings.brand_name) || 'Shimla Crunch';
+    const rawBName = state.settings && state.settings.brand_name;
+    const bName = (rawBName && !/shimla[\s_-]*wali/i.test(rawBName)) ? rawBName : 'Shimla Crunch';
     document.title = `${bName} — Business Studio Admin`;
     document.querySelectorAll('.side .brand').forEach(el => {
       el.className = 'brand brand-with-logo';
@@ -1229,7 +1233,8 @@ function renderVerificationQueue() {
     const itemsSummary = (o.itemsSnapshot || []).map(i => `${i.productName} (${i.variantLabel}) × ${i.quantity}`).join(', ');
     const rawPhone = o.customerSnapshot?.phone || '';
     const cleanPhone = String(rawPhone).replace(/\D/g, '').slice(-10);
-    const brandName = (state.settings && state.settings.brand_name) || 'Shimla Crunch';
+    const rawBrand = state.settings && state.settings.brand_name;
+    const brandName = (rawBrand && !/shimla[\s_-]*wali/i.test(rawBrand)) ? rawBrand : 'Shimla Crunch';
     const waText = encodeURIComponent(`Hi ${o.customerSnapshot?.name || ''}, your ${brandName} order ${o.orderId} (${itemsSummary}, Total ₹${o.grandTotal}) is ready for confirmation. Please confirm on WhatsApp to proceed!`);
     return `
       <div class="verify-entry ${isDue ? 'is-due' : 'is-fresh'}">
@@ -3499,10 +3504,26 @@ function recalcVerifyBuyPreview() {
   const payMode = document.getElementById('vb-pay-method').value;
   const codFee = payMode === 'COD' ? Number(state.settings?.cod_fee ?? 25) : 0;
   const disc = Number(ord?.discountAmount || 0);
-  const autoTotal = Math.max(0, sub - disc + codFee);
-  document.getElementById('vb-calc-hint').textContent = `(SKU total: ${cash(autoTotal)})`;
+  const calcTotal = sub > 0 ? Math.max(0, sub - disc + codFee) : Number(ord?.grandTotal || 0);
+  if (document.getElementById('vb-calc-hint')) {
+    document.getElementById('vb-calc-hint').textContent = `(SKU total: ${cash(calcTotal)})`;
+  }
   const agreedEl = document.getElementById('vb-agreed-total');
-  if (agreedEl) agreedEl.value = String(autoTotal);
+  if (agreedEl) agreedEl.value = String(calcTotal);
+  const viewTotalEl = document.getElementById('vb-view-total');
+  if (viewTotalEl) viewTotalEl.textContent = cash(calcTotal);
+}
+
+function toggleVerifyBuyEdit() {
+  const wrap = document.getElementById('vb-edit-fields-wrap');
+  const btn = document.getElementById('vb-toggle-edit-btn');
+  if (!wrap || !btn) return;
+  const isHidden = (wrap.style.display === 'none' || !wrap.style.display);
+  wrap.style.display = isHidden ? 'block' : 'none';
+  btn.innerHTML = isHidden
+    ? '✕ Hide Edit Fields'
+    : '✏️ Edit Order / Customer Details (If customer changed on WhatsApp)';
+  btn.style.color = isHidden ? 'var(--warn-fg)' : 'var(--text-muted)';
 }
 
 function openVerifyBuyModal(orderId, initialDecision = 'accept') {
@@ -3518,13 +3539,81 @@ function openVerifyBuyModal(orderId, initialDecision = 'accept') {
   ).join(' | ');
   const rawCustPhone = o.customerSnapshot?.phone || '';
   const cleanCustPhone = String(rawCustPhone).replace(/\D/g, '').slice(-10);
-  const brandName = (state.settings && state.settings.brand_name) || 'Shimla Crunch';
+  const rawBrand = state.settings && state.settings.brand_name;
+  const brandName = (rawBrand && !/shimla[\s_-]*wali/i.test(rawBrand)) ? rawBrand : 'Shimla Crunch';
   const chatMsg = encodeURIComponent(`Hi ${o.customerSnapshot?.name || ''}, regarding your ${brandName} order ${o.orderId}`);
   document.getElementById('vb-order-banner').innerHTML =
     `<strong>Customer:</strong> ${esc(o.customerSnapshot?.name)} (+91 ${esc(cleanCustPhone || rawCustPhone)})` +
     (cleanCustPhone ? ` <a href="https://wa.me/91${cleanCustPhone}?text=${chatMsg}" target="_blank" rel="noopener noreferrer" style="color:var(--ok-fg);font-weight:700;text-decoration:underline;margin-left:8px;">Chat on WhatsApp ↗</a>` : '') +
     (o.followUpCount ? `<br><strong>Previous Follow-ups:</strong> ${o.followUpCount} (${esc(histTxt)})` : '');
 
+  // 1. Populate Clean Read-Only Order Snapshot (What the customer actually entered & ordered)
+  const viewNameEl = document.getElementById('vb-view-name');
+  if (viewNameEl) viewNameEl.textContent = o.customerSnapshot?.name || 'Customer';
+  const viewPhoneEl = document.getElementById('vb-view-phone');
+  if (viewPhoneEl) viewPhoneEl.textContent = cleanCustPhone || rawCustPhone || '—';
+
+  const viewAddressEl = document.getElementById('vb-view-address');
+  if (viewAddressEl) {
+    const parts = [
+      o.customerSnapshot?.address,
+      o.customerSnapshot?.landmark ? (o.customerSnapshot.landmark.trim().toLowerCase().startsWith('near') ? o.customerSnapshot.landmark.trim() : `Near ${o.customerSnapshot.landmark.trim()}`) : '',
+      o.customerSnapshot?.city,
+      o.customerSnapshot?.pincode ? `PIN: ${o.customerSnapshot.pincode}` : ''
+    ].filter(Boolean);
+    viewAddressEl.textContent = parts.join(', ') || 'Address not specified';
+  }
+
+  const viewPayEl = document.getElementById('vb-view-pay-method');
+  if (viewPayEl) {
+    viewPayEl.textContent = (o.paymentMethod === 'COD') ? 'Cash on Delivery (COD)' : 'Direct Online / UPI';
+  }
+
+  const viewTotalEl = document.getElementById('vb-view-total');
+  if (viewTotalEl) {
+    viewTotalEl.textContent = cash(o.grandTotal);
+  }
+
+  const promoEl = document.getElementById('vb-view-promo-tag');
+  if (promoEl) {
+    if (o.discountAmount && o.discountAmount > 0) {
+      promoEl.textContent = `🏷️ Promo ${o.discountCode || ''} applied: -${cash(o.discountAmount)}`;
+      promoEl.style.display = 'block';
+    } else {
+      promoEl.textContent = '';
+      promoEl.style.display = 'none';
+    }
+  }
+
+  const viewItemsList = document.getElementById('vb-view-items-list');
+  if (viewItemsList) {
+    const items = o.itemsSnapshot || [];
+    if (items.length > 0) {
+      viewItemsList.innerHTML = items.map(it => `
+        <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface-input);padding:7px 10px;border-radius:6px;font-size:0.83rem;">
+          <div>
+            <strong>${esc(it.productName)}</strong>
+            <span style="color:var(--text-muted);margin-left:6px;">(${esc(it.variantLabel || 'Std')})</span>
+            <span class="pill info" style="margin-left:8px;font-size:0.72rem;padding:1px 6px;">Qty: ${Number(it.quantity) || 1}</span>
+          </div>
+          <div style="font-weight:700;">${cash(it.lineTotal || ((it.price || 0) * (it.quantity || 1)))}</div>
+        </div>
+      `).join('');
+    } else {
+      viewItemsList.innerHTML = `<div style="color:var(--text-muted);font-size:0.82rem;">Standard Harvest Box</div>`;
+    }
+  }
+
+  // Ensure edit fields are collapsed & hidden by default
+  const editWrap = document.getElementById('vb-edit-fields-wrap');
+  if (editWrap) editWrap.style.display = 'none';
+  const toggleBtn = document.getElementById('vb-toggle-edit-btn');
+  if (toggleBtn) {
+    toggleBtn.innerHTML = '✏️ Edit Order / Customer Details (If customer changed on WhatsApp)';
+    toggleBtn.style.color = 'var(--text-muted)';
+  }
+
+  // 2. Pre-fill the editable fields in background (so if admin modifies or accepts, everything is synced)
   const list = document.getElementById('vb-items-list');
   list.innerHTML = '';
   (o.itemsSnapshot || []).forEach(it => addVerifyBuyItemRow(it.sku, it.quantity));
@@ -4384,7 +4473,8 @@ async function uploadMediaSlot(inp, slotName) {
 // ── 10. Settings, Backups & Audit Logs ──────────────────────────
 function loadSettingsView() {
   const s = state.settings || {};
-  document.getElementById('set-brand').value = s.brand_name || 'Shimla Crunch';
+  const brandVal = (s.brand_name && !/shimla[\s_-]*wali/i.test(s.brand_name)) ? s.brand_name : 'Shimla Crunch';
+  document.getElementById('set-brand').value = brandVal;
   document.getElementById('set-wa').value = s.whatsapp_number || '';
   document.getElementById('set-phone').value = s.phone || '';
   document.getElementById('set-email').value = s.support_email || '';

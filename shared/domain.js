@@ -86,48 +86,75 @@ function buildCourierTrackingUrl(courier, trackingId, customTrackingUrl = '') {
 }
 
 function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Crunch') {
+  if (!brandName || /shimla[\s_-]*wali/i.test(brandName)) {
+    brandName = 'Shimla Crunch';
+  }
   const name = String(order.customerSnapshot?.name || 'Customer').trim();
   const phone = normalizePhone(order.customerSnapshot?.phone || '');
   const waTarget = phone ? `91${phone}` : '';
-  const itemsSummaryShort = (order.itemsSnapshot || []).map(it =>
-    `${it.productName} (${it.variantLabel}) × ${it.quantity}`
-  ).join(', ');
+  const sep = '--------------------------------';
+  const itemsDetailed = (order.itemsSnapshot || []).map(it =>
+    `• ${it.productName} (${it.variantLabel}) × ${it.quantity} = *₹${Math.round(Number(it.lineTotal) || 0).toLocaleString('en-IN')}*`
+  ).join('\n');
   const payMethodTag = order.paymentMethod ? ` (${order.paymentMethod})` : '';
   const totalStr = `₹${Math.round(Number(order.grandTotal) || 0).toLocaleString('en-IN')}`;
 
-  // Short & crisp confirmation message (fast to read on phone)
+  const landmarkText = order.customerSnapshot?.landmark
+    ? (order.customerSnapshot.landmark.trim().toLowerCase().startsWith('near') ? `, ${order.customerSnapshot.landmark.trim()}` : `, Near ${order.customerSnapshot.landmark.trim()}`)
+    : '';
+
+  // Short & crisp confirmation message with dashed separators
   const confirmMessage = [
     `Namaste ${name} ji 🙏`,
     '',
-    `Your *${brandName}* order *${order.orderId}* is confirmed! ✅`,
-    `*Items:* ${itemsSummaryShort || 'Mountain Harvest Pack'}`,
-    `*Order Total:* *${totalStr}*${payMethodTag}`,
-    '',
-    'We are sharing payment details shortly. Your order is being freshly packed in Shimla! 🏔'
-  ].join('\n');
+    `🛒 *SHIMLA CRUNCH ORDER CONFIRMED* ✅`,
+    `*Order ID:* *${order.orderId}*`,
+    `*Status:* *Confirmed & In Packaging*`,
+    sep,
+    `📦 *ORDERED ITEMS:*`,
+    itemsDetailed || `• Mountain Harvest Pack × 1`,
+    order.discountAmount ? `🏷️ *Promo (${order.discountCode}):* *-₹${Math.round(order.discountAmount).toLocaleString('en-IN')}*` : null,
+    `💰 *Total Amount:* *${totalStr}*${payMethodTag}`,
+    sep,
+    `📍 *DELIVERY ADDRESS:*`,
+    `• *Customer:* ${name}`,
+    `• *Address:* ${order.customerSnapshot?.address || ''}${landmarkText}`,
+    `• *City / PIN:* ${order.customerSnapshot?.city || ''} - ${order.customerSnapshot?.pincode || ''}`,
+    sep,
+    `🍏 *Shimla Crunch Family Orchards*`,
+    `_Your fresh orchard box is being handpacked at Kotkhai, Shimla._`,
+    `_Tracking details will be shared once dispatched! 🚚_`
+  ].filter(Boolean).join('\n');
 
   const ship = order.shippingDetails || {};
-  const courierName = String(ship.courier || '').trim() || 'Courier Partner';
+  const courierName = String(ship.courier || '').trim() || 'Delhivery Express';
   const trackId = String(ship.trackingId || '').trim();
   const trackUrl = sanitizeHttpUrl(ship.trackingUrl || buildCourierTrackingUrl(courierName, trackId));
-  const etaText = String(ship.expectedDeliveryText || '').trim() || 'In 2–4 days';
+  const etaText = String(ship.expectedDeliveryText || '').trim() || 'In 2–4 days (Pan-India Express)';
 
   // Short & crisp dispatch message with carrier, tracking & ETA
   const dispatchLines = [
     `Namaste ${name} ji 🙏`,
     '',
-    `Good news — your *${brandName}* order *${order.orderId}* has been *DISPATCHED*! 📦🚚`,
-    `*Items:* ${itemsSummaryShort || 'Mountain Harvest Pack'}`,
-    `*Courier Partner:* *${courierName}*`
-  ];
-  if (trackUrl) {
-    dispatchLines.push(`*Track Your Parcel:* ${trackUrl}`);
-  } else if (trackId) {
-    dispatchLines.push(`*Tracking ID:* *${trackId}*`);
-  }
-  dispatchLines.push(`*Estimated Delivery:* *${etaText}*`);
-  dispatchLines.push('');
-  dispatchLines.push('Thank you for supporting small Himachal farm families! 🌿');
+    `🚚 *SHIMLA CRUNCH ORDER DISPATCHED* 📦`,
+    `*Order ID:* *${order.orderId}*`,
+    `*Status:* *In Transit via ${courierName}*`,
+    sep,
+    `📦 *ITEMS IN PARCEL:*`,
+    itemsDetailed || `• Mountain Harvest Pack`,
+    sep,
+    `🚚 *COURIER & TRACKING:*`,
+    `• *Carrier:* *${courierName}*`,
+    trackId ? `• *Tracking ID:* *${trackId}*` : null,
+    trackUrl ? `• *Track Online:* ${trackUrl}` : null,
+    `• *Estimated Arrival:* *${etaText}*`,
+    sep,
+    `📍 *DELIVERY ADDRESS:*`,
+    `• *Address:* ${order.customerSnapshot?.address || ''}, ${order.customerSnapshot?.city || ''} - ${order.customerSnapshot?.pincode || ''}`,
+    sep,
+    `🍏 *Shimla Crunch Orchard Harvest*`,
+    `_Fresh mountain produce, straight from Kotkhai to your home! 🏔_`
+  ].filter(Boolean);
 
   const dispatchMessage = dispatchLines.join('\n');
 
@@ -135,11 +162,18 @@ function buildWhatsAppMessagesForOrder(order, brandName = 'Shimla Crunch') {
   const deliveredLines = [
     `Namaste ${name} ji 🙏`,
     '',
-    `Your *${brandName}* order *${order.orderId}* has been successfully *DELIVERED*! 🏡✨`,
+    `✨ *SHIMLA CRUNCH ORDER DELIVERED* 🏡`,
+    `*Order ID:* *${order.orderId}*`,
+    `*Status:* *Delivered Successfully*`,
+    sep,
+    `📦 *DELIVERED ITEMS:*`,
+    itemsDetailed || `• Mountain Harvest Pack`,
+    sep,
+    `We hope you and your family love the pure orchard freshness! 🍏❤️`,
     '',
-    'We hope you enjoy the pure, handcrafted mountain harvest. 🏔',
-    'For re-orders or feedback, simply reply to this chat. Thank you for choosing Shimla Crunch! 🌿'
-  ];
+    `For re-orders, recipes, or queries, simply reply right here.`,
+    `Thank you for choosing Shimla Crunch! 🌿`
+  ].filter(Boolean);
   const deliveredMessage = deliveredLines.join('\n');
 
   return {

@@ -379,6 +379,9 @@
     ]);
 
     const cat = catSnap.exists ? catSnap.data() : { products: [], niches: window.ShimlaSku.DEFAULT_NICHES, settings: {}, media: {}, content: {} };
+    if (cat && cat.settings && (!cat.settings.brand_name || /shimla[\s_-]*wali/i.test(cat.settings.brand_name))) {
+      cat.settings.brand_name = 'Shimla Crunch';
+    }
     const bySku = {};
     invSnap.forEach(d => { bySku[d.id] = d.data(); });
     const batches = [];
@@ -1015,7 +1018,8 @@
         const fullDb = await loadFullAdminDb(db);
         const ord = (fullDb.orders.orders || []).find(o => o.orderId === orderId);
         if (!ord) throw new window.ShimlaDomain.HttpError(404, `Order ${orderId} not found`);
-        const brandName = fullDb.catalog?.settings?.brand_name || 'Shimla Crunch';
+        const rawBrand = fullDb.catalog?.settings?.brand_name;
+        const brandName = (rawBrand && !/shimla[\s_-]*wali/i.test(rawBrand)) ? rawBrand : 'Shimla Crunch';
         const messages = window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName);
         return jsonResponse({ ok: true, orderId, whatsapp: messages, messages });
       }
@@ -1026,7 +1030,8 @@
         const body = parseBody();
         const actionRes = await runAdminTx(db, auth, (txDb, markDirty, actor) => {
           const p = { ...body, orderId };
-          const brandName = txDb.catalog?.settings?.brand_name || 'Shimla Crunch';
+          const rawTxBrand = txDb.catalog?.settings?.brand_name;
+          const brandName = (rawTxBrand && !/shimla[\s_-]*wali/i.test(rawTxBrand)) ? rawTxBrand : 'Shimla Crunch';
           if (action === 'verify-buy') {
             const ord = window.ShimlaDomain.verifyWhatsAppBuy(txDb, markDirty, p, actor);
             return { order: ord, whatsapp: window.ShimlaDomain.buildWhatsAppMessagesForOrder(ord, brandName) };

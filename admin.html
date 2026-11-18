@@ -1433,28 +1433,74 @@
           </button>
         </div>
 
-        <!-- Panel 1: Accept Buy Details (Simple order confirmation without risky frontend payment clutter) -->
+        <!-- Panel 1: Accept Buy Details -->
         <div id="vb-accept-box" class="subpanel-box">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <strong style="font-size:12.5px;">Confirmed Products &amp; Quantities (Edit if customer changed on WhatsApp)</strong>
-            <button type="button" class="btn sm" onclick="addVerifyBuyItemRow()">+ Add SKU</button>
-          </div>
-          <div id="vb-items-list"></div>
-
-          <div class="form" style="margin-top:12px;">
-            <div class="field"><label>Customer Name *</label><input id="vb-cust-name" required /></div>
-            <div class="field"><label>Phone (10 digits) *</label><input id="vb-cust-phone" maxlength="10" required /></div>
-            <div class="field"><label>City / State</label><input id="vb-cust-city" /></div>
-            <div class="field"><label>PIN Code</label><input id="vb-cust-pin" maxlength="6" /></div>
-            <div class="field full"><label>Delivery Address</label><input id="vb-cust-addr" /></div>
-            <div class="field"><label>Order Preference</label>
-              <select id="vb-pay-method" onchange="recalcVerifyBuyPreview()">
-                <option value="COD">Cash on Delivery (COD)</option>
-                <option value="ONLINE">Direct Confirmation / Online</option>
-              </select>
+          
+          <!-- Authentic Order Snapshot (Read-Only by default as entered by customer) -->
+          <div id="vb-readonly-summary" style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+              <div>
+                <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Customer Details</div>
+                <div style="font-size:0.95rem;font-weight:700;margin-top:2px;">
+                  <span id="vb-view-name">—</span>
+                  <span style="color:var(--text-muted);font-weight:400;margin-left:6px;">(+91 <span id="vb-view-phone">—</span>)</span>
+                </div>
+                <div style="font-size:0.82rem;color:var(--text-muted);margin-top:3px;" id="vb-view-address">—</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Order Preference</div>
+                <div style="margin-top:3px;"><span id="vb-view-pay-method" class="pill info">COD</span></div>
+              </div>
             </div>
-            <div class="field"><label>Final Agreed Total (₹) <span class="tiny" id="vb-calc-hint">(auto)</span></label>
-              <input id="vb-agreed-total" type="number" min="0" />
+
+            <!-- Ordered Products & Quantities List -->
+            <div style="border-top:1px dashed var(--line);padding-top:10px;margin-top:10px;">
+              <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:6px;">Ordered Products &amp; Quantities</div>
+              <div id="vb-view-items-list" style="display:flex;flex-direction:column;gap:6px;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <!-- Price Breakdown Summary -->
+            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:10px;margin-top:10px;flex-wrap:wrap;gap:8px;">
+              <div id="vb-view-promo-tag" style="font-size:0.8rem;color:var(--ok-fg);font-weight:600;"></div>
+              <div style="margin-left:auto;display:flex;align-items:baseline;gap:8px;">
+                <span style="font-size:0.82rem;color:var(--text-muted);">Total Payable:</span>
+                <span id="vb-view-total" style="font-size:1.15rem;font-weight:800;color:var(--ok-fg);">₹0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Optional Override Toggle -->
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+            <button type="button" class="btn sm" id="vb-toggle-edit-btn" onclick="toggleVerifyBuyEdit()" style="font-size:0.75rem;background:transparent;border:1px dashed var(--line);color:var(--text-muted);cursor:pointer;padding:4px 10px;">
+              ✏️ Edit Order / Customer Details (If customer changed on WhatsApp)
+            </button>
+          </div>
+
+          <!-- Collapsible Edit Fields (Hidden by default, shown only if admin wants to override) -->
+          <div id="vb-edit-fields-wrap" style="display:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <strong style="font-size:12px;color:var(--warn-fg);">Edit Products &amp; Quantities:</strong>
+              <button type="button" class="btn sm" onclick="addVerifyBuyItemRow()">+ Add SKU</button>
+            </div>
+            <div id="vb-items-list"></div>
+
+            <div class="form" style="margin-top:12px;">
+              <div class="field"><label>Customer Name *</label><input id="vb-cust-name" required /></div>
+              <div class="field"><label>Phone (10 digits) *</label><input id="vb-cust-phone" maxlength="10" required /></div>
+              <div class="field"><label>City / State</label><input id="vb-cust-city" /></div>
+              <div class="field"><label>PIN Code</label><input id="vb-cust-pin" maxlength="6" /></div>
+              <div class="field full"><label>Delivery Address</label><input id="vb-cust-addr" /></div>
+              <div class="field"><label>Order Preference</label>
+                <select id="vb-pay-method" onchange="recalcVerifyBuyPreview()">
+                  <option value="COD">Cash on Delivery (COD)</option>
+                  <option value="ONLINE">Direct Confirmation / Online</option>
+                </select>
+              </div>
+              <div class="field"><label>Final Agreed Total (₹) <span class="tiny" id="vb-calc-hint">(auto)</span></label>
+                <input id="vb-agreed-total" type="number" min="0" />
+              </div>
             </div>
           </div>
 

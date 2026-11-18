@@ -710,7 +710,8 @@ function createAppServer(options = {}) {
           requireAdmin(req, db);
           const ord = (db.orders.orders || []).find(o => o.orderId === orderId);
           if (!ord) throw new domain.HttpError(404, `Order "${orderId}" not found`);
-          const brandName = (db.catalog.settings && db.catalog.settings.brand_name) || 'Shimla Crunch';
+          const rawBrand = db.catalog.settings && db.catalog.settings.brand_name;
+          const brandName = (rawBrand && !/shimla[\s_-]*wali/i.test(rawBrand)) ? rawBrand : 'Shimla Crunch';
           return sendJSON(res, { ok: true, whatsapp: domain.buildWhatsAppMessagesForOrder(ord, brandName) });
         }
 
@@ -723,7 +724,8 @@ function createAppServer(options = {}) {
           const result = await store.withTransaction((db, markDirty) => {
             const sess = requireAdmin(req, db);
             const actorMeta = { actor: `admin:${sess.subject}`, ip };
-            const brandName = (db.catalog.settings && db.catalog.settings.brand_name) || 'Shimla Crunch';
+            const rawBrand = db.catalog.settings && db.catalog.settings.brand_name;
+          const brandName = (rawBrand && !/shimla[\s_-]*wali/i.test(rawBrand)) ? rawBrand : 'Shimla Crunch';
             if (action === 'verify-buy') {
               const order = domain.verifyWhatsAppBuy(db, markDirty, { ...body, orderId }, actorMeta);
               return { order, whatsapp: domain.buildWhatsAppMessagesForOrder(order, brandName) };
