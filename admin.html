@@ -28,7 +28,7 @@
       </div>
       <div class="login-logo">Shimla Crunch</div>
       <p class="login-sub">Business Studio &bull; Authenticated Admin Access</p>
-      <p class="login-advisory">Authorized operations personnel only. Access is strictly audited and limited to whitelisted Google accounts.</p>
+      <p class="login-advisory">This administrative portal is restricted to authorized store operations personnel only. If you are a customer, please return to the storefront.</p>
 
       <!-- Primary: Whitelisted Google Sign-In -->
       <button id="admin-google-btn" type="button" class="btn-google-sign-in" onclick="doAdminGoogleLogin()">
@@ -50,14 +50,20 @@
           <input id="admin-email" type="email" class="login-input" placeholder="admin@shimlacrunch.in" autocomplete="email" />
         </div>
         <label class="login-label" for="admin-pw" style="display:flex;justify-content:space-between;align-items:center;">
-          <span>Store Passcode / Master Key</span>
-          <span style="font-size:0.75rem;color:#166534;font-weight:700;">DEV: shimla@2024</span>
+          <span>Administrator Passcode</span>
         </label>
-        <input id="admin-pw" type="password" class="login-input" placeholder="Enter passcode: shimla@2024" value="shimla@2024" autocomplete="current-password" />
+        <input id="admin-pw" type="password" class="login-input" placeholder="Enter administrator passcode" value="" autocomplete="current-password" required />
         <button id="login-submit-btn" type="submit" class="login-btn">Verify Passcode &amp; Open Studio</button>
       </form>
 
       <p class="tiny" id="login-security-note" style="margin-top:18px;">Sessions are HMAC-signed and strictly audited.</p>
+
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0;text-align:center;">
+        <a href="index.html" class="return-storefront-link" style="display:inline-flex;align-items:center;gap:6px;font-size:0.875rem;font-weight:600;color:#64748b;text-decoration:none;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+          <span>Return to Customer Storefront</span>
+        </a>
+      </div>
     </div>
   </div>
 

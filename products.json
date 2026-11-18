@@ -567,5 +567,183 @@
       "active": true
     }
   },
-  "discounts": []
+  "discounts": [],
+  "inventory": {
+    "DISC-STD-01": {
+      "sku": "DISC-STD-01",
+      "productId": "discovery-box",
+      "variantId": "DISC-STD-01",
+      "variantLabel": "The Discovery Trial Box (4-in-1)",
+      "availableQty": 25,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.060Z"
+    },
+    "DISC-FAM-01": {
+      "sku": "DISC-FAM-01",
+      "productId": "discovery-box",
+      "variantId": "DISC-FAM-01",
+      "variantLabel": "Family Feast Grand Hamper (Double Portion)",
+      "availableQty": 15,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "APRD-5KG-01": {
+      "sku": "APRD-5KG-01",
+      "productId": "royal-apples",
+      "variantId": "APRD-5KG-01",
+      "variantLabel": "5 kg Harvest Box",
+      "availableQty": 20,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "APRD-10KG-01": {
+      "sku": "APRD-10KG-01",
+      "productId": "royal-apples",
+      "variantId": "APRD-10KG-01",
+      "variantLabel": "10 kg Family Pack",
+      "availableQty": 15,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "APRD-20KG-01": {
+      "sku": "APRD-20KG-01",
+      "productId": "royal-apples",
+      "variantId": "APRD-20KG-01",
+      "variantLabel": "20 kg Bulk Orchard Box",
+      "availableQty": 10,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "APGL-5KG-01": {
+      "sku": "APGL-5KG-01",
+      "productId": "gala-apples",
+      "variantId": "APGL-5KG-01",
+      "variantLabel": "5 kg Box",
+      "availableQty": 25,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "APGL-10KG-01": {
+      "sku": "APGL-10KG-01",
+      "productId": "gala-apples",
+      "variantId": "APGL-10KG-01",
+      "variantLabel": "10 kg Pack",
+      "availableQty": 18,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "APGL-20KG-01": {
+      "sku": "APGL-20KG-01",
+      "productId": "gala-apples",
+      "variantId": "APGL-20KG-01",
+      "variantLabel": "20 kg Orchard Crate",
+      "availableQty": 8,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "CRCH-100G-01": {
+      "sku": "CRCH-100G-01",
+      "productId": "apple-crunch",
+      "variantId": "CRCH-100G-01",
+      "variantLabel": "100g Snack Pouch",
+      "availableQty": 60,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "CRCH-300G-01": {
+      "sku": "CRCH-300G-01",
+      "productId": "apple-crunch",
+      "variantId": "CRCH-300G-01",
+      "variantLabel": "300g Triple Pack (3x 100g)",
+      "availableQty": 50,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "CRCH-500G-01": {
+      "sku": "CRCH-500G-01",
+      "productId": "apple-crunch",
+      "variantId": "CRCH-500G-01",
+      "variantLabel": "500g Family Pantry Pouch",
+      "availableQty": 30,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "AKSM-250G-01": {
+      "sku": "AKSM-250G-01",
+      "productId": "walnuts",
+      "variantId": "AKSM-250G-01",
+      "variantLabel": "250g Pack",
+      "availableQty": 45,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "AKSM-500G-01": {
+      "sku": "AKSM-500G-01",
+      "productId": "walnuts",
+      "variantId": "AKSM-500G-01",
+      "variantLabel": "500g Pack",
+      "availableQty": 50,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "AKSM-1KG-01": {
+      "sku": "AKSM-1KG-01",
+      "productId": "walnuts",
+      "variantId": "AKSM-1KG-01",
+      "variantLabel": "1 kg Harvest Pack",
+      "availableQty": 20,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.061Z"
+    },
+    "HNSM-500G-01": {
+      "sku": "HNSM-500G-01",
+      "productId": "honey",
+      "variantId": "HNSM-500G-01",
+      "variantLabel": "500g Glass Jar",
+      "availableQty": 35,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.062Z"
+    },
+    "HNSM-1KG-01": {
+      "sku": "HNSM-1KG-01",
+      "productId": "honey",
+      "variantId": "HNSM-1KG-01",
+      "variantLabel": "1 kg Glass Jar",
+      "availableQty": 18,
+      "reservedQty": 0,
+      "damagedQty": 0,
+      "reorderThreshold": 8,
+      "updatedAt": "2026-11-18T12:13:13.062Z"
+    }
+  }
 }

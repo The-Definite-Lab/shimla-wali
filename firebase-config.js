@@ -7,7 +7,8 @@ window.SHIMLA_FIREBASE_CONFIG = {
   authorizedAdminEmails: [
     'nimaythakur1234@gmail.com',
     'shimlacrunch@gmail.com',
-    'admin@shimlacrunch.com'
+    'admin@shimlacrunch.com',
+    'zxofficial84@gmail.com'
   ],
   apiKey: 'AIzaSyBX7XUQXTrD9a6U-EmKa-_cFOvcnG7X26k',
   storeId: 'shimlacrunch',

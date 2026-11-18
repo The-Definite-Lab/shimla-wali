@@ -483,20 +483,24 @@ async function doAdminGoogleLogin() {
 
     const authorized = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
       'nimaythakur1234@gmail.com',
-      'admin@shimlacrunch.com'
+      'shimlacrunch@gmail.com',
+      'admin@shimlacrunch.com',
+      'zxofficial84@gmail.com'
     ]).map(e => e.toLowerCase().trim());
 
     if (!authorized.includes(email)) {
-      await auth.signOut();
       setStoredToken('');
+      sessionStorage.removeItem('sc_admin_session');
+      try { await auth.signOut(); } catch (e) {}
       if (errEl) {
-        errEl.innerHTML = `<strong>⛔ Access Denied (403)</strong><br>The Google account <em>${esc(email || 'unidentified')}</em> is not on the authorized whitelist. Access to Shimla Crunch Business Studio is strictly prohibited.`;
+        errEl.innerHTML = `<strong>⛔ Access Denied (403)</strong><br>The account <em>${esc(email || 'unidentified')}</em> is not authorized to access this administration portal.<br>This portal is strictly reserved for store managers.<br><br><a href="index.html" class="btn sm" style="text-decoration:none;display:inline-block;padding:8px 16px;background:#1e293b;color:#fff;border-radius:6px;margin-top:8px;font-weight:600;">← Return to Storefront</a>`;
         errEl.style.display = 'block';
       }
       return;
     }
 
     const token = await user.getIdToken();
+    sessionStorage.setItem('sc_admin_session', '1');
     setStoredToken(token);
     showStudioApp();
     await loadBootstrap();
@@ -508,7 +512,7 @@ async function doAdminGoogleLogin() {
       if (err.code === 'auth/popup-closed-by-user') {
         errEl.textContent = 'Google sign-in popup was closed. Please try again.';
       } else {
-        errEl.textContent = err.message || 'Google sign-in could not be completed.';
+        errEl.innerHTML = `<strong>⛔ Access Denied</strong><br>Unable to verify administrator authorization.<br><br><a href="index.html" style="color:#b91c1c;text-decoration:underline;">← Return to Storefront</a>`;
       }
       errEl.style.display = 'block';
     }
@@ -518,19 +522,19 @@ async function doAdminGoogleLogin() {
   }
 }
 
-// ── API Client (Cookie + Header Token with Auto 401 Lockout) ────
+// ── API Client (Session-Only Token with Auto 401 Lockout) ────
 function getStoredToken() {
-  return localStorage.getItem('sc_admin_token') || sessionStorage.getItem('sc_admin_token') || localStorage.getItem('swa_admin_token') || sessionStorage.getItem('swa_admin_token') || '';
+  return sessionStorage.getItem('sc_admin_token') || '';
 }
 
 function setStoredToken(token) {
   if (token) {
-    try { localStorage.setItem('sc_admin_token', token); } catch(e) {}
     try { sessionStorage.setItem('sc_admin_token', token); } catch(e) {}
     try { document.documentElement.classList.add('swa-has-session'); } catch(e) {}
   } else {
+    try { sessionStorage.removeItem('sc_admin_token'); } catch(e) {}
+    try { sessionStorage.removeItem('sc_admin_session'); } catch(e) {}
     try { localStorage.removeItem('sc_admin_token'); localStorage.removeItem('swa_admin_token'); } catch(e) {}
-    try { sessionStorage.removeItem('sc_admin_token'); sessionStorage.removeItem('swa_admin_token'); } catch(e) {}
     try { document.documentElement.classList.remove('swa-has-session'); } catch(e) {}
   }
 }
@@ -616,16 +620,17 @@ async function doLogin() {
 
     const contentType = res.headers.get('content-type') || '';
     if (!contentType.includes('application/json')) {
-      throw new Error('Please enter master passcode: shimla@2024');
+      throw new Error('Invalid administrator passcode. Access denied.');
     }
 
     const data = await res.json();
     if (!res.ok || !data.ok) {
-      errEl.textContent = data.error || 'Invalid credentials';
+      errEl.innerHTML = `<strong>⛔ Access Denied</strong><br>Invalid administrator passcode.<br><br><a href="index.html" class="btn sm" style="text-decoration:none;display:inline-block;padding:6px 12px;background:#1e293b;color:#fff;border-radius:6px;margin-top:6px;">← Return to Storefront</a>`;
       errEl.style.display = 'block';
       return;
     }
     setStoredToken(data.token);
+    try { sessionStorage.setItem('sc_admin_session', '1'); } catch(e) {}
     document.getElementById('admin-pw').value = '';
     showStudioApp();
     await loadBootstrap();
@@ -640,17 +645,25 @@ async function doLogin() {
       await loadBootstrap();
       startLiveAutoSync();
     } else {
-      errEl.textContent = e.message || 'Cannot reach server. Enter master key: shimla@2024';
+      errEl.innerHTML = `<strong>⛔ Access Denied</strong><br>Invalid administrator passcode. Access to this management portal is prohibited.<br><br><a href="index.html" class="btn sm" style="text-decoration:none;display:inline-block;padding:6px 12px;background:#1e293b;color:#fff;border-radius:6px;margin-top:6px;">← Return to Storefront</a>`;
       errEl.style.display = 'block';
     }
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Sign In to Studio';
+    btn.textContent = 'Verify Passcode & Open Studio';
   }
 }
 
 async function doLogout() {
   try { await apiFetch('/api/admin/logout', { method: 'POST' }); } catch {}
+  try {
+    if (window.shimlaFirebaseBridge && window.shimlaFirebaseBridge.ready) {
+      const { auth } = await window.shimlaFirebaseBridge.ready();
+      if (auth.currentUser) await auth.signOut();
+    }
+  } catch (e) {}
+  sessionStorage.removeItem('sc_admin_session');
+  sessionStorage.removeItem('sc_master_session');
   setStoredToken('');
   location.reload();
 }
@@ -719,6 +732,24 @@ async function loadBootstrap(opts = {}) {
           auditLogs: []
         };
       }
+    }
+    if (data && (!data.inventory || Object.keys(data.inventory).length === 0)) {
+      data.inventory = {};
+      (data.products || []).forEach(p => {
+        (p.variants || []).forEach(v => {
+          const sku = v.sku || v.id || `${p.id}-${v.id}`;
+          data.inventory[sku] = {
+            sku,
+            productId: p.id,
+            variantId: v.id || sku,
+            variantLabel: v.label || v.name || v.size || 'Standard',
+            availableQty: Number(v.availableUnits ?? 20) || 20,
+            reservedQty: 0,
+            damagedQty: 0,
+            reorderThreshold: Number(v.reorderThreshold) || 8
+          };
+        });
+      });
     }
     state = { ...state, ...data };
     window.state = state;
@@ -822,47 +853,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     if (secNote) secNote.textContent = 'Whitelisted Google Auth & Cloud Firestore Security Rules (₹0 Spark Mode).';
     if (seedBtn) seedBtn.style.display = 'inline-flex';
-
-    try {
-      const { auth } = await window.shimlaFirebaseBridge.ready();
-      if (auth.currentUser) {
-        const email = (auth.currentUser.email || '').toLowerCase().trim();
-        const authorized = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
-          'nimaythakur1234@gmail.com',
-          'admin@shimlacrunch.com'
-        ]).map(e => e.toLowerCase().trim());
-        if (!authorized.includes(email)) {
-          console.warn('Current auth user not authorized as admin:', email);
-          await auth.signOut();
-          setStoredToken('');
-          showLoginScreen();
-          const errEl = document.getElementById('login-error');
-          if (errEl) {
-            errEl.innerHTML = `<strong>⛔ Access Denied (403)</strong><br>The Google account <em>${esc(email)}</em> is not on the authorized whitelist. Access is strictly forbidden.`;
-            errEl.style.display = 'block';
-          }
-          return;
-        }
-      }
-    } catch (e) {}
   }
 
-  const isMasterSess = Boolean(typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_master_session') === '1');
-  if (isMasterSess) {
+  // Strictly check if an authenticated admin session exists in this browser tab
+  const hasAdminSession = Boolean(
+    (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_master_session') === '1') ||
+    (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_admin_session') === '1')
+  );
+  const storedToken = getStoredToken();
+
+  if (hasAdminSession && storedToken) {
     showStudioApp();
     await loadBootstrap();
     startLiveAutoSync();
     return;
   }
 
-  try {
-    await apiFetch('/api/admin/session');
-    showStudioApp();
-    await loadBootstrap();
-    startLiveAutoSync();
-  } catch {
-    showLoginScreen();
-  }
+  // Without an explicit admin session in this tab, ALWAYS stay on the secure login screen
+  showLoginScreen();
 });
 
 function renderAllSections(opts = {}) {
@@ -2991,9 +2999,27 @@ function renderMovements() {
 function openStockModal(preselectedSku = '') {
   const sel = document.getElementById('sm-sku');
   const prodMap = new Map((state.products || []).map(p => [p.id, p]));
-  sel.innerHTML = Object.values(state.inventory || {}).map(i => {
-    const title = prodMap.get(i.productId)?.title || i.productId;
-    return `<option value="${esc(i.sku)}">${esc(i.sku)} — ${esc(title)} (${esc(i.variantLabel)}) [Avail: ${i.availableQty}]</option>`;
+  let invList = Object.values(state.inventory || {});
+  if (invList.length === 0 && Array.isArray(state.products)) {
+    invList = [];
+    state.products.forEach(p => {
+      (p.variants || []).forEach(v => {
+        const sku = v.sku || v.id || `${p.id}-${v.id}`;
+        invList.push({
+          sku,
+          productId: p.id,
+          variantId: v.id || sku,
+          variantLabel: v.label || v.name || v.size || 'Standard',
+          availableQty: Number(v.availableUnits ?? 20) || 20
+        });
+      });
+    });
+  }
+  sel.innerHTML = invList.map(i => {
+    const title = prodMap.get(i.productId)?.title || i.productId || i.sku;
+    const label = i.variantLabel ? ` (${i.variantLabel})` : '';
+    const avail = Number.isFinite(Number(i.availableQty)) ? i.availableQty : 0;
+    return `<option value="${esc(i.sku)}">${esc(i.sku)} — ${esc(title)}${esc(label)} [Avail: ${avail}]</option>`;
   }).join('');
   if (preselectedSku) sel.value = preselectedSku;
   document.getElementById('sm-delta').value = '';
@@ -3024,8 +3050,26 @@ async function submitStockAdjustment() {
 
 function openBulkStockModal() {
   const prodMap = new Map((state.products || []).map(p => [p.id, p]));
+  let invList = Object.values(state.inventory || {});
+  if (invList.length === 0 && Array.isArray(state.products)) {
+    invList = [];
+    state.products.forEach(p => {
+      (p.variants || []).forEach(v => {
+        const sku = v.sku || v.id || `${p.id}-${v.id}`;
+        invList.push({
+          sku,
+          productId: p.id,
+          variantId: v.id || sku,
+          variantLabel: v.label || v.name || v.size || 'Standard',
+          availableQty: Number(v.availableUnits ?? 20) || 20,
+          reservedQty: 0,
+          reorderThreshold: Number(v.reorderThreshold) || 8
+        });
+      });
+    });
+  }
   const tbody = document.getElementById('bsm-tbody');
-  tbody.innerHTML = Object.values(state.inventory || {}).map(i => {
+  tbody.innerHTML = invList.map(i => {
     const title = prodMap.get(i.productId)?.title || i.productId;
     return `
       <tr class="bsm-row" data-sku="${esc(i.sku)}">

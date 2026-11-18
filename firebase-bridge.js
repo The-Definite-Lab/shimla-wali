@@ -509,7 +509,9 @@
     const lower = String(email).trim().toLowerCase();
     const list = (window.SHIMLA_FIREBASE_CONFIG?.authorizedAdminEmails || [
       'nimaythakur1234@gmail.com',
-      'admin@shimlacrunch.com'
+      'shimlacrunch@gmail.com',
+      'admin@shimlacrunch.com',
+      'zxofficial84@gmail.com'
     ]).map(e => String(e).trim().toLowerCase());
     return list.includes(lower);
   }
@@ -518,7 +520,7 @@
     if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_master_session') === '1') {
       return { email: 'admin@shimlacrunch.com', uid: 'master-owner' };
     }
-    const curToken = (typeof localStorage !== 'undefined' ? (localStorage.getItem('sc_admin_token') || localStorage.getItem('swa_admin_token')) : '') || '';
+    const curToken = (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('sc_admin_token') : '') || '';
     if (curToken.startsWith('sc_master_token_')) {
       return { email: 'admin@shimlacrunch.com', uid: 'master-owner' };
     }
