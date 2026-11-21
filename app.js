@@ -387,7 +387,7 @@ window.renderCategoryStories = function(products) {
     <div class="category-story-item active" onclick="location.href='shop.html'">
       <div class="category-story-ring">
         <div class="category-story-img-wrap">
-          <img src="./images/shimla-crunch-trio.webp" alt="All Harvest" />
+          <img src="./images/shimla-crunch-trio.webp" alt="All Harvest" onerror="this.src='./images/hero-orchard.webp'" />
         </div>
       </div>
       <span class="category-story-label">All Harvest</span>
@@ -399,7 +399,7 @@ window.renderCategoryStories = function(products) {
       <div class="category-story-item" onclick="location.href='${esc(target)}'">
         <div class="category-story-ring">
           <div class="category-story-img-wrap">
-            <img src="${esc(p.image || '')}" alt="${esc(p.title || '')}" />
+            <img src="${esc(p.image || '')}" alt="${esc(p.title || '')}" onerror="this.src='./images/hero-orchard.webp'" />
           </div>
         </div>
         <span class="category-story-label">${esc(shortTitle)}</span>

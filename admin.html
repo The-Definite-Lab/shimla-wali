@@ -716,7 +716,7 @@
             <div>
               <div class="eyebrow">TRACEABILITY &amp; LAB REPORTS</div>
               <h1>Batch Records</h1>
-              <p class="sub">Track structured niche batches (e.g. GHSM-2611-B01), expiry dates, remaining quantities, and PDF lab certificates synced to verify.html.</p>
+              <p class="sub">Track structured niche batches (e.g. APPL-2611-B01), expiry dates, remaining quantities, and PDF lab certificates synced to verify.html.</p>
             </div>
             <button type="button" class="btn primary" onclick="openBatchModal()">+ Create Production Batch</button>
           </div>
@@ -1056,7 +1056,7 @@
   <div class="modalbg" id="product-modal">
     <div class="modal wide">
       <div class="modal-head">
-        <div><h2 id="prod-modal-title">Add Product</h2><p class="sub">Define Niche tag, variant SKUs (e.g. GHSM-500ML-01), pricing &amp; live storefront pills.</p></div>
+        <div><h2 id="prod-modal-title">Add Product</h2><p class="sub">Define Niche tag, variant SKUs (e.g. APPL-5KG-01), pricing &amp; live storefront pills.</p></div>
         <button type="button" class="btn sm" onclick="closeModal('product-modal')">✕</button>
       </div>
       <form id="product-form" onsubmit="event.preventDefault(); submitProductForm();">
@@ -1069,17 +1069,17 @@
             <label>Product Niche / Category</label>
             <div style="display:flex;gap:6px;">
               <select id="pm-niche" onchange="onProductNicheChange()" style="flex:1;"></select>
-              <input id="pm-niche-tag" placeholder="Tag (GHSM)" style="width:92px;text-transform:uppercase;" maxlength="6" />
+              <input id="pm-niche-tag" placeholder="Tag (APPL)" style="width:92px;text-transform:uppercase;" maxlength="6" />
             </div>
           </div>
           <div class="field">
             <label>Primary Square Image Path</label>
             <div style="display:flex;gap:6px;">
-              <input id="pm-image" value="./images/shimla-ghee.webp" style="flex:1;" />
+              <input id="pm-image" value="./images/royal-delicious-box.webp" style="flex:1;" />
               <label class="btn sm" style="cursor:pointer;white-space:nowrap;">Upload<input type="file" accept=".webp,.jpg,.jpeg,.png" style="display:none;" onchange="uploadProductImage(this)" /></label>
             </div>
           </div>
-          <div class="field"><label>Active Linked Batch No</label><input id="pm-batchNo" placeholder="e.g. GHSM-2611-B01" /></div>
+          <div class="field"><label>Active Linked Batch No</label><input id="pm-batchNo" placeholder="e.g. APPL-2611-B01" /></div>
           <div class="field"><label>Badge Label</label><input id="pm-badge" placeholder="Best Seller / Farm Fresh" /></div>
           <div class="field"><label>Storefront Status Tag</label>
             <select id="pm-tag">
@@ -1101,7 +1101,7 @@
           <div class="field"><label>Spec Trust Tag</label><input id="pm-specTag" placeholder="100% PURE • HAND-CHURNED" /></div>
           <div class="field"><label>Upcoming Harvest Date (Optional)</label><input id="pm-upcomingDate" type="date" /></div>
           <div class="field full"><label>Description</label><textarea id="pm-description" rows="2"></textarea></div>
-          <div class="field full"><label>Extra Gallery Images (one image path or URL per line)</label><textarea id="pm-gallery" rows="2" placeholder="./images/shimla-ghee.webp"></textarea></div>
+          <div class="field full"><label>Extra Gallery Images (one image path or URL per line)</label><textarea id="pm-gallery" rows="2" placeholder="./images/royal-delicious-box.webp"></textarea></div>
           <div class="field"><label>Specifications (one per line: Key: Value)</label><textarea id="pm-specs" rows="3" placeholder="Origin: Shimla Hills&#10;Shelf Life: 12 Months"></textarea></div>
           <div class="field">
             <label>Artisanal Method Title &amp; Steps (Step Title | Step Note per line)</label>
@@ -1210,7 +1210,7 @@
         <div class="form">
           <div class="field"><label>Product *</label><select id="bm-product" required onchange="onBatchProductChange()"></select></div>
           <div class="field"><label>Variant SKU *</label><select id="bm-sku" required></select></div>
-          <div class="field"><label>Batch ID (Auto / Custom)</label><input id="bm-id" placeholder="Auto: GHSM-2611-B01" /></div>
+          <div class="field"><label>Batch ID (Auto / Custom)</label><input id="bm-id" placeholder="Auto: APPL-2611-B01" /></div>
           <div class="field"><label>Starting Quantity</label><input id="bm-qty" type="number" min="0" value="25" required /></div>
           <div class="field"><label>Made On Date</label><input id="bm-made" type="date" /></div>
           <div class="field"><label>Best Before Date</label><input id="bm-exp" type="date" /></div>

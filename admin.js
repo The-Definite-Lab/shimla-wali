@@ -2617,14 +2617,14 @@ function renderProducts() {
       <tr>
         <td>
           <div class="prod-cell">
-            <img class="prod-thumb" src="${esc(p.image)}" alt="${esc(p.title)}" onerror="this.src='./images/shimla-ghee.webp'" />
+            <img class="prod-thumb" src="${esc(p.image)}" alt="${esc(p.title)}" onerror="this.src='./images/royal-delicious-box.webp'" />
             <div>
               <strong>${esc(p.title)}</strong>
               <div class="tiny">${esc(p.subtitle || '')} ${p.batchNo ? '· Batch #' + esc(p.batchNo) : ''}</div>
             </div>
           </div>
         </td>
-        <td><span class="sku-code">${esc(p.nicheTag || 'SWSM')}</span><div class="tiny">${esc(p.niche || p.category)}</div></td>
+        <td><span class="sku-code">${esc(p.nicheTag || 'APPL')}</span><div class="tiny">${esc(p.niche || p.category)}</div></td>
         <td>
           <button type="button" class="btn-var-accordion ${isOpen ? 'is-open' : ''}" onclick="toggleProductVariantBreakdown('${esc(p.id)}')" title="Click to view all ${varCount} variant pack stocks">
             <div>
@@ -2664,7 +2664,7 @@ function onProductNicheChange() {
 function addVariantEditorRow(v = {}, index = null) {
   const list = document.getElementById('pm-variants-list');
   const idx = index !== null ? index : list.children.length;
-  const nicheTag = (document.getElementById('pm-niche-tag')?.value || 'SWSM').toUpperCase();
+  const nicheTag = (document.getElementById('pm-niche-tag')?.value || 'APPL').toUpperCase();
   const inv = v.sku && state.inventory[v.sku] ? state.inventory[v.sku] : null;
   const row = document.createElement('div');
   row.className = 'variant-row';
@@ -2686,7 +2686,7 @@ function autoFillVariantSku(inputEl) {
   const row = inputEl.closest('.variant-row');
   const skuInput = row.querySelector('.vr-sku');
   if (skuInput.dataset.touched === '1' || skuInput.value.trim()) return;
-  const tag = (document.getElementById('pm-niche-tag')?.value || 'SWSM').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const tag = (document.getElementById('pm-niche-tag')?.value || 'APPL').toUpperCase().replace(/[^A-Z0-9]/g, '');
   const size = row.querySelector('.vr-size').value.toUpperCase().replace(/[^A-Z0-9]/g, '') || 'STD';
   const variety = row.querySelector('.vr-variety').value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 3);
   skuInput.value = variety ? `${tag}-${variety}-${size}` : `${tag}-${size}-01`;
@@ -2704,9 +2704,9 @@ function openProductModal(productId = null) {
   document.getElementById('pm-id').disabled = isEdit;
   document.getElementById('pm-title').value = p ? p.title : '';
   document.getElementById('pm-subtitle').value = p ? (p.subtitle || '') : '';
-  document.getElementById('pm-niche').value = p ? (p.niche || p.category || 'ghee') : (state.niches[0]?.id || 'ghee');
-  document.getElementById('pm-niche-tag').value = p ? (p.nicheTag || 'GHSM') : (state.niches[0]?.tag || 'GHSM');
-  document.getElementById('pm-image').value = p ? p.image : './images/shimla-ghee.webp';
+  document.getElementById('pm-niche').value = p ? (p.niche || p.category || 'apples') : (state.niches[0]?.id || 'apples');
+  document.getElementById('pm-niche-tag').value = p ? (p.nicheTag || 'APPL') : (state.niches[0]?.tag || 'APPL');
+  document.getElementById('pm-image').value = p ? p.image : './images/royal-delicious-box.webp';
   document.getElementById('pm-batchNo').value = p ? (p.batchNo || '') : '';
   document.getElementById('pm-badge').value = p ? (p.badge || '') : 'Mountain Harvest';
   document.getElementById('pm-tag').value = p ? (p.tag || 'always_available') : 'fresh_listed';
