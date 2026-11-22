@@ -122,14 +122,22 @@ async function run() {
   }
   console.log('✅ All 16 inventory SKUs updated in Firestore.');
 
-  // Clean old legacy SKUs if any
+  // Clean old legacy & alien SKUs if any
   const legacySkus = [
     'GHSM-500ML-01', 'GHSM-1L-01', 'GHSM-2L-01', 'GHSM-5L-01',
     'SW-WALNUT-250G', 'SW-WALNUT-500G', 'SW-WALNUT-1KG',
     'SW-HONEY-500G', 'SW-HONEY-1KG',
     'PK-MANGO-500G', 'PK-MANGO-1KG', 'PK-GARLIC-500G',
     'RICE-RED-1KG', 'RICE-RED-5KG',
-    'PLSM-RAJMA-1KG', 'PLSM-KULTH-1KG'
+    'PLSM-RAJMA-1KG', 'PLSM-KULTH-1KG',
+    // Him Kalpa SKUs
+    'HK-RAJ-JWL-500G', 'HK-RAJ-JWL-1KG', 'HK-RAJ-JWL-2KG',
+    'HK-RAJ-YLW-1KG', 'HK-RAJ-YLW-2KG', 'HK-RAJ-CTR-1KG', 'HK-RAJ-CTR-2KG',
+    'HK-OIL-WLN-250ML', 'HK-OIL-WLN-500ML', 'HK-OIL-APR-250ML', 'HK-OIL-APR-500ML',
+    'HK-WLN-KGZ-500G', 'HK-WLN-KGZ-1KG', 'HK-WLN-GIR-500G', 'HK-WLN-GIR-1KG',
+    'HK-BER-SBT-200G', 'HK-BER-SBT-400G', 'HK-AML-PRS-500G', 'HK-AML-PRS-1KG',
+    'HK-NUT-HZL-250G', 'HK-NUT-HZL-500G', 'HK-GHEE-A2-250ML', 'HK-GHEE-A2-500ML',
+    'HK-GHEE-A2-1000ML', 'HK-HNY-WLD-350G', 'HK-HNY-WLD-700G', 'HK-CRF-FLW-01', 'HK-CRF-FLW-02'
   ];
   console.log('4. Purging legacy inventory SKUs...');
   for (const lSku of legacySkus) {
