@@ -859,6 +859,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (seedBtn) seedBtn.style.display = 'inline-flex';
   }
 
+  // 1-Click Demo / Passcode inspection link (e.g. admin.html?demo=1 or admin.html?pass=shimla@2024)
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('demo') === '1' || urlParams.get('pass') === 'shimla@2024') {
+    const masterToken = 'sc_master_token_' + Date.now();
+    setStoredToken(masterToken);
+    try { sessionStorage.setItem('sc_master_session', '1'); } catch(e) {}
+    showStudioApp();
+    await loadBootstrap();
+    startLiveAutoSync();
+    return;
+  }
+
   // Strictly check if an authenticated admin session exists in this browser tab
   const hasAdminSession = Boolean(
     (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('sc_master_session') === '1') ||
